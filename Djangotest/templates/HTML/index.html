@@ -21,7 +21,7 @@
         <div class="header-container">
             <div class="header-wrapper">
                 <div class="logoBox">
-                    <img src="{%static 'Assets/Images/Website-logo.png' %}' %}" alt="logo">
+                    <img src="{%static 'Assets/Images/Logo_Ws.png' %}" alt="logo">
                 </div>
                 <div class="searchBox">
                     <input type="search">
@@ -34,6 +34,8 @@
                 <div class="iconBox2">
                     <i class="fa-solid fa-circle-plus"></i>
                     <i class="fa-solid fa-bell"></i>
+                </div>
+                <div class="iconBox3">
                     <label><img src="{%static 'Assets/Images/user.jpg' %}" alt="user"></label>
                     <i class="fa-solid fa-caret-down"></i>
                 </div>
@@ -55,7 +57,7 @@
 
                 <div class="profile">
                     <img src="{%static 'Assets/Images/user.jpg' %}" alt="user">
-                    <h3>Zahidul hossain</h3>
+                    <h3>Mon profile</h3>
                 </div>
                
                 <div class="pages">
@@ -123,7 +125,8 @@
             <!-- home center start here -->
 
             <div class="home-center">
-                {% block center_content %}{% endblock %}
+                {% block content %}
+                {% endblock %}
             </div> <!-- home center end -->
 
             <div class="home-right">

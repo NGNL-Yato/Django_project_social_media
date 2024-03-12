@@ -1,6 +1,7 @@
-{% extends "HTML/index.html" %}
+{% extends 'HTML/index.html' %}
 
-{% block center_content %}
+{% block content %}
+{% load static %}
 
 <div class="home-center-wrapper">
 
@@ -13,21 +14,10 @@
         </div>
 
         <div class="post-icon">
-            <a href="#" style="background: #ffebed;">
-            <i style="background: #ff4154;" class="fa-so                                lid fa-camera"></i>
-            Gallery</a>
-
-            <a href="#" style="background: #ccdcff;">
-            <i style="background: #0053ff;" class="fa-solid fa-video"></i>
-            Video</a>
 
             <a href="#" style="background: #d7ffef;">
             <i style="background: #00d181;" class="fa-solid fa-location-dot"></i>
             Location</a>
-
-            <a href="#" style="background: #cff3ff;">
-            <i style="background: #04c3ff;" class="fa-solid fa-gift"></i>
-            Gift</a>
             
             <a href="#" style="background: #fff4d1;">
             <i style="background: #ffca28;" class="fa-solid fa-face-grin-beam"></i>
@@ -75,7 +65,7 @@
                         <li>
                             <img src="{%static 'Assets/Images/love.png' %}" alt="love">
                             <img src="{%static 'Assets/Images/like.png' %}" alt="like">
-                            <span>22k like</span>
+                            <span>500k like</span>
                         </li>
                         <li><i class="fa-regular fa-comment-dots"></i> <span>555 comments</span></li>
                         <li><i class="fa-solid fa-share-from-square"></i> <span>254 share</span></li>
@@ -88,3 +78,4 @@
 </div> <!-- home center wrapper end -->
 
 {% endblock %}
+
