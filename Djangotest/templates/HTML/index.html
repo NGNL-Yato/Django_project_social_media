@@ -55,70 +55,7 @@
             <!-- home left start here -->
             <div class="home-left">
 
-                <div class="profile">
-                    <img src="{%static 'Assets/Images/user.jpg' %}" alt="user">
-                    <h3>Mon profile</h3>
-                </div>
-               
-                <div class="pages">
-                    <h4 class="mini-headign">Pages</h4>
-                    <label>
-                        <img src="{%static 'Assets/Images/messenger.png' %}" alt="messenger">
-                        <span>messenger</span>
-                    </label>
-                    <label>
-                        <img src="{%static 'Assets/Images/instagram.png' %}" alt="instagram">
-                        <span>instagram</span>
-                    </label>
-                    <button class="see-more-btn">See more <i class="fa-solid fa-angle-down"></i></button>
-                </div>
-
-                <div class="group">
-                    <h4 class="mini-headign">Group</h4>
-                    <label>
-                        <img src="{%static 'Assets/Images/gg.png' %}" alt="group01">
-                        <span>Graphic design</span>
-                    </label>
-                    
-                    <label>
-                        <img src="{%static 'Assets/Images/gg2.png' %}" alt="group02">
-                        <span>website design</span>
-                    </label>
-
-                    <label>
-                        <img src="{%static 'Assets/Images/gg3.png' %}" alt="group03">
-                        <span>ZED.zahidul</span>
-                    </label>
-
-                    <button class="see-more-btn">See more <i class="fa-solid fa-angle-down"></i></button>
-                </div>
-
-                <div class="games">
-                    <h4 class="mini-headign">Games</h4>
-                    <label>
-                        <img src="{%static 'Assets/Images/game.png' %}" alt="game01">
-                        <span>Facebook games</span>
-                    </label>
-                    <label>
-                        <img src="{%static 'Assets/Images/game2.png' %}" alt="game02">
-                        <span>Free Play Games</span>
-                    </label>
-                    <button class="see-more-btn">See more <i class="fa-solid fa-angle-down"></i></button>
-                </div>
-
-                <div class="explore">
-                    <h4 class="mini-headign">Explore</h4>
-                   
-                    <a href="#"><i class="fa-solid fa-user-group"></i> Group</a>
-                    <a href="#"><i class="fa-solid fa-star"></i></i> Favorites</a>
-                    <a href="#"><i class="fa-solid fa-bookmark"></i></i> Saves</a>
-                    <a href="#"><i class="fa-solid fa-clock"></i> Events</a>
-                    <a href="#"><i class="fa-solid fa-flag"></i> Pages</a>
-
-                    <div><label class="darkTheme"> <span></span></label> Apply Dark Theme</div>
-
-                    <button class="see-more-btn">See more <i class="fa-solid fa-angle-down"></i></button>
-                </div>
+               {% include "HTML/left-wing.html" %}
                 
             </div><!-- home left end here -->
 
@@ -133,30 +70,7 @@
                 <div class="home-right-wrapper">
 
                     <div class="event-friend">
-                        <div class="event">
-                            <h3 class="heading">Upcoming Events <span>see all</span></h3>
-                            <img src="{%static 'Assets/Images/eve.jpg' %}" alt="event-img">
-                            <div class="event-date">
-                                <h3>21 <b>july</b></h3>
-                                <h4>United state of America <span>New York City</span></h4>
-                            </div>
-                            <button><i class="fa-regular fa-star"></i> interested</button>
-                        </div>
-
-                        <hr>
-                    
-                        <div class="friend">
-                            <h3 class="heading">Friend Requests <span>see all</span></h3>
-                            <ul>
-                                <li><img src="{%static 'Assets/Images/user4.jpg' %}" alt="user"></li>
-                                <li>
-                                    <b>armanul islam</b>
-                                    <p>Lorem ipsum dolor sit amet.</p>
-                                    <button>confirm</button><button class="friend-remove">remove</button>
-                                </li>
-                            </ul>
-                        </div>
-
+                        {% include "HTML/event-template.html" %}
                     </div>
 
                     <div class="create-page">
