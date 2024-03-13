@@ -6,9 +6,7 @@ const body = document.querySelector("body"),
     navToggle = document.querySelector("header nav .toggle"),
     navSpanMiddle = document.querySelector("header nav .toggle .middle"),
     navNavigationBar = document.querySelector("header nav .navigation-bar"),
-    navNavigationBarLi = document.querySelectorAll(
-        "header nav .navigation-bar li"
-    ),
+    navNavigationBarLi = document.querySelectorAll("header nav .navigation-bar li"),
     headerText = document.querySelector("header .text"),
     headerSection = document.querySelector("header"),
     aboutSection = document.querySelector(".about-us"),

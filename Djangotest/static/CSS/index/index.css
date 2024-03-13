@@ -1054,9 +1054,7 @@ footer .newsletter i {
     header nav .logo {
         padding-left: 0;
     }
-    header nav .logo img{
-        max-height: 40px !important;
-    }
+   
     .about-us {
         display: block;
         padding-top: 50px;
