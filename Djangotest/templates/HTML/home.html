@@ -1,81 +1,77 @@
-{% extends 'HTML/index.html' %}
-
-{% block content %}
 {% load static %}
 
-<div class="home-center-wrapper">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{%static 'Assets/Images/favicon.ico" type="image/x-icon">
+    <title>Django socialmedia</title>
+    <!-- style css link -->
+    <link rel="stylesheet" href="{% static 'CSS/style.css' %}">    
+    <!-- font link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <div class="createPost">
+</head>
+<body>
+        
+    <!-- header section start -->
+        <header>
+            {% include "HTML/header-homepage.html"%}
+        </header>
+    <!-- header section end -->
 
-        <h3 class="mini-headign">Create Post</h3>
-        <div class="post-text">
-            <img src="{%static 'Assets/Images/user.jpg' %}" alt="user">
-            <input type="text-area" placeholder="What's on your mind, zahidul">
-        </div>
+    <!-- home section start -->
+    <div class="home">
+        <div class="container">
+            <div class="home-weapper">
 
-        <div class="post-icon">
-
-            <a href="#" style="background: #d7ffef;">
-            <i style="background: #00d181;" class="fa-solid fa-location-dot"></i>
-            Location</a>
-            
-            <a href="#" style="background: #fff4d1;">
-            <i style="background: #ffca28;" class="fa-solid fa-face-grin-beam"></i>
-            Feeling / Acrivity</a>
-
-        </div>
-
-    </div>
-
-   
-    <div class="fb-post1">
-        <div class="fb-post1-container">
-            <div class="fb-post1-header">
-                <ul>
-                    <li class="active">popular</li>
-                    <li>recent</li>
-                    <li>most view</li>
-                </ul>
-            </div>
-            <div class="fb-p1-main">
-                <div class="post-title">
-                    <img src="{%static 'Assets/Images/user2.jpg' %}" alt="user picture">
-                    <ul>
-                        <li><h3>Arham Kabir <span> . 2 hours ago</span></h3></li>
-                        <li><span>02 march at 12:55 PM</span></li>
-                    </ul>
-                    <p>Hello Everyone Thanks for Watching Please SUBSCRIBE My Channel - Like Comments and Share
-                        <a href="https://www.youtube.com/channel/UCHhGX-DD7A8jq7J_NPGN6gA">https://www.youtube.com/channel/UCHhGX-DD7A8jq7J_NPGN6gA</a>
-                    </p>
+                <!-- home left start here -->
+                <div class="home-left">
+                {% include "HTML/left-wing.html" %}
                 </div>
+                <!-- home left end here -->
 
-                <div class="post-images">
-                    <div class="post-images1">
-                        <img src="{%static 'Assets/Images/pp.jpg' %}" alt="post images 01">
-                        <img src="{%static 'Assets/Images/pp2.jpg' %}" alt="post images 02">
-                        <img src="{%static 'Assets/Images/pp3.jpg' %}" alt="post images 03">
+                <!-- home center start here -->
+                <div class="home-center">
+                    {% block content %}{% endblock %}
+                </div> 
+                <!-- home center end -->
+
+                <!-- home right start here -->
+                <div class="home-right">
+                    <div class="home-right-wrapper">
+
+                        <!-- messenger start -->
+                        <div class="messenger">
+                            {% include "HTML/messages.html" %}
+                        </div>
+                        <!-- messenger end -->
+
+                        <!-- event and friend start -->
+                        <div class="event-friend">
+                            {% include "HTML/event-template.html" %}
+                        </div>
+                        <!-- event and friend end -->
+
+                        <!-- groups start -->
+                        <div class="groups">
+                            {% include "HTML/create-page.html" %}
+                        </div>
+                        <!-- groups end -->
+
                     </div>
-                    <div class="post-images2">
-                        <img src="{%static 'Assets/Images/pp4.jpg' %}" alt="post images 04">
-                    </div>
                 </div>
+                <!-- home right end -->
 
-                <div class="like-comment">
-                    <ul>
-                        <li>
-                            <img src="{%static 'Assets/Images/love.png' %}" alt="love">
-                            <img src="{%static 'Assets/Images/like.png' %}" alt="like">
-                            <span>500k like</span>
-                        </li>
-                        <li><i class="fa-regular fa-comment-dots"></i> <span>555 comments</span></li>
-                        <li><i class="fa-solid fa-share-from-square"></i> <span>254 share</span></li>
-                    </ul>
-                </div>
             </div>
         </div>
     </div>
+    <!-- home section end -->
 
-</div> <!-- home center wrapper end -->
+    <!--Scripts link-->
+    <script src="{% static "Javascript/homepage.js"%}"></script>
 
-{% endblock %}
-
+</body>
+</html>
