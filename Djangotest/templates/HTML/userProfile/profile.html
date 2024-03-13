@@ -1,0 +1,242 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Campus Social Media</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'CSS/userProfile/userProfile.css' %}" />
+  </head>
+
+  <body>
+    <!-- profile main -->
+    <div class="container">
+      <div class="profile-main">
+        <div class="profile-container">
+          <img src="/static/Assets/Images/cover-pic.png" alt="cover-pic" width="100%" />
+          <div class="profile-container-inner">
+            <img src="{%static '/staticfiles/Assets/Images/user-1.png' %}" alt="user-1" class="profile-pic" />
+            <h1>Sara Bakkali</h1>
+            <b
+              >Web Developer at Microsoft | Former developer at DataStack and
+              Intern at Oracle</b
+            >
+            <p>
+              San Francisco, United States &middot;
+              <a href="#">Contact Info</a>
+            </p>
+
+            <div class="profile-btn">
+              <a href="#" class="primary-btn">
+                <img src="{%static 'Assets/Images/connect.png'%}" alt="connect" />
+                Connect
+              </a>
+              <a href="#">
+                <img src="{%static '/staticfiles/Assets/Images/chat.png'%}" alt="connect" />
+                Message
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="profile-description">
+          <h2>About</h2>
+          <p>
+            The success of every websites depends on search engine optimisation
+            and digital marketing strategy. If you are on first page of all
+            major search engines then you are ahead among your competitors
+          </p>
+        </div>
+        <div class="profile-description">
+          <h2>Experience</h2>
+
+          <!-- Experiene 1 -->
+
+          <div class="profile-desc-row">
+            <img src="{% static 'Assets/Images/microsoft.png' %}" alt="microsoft" />
+            <div>
+              <h3>Lead Front-End Developer</h3>
+              <b>Microsoft &middot; Full-time</b>
+              <b>Feb 2021 - Present &middot; 1.5 years</b>
+              <p>
+                Computer programming is the process of performing a particular
+                computation, usually by designing and building an executable
+                computer program.
+              </p>
+              <hr />
+            </div>
+          </div>
+
+          <!-- Experiene 2 -->
+
+          <div class="profile-desc-row">
+            <img src="/static/Assets/Images/google.png" alt="microsoft" />
+            <div>
+              <h3>Web Developer</h3>
+              <b>Google Inc &middot; Full-time</b>
+              <b>Set 2015 - May 2018 &middot; 2.6 years</b>
+              <p>
+                Computer programming is the process of performing a particular
+                computation, usually by designing and building an executable
+                computer program.
+              </p>
+              <hr />
+            </div>
+          </div>
+
+          <!-- Experiene 3 -->
+
+          <div class="profile-desc-row">
+            <img src="/static/Assets/Images/slack.png" alt="microsoft" />
+            <div>
+              <h3>Full Stack Developer</h3>
+              <b>Slack &middot; Full-time</b>
+              <b>June 2018 - Jan 2021 &middot; 2.6 years</b>
+              <p>
+                Computer programming is the process of performing a particular
+                computation, usually by designing and building an executable
+                computer program.
+              </p>
+            </div>
+          </div>
+          <hr />
+        </div>
+
+        <!-- Profile description 1 -->
+
+        <div class="profile-description">
+          <h2>Education</h2>
+          <div class="profile-desc-row">
+            <img src="/static/Assets/Images/stanford.png" alt="stanford" />
+            <div>
+              <h3>Stanford University</h3>
+              <b>BSEE, Electrical Engineering</b>
+              <b>2018 - 2022</b>
+              <hr />
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile description 2 -->
+
+        <div class="profile-description">
+          <h2>Education</h2>
+          <div class="profile-desc-row">
+            <img src="/static/Assets/Images/north.png" alt="north" />
+            <div>
+              <h3>Northwestern University</h3>
+              <b>Computer Science</b>
+              <b>2015 - 2018</b>
+              <hr />
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile description 3 -->
+
+        <div class="profile-description">
+          <h2>Education</h2>
+          <div class="profile-desc-row">
+            <img src="/static/Assets/Images/mit.png" alt="north" />
+            <div>
+              <h3>MIT University</h3>
+              <b>Senior High School</b>
+              <b>2005 - 2015</b>
+            </div>
+          </div>
+        </div>
+        <div class="profile-description">
+          <h2>Skills</h2>
+          <a href="#" class="skills-btn">Leadership</a>
+          <a href="#" class="skills-btn">Web Design</a>
+          <a href="#" class="skills-btn">Development</a>
+          <a href="#" class="skills-btn">Communications</a>
+          <a href="#" class="skills-btn">UI/UX</a>
+          <a href="#" class="skills-btn">Planning</a>
+          <a href="#" class="skills-btn">Codding</a>
+          <a href="#" class="skills-btn">JavaScript</a>
+          <a href="#" class="skills-btn">Python</a>
+          <a href="#" class="skills-btn">Enterprenuorship</a>
+        </div>
+        <div class="profile-description">
+          <h2>Languages</h2>
+          <a href="#" class="language-btn">English</a>
+          <a href="#" class="language-btn">German</a>
+          <a href="#" class="language-btn">French</a>
+          <a href="#" class="language-btn">Spanish</a>
+        </div>
+      </div>
+    </div>
+    <div class="profile-description">
+      <div class="fb-post1">
+        <div class="fb-post1-container">
+          <div class="fb-p1-main">
+            <div class="post-title">
+              <img src="/static/Assets/Images/user2.jpg" alt="user picture" />
+              <ul>
+                <li>
+                  <h3>Arham Kabir <span> . 2 hours ago</span></h3>
+                </li>
+                <li><span>02 march at 12:55 PM</span></li>
+              </ul>
+              <p>
+                Hello Everyone Thanks for Watching Please SUBSCRIBE My Channel -
+                Like Comments and Share
+                <a
+                  href="https://www.youtube.com/channel/UCHhGX-DD7A8jq7J_NPGN6gA"
+                  >https://www.youtube.com/channel/UCHhGX-DD7A8jq7J_NPGN6gA</a
+                >
+              </p>
+            </div>
+
+            <div class="post-images">
+              <div class="post-images1">
+                <img src="/static/Assets/Images/pp.jpg" alt="post images 01" />
+                <img src="/static/Assets/Images/pp2.jpg" alt="post images 02" />
+                <img src="/static/Assets/Images/pp3.jpg" alt="post images 03" />
+              </div>
+              <div class="post-images2">
+                <img src="/static/Assets/Images/pp4.jpg" alt="post images 04" />
+              </div>
+            </div>
+
+            <div class="like-comment">
+              <ul>
+                <li>
+                  <img src="/static/Assets/Images/love.png" alt="love" />
+                  <img src="/static/Assets/Images/like.png" alt="like" />
+                  <span>22k like</span>
+                </li>
+                <li>
+                  <i class="fa-regular fa-comment-dots"></i>
+                  <span>555 comments</span>
+                </li>
+                <li>
+                  <i class="fa-solid fa-share-from-square"></i>
+                  <span>254 share</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
