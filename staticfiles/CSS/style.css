@@ -74,7 +74,7 @@ header{
     height: 100%;
     padding: 0 8px;
     justify-content: center;
-    align-items: center;
+        align-items: center;
 }
 .logoBox{
     width: 7%;
@@ -124,7 +124,7 @@ header{
     transition: .4s;
 }
 .searchBox i:hover{
-    color: #1877f2;
+    color: #6524c4;
 }
 
 .iconBox1 i,
@@ -134,13 +134,13 @@ header{
     background: transparent;
     padding: 10px;
     border-radius: 10px;
-    color: #769bcb;
+    color: #d6bbff;
     transition: .4s;
 }
 .iconBox1 i:hover,
 .iconBox2 i:hover,
 .iconBox3 i:hover{
-    background: #1877f2;
+    background: #6524c4;
     color: #d1deec;
     cursor: pointer;
 }
@@ -256,7 +256,7 @@ header{
     border: none;
     box-shadow: 0 2px 6px 0 var(--shadow);
     border-radius: 50px;
-    color: #4575b3;
+    color: #6524c4;
     font-weight: 600;
     font-size: 15px;
     margin-top: 10px;
@@ -276,12 +276,12 @@ header{
     flex-direction: column;
 }
 .explore a{
-    color: #4575b3;
+    color: #6524c4;
     margin-bottom: 15px;
     font-weight: 600;
 }
 .explore a:hover{
-    color: #1877f2;
+    color: #6524c4;
 }
 .explore a i{
     margin-right: 10px;
@@ -298,12 +298,12 @@ header{
     align-items: center;
     margin-bottom: 15px;
     font-weight: 600;
-    color: #4575b3;
+    color: #6524c4;
 }
 .darkTheme{
     width: 40px;
     height: 24px;
-    background: #4575b3;
+    background: #6524c4;
     margin-right: 12px;
     border-radius: 50px;
     position: relative;
@@ -348,7 +348,7 @@ header{
 }
 
 .home-center .mini-headign{
-    color: #1877f2;
+    color: #6524c4;
     margin-bottom: 10px;
 }
 .single-stories{
@@ -366,7 +366,7 @@ header{
     top: 0;
     border-radius: 50px;
     overflow: hidden;
-    border: 3px solid #1877f2;
+    border: 3px solid #6524c4;
 }
 .single-stories label img{
     width: 100%;
@@ -484,7 +484,7 @@ header{
 }
 .fb-post1-header .active{
     color: var(--black);
-    border-bottom: 3px solid #1877f2;
+    border-bottom: 3px solid #A077FF;
 }
 .fb-p1-main{
     display: flex;
@@ -515,7 +515,7 @@ header{
     color: var(--gray);
 }
 .post-title p a{
-    color: #4575b3;
+    color: #6524c4;
 }
 .post-images{
     display: flex;
@@ -605,7 +605,7 @@ header{
     flex-direction: column;
 }
 .heading{
-    color: #1877f2;
+    color: #6524c4;
     margin-bottom: 12px;
 }
 .heading span{
@@ -625,7 +625,7 @@ header{
     margin-bottom: 12px;
 }
 .event-date h3{
-    color: #1877f2;
+    color: #6524c4;
     text-align: center;
     line-height: 20px;
     margin-right: 10px;
@@ -651,7 +651,7 @@ header{
 }
 .event button{
     padding: 6px;
-    background: #1877f2;
+    background: #6524c4;
     color: white;
     border-radius: 6px;
     border: none;
@@ -659,7 +659,7 @@ header{
     transition: .4s;
 }
 .event button:hover{
-    background: #115cbd;
+    background: #9956ff;
     cursor: pointer;
 }
 .event button i{
@@ -693,7 +693,7 @@ header{
     color: var(--gray);
 }
 .friend ul li button{
-    background: #1877f2;
+    background: #6524c4;
     border: none;
     padding: 3px 10px;
     color: white;
@@ -716,7 +716,7 @@ header{
 .create-page ul li .fa-circle-plus{
     color: white;
     padding: 10px;
-    background: #1877f2;
+    background: #6524c4;
     border-radius: 10px;
     font-size: 20px;
     margin-right: 8px;
@@ -741,7 +741,7 @@ header{
     font-size: 12px;
     border: none;
     padding: 3px 10px;
-    background: #1877f2;
+    background: #6524c4;
     color: white;
     border-radius: 50px;
     cursor: pointer;
@@ -765,7 +765,7 @@ header{
 .messenger-search .fa-user-group{
     color: white;
     padding: 10px;
-    background: #1877f2;
+    background: #6524c4;
     border-radius: 10px;
     font-size: 20px;
     margin-right: 8px;
@@ -835,7 +835,7 @@ header{
     background: #ff9600;
 }
 .messenger ul li i{
-    color: #1877f2;
+    color: #6524c4;
     position: absolute;
     right: 12px;
     top: 35%;
