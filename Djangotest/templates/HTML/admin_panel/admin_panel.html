@@ -5,8 +5,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Admin panel</title>
+    
     <link rel="stylesheet" href="{% static 'CSS/admin_panel/admin_panel.css' %}">
+    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+    
+    <style type="text/css">/* Chart.js */
+        @keyframes chartjs-render-animation{from{opacity:.99}to{opacity:1}}.chartjs-render-monitor{animation:chartjs-render-animation 1ms}.chartjs-size-monitor,.chartjs-size-monitor-expand,.chartjs-size-monitor-shrink{position:absolute;direction:ltr;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1}.chartjs-size-monitor-expand>div{position:absolute;width:1000000px;height:1000000px;left:0;top:0}.chartjs-size-monitor-shrink>div{position:absolute;width:200%;height:200%;left:0;top:0}
+    </style>
 </head>
 <body>
     <div class="admin">
@@ -114,7 +121,7 @@
             </div>
         </aside>
         <main class="admin__main">
-            <div class="upgradeAccount">
+            <!-- <div class="upgradeAccount">
                 <img class="person girl" src="https://ozcanzaferayan.github.io/fitness-admin-panel-css-grid/img/girl.png" alt="">
                 <span class="upgradeAccount__text__header">Looking for some upgrades?</span>
                 <span class="upgradeAccount__text__description">Make whole management even more effective and enjoyable. Upgrade your profile to use the service to the best advantage. Let us help you enjoy more of what you do.</span>
@@ -126,13 +133,13 @@
                 <img class="person boy" src="https://ozcanzaferayan.github.io/fitness-admin-panel-css-grid/img/boy.png" alt="">
                 <div id="closeAlert" class="close">
                     <a href="#"><i class="fa fa-times"></i></a></div>
-            </div>
+            </div> -->
             <div class="searchResultsHeader">
                 <span>Found 6 trainers</span>
-                <div class="layoutContainer">
+                <!-- <div class="layoutContainer">
                     <a class="table active" href="#"><i class="fas fa-table"></i></a>
                     <a class="list" href="#"><i class="fas fa-list"></i></a>
-                </div>
+                </div> -->
             </div>
             <div class="searchResults">
                 <div class="card">
@@ -391,8 +398,9 @@
         </footer>
     </div>
     
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="{% static 'Javascript/admin_panel/admin_panel.js' %}"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script src="{% static 'Javascript/admin_panel/admin_panel.js' %}"></script>
 </body>
 
 </html>

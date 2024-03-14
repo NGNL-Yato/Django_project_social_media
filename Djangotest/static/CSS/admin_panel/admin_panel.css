@@ -14,7 +14,7 @@
     --gray: #9c9eb2;
     --gray-lighter: #9c9eb266;
     --gray-lightest: #f1f1f8;
-    --text: #4800f1;
+    --text: #6f35f5;
     --light-orange: #ffefe8;
     --star: #ffaf17;
 }
@@ -404,19 +404,20 @@ a {
 }
 
 .searchResults {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr [col-start]);
-    gap: var(--spacing-xs);
+    /* padding: 5px; */
+    /* grid-template-columns: repeat(3, 1fr [col-start]); */
+    /* gap: var(--spacing-xs); */
 }
 
 .card {
     background-color: white;
     border: 1px solid var(--gray-lighter);
     border-radius: var(--spacing-xxs);
-    display: grid;
-    grid-template-rows: 1fr 1fr min-content 1fr min-content 2fr;
+    display: block;
+    /* grid-template-rows: 1fr 1fr min-content 1fr min-content 2fr; */
     font-size: .8rem;
-    padding: var(--spacing-xs);
+    margin: var(--spacing);
+    padding:  var(--spacing-xs);
     gap: var(--spacing-xs);
 }
 
@@ -424,6 +425,7 @@ a {
     display: grid;
     grid-template-columns: min-content 1fr max-content;
     gap: var(--spacing-xs);
+    padding-bottom: 20px !important;
     align-items: center;
 }
 
@@ -434,6 +436,7 @@ a {
 
 .card .skills {
     display: grid;
+    padding-bottom: 20px !important;
     grid-template-rows: min-content min-content;
     gap: var(--spacing-xxs);
 }
@@ -469,6 +472,8 @@ a {
 .card .activity .headerContainer {
     display: flex;
     justify-content: space-between;
+    padding-top: 20px !important;
+
 }
 
 .card .activity .headerContainer select {

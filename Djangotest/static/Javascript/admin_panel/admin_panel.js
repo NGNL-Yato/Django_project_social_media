@@ -19,7 +19,7 @@ var arr = [10, 1, 1, 3, 2, 10, 7, 9, 2, 5, 3, 9, 8, 4, 3, 0];
         var data = {
             labels: ["06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"],
             datasets: [{
-                label: 'A',
+                label: 'Posts',
                 backgroundColor: backgroundColors,
                 data: arr,
             }]
