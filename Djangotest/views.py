@@ -19,3 +19,6 @@ def groupe_view(request):
 def login_view(request):
     context = {}  # You can pass context data to the template if needed
     return render(request,'HTML/login.html', context)
+def profile(request):
+    context = {}  # You can pass context data to the template if needed
+    return render(request,'HTML/userProfile/profile.html', context)
