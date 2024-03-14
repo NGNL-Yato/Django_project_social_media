@@ -11,3 +11,7 @@ def index_view(request):
 def admin_panel(request):
     context = {}  # You can pass context data to the template if needed
     return render(request,'HTML/admin_panel/admin_panel.html', context)
+
+def profile(request):
+    context = {}  # You can pass context data to the template if needed
+    return render(request,'HTML/userProfile/profile.html', context)
