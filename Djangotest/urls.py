@@ -18,8 +18,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-
 from . import views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,6 +29,7 @@ urlpatterns = [
     path('groups/', views.group_view, name='groups'),
     path('login/', views.login_view, name='login'),
     path('profile/', views.profile, name='profile'),
+    path('about/',views.index_view,name='about'),
 
 
     
