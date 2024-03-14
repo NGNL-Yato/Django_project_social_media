@@ -22,3 +22,7 @@ def login_view(request):
 def profile(request):
     context = {}  # You can pass context data to the template if needed
     return render(request,'HTML/userProfile/profile.html', context)
+
+def welcome_view(request):
+    context = {}  # You can pass context data to the template if needed
+    return render(request,'HTML/welcome/welcome.html',context)

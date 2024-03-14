@@ -1,0 +1,164 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+    <title>Welcome</title>
+    
+    <!-- Bootstrap core CSS -->
+    <link href="/static/CSS/welcome/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="/static/CSS/welcome/welcome.css">
+    <link href="/static/CSS/welcome/fontawesome.css" rel="stylesheet">
+
+ 
+
+  </head>
+
+<body>
+
+
+
+
+
+
+  <!-- ***** Main Banner Area Start ***** -->
+  <section class="section main-banner" id="top" data-section="section1">
+    
+      <video autoplay muted loop id="bg-video">
+          <source src="/static/Assets/videos/campus.video.mp4" type="video/mp4" />
+      </video>
+
+      <div class="video-overlay header-text">
+          <div class="caption">
+              <h6>Our future together</h6>
+              <h2><em>Campus</em> Connect</h2>
+          </div>
+      </div>
+  </section>
+  <!-- ***** Main Banner Area End ***** -->
+  <section class="features">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-12">
+          <div class="features-post">
+            <div class="features-content" style="background-color:#00ced1; transition: background-color 0.3s, box-shadow 0.3s;" onmouseover="this.style.backgroundColor='#159496'; this.style.boxShadow='0 0 20px #159496';" onmouseout="this.style.backgroundColor='#00ced1'; this.style.boxShadow='none';">
+        
+                <div class="content-show">
+                <h4><i class="fa fa-home" aria-hidden="true"></i>
+
+
+                 Home</h4>
+              </div>
+              <div class="content-hide">
+                <p>Welcome to home</p>
+                <p class="hidden-sm">Visit it</p>
+                <div class="scroll-to-section"><a href="#section2"></a></div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-12">
+          <div class="features-post second-features">
+            <div class="features-content">
+              <div class="content-show">
+                <h4><i class="fa fa-graduation-cap"></i>Campus Classrrom</h4>
+              </div>
+              <div class="content-hide">
+                <p>Welcome to classroom</p>
+                <p class="hidden-sm">Join us</p>
+                <div class="scroll-to-section"><a href="#section3"></a></div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-12">
+          <div class="features-post third-features">
+            <div class="features-content" style="background-color: #A077FF; transition: background-color 0.3s, box-shadow 0.3s;" onmouseover="this.style.backgroundColor='blueviolet'; this.style.boxShadow='0 0 20px blueviolet';" onmouseout="this.style.backgroundColor='#A077FF'; this.style.boxShadow='none';">
+        
+          
+               <div class="content-show">
+                <h4><i class="fa fa-users"></i>Campus Media</h4>
+              </div>
+              <div class="content-hide">
+                <p>Welcome to our social media </p>
+                <p class="hidden-sm">Join us</p>
+                <div class="scroll-to-section"><a href="#section4"></a></div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <!-- Scripts -->
+  <!-- Bootstrap core JavaScript -->
+    <script src="/static/Javascript/welcome/jquery/jquery.min.js"></script>
+
+    <script src="/static/Javascript/welcome/js/isotope.min.js"></script>
+    <script src="/static/Javascript/welcome/js/lightbox.js"></script>
+    <script src="/static/Javascript/welcome/js/video.js"></script>
+    <script src="/static/Javascript/welcome/js/slick-slider.js"></script>
+    <script src="/static/Javascript/welcome/js/custom.js"></script>
+    <script>
+        //according to loftblog tut
+        $('.nav li:first').addClass('active');
+
+        var showSection = function showSection(section, isAnimate) {
+          var
+          direction = section.replace(/#/, ''),
+          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
+          reqSectionPos = reqSection.offset().top - 0;
+
+          if (isAnimate) {
+            $('body, html').animate({
+              scrollTop: reqSectionPos },
+            800);
+          } else {
+            $('body, html').scrollTop(reqSectionPos);
+          }
+
+        };
+
+        var checkSection = function checkSection() {
+          $('.section').each(function () {
+            var
+            $this = $(this),
+            topEdge = $this.offset().top - 80,
+            bottomEdge = topEdge + $this.height(),
+            wScroll = $(window).scrollTop();
+            if (topEdge < wScroll && bottomEdge > wScroll) {
+              var
+              currentId = $this.data('section'),
+              reqLink = $('a').filter('[href*=\\#' + currentId + ']');
+              reqLink.closest('li').addClass('active').
+              siblings().removeClass('active');
+            }
+          });
+        };
+
+        $('.main-menu, .scroll-to-section').on('click', 'a', function (e) {
+          if($(e.target).hasClass('external')) {
+            return;
+          }
+          e.preventDefault();
+          $('#menu').removeClass('active');
+          showSection($(this).attr('href'), true);
+        });
+
+        $(window).scroll(function () {
+          checkSection();
+        });
+    </script>
+</body>
+</html>
