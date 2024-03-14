@@ -328,7 +328,7 @@ header{
 /* home center section start here */
 
 .home-center{
-    width: 50%;
+    width: auto;
     overflow: hidden;
 }
 .home-center .stories,

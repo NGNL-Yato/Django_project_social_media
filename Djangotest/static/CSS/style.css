@@ -328,8 +328,9 @@ header{
 /* home center section start here */
 
 .home-center{
-    width: 50%;
+    width: auto;
     overflow: hidden;
+    margin: 0% 1.5%;
 }
 .home-center .stories,
 .home-center .createPost{
