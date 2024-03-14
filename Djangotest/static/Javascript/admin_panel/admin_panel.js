@@ -14,7 +14,7 @@
 
 var arr = [10, 1, 1, 3, 2, 10, 7, 9, 2, 5, 3, 9, 8, 4, 3, 0];
         var backgroundColors = [];
-        arr.forEach(v => backgroundColors.push("rgba(64, 80, 245, " + v / 10 + ")"))
+        arr.forEach(v => backgroundColors.push("rgba(138, 43, 226, " + v / 10 + ")"))
 
         var data = {
             labels: ["06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"],
