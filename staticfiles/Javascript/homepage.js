@@ -23,3 +23,6 @@ darkButton.onclick = function(){
         console.log("dark mode down");
     }   
 }
+document.getElementById('iconBox3Button').addEventListener('click', function() {
+    document.getElementById('profileMenu').classList.toggle('show');
+});

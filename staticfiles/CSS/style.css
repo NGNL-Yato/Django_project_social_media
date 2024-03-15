@@ -330,6 +330,7 @@ header{
 .home-center{
     width: auto;
     overflow: hidden;
+    margin: 0% 1.5%;
 }
 .home-center .stories,
 .home-center .createPost{
@@ -851,6 +852,11 @@ header{
     color: var(--black);
     cursor: pointer;
 }
+.profile.menu {
+    display: none;}
 
+.profile.menu.show {
+    display: block;
+}
 
 /* home right end */

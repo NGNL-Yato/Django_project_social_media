@@ -17,9 +17,20 @@
             <i class="fa-solid fa-circle-plus"></i>
             <i class="fa-solid fa-bell"></i>
         </div>
-        <div class="iconBox3">
-            <label><img src="{%static 'Assets/Images/user.jpg' %}" alt="user"></label>
-            <i class="fa-solid fa-caret-down"></i>
+        <div class="iconBox3-container">
+            <div class="iconBox3" id="iconBox3Button">
+                <label><img src="{%static 'Assets/Images/user.jpg' %}" alt="user"></label>
+                <i class="fa-solid fa-caret-down"></i>
+            </div>
         </div>
     </div>
+</div>
+<div class="dropdown" id="profileMenu">
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <li><a class="dropdown-item" href="#">Classroom</a></li>
+        <li><a class="dropdown-item" href="#">Welcome Page</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="#">Settings</a></li>
+        <li><a class="dropdown-item" href="#">Logout</a></li>
+    </ul>
 </div>
