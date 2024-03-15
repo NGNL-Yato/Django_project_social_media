@@ -19,8 +19,5 @@ def signup(request):
 
 
 def login_out(request):
-    if request.method == 'POST':
         logout(request)  # Logout the user
         return redirect('login')
-    else:
-        return redirect('welcome')
