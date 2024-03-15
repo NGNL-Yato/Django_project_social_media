@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import path
 
 from . import views
+from backend import views as backendviews
 
 
 urlpatterns = [
@@ -27,7 +28,8 @@ urlpatterns = [
     path('', views.welcome_view, name='welcome'),
     path('panel/', views.admin_panel, name='admin_panel'),
     path('groups/', views.group_view, name='groups'),
-    path('login/', views.login_view, name='login'),
+    path('login/', backendviews.login_in, name='login'),
+    path('logout/',backendviews.login_out,name='logout'),
     path('profile/', views.profile, name='profile'),
     path('about/',views.index_view,name='about'),
 
