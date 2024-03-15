@@ -34,17 +34,19 @@
       <div class="profile-main">
         <div class="profile-container">
           <img
-            src="/static/Assets/Images/cover-pic.png"
+            src="/static/Assets/Images/cover.jpg"
             alt="cover-pic"
             width="100%"
           />
           <div class="profile-container-inner">
             <img
-              src="{%static '/Assets/Images/user-3.png' %}"
+              src="{%static '/Assets/Images/user.jpg' %}"
               alt="user-1"
-              class="profile-pic"
+              class="profile-pic" id="profile-pic"
             />
-            <h1>Sara Bakkali</h1>
+            <label for="input-file"> Edit Picture</label>
+            <input type="file" accept="image/jpeg , image/png ,image/jpg" id="input-file">
+            <h1>John Bak</h1>
             <b
               >Web Developer at Microsoft | Former developer at DataStack and
               Intern at Oracle</b
@@ -70,19 +72,25 @@
                 Message
               </a>
             </div>
+            <div class="profile-btn">
+              <a href="#" class="primary-btn">
+                <img
+                  src="{%static '/Assets/Images/network.png'%}"
+                  alt="connect"
+                />
+                About
+              </a>
+                <a href="#"  onclick="hideShow()" >
+                <img
+                  src="{%static '/Assets/Images/sss.webp' %}"
+                  alt="connect"
+                />
+                posts
+              </a>
+            </div>
           </div>
         </div>
-        <div class="profile-description">
-          <div class="button-container">
-            <button class="button">About</button>
-            <button class="button">Experiences</button>
-            <button class="button">Education</button>
-            <button class="button">Skills</button>
-            <button class="button">Languages</button>
-
-          </div>
-
-        </div>
+    
         <div class="profile-description">
           <h2>About</h2>
           <p>
@@ -210,65 +218,22 @@
           <a href="#" class="language-btn">French</a>
           <a href="#" class="language-btn">Spanish</a>
         </div>
-      </div>
-    </div>
-    <div class="profile-description">
-      <div class="fb-post1">
-        <div class="fb-post1-container">
-          <div class="fb-p1-main">
-            <div class="post-title">
-              <img src="/static/Assets/Images/user2.jpg" alt="user picture" />
-              <ul>
-                <li>
-                  <h3>Arham Kabir <span> . 2 hours ago</span></h3>
-                </li>
-                <li><span>02 march at 12:55 PM</span></li>
-              </ul>
-              <p>
-                Hello Everyone Thanks for Watching Please SUBSCRIBE My Channel -
-                Like Comments and Share
-                <a
-                  href="https://www.youtube.com/channel/UCHhGX-DD7A8jq7J_NPGN6gA"
-                  >https://www.youtube.com/channel/UCHhGX-DD7A8jq7J_NPGN6gA</a
-                >
-              </p>
-            </div>
+        <div class="profile-description"  id="main" class="main">
+          <div class="profile-description">
 
-            <div class="post-images">
-              <div class="post-images1">
-                <img src="/static/Assets/Images/pp.jpg" alt="post images 01" />
-                <img src="/static/Assets/Images/pp2.jpg" alt="post images 02" />
-                <img src="/static/Assets/Images/pp3.jpg" alt="post images 03" />
-              </div>
-              <div class="post-images2">
-                <img src="/static/Assets/Images/pp4.jpg" alt="post images 04" />
-              </div>
+            {% include "HTML/home-extended.html" %}
             </div>
-
-            <div class="like-comment">
-              <ul>
-                <li>
-                  <img src="/static/Assets/Images/love.png" alt="love" />
-                  <img src="/static/Assets/Images/like.png" alt="like" />
-                  <span>22k like</span>
-                </li>
-                <li>
-                  <i class="fa-regular fa-comment-dots"></i>
-                  <span>555 comments</span>
-                </li>
-                <li>
-                  <i class="fa-solid fa-share-from-square"></i>
-                  <span>254 share</span>
-                </li>
-              </ul>
-            </div>
-          </div>
         </div>
       </div>
+    </div>
+   
+
     </div>
 
     <script src="script.js"></script>
     <script src="{% static "Javascript/homepage.js"%}"></script>
+    <script src="{% static "Javascript/userProfile/userProfile.js"%}"></script>
+
 
   </body>
 </html>
