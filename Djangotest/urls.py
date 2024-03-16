@@ -31,7 +31,8 @@ urlpatterns = [
     path('login/', backendviews.login_in, name='login'),
     path('logout/',backendviews.login_out,name='logout'),
     path('profile/', views.profile, name='profile'),
-    path('about/',views.index_view,name='about'),
+    path('classroom/',views.homeClass_view,name='Classroom'),
+
 
 
     
