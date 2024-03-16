@@ -43,6 +43,9 @@ urlpatterns = [
     #
     path('classroom/',views.homeClass_view,name='Classroom'),
     #
+    path('classroom/',views.todo_view,name='Classroom'),
+
+    #
     path('about/',views.index_view,name='about'),
     
     #

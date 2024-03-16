@@ -45,6 +45,10 @@ def homeClass_view(request):
     context = {}  # You can pass context data to the template if needed
     return render(request,'HTML/classroom/home.html',context)
 
+def todo_view(request):
+    context = {}  # You can pass context data to the template if needed
+    return render(request,'HTML/classroom/Todo.html',context)
+
 
 def chat_app_view(request):
     return render(request, 'HTML/userProfile/chatApp.html')
