@@ -26,3 +26,6 @@ def profile(request):
 def welcome_view(request):
     context = {}  # You can pass context data to the template if needed
     return render(request,'HTML/welcome/welcome.html',context)
+def homeClass_view(request):
+    context = {}  # You can pass context data to the template if needed
+    return render(request,'HTML/classroom/home.html',context)
