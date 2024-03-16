@@ -31,7 +31,7 @@ urlpatterns = [
     path('login/', backendviews.login_in, name='login'),
     path('logout/',backendviews.login_out,name='logout'),
     path('profile/', views.profile, name='profile'),
-    path('',views.homeClass_view,name='Classroom'),
+    path('classroom/',views.homeClass_view,name='Classroom'),
 
 
 
