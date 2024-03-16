@@ -41,9 +41,9 @@ urlpatterns = [
     #
     path('profile/', views.profile, name='profile'),
     #
-    path('classroom/',views.homeClass_view,name='Classroom'),
+    path('classroom/home',views.homeClass_view,name='Classroom'),
     #
-    path('classroom/',views.todo_view,name='Classroom'),
+    path('classroom/Todo',views.todo_view,name='Todo'),
 
     #
     path('about/',views.index_view,name='about'),
