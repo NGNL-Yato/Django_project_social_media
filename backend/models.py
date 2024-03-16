@@ -1,21 +1,24 @@
 from django.db import models
-
-# Create your models here.
 from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.models import User
 
-class User(models.Model):
-    username = models.CharField(max_length=255)
-    password = models.CharField(max_length=255)
-    email = models.EmailField()
-    first_name = models.CharField(max_length=255, blank=True)
-    last_name = models.CharField(max_length=255, blank=True)
-    cv = models.FileField(upload_to='cv_files/', blank=True)
-    description = models.TextField(blank=True)
-    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True)
-    phone_number = models.PositiveIntegerField(blank=True, null=True)
-    personal_email = models.EmailField(blank=True)
-    in_profile_phone_number = models.PositiveIntegerField(blank=True, null=True)
+
+class utilisateur(models.Model):
+    # username = models.CharField(max_length=255)
+    # password = models.CharField(max_length=255)
+    # email = models.EmailField()
+    # first_name = models.CharField(max_length=255, blank=True)
+    # last_name = models.CharField(max_length=255, blank=True)
+    #
+    user = models.OneToOneField(User,null=False,on_delete=models.CASCADE)
     role = models.IntegerField(blank=True, null=True)
+    phone_number = models.PositiveIntegerField(blank=True, null=True)
+    #
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True)
+    CV = models.FileField(upload_to='cv_files/', blank=True)
+    BIO = models.TextField(blank=True)
+    public_email = models.EmailField(blank=True)
+    public_phone_number = models.PositiveIntegerField(blank=True, null=True)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 

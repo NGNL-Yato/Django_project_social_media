@@ -16,23 +16,37 @@
     <body>
         <div class="container" id="container">
             <div class="form-container sign-up-container">
-                <form action="#">
+               
+                <form id="signUp_form" action="/signup/" method="post">
                     {% csrf_token %}
+                   
                     <h1>Create Account</h1>
+                   
                     <div class="social-container">
                         <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
                         <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                     </div>
+
                     <span>or use your email for registration</span>
-                    <input type="text" placeholder="Name" />
-                    <input type="email" placeholder="Email" />
-                    <input type="password" placeholder="Password" />
+
+                    {{signUpform.errors}}
+                    
+
+                    {{signUpform.first_name}}
+                    {{signUpform.last_name}}
+                    {{signUpform.username}}
+                    {{signUpform.email}}
+                    <input type="password" name="password1" id="id_password1" placeholder="Password">
+                    <input type="password" name="password2" id="id_password2" placeholder="Confirm Password">
+
                     <button>Sign Up</button>
+
                 </form>
+
             </div>
             <div class="form-container sign-in-container">
-                <form action="#">
+                <form action="/login/" method="post">
                     {% csrf_token %}
                     <h1>Sign in</h1>
                     <div class="social-container">
@@ -41,10 +55,10 @@
                         <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                     <span>or use your account</span>
-                    <input type="email" placeholder="Email" />
-                    <input type="password" placeholder="Password" />
+                    <input type="text" name="Username" placeholder="Username" />
+                    <input type="password" name="Password" placeholder="Password" />
                     <a href="#">Forgot your password?</a>
-                    <button>Sign In</button>
+                    <button type="submit">Sign In</button>
                 </form>
             </div>
             <div class="overlay-container">
@@ -53,16 +67,19 @@
                         <h1>Welcome Back!</h1>
                         <p>To keep connected with us please login with your personal info</p>
                         <button class="ghost" id="signIn">Sign In</button>
+                        <a style="color: white;" href="/home/">Continue en Tant visiteur ?</a>
                     </div>
                     <div class="overlay-panel overlay-right">
                         <h1>Hello, Friend!</h1>
                         <p>Enter your personal details and start journey with us</p>
                         <button class="ghost" id="signUp">Sign Up</button>
+                        <a style="color: white;" href="/home/">Continue en Tant visiteur ?</a>
                     </div>
                 </div>
             </div>
         </div>
         <!--Scripts link-->
-        <script src="{% static "Javascript/login.js"%}"></script>
+       
+        <script src="{% static 'Javascript/login.js' %}"></script>
     </body>
 </html>

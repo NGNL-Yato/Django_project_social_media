@@ -35,7 +35,21 @@
 
                 <!-- home center start here -->
                 <div class="home-center">
-                    {% include "HTML/home-extended.html" %}
+                    <div class="home-center-wrapper">
+                        
+                        {% if not visiteur %}
+                        <!-- Creat your Post -->
+                        {% include "HTML/home-extended.html" %}
+                        {% endif %}
+
+                        <!-- POSTS -->
+
+                        {% include "HTML/home-posts.html" %}
+
+                       
+                    
+                    </div> <!-- home center wrapper end -->
+
                 </div> 
                 <!-- home center end -->
 
@@ -43,11 +57,13 @@
                 <div class="home-right">
                     <div class="home-right-wrapper">
 
+                        {% if not visiteur %}
                         <!-- messenger start -->
                         <div class="messenger">
                             {% include "HTML/messages.html" %}
                         </div>
                         <!-- messenger end -->
+                        {% endif %}
 
                         <!-- event and friend start -->
                         <div class="event-friend">
@@ -55,11 +71,13 @@
                         </div>
                         <!-- event and friend end -->
 
+                        {% if not visiteur %}
                         <!-- groups start -->
                         <div class="groups">
                             {% include "HTML/create-page.html" %}
                         </div>
                         <!-- groups end -->
+                        {% endif %}
 
                     </div>
                 </div>

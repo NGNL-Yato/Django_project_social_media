@@ -2,9 +2,10 @@
 
 <div class="profile">
     <img src="{%static 'Assets/Images/user.jpg' %}" alt="user">
-    <h3>Mon profile</h3>
+    <h3>{{user_first_name}}</h3>
 </div>
 
+{% if not visiteur %}
 <div class="group">
     <h4 class="mini-headign">Group</h4>
     <label>
@@ -24,15 +25,17 @@
 
     <button class="see-more-btn">See more <i class="fa-solid fa-angle-down"></i></button>
 </div>
-
+{% endif %}
 <div class="explore">
     <h4 class="mini-headign">Explore</h4>
    
-    <a href="#"><i class="fa-solid fa-user-group"></i> Group</a>
+    <a href="#"><i class="fa-solid fa-flag"></i> Pages</a>
+    <a href="#"><i class="fa-solid fa-user-group"></i> Groups</a>
+    <a href="#"><i class="fa-solid fa-clock"></i> Events</a>
+    {% if not visiteur %}
     <a href="#"><i class="fa-solid fa-star"></i></i> Favorites</a>
     <a href="#"><i class="fa-solid fa-bookmark"></i></i> Saves</a>
-    <a href="#"><i class="fa-solid fa-clock"></i> Events</a>
-    <a href="#"><i class="fa-solid fa-flag"></i> Pages</a>
+    {% endif %}
 
     <div><label class="darkTheme"> <span></span></label> Apply Dark Theme</div>
 

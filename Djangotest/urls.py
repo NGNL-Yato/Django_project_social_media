@@ -24,15 +24,26 @@ from backend import views as backendviews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    #
     path('home/', views.home_view, name='home'),
+    #
     path('', views.welcome_view, name='welcome'),
+    #
     path('panel/', views.admin_panel, name='admin_panel'),
+    #
     path('groups/', views.group_view, name='groups'),
+    #
     path('login/', backendviews.login_in, name='login'),
+    #
+    path('signup/', backendviews.signup, name='signup'),
+    #
     path('logout/',backendviews.login_out,name='logout'),
+    #
     path('profile/', views.profile, name='profile'),
+    #
     path('classroom/',views.homeClass_view,name='Classroom'),
-
+    #
+    path('about/',views.index_view,name='about'),
 
 
     
