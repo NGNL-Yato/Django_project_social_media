@@ -64,7 +64,7 @@
                 />
                 Connect
               </a>
-              <a href="#">
+              <a href="{% url 'chat_app' %}">
                 <img
                   src="{%static '/Assets/Images/chat.png'%}"
                   alt="connect"
@@ -222,6 +222,9 @@
           <div class="profile-description">
 
             {% include "HTML/home-extended.html" %}
+            <br>
+            {% include "HTML/home-posts.html" %}
+
             </div>
         </div>
       </div>
