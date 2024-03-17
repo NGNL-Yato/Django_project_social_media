@@ -47,11 +47,10 @@ urlpatterns = [
 
     #
     path('about/',views.index_view,name='about'),
-    
     #
     path('chatApp/', views.chat_app_view, name='chat_app'),
 
-
+    path('test/',backendviews.test,name="test"),
 
     
 ]
