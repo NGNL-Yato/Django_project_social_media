@@ -9,7 +9,7 @@
 <ul>
     {% for obj in usersobj %}
     <li>
-        <img src="{%static 'Assets/Images/us2.png' %}" alt="user">
+        <img src="/media/{{obj.profile_picture}}" alt="user">
         <b>{{obj.full_name}} <span>{{obj.online}}</span></b>
         <i class="fa-brands fa-facebook-messenger"></i>
     </li>
