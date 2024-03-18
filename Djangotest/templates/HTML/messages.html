@@ -7,13 +7,14 @@
     <i class="fa-solid fa-magnifying-glass"></i>
 </div>
 <ul>
+    {% for obj in usersobj %}
     <li>
-        <img src="{%static 'Assets/Images/us2.png' %}" alt="user">
-        <b>Zunayed Hossain <span>Online</span></b>
+        <img src="/media/{{obj.profile_picture}}" alt="user">
+        <b>{{obj.full_name}} <span>{{obj.online}}</span></b>
         <i class="fa-brands fa-facebook-messenger"></i>
     </li>
-
-    <li>
+{% endfor %}
+    <!-- <li>
         <img src="{%static 'Assets/Images/us3.png' %}" alt="user">
         <b>Armanul Islam <span>Offline</span></b>
         <i class="fa-brands fa-facebook-messenger"></i>
@@ -23,5 +24,5 @@
         <img src="{%static 'Assets/Images/us4.png' %}" alt="user">
         <b>Mohammad Amir <span>Online</span></b>
         <i class="fa-brands fa-facebook-messenger"></i>
-    </li>
+    </li> -->
 </ul>

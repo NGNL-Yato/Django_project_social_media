@@ -1,20 +1,45 @@
 from django.shortcuts import render
+from backend.models import User,utilisateur
 
 def home_view(request):
+    all_users_names = []
     #
     if request.user.is_authenticated:
         isguest = False
         user = request.user
         user_email = user.email        
         user_first_name = user.first_name
+        user_pdp = user.utilisateur.profile_picture
+
+        all_users = utilisateur.objects.all()
+        for util in all_users:
+            if request.user == util.user:
+                pass
+            else:
+                full_name = f"{util.user.first_name} {util.user.last_name}"
+                online = util.online_status
+                pdp = util.profile_picture
+                
+                obj = {
+                    'full_name':full_name,
+                    "online":'online' if online else 'offline',
+                    'profile_picture': pdp
+                }
+                # print(obj)
+                all_users_names.append(obj)
+
     else:
         isguest = True
         user_email = "Guest@g.uae.ac.ma"       
         user_first_name = "visiteur"
+        user_pdp = 'Images/us2.png'
+        allUsers = ''
     
     context = {'visiteur':isguest,
                'user_email':user_email,
-               'user_first_name':user_first_name
+               'user_first_name':user_first_name,
+               'usersobj':all_users_names,
+               'user_pdp':user_pdp
                }
     
     return render(request, 'HTML/home.html', context)
@@ -44,6 +69,10 @@ def welcome_view(request):
 def homeClass_view(request):
     context = {}  # You can pass context data to the template if needed
     return render(request,'HTML/classroom/home.html',context)
+
+def todo_view(request):
+    context = {}  # You can pass context data to the template if needed
+    return render(request,'HTML/classroom/Todo.html',context)
 
 
 def chat_app_view(request):

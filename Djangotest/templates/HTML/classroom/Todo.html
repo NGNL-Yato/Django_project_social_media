@@ -1,0 +1,145 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>profile</title>
+
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+   
+
+   
+
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="/static/CSS/classroom/home.css">
+   <link rel="stylesheet" href="/static/CSS/classroom/Todo.css">
+
+
+</head>
+<body>
+
+<header class="header">
+   
+   <section class="flex">
+
+      <a href="home" class="logo">Campus Classroom</a>
+      <div class="icons">
+        <div id="menu-btn" class="fas fa-bars"></div>
+        <div id="search-btn" class="fas fa-search"></div>
+        <div id="user-btn" class="fas fa-plus"></div>
+        <div id="toggle-btn" class="fas fa-sun"></div>
+     </div>
+   </section>
+
+</header>  
+<div class="side-bar">
+
+    <div id="close-btn">
+       <i class="fas fa-times"></i>
+    </div>
+ 
+    <div class="profile">
+       <img src="images/pic-1.jpg" class="image" alt="">
+       <h3 class="name"> aya khalifi</h3>
+       <p class="role">student</p>
+       <a href="profile.html" class="btn">view profile</a>
+    </div>
+ 
+    <nav class="navbar">
+        <a href="home"><i class="fas fa-home"></i><span>home</span></a>
+        <a href="#"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
+        <a href="#"><i class="fas fa-box-archive"></i><span>archived courses</span></a>
+        <a href="Todo"><i class="fas fa-check"></i><span>To Do</span></a>
+        <a href="settings.html"><i class="fas fa-gear"></i><span>Settings</span></a>
+  
+     </nav>
+ 
+ </div>
+ <section> 
+  <div class="head">
+    <div class="title">
+      <i class="fas fa-check" style="margin-top: 1.5%;"></i><h2>To do</h2>
+      </div>
+      <div class="filter">
+        <select>
+          <option value="All Courses">
+             All Courses
+          </option>
+          <option value="Course 1">
+            Course 1
+          </option>
+          <option value="Course 2">
+            Course 2
+          </option>
+        </select>
+
+
+      </div>
+      </div>
+      <div class="menu">
+        <a href="#all_tasks" class="allTasks">ALL tasks</a>
+        <a href="#missing" class="missing">Missing</a>
+        <a href="#completed" class="completed">Completed</a>
+    </div>
+   <div class="liste">  
+    <ul class="main">
+    <li class="date">
+    <h3>jan 24</h3>
+  </li>
+  <li class="events">
+    <ul class="events-detail">
+      <li>
+        <a href="#">
+          <span class="event-time">2:00 - </span>
+          <span class="event-name">Projet c++</span>
+          <br />
+          <span class="event-location">course c++</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="#">
+          <span class="event-time">14:00 - </span>
+          <span class="event-name">devoir td 1</span>
+          <br />
+          <span class="event-location">course python</span>
+        </a>
+      </li>
+    </ul>
+
+  </li>
+
+  <li class="date">
+    <h3> Fev 15</h3>
+  </li>
+  <li class="events cf">
+    <ul class="events-detail">
+      <li>
+        <a href="#">
+          <span class="event-time">20:00 - </span>
+          <span class="event-name"> Td 3</span>
+          <br />
+          <span class="event-location">Course java</span>
+        </a>
+      </li>
+    </ul>
+    </li>
+</ul>
+</div>
+ </section>
+    <script src="/static/Javascript/classroom/classroom.js"></script>
+    
+   
+ </body>
+</html>
+ 
+
+
+
+
+
+
+

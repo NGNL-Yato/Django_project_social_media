@@ -21,6 +21,8 @@ from django.urls import path
 from . import views
 from backend import views as backendviews
 
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -41,14 +43,19 @@ urlpatterns = [
     #
     path('profile/', views.profile, name='profile'),
     #
-    path('classroom/',views.homeClass_view,name='Classroom'),
+    path('classroom/home',views.homeClass_view,name='Classroom'),
+    #
+    path('classroom/Todo',views.todo_view,name='Todo'),
+
     #
     path('about/',views.index_view,name='about'),
-    
     #
     path('chatApp/', views.chat_app_view, name='chat_app'),
 
-
+    path('test/',backendviews.test,name="test"),
 
     
 ]
+
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
