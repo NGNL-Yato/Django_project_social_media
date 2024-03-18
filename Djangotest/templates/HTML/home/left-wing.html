@@ -1,7 +1,10 @@
 {% load static %}
 
 <div class="profile">
-    <img src="/media/{{user_pdp}}" alt="user">
+    <a href="/profile/">
+    {% comment %} <a href="/{{user_pdp}}"> {% endcomment %}
+        <img src="/media/{{user_pdp}}" alt="user">
+    </a>
     <h3>{{user_first_name}}</h3>
 </div>
 

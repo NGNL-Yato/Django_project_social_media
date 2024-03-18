@@ -351,7 +351,7 @@ header{
 /* home center section start here */
 
 .home-center{
-    width: auto;
+    width: inherit;
     overflow: hidden;
     margin: 0% 1.5%;
 }

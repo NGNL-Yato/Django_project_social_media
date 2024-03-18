@@ -46,13 +46,17 @@ urlpatterns = [
     path('classroom/home',views.homeClass_view,name='Classroom'),
     #
     path('classroom/Todo',views.todo_view,name='Todo'),
-
     #
     path('about/',views.index_view,name='about'),
     #
     path('chatApp/', views.chat_app_view, name='chat_app'),
-
+    # 
     path('test/',backendviews.test,name="test"),
+    #
+    path('contact/',views.contact_view,name="contact"),
+
+    
+    
 
     
 ]

@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="{%static 'Assets/Images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="{%static 'Assets/Images/favicon.ico'" type="image/x-icon">
     <title>Django socialmedia</title>
     <!-- style css link -->
     <link rel="stylesheet" href="{% static 'CSS/style.css' %}">    
@@ -18,7 +18,7 @@
         
     <!-- header section start -->
         <header>
-            {% include "HTML/header-homepage.html"%}
+            {% include "HTML/home/header-homepage.html"%}
         </header>
     <!-- header section end -->
 
@@ -27,9 +27,29 @@
         <div class="container">
             <div class="home-weapper">
 
+                <!-- home left start here -->
+                <div class="home-left">
+                {% include "HTML/home/left-wing.html" %}
+                </div>
+                <!-- home left end here -->
+
                 <!-- home center start here -->
                 <div class="home-center">
-                    {% include "HTML/home-extended.html" %}
+                    <div class="home-center-wrapper">
+                        
+                        {% if not visiteur %}
+                        <!-- Creat your Post -->
+                        {% include "HTML/home/home-extended.html" %}
+                        {% endif %}
+
+                        <!-- POSTS -->
+
+                        {% include "HTML/home/home-posts.html" %}
+
+                       
+                    
+                    </div> <!-- home center wrapper end -->
+
                 </div> 
                 <!-- home center end -->
 
@@ -37,23 +57,27 @@
                 <div class="home-right">
                     <div class="home-right-wrapper">
 
+                        {% if not visiteur %}
                         <!-- messenger start -->
                         <div class="messenger">
-                            {% include "HTML/messages.html" %}
+                            {% include "HTML/home/messages.html" %}
                         </div>
                         <!-- messenger end -->
+                        {% endif %}
 
                         <!-- event and friend start -->
                         <div class="event-friend">
-                            {% include "HTML/event-template.html" %}
+                            {% include "HTML/home/event-template.html" %}
                         </div>
                         <!-- event and friend end -->
 
+                        {% if not visiteur %}
                         <!-- groups start -->
                         <div class="groups">
-                            {% include "HTML/create-page.html" %}
+                            {% include "HTML/home/create-page.html" %}
                         </div>
                         <!-- groups end -->
+                        {% endif %}
 
                     </div>
                 </div>
@@ -62,6 +86,7 @@
             </div>
         </div>
     </div>
+    {% include "HTML/home/home-chat.html" %}
     <!-- home section end -->
 
     <!--Scripts link-->

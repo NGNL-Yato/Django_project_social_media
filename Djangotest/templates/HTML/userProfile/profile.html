@@ -27,7 +27,7 @@
 
   <body>
     <header>
-      {% include "HTML/header-homepage.html"%}
+      {% include "HTML/home/header-homepage.html"%}
   </header>
     <!-- profile main -->
     <div class="container">
@@ -53,7 +53,7 @@
             >
             <p>
               San Francisco, United States &middot;
-              <a href="#">Contact Info</a>
+              <a href="{% url 'contact' %}">Contact Info</a>
             </p>
 
             <div class="profile-btn">
@@ -71,14 +71,13 @@
                 />
                 Message
               </a>
-            </div>
-            <div class="profile-btn">
+
               <a href="#" class="primary-btn">
                 <img
                   src="{%static '/Assets/Images/network.png'%}"
                   alt="connect"
                 />
-                About
+                Credentials
               </a>
                 <a href="#"  onclick="hideShow()" >
                 <img
@@ -88,6 +87,7 @@
                 posts
               </a>
             </div>
+            
           </div>
         </div>
     
@@ -224,9 +224,9 @@
         <div class="profile-description"  id="main" class="main">
           <div class="profile-description">
 
-            {% include "HTML/home-extended.html" %}
+            {% include "HTML/home/home-extended.html" %}
             <br>
-            {% include "HTML/home-posts.html" %}
+            {% include "HTML/home/home-posts.html" %}
 
             </div>
         </div>

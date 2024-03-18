@@ -1,0 +1,127 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--=============== FAVICON ===============-->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicons/favicon-16x16.png">
+    <link rel="manifest" href="assets/favicons/site.webmanifest">
+    <link rel="mask-icon" href="assets/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="assets/favicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="assets/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#a789d4">
+
+    <!--=============== BOXICONS ===============-->
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+
+    <!--=============== SWIPER CSS ===============-->
+    <link rel="stylesheet" href="{% static 'CSS/userProfile/swiper-bundle.min.css' %}">
+
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="{% static 'CSS/userProfile/styles.css' %}">
+
+    <title> Profile </title>
+</head>
+
+<body>
+    <!--=============== HEADER ===============-->
+     
+            <div class="work__container container grid">
+  </div>
+
+        <!--=============== CONTACT ===============-->
+        <section class="contact section" id="contact">
+           
+            <div class="contact__container container grid">
+                <div class="contact__content">
+                    <h3 class="contact__title contact__title-info">Talk to me</h3>
+
+                    <div class="contact__info">
+                        <div class="contact__card">
+                            <i class='bx bx-mail-send contact__card-icon'></i>
+                            <h3 class="contact__card-title">Email</h3>
+                            <span class="contact__card-data">teamsjdweaof@etu.ac.ma.</span>
+
+                            <a href="mailto:example@domain.com" target="_blank" class="contact__button">
+                                Write Me <i class='bx bx-right-arrow contact__button-icon'></i>
+                            </a>
+                        </div>
+
+                        <div class="contact__card">
+                            <i class='bx bxl-whatsapp contact__card-icon'></i>
+                            <h3 class="contact__card-title">Whatsapp</h3>
+                            <span class="contact__card-data">090979868758</span>
+
+                            <a href="https://api.whatsapp.com/send?phone=+916969696969&text=Hey there!" target="_blank"
+                                class="contact__button">
+                                Write Me <i class='bx bx-right-arrow contact__button-icon'></i>
+                            </a>
+                        </div>
+
+                        <div class="contact__card">
+                            <i class='bx bxl-twitter contact__card-icon'></i>
+                            <h3 class="contact__card-title">Twitter</h3>
+                            <span class="contact__card-data">Bouassab Chaimae</span>
+
+                            <a href="https://twitter.com/usertw" target="_blank" class="contact__button">
+                                Write Me <i class='bx bx-right-arrow contact__button-icon'></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact__content">
+                    <h3 class="contact__title contact__title-form">Write Me your Message</h3>
+
+                    <form action="" class="contact__form">
+                        <div class="contact__form-div">
+                            <label for="" class="contact__form-tag">Name</label>
+                            <input type="text" placeholder="Enter name" class="contact__form-input">
+                        </div>
+
+                        <div class="contact__form-div">
+                            <label for="" class="contact__form-tag">Mail</label>
+                            <input type="text" placeholder="Enter email" class="contact__form-input">
+                        </div>
+
+                        <div class="contact__form-div contact__form-area">
+                            <label for="" class="contact__form-tag">Message</label>
+                            <textarea name="" id="" cols="30" rows="10" placeholder="Write your Message"
+                                class="contact__form-input "></textarea>
+                        </div>
+
+
+                        <button class="button">
+                            Send Message
+                        </button>
+                    </form>
+
+                </div>
+
+        </section>
+    </main>
+
+    
+    <!--=============== SCROLLREVEAL ===============-->
+
+    <!-- <script src="assets/js/scrollreveal.min.js"></script> -->
+    <script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
+
+    <!--=============== SWIPER JS ===============-->
+    <script src="assets/js/swiper-bundle.min.js"></script>
+
+    <!--=============== MIXITUP FILTER ===============-->
+    <script src="assets/js/mixitup.min.js"></script>
+
+    <!--=============== MAIN JS ===============-->
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>

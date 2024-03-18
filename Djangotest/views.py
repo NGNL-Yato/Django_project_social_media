@@ -42,7 +42,7 @@ def home_view(request):
                'user_pdp':user_pdp
                }
     
-    return render(request, 'HTML/home.html', context)
+    return render(request, 'HTML/home/home.html', context)
 
 def index_view(request):
     context = {}  # You can pass context data to the template if needed
@@ -54,11 +54,11 @@ def admin_panel(request):
 
 def group_view(request):
     context = {}  # You can pass context data to the template if needed
-    return render(request,'HTML/groupe_page.html', context)
+    return render(request,'HTML/home/groupe_page.html', context)
 
 def login_view(request):
     context = {}  # You can pass context data to the template if needed
-    return render(request,'HTML/login.html', context)
+    return render(request,'HTML/home/login.html', context)
 def profile(request):
     context = {}  # You can pass context data to the template if needed
     return render(request,'HTML/userProfile/profile.html', context)
@@ -77,3 +77,9 @@ def todo_view(request):
 
 def chat_app_view(request):
     return render(request, 'HTML/userProfile/chatApp.html')
+
+
+def contact_view(request):
+    return render(request, 'HTML/userProfile/contactInfo.html')
+
+    
