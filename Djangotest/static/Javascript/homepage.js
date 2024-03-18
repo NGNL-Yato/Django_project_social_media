@@ -5,11 +5,10 @@ darkButton.onclick = function(){
     darkButton.classList.toggle("button-Active");
     document.body.classList.toggle("dark-color");
     console.log("Dark mode is active");
+    var textColors1 = document.querySelectorAll(".heading")
+    var textColors2 = document.querySelectorAll(".explore a")
     if (darkmodeactivate == false){
         darkmodeactivate = true
-        var textColors1 = document.querySelectorAll(".heading")
-        var textColors2 = document.querySelectorAll(".explore a")
-        console.log(textColors1)
         textColors1.forEach(function(textColor) {
             textColor.style.color = "white";
         });
@@ -20,6 +19,13 @@ darkButton.onclick = function(){
         console.log("dark mode up");
     } else {
         darkmodeactivate = false;
+        textColors1.forEach(function(textColor) {
+            textColor.style.color = "#6524c4";
+        });
+        console.log(textColors2)
+        textColors2.forEach(function(textColor) {
+            textColor.style.color = "#6524c4";
+        });
         console.log("dark mode down");
     }   
 }
