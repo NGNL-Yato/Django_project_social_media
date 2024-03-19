@@ -43,7 +43,8 @@ class utilisateur(models.Model):
     #         return user
     #     else:
     #         return None
-        
+    def __str__(self):
+        return self.user.first_name + " " + self.user.last_name
         
     def set_first_name(self, value):
         self.first_name = value
