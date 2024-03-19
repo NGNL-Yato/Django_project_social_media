@@ -62,4 +62,26 @@ window.onscroll = () =>{
       body.classList.remove('active');
    }
 }
+let cards =document.getElementsByClassName("card")
+console.log(cards)
+// let cards = document.getElementsByClassName("card");
+let stylingcards = cards[0].getAttribute("style");
 
+for (let i = 0; i < (cards.length - 1); i++) {
+    cards[i].setAttribute("onmouseover", "hovered(this)");
+    cards[i].setAttribute("onmouseout", "unHovered(this)");
+}
+function hovered(target) {
+   let currentdiv = target;
+   console.log("wa miiiiiiiiii");
+   Array.from(currentdiv.children).forEach(child => {
+      child.setAttribute("style", "width: 130%;");
+   });
+}
+function unHovered(target) {
+   let currentdiv = target;
+   console.log("wa miiiiiiiiii");
+   Array.from(currentdiv.children).forEach(child => {
+      child.setAttribute("style",stylingcards);
+   });
+}

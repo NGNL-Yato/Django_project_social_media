@@ -341,27 +341,18 @@ body.light-theme {
   .section {
     padding: 6.5rem 0 1rem;
   }
-
- 
-
-
   .contact__info {
     grid-template-columns: 430px;
     gap: 1rem;
   }
-
   .contact__form {
     width: 430px;
   }
-
   .contact__form-area {
     height: 18rem;
   }
-
   .contact__container {
     grid-template-columns: repeat(2, 430px);
     column-gap: 6rem;
   }
-
- 
 }

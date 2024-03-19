@@ -14,8 +14,17 @@
 
     </head>
     <body>
+        {% if invalid_signup_session  %}
+        <!-- <div style="margin-top: 0;display: flex; justify-content: center;width: 100%;height: 50px; background-color: rgb(237, 40, 40);"> -->
+          <p style="font-size: 20px;color: red;font-weight: 600;">invalid signup details</p>
+          <!-- </div> -->
+          {% endif %}
+
         <div class="container" id="container">
+            
             <div class="form-container sign-up-container">
+               
+                
                
                 <form id="signUp_form" action="/signup/" method="post">
                     {% csrf_token %}
@@ -30,7 +39,7 @@
 
                     <span>or use your email for registration</span>
 
-                    {{signUpform.errors}}
+                    <!-- {{signUpform.errors}} -->
                     
 
                     {{signUpform.first_name}}
