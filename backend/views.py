@@ -27,11 +27,21 @@ def login_in(request):
             u.save()
             return redirect('home')
     # if not above , creat signup form is user want to signup 
-    Signupform = CreationdUser()
-    context = {'signUpform':Signupform} 
+    if request.session.get('invalid_signup') == "True":
+        Signupform = CreationdUser()
+        context = {'signUpform':Signupform,
+                'invalid_signup_session': True
+               } 
+    else :
+        Signupform = CreationdUser()
+        context = {'signUpform':Signupform,
+                'invalid_signup_session': False
+               } 
+    
     return render(request,'HTML/home/login.html', context)
 
 def signup(request):
+
     if request.method == 'POST':
         Sform = CreationdUser(request.POST)
         if Sform.is_valid():
@@ -47,9 +57,11 @@ def signup(request):
                 u = models.utilisateur.objects.get(user_id = request.user.id)
                 u.online_status = True
                 u.save()
+                #
                 return redirect('home')
             #
         else:
+            request.session['invalid_signup'] = "True"
             return redirect('login')
 
     return redirect('login')
@@ -65,7 +77,7 @@ def login_out(request):
 def test(request):
     if request.method == 'POST':
         userinstance = models.utilisateur.objects.get(user_id=request.user.id)
-        form = UtilisateurForm(request.POST, instance=userinstance)
+        form = UtilisateurForm(request.POST,request.FILES, instance=userinstance)
         if form.is_valid(): ###
             form.save()
             # print(userinstance.role)
@@ -79,3 +91,7 @@ def test(request):
         return render(request, 'HTML/tmp/test.html', context)
     
     return redirect('home')
+
+
+def profile_settings(request):
+    return render(request, 'HTML/userProfile/settings.html')
