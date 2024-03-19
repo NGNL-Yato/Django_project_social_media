@@ -41,7 +41,15 @@ urlpatterns = [
     #
     path('logout/',backendviews.login_out,name='logout'),
     #
-    path('profile/', views.profile, name='profile'),
+    # profile route to see my profile 
+    path('myprofile/', views.profile, name='profile'),
+    #
+    # getter route to see other users profiles
+    path('profile/<str:first_name>-<str:last_name>/', views.view_profile, name='profile'),
+    #
+    path('follow/<str:first_name>-<str:last_name>/', backendviews.follow_user, name='follow'),
+    #
+    path('unfollow/<str:first_name>-<str:last_name>/', backendviews.unfollow_user, name='unfollow'),
     #
     path('classroom/home',views.homeClass_view,name='Classroom'),
     #
@@ -57,8 +65,9 @@ urlpatterns = [
     #
     path('contact/',views.contact_view,name="contact"),
     #
-     path('classroom/course',views.course_view,name='Course'),
-
+    path('classroom/course',views.course_view,name='Course'),
+    #
+    
 
     
     

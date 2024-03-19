@@ -99,3 +99,29 @@ class utilisateur(models.Model):
 
     def get_role(self):
         return self.role
+# 
+# 
+class follow(models.Model):
+    follower = models.ForeignKey(utilisateur, related_name='following', on_delete=models.CASCADE)
+    followed = models.ForeignKey(utilisateur, related_name='followers', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.follower.user.first_name+' '+self.follower.user.last_name+"  -->  "+self.followed.user.first_name+' '+self.followed.user.last_name
+
+#
+#
+class Group(models.Model):
+    group_name = models.CharField(max_length=100)
+    members = models.ManyToManyField(User)
+
+#  
+#
+class Post(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, blank=True)
+    #
+    contenue = models.TextField()
+    file = models.FileField(upload_to='post_files/', null=True, blank=True)
+    #
+    created_at = models.DateTimeField(auto_now_add=True)
+
