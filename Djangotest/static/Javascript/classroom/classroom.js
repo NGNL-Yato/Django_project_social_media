@@ -62,3 +62,4 @@ window.onscroll = () =>{
       body.classList.remove('active');
    }
 }
+

@@ -65,7 +65,7 @@ def login_out(request):
 def test(request):
     if request.method == 'POST':
         userinstance = models.utilisateur.objects.get(user_id=request.user.id)
-        form = UtilisateurForm(request.POST, instance=userinstance)
+        form = UtilisateurForm(request.POST,request.FILES, instance=userinstance)
         if form.is_valid(): ###
             form.save()
             # print(userinstance.role)
@@ -79,3 +79,7 @@ def test(request):
         return render(request, 'HTML/tmp/test.html', context)
     
     return redirect('home')
+
+
+def profile_settings(request):
+    return render(request, 'HTML/userProfile/settings.html')
