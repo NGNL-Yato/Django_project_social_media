@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from backend.models import User,utilisateur
-
+from django.core.mail import send_mail
+from django.conf import settings
 def home_view(request):
     all_users_names = []
     #
