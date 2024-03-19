@@ -29,239 +29,243 @@
     <header>
       {% include "HTML/home/header-homepage.html"%}
     </header>
-    <div class="profile-container">
-      <!-- profile main -->
-      <div class="container">
-        <div class="profile-main">
-          <div class="profile-container">
-            <img
-              src="/static/Assets/Images/cover.jpg"
-              alt="cover-pic"
-              width="100%"
-            />
-            <div class="profile-container-inner">
+    <main class='main-content' >
+      <div class="profile-container">
+        <!-- profile main -->
+        <div class="container">
+          <div class="profile-main">
+            <div class="profile-container">
               <img
-                src="{%static '/Assets/Images/user.jpg' %}"
-                alt="user-1"
-                class="profile-pic" id="profile-pic"
+                src="/static/Assets/Images/cover.jpg"
+                alt="cover-pic"
+                width="100%"
               />
-              <label for="input-file"> Edit Picture</label>
-              <input type="file" accept="image/jpeg , image/png ,image/jpg" id="input-file">
-              <h1>John Bak</h1>
-              <b
-                >Web Developer at Microsoft | Former developer at DataStack and
-                Intern at Oracle</b
-              >
-              <p>
-                San Francisco, United States &middot;
-                <a href="{% url 'contact' %}">Contact Info</a>
-              </p>
-
-              <div class="profile-btn">
-                <a href="#" class="primary-btn">
-                  <img
-                    src="{%static 'Assets/Images/connect.png'%}"
-                    alt="connect"
-                  />
-                  Connect
-                </a>
-                <a href="{% url 'chat_app' %}">
-                  <img
-                    src="{%static '/Assets/Images/chat.png'%}"
-                    alt="connect"
-                  />
-                  Message
-                </a>
+              <div class="profile-container-inner">
+                <img
+                  src="{%static '/Assets/Images/user.jpg' %}"
+                  alt="user-1"
+                  class="profile-pic" id="profile-pic"
+                />
+                <label for="input-file"> Edit Picture</label>
+                <input type="file" accept="image/jpeg , image/png ,image/jpg" id="input-file">
+                <h1>John Bak</h1>
+                <b
+                  >Web Developer at Microsoft | Former developer at DataStack and
+                  Intern at Oracle</b
+                >
+                <p>
+                  San Francisco, United States &middot;
+                  <a href="{% url 'contact' %}">Contact Info</a>
+                </p>
+  
+                <div class="profile-btn">
+                  <a href="#" class="primary-btn">
+                    <img
+                      src="{%static 'Assets/Images/connect.png'%}"
+                      alt="connect"
+                    />
+                    Connect
+                  </a>
+                  <a href="{% url 'chat_app' %}">
+                    <img
+                      src="{%static '/Assets/Images/chat.png'%}"
+                      alt="connect"
+                    />
+                    Message
+                  </a>
+                </div>
+                <div class="profile-btn">
+                  <a href="#" class="primary-btn">
+                    <img
+                      src="{%static '/Assets/Images/network.png'%}"
+                      alt="connect"
+                    />
+                    About
+                  </a>
+                    <a href="#"  onclick="hideShow()" >
+                    <img
+                      src="{%static '/Assets/Images/sss.webp' %}"
+                      alt="connect"
+                    />
+                    posts
+                  </a>
+                </div>
               </div>
-              <div class="profile-btn">
-                <a href="#" class="primary-btn">
-                  <img
-                    src="{%static '/Assets/Images/network.png'%}"
-                    alt="connect"
-                  />
-                  About
-                </a>
-                  <a href="#"  onclick="hideShow()" >
-                  <img
-                    src="{%static '/Assets/Images/sss.webp' %}"
-                    alt="connect"
-                  />
-                  posts
-                </a>
-              </div>
+              
             </div>
-            
-          </div>
-      
-          <div class="profile-description" style="text-align: left;">
-            <h2>About</h2>
-          
         
-            <p id="paragraphContent" contenteditable="false">
-                The success of every website depends on search engine optimization
-                and digital marketing strategy. If you are on the first page of all
-                major search engines, then you are ahead among your competitors.
-            </p>
-        </div>
-          <div class="profile-description">
-            <h2>Experience</h2>
+            <div class="profile-description" style="text-align: left;">
+              <h2>About</h2>
+            
           
-            <!-- Experiene 1 -->
-            <div class="profile-desc-row">
-              <img
-                src="{% static 'Assets/Images/microsoft.png' %}"
-                alt="microsoft"
-              />
-              <div>
-                <h3>Lead Front-End Developer</h3>
-                <b>Microsoft &middot; Full-time</b>
-                <b>Feb 2021 - Present &middot; 1.5 years</b>
-                <p>
-                  Computer programming is the process of performing a particular
-                  computation, usually by designing and building an executable
-                  computer program.
-                </p>
-                <hr />
-              </div>
-            </div>
-
-            <!-- Experiene 2 -->
-
-            <div class="profile-desc-row">
-              <img src="/static/Assets/Images/google.png" alt="microsoft" />
-              <div>
-                <h3>Web Developer</h3>
-                <b>Google Inc &middot; Full-time</b>
-                <b>Set 2015 - May 2018 &middot; 2.6 years</b>
-                <p>
-                  Computer programming is the process of performing a particular
-                  computation, usually by designing and building an executable
-                  computer program.
-                </p>
-                <hr />
-              </div>
-            </div>
-
-            <!-- Experiene 3 -->
-
-            <div class="profile-desc-row">
-              <img src="/static/Assets/Images/slack.png" alt="microsoft" />
-              <div>
-                <h3>Full Stack Developer</h3>
-                <b>Slack &middot; Full-time</b>
-                <b>June 2018 - Jan 2021 &middot; 2.6 years</b>
-                <p>
-                  Computer programming is the process of performing a particular
-                  computation, usually by designing and building an executable
-                  computer program.
-                </p>
-              </div>
-            </div>
-            <hr />
+              <p id="paragraphContent" contenteditable="false">
+                  The success of every website depends on search engine optimization
+                  and digital marketing strategy. If you are on the first page of all
+                  major search engines, then you are ahead among your competitors.
+              </p>
           </div>
-
-          <!-- Profile description 1 -->
-
-          <div class="profile-description">
-            <h2>Education</h2>
-            <div class="profile-desc-row">
-              <img src="/static/Assets/Images/stanford.png" alt="stanford" />
-              <div>
-                <h3>Stanford University</h3>
-                <b>BSEE, Electrical Engineering</b>
-                <b>2018 - 2022</b>
-                <hr />
-              </div>
-            </div>
-          </div>
-
-          <!-- Profile description 2 -->
-
-          <div class="profile-description">
-            <h2>Education</h2>
-            <div class="profile-desc-row">
-              <img src="/static/Assets/Images/north.png" alt="north" />
-              <div>
-                <h3>Northwestern University</h3>
-                <b>Computer Science</b>
-                <b>2015 - 2018</b>
-                <hr />
-              </div>
-            </div>
-          </div>
-
-          <!-- Profile description 3 -->
-
-          <div class="profile-description">
-            <h2>Education</h2>
-            <div class="profile-desc-row">
-              <img src="/static/Assets/Images/mit.png" alt="north" />
-              <div>
-                <h3>MIT University</h3>
-                <b>Senior High School</b>
-                <b>2005 - 2015</b>
-              </div>
-            </div>
-          </div>
-          <div class="profile-description">
-            <h2>Skills</h2>
-            <a href="#" class="skills-btn">Leadership</a>
-            <a href="#" class="skills-btn">Web Design</a>
-            <a href="#" class="skills-btn">Development</a>
-            <a href="#" class="skills-btn">Communications</a>
-            <a href="#" class="skills-btn">UI/UX</a>
-            <a href="#" class="skills-btn">Planning</a>
-            <a href="#" class="skills-btn">Codding</a>
-            <a href="#" class="skills-btn">JavaScript</a>
-            <a href="#" class="skills-btn">Python</a>
-            <a href="#" class="skills-btn">Enterprenuorship</a>
-          </div>
-          <div class="profile-description">
-            <h2>Languages</h2>
-            <a href="#" class="language-btn">English</a>
-            <a href="#" class="language-btn">German</a>
-            <a href="#" class="language-btn">French</a>
-            <a href="#" class="language-btn">Spanish</a>
-          </div>
-          <div class="profile-description"  id="main" class="main">
             <div class="profile-description">
-
-              {% include "HTML/home/home-extended.html" %}
-              <br>
-              {% include "HTML/home/home-posts.html" %}
-
+              <h2>Experience</h2>
+            
+              <!-- Experiene 1 -->
+              <div class="profile-desc-row">
+                <img
+                  src="{% static 'Assets/Images/microsoft.png' %}"
+                  alt="microsoft"
+                />
+                <div>
+                  <h3>Lead Front-End Developer</h3>
+                  <b>Microsoft &middot; Full-time</b>
+                  <b>Feb 2021 - Present &middot; 1.5 years</b>
+                  <p>
+                    Computer programming is the process of performing a particular
+                    computation, usually by designing and building an executable
+                    computer program.
+                  </p>
+                  <hr />
+                </div>
               </div>
+  
+              <!-- Experiene 2 -->
+  
+              <div class="profile-desc-row">
+                <img src="/static/Assets/Images/google.png" alt="microsoft" />
+                <div>
+                  <h3>Web Developer</h3>
+                  <b>Google Inc &middot; Full-time</b>
+                  <b>Set 2015 - May 2018 &middot; 2.6 years</b>
+                  <p>
+                    Computer programming is the process of performing a particular
+                    computation, usually by designing and building an executable
+                    computer program.
+                  </p>
+                  <hr />
+                </div>
+              </div>
+  
+              <!-- Experiene 3 -->
+  
+              <div class="profile-desc-row">
+                <img src="/static/Assets/Images/slack.png" alt="microsoft" />
+                <div>
+                  <h3>Full Stack Developer</h3>
+                  <b>Slack &middot; Full-time</b>
+                  <b>June 2018 - Jan 2021 &middot; 2.6 years</b>
+                  <p>
+                    Computer programming is the process of performing a particular
+                    computation, usually by designing and building an executable
+                    computer program.
+                  </p>
+                </div>
+              </div>
+              <hr />
+            </div>
+  
+            <!-- Profile description 1 -->
+  
+            <div class="profile-description">
+              <h2>Education</h2>
+              <div class="profile-desc-row">
+                <img src="/static/Assets/Images/stanford.png" alt="stanford" />
+                <div>
+                  <h3>Stanford University</h3>
+                  <b>BSEE, Electrical Engineering</b>
+                  <b>2018 - 2022</b>
+                  <hr />
+                </div>
+              </div>
+            </div>
+  
+            <!-- Profile description 2 -->
+  
+            <div class="profile-description">
+              <h2>Education</h2>
+              <div class="profile-desc-row">
+                <img src="/static/Assets/Images/north.png" alt="north" />
+                <div>
+                  <h3>Northwestern University</h3>
+                  <b>Computer Science</b>
+                  <b>2015 - 2018</b>
+                  <hr />
+                </div>
+              </div>
+            </div>
+  
+            <!-- Profile description 3 -->
+  
+            <div class="profile-description">
+              <h2>Education</h2>
+              <div class="profile-desc-row">
+                <img src="/static/Assets/Images/mit.png" alt="north" />
+                <div>
+                  <h3>MIT University</h3>
+                  <b>Senior High School</b>
+                  <b>2005 - 2015</b>
+                </div>
+              </div>
+            </div>
+            <div class="profile-description">
+              <h2>Skills</h2>
+              <a href="#" class="skills-btn">Leadership</a>
+              <a href="#" class="skills-btn">Web Design</a>
+              <a href="#" class="skills-btn">Development</a>
+              <a href="#" class="skills-btn">Communications</a>
+              <a href="#" class="skills-btn">UI/UX</a>
+              <a href="#" class="skills-btn">Planning</a>
+              <a href="#" class="skills-btn">Codding</a>
+              <a href="#" class="skills-btn">JavaScript</a>
+              <a href="#" class="skills-btn">Python</a>
+              <a href="#" class="skills-btn">Enterprenuorship</a>
+            </div>
+            <div class="profile-description">
+              <h2>Languages</h2>
+              <a href="#" class="language-btn">English</a>
+              <a href="#" class="language-btn">German</a>
+              <a href="#" class="language-btn">French</a>
+              <a href="#" class="language-btn">Spanish</a>
+            </div>
+            <div class="profile-description"  id="main" class="main">
+              <div class="profile-description">
+  
+                {% include "HTML/home/home-extended.html" %}
+                <br>
+                {% include "HTML/home/home-posts.html" %}
+  
+                </div>
+            </div>
           </div>
         </div>
+       <!-- home right start here -->
+  
+    <!-- home right end -->
       </div>
-     <!-- home right start here -->
-     <div class="home-right">
-      <div class="home-right-wrapper">
-
-          <!-- messenger start -->
-          <div class="messenger">
-              {% include "HTML/home/messages.html" %}
-          </div>
-          <!-- messenger end -->
-
-          <!-- event and friend start -->
-          <div class="event-friend">
-              {% include "HTML/home/event-template.html" %}
-          </div>
-          <!-- event and friend end -->
-
-          <!-- groups start -->
-          <div class="groups">
-              {% include "HTML/home/create-page.html" %}
-          </div>
-          <!-- groups end -->
-
+  
       </div>
-  </div>
-  <!-- home right end -->
+      <div class=" home-right-profile" >
+        <div class="home-right-wrapper">
+  
+            <!-- messenger start -->
+            <div class="messenger">
+                {% include "HTML/home/messages.html" %}
+            </div>
+            <!-- messenger end -->
+  
+            <!-- event and friend start -->
+            <div class="event-friend">
+                {% include "HTML/home/event-template.html" %}
+            </div>
+            <!-- event and friend end -->
+  
+            <!-- groups start -->
+            <div class="groups">
+                {% include "HTML/home/create-page.html" %}
+            </div>
+            <!-- groups end -->
+  
+        </div>
     </div>
+    </main>
 
-    </div>
 
     <script src="{% static "Javascript/homepage.js"%}"></script>
     <script src="{% static "Javascript/userProfile/userProfile.js"%}"></script>
