@@ -50,7 +50,9 @@ urlpatterns = [
     path('about/',views.index_view,name='about'),
     #
     path('chatApp/', views.chat_app_view, name='chat_app'),
-    # 
+    #
+    path('settings/',backendviews.profile_settings , name='settings'),
+    #
     path('test/',backendviews.test,name="test"),
     #
     path('contact/',views.contact_view,name="contact"),

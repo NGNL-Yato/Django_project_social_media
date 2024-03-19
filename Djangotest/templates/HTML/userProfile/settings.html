@@ -1,0 +1,168 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>|**BACKEND TITLE**|</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
+    <link rel="stylesheet" href="{% static 'CSS/userProfile/settings.css'%}">
+  </head>
+  <body>
+    <div class="backend-root">
+      <header>
+        <div class="header-section">
+          <div class="header-content">
+            <div class="header-container logo">
+              <img src="{%static 'Assets/Images/Logo_Ws.png' %}" class="platform-logo">
+            </div>
+            <div class="header-container header-nav">
+              <a href="#"><i class="fas fa-question-circle nav-icon"></i></a>
+              <!-- <a href="#"><i class="fas fa-bell nav-icon"></i></a> -->
+              <!-- <a href="#"><i class="fas fa-user-circle nav-icon"></i></a> -->
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="body-root">
+        <div class="body-section">
+          <div class="body-content">
+            <div class="sidebar">
+              <div class="sidebar-content">
+                <div class="sidebar-container sidebar-menu">
+                  <a href="#" class="menu-item"><i class="fas fa-home menu-icon"></i>Dashboard</a>
+                  <a href="#" class="menu-item"><i class="fas fa-bolt menu-icon"></i>Create</a>
+                  <a href="#" class="menu-item"><i class="fas fa-folder menu-icon"></i>Content</a>
+                  <a href="#" class="menu-item"><i class="fas fa-comments menu-icon"></i>Community</a>
+                  <a href="#" class="menu-item"><i class="fas fa-trophy menu-icon"></i>Pro</a>
+                  <a href="#" class="menu-item"><i class="fas fa-tag menu-icon"></i>Shop</a>
+                  <a href="#" class="menu-item"><i class="fas fa-chart-area menu-icon"></i>Analytics</a>
+                  <!-- <a href="#" class="menu-item"><i class="fas fa-cog menu-icon"></i>Settings</a> -->
+                </div>
+              </div>
+            </div>
+            <div class="main">
+              <div class="main-content">
+                <div class="main-container account-settings">
+                  <h2>Account settings</h2>
+                  <div class="settings-form account">
+                    <form class="account-settings-form">
+                        <!--  -->
+                      <div class="form-field short">
+                        <label for="first_name">First Name</label>
+                        <input id="first_name" type="text" name="first_name">
+                      </div>
+                      <div class="form-field short">
+                        <label for="first_name">Last Name</label>
+                        <input id="first_name" type="text" name="first_name">
+                      </div>
+
+                      <div class="form-field short">
+                        <label for="username">Username</label>
+                        <input id="username" type="text" name="username">
+                      </div>
+
+                      <div class="form-field short">
+                        <label for="email">Login Email Address</label>
+                        <input id="email" type="email" name="email">
+                      </div>
+
+
+                      <div class="form-field short">
+                        <label for="password">Password</label>
+                        <input id="password" type="password" value="*****" name="password" disabled>
+                        <a class="" type="button" style="color: rgb(26, 26, 26);">edit</a>
+                      </div>
+
+
+                      <div class="form-field short">
+                        <label for="CV">CV</label>
+                        <input id="CV" type="file" name="CV">
+                      </div>
+
+
+                      <div class="form-field short">
+                        <label for="BIO">BIO</label>
+                        <input id="BIO" type="text" name="BIO">
+                      </div>
+
+
+                      <div class="form-field short">
+                        <label for="contact-email">Login Email Address</label>
+                        <input id="contact-email" type="text" name="contact-email">
+                      </div>
+
+
+                      <div class="form-field short">
+                        <label for="contact-email">Login Email Address</label>
+                        <input id="contact-email" type="text" name="contact-email">
+                      </div>
+
+
+                      <!-- submit button  -->
+                      <div class="settings-actions">
+                        <div class="button-container">
+                          <button class="save-settings" type="submit">Save settings</button>
+                        </div>
+                      </div>
+                        <!--  -->
+                    </form>
+
+
+                  </div>
+                </div>
+                <div class="main-container about-page">
+                  <h2>About page settings</h2>
+                  <div class="settings-form about">
+                    <form class="about-settings-form">
+                      <div class="form-field field-1 short">
+                        <label for="about-image">Background Image</label>
+                        <input id="about-image" type="file" name="about-image">
+                      </div>
+                      <div class="form-field field-2 medium">
+                        <label for="about-description">Description</label>
+                        <textarea id="about-description" type="text" rows="3" name="about-description"></textarea>
+                      </div>
+                      <div class="settings-actions">
+                        <div class="button-container">
+                          <button class="save-settings" type="submit">Save settings</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="main-container user-settings">
+                  <h2>User profile settings</h2>
+                  <div class="settings-form user">
+                    <form class="user-settings-form">
+                      <div class="form-field field-1 short">
+                        <label for="cover-image">Background Image</label>
+                        <input id="cover-image" type="file" name="cover-image">
+                      </div>
+                      <div class="settings-actions">
+                        <div class="button-container">
+                          <button class="save-settings" type="submit">Save settings</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <div class="footer-section">
+          <div class="footer-content">
+           <!--  -->
+           <center>
+               <p>All rights Reserved</p>
+            </center>
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
