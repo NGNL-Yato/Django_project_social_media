@@ -78,7 +78,7 @@ body {
    font-size: 9px;
    font-weight: 700;
    padding: 4px 10px;
-   border: 2px solid #ff078b;
+   border: 2px solid rgb(163, 151, 151);
    border-radius: 2rem;
 }
 
@@ -117,14 +117,14 @@ body {
    
    .card:hover .picture {
       display: flex;
-      justify-content: center; /* Pour centrer horizontalement */
-      align-items: center; /* Pour centrer verticalement */
+      justify-content: center; 
+      align-items: center; 
   }
   
   .card:hover  .round-image {
-      border-radius: 50%; /* Pour arrondir l'image */
-      max-width: 1000px; /* Pour que l'image ne dépasse pas de son conteneur */
-      max-height : 100px; /* Pour que l'image ne dépasse pas de son conteneur */
+      border-radius: 50%; 
+      max-width: 1000px; 
+      max-height : 100px; 
   }
 
 

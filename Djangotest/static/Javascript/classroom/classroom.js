@@ -62,8 +62,4 @@ window.onscroll = () =>{
       body.classList.remove('active');
    }
 }
-// Sélectionnez toutes les cartes
-const cards = document.querySelectorAll('.card');
 
-// Ajoutez une classe à la dernière carte
-cards[cards.length - 1].classList.add('last-card');
