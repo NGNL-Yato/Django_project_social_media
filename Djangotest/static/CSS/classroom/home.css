@@ -20,6 +20,29 @@ body {
    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
    color: #fff;
 }
+.round-image {
+   border-radius: 50%;
+   overflow: hidden;
+   margin-bottom: 41px;
+   width: 30%;
+   margin-left: 35px;
+   height: 80%;
+   justify-content: center;
+   align-items: center;
+}
+.card:last-child .picture {
+   display: flex;
+   justify-content: center; /* Pour centrer horizontalement */
+   align-items: center; /* Pour centrer verticalement */
+}
+
+.card:last-child .round-image {
+   border-radius: 50%; /* Pour arrondir l'image */
+   max-width: 100%; /* Pour que l'image ne dépasse pas de son conteneur */
+   max-height: 100%; 
+   /* Pour que l'image ne dépasse pas de son conteneur */
+}
+
 
 .card-container {
    width: auto;
@@ -30,7 +53,7 @@ body {
 }
 
 .card {
-   min-width: 300px;
+   min-width: 200px;
    height: 350px;
    border-radius: 16px;
    background-color: #eb5d8a;
@@ -91,6 +114,19 @@ body {
 .card:hover {
    transform: translateY(-1rem);
 }
+   
+   .card:hover .picture {
+      display: flex;
+      justify-content: center; /* Pour centrer horizontalement */
+      align-items: center; /* Pour centrer verticalement */
+  }
+  
+  .card:hover  .round-image {
+      border-radius: 50%; /* Pour arrondir l'image */
+      max-width: 1000px; /* Pour que l'image ne dépasse pas de son conteneur */
+      max-height : 100px; /* Pour que l'image ne dépasse pas de son conteneur */
+  }
+
 
 .card:hover~.card{
    transform: translateX(130px);
