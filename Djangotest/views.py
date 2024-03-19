@@ -83,4 +83,9 @@ def chat_app_view(request):
 def contact_view(request):
     return render(request, 'HTML/userProfile/contactInfo.html')
 
+<<<<<<< Updated upstream
     
+=======
+def course_view(request):
+    return render( request, 'HTML/classroom/course.html')  
+>>>>>>> Stashed changes
