@@ -27,7 +27,7 @@
 
   <body>
     <header>
-      {% include "HTML/header-homepage.html"%}
+      {% include "HTML/home/header-homepage.html"%}
   </header>
     <!-- profile main -->
     <div class="container">
@@ -53,7 +53,7 @@
             >
             <p>
               San Francisco, United States &middot;
-              <a href="#">Contact Info</a>
+              <a href="{% url 'contact' %}">Contact Info</a>
             </p>
 
             <div class="profile-btn">
@@ -71,14 +71,13 @@
                 />
                 Message
               </a>
-            </div>
-            <div class="profile-btn">
+
               <a href="#" class="primary-btn">
                 <img
                   src="{%static '/Assets/Images/network.png'%}"
                   alt="connect"
                 />
-                About
+                Credentials
               </a>
                 <a href="#"  onclick="hideShow()" >
                 <img
@@ -88,19 +87,23 @@
                 posts
               </a>
             </div>
+            
           </div>
         </div>
     
-        <div class="profile-description">
+        <div class="profile-description" style="text-align: left;">
           <h2>About</h2>
-          <p>
-            The success of every websites depends on search engine optimisation
-            and digital marketing strategy. If you are on first page of all
-            major search engines then you are ahead among your competitors
+        
+      
+          <p id="paragraphContent" contenteditable="false">
+              The success of every website depends on search engine optimization
+              and digital marketing strategy. If you are on the first page of all
+              major search engines, then you are ahead among your competitors.
           </p>
-        </div>
+      </div>
         <div class="profile-description">
           <h2>Experience</h2>
+         
           <!-- Experiene 1 -->
           <div class="profile-desc-row">
             <img
@@ -221,9 +224,9 @@
         <div class="profile-description"  id="main" class="main">
           <div class="profile-description">
 
-            {% include "HTML/home-extended.html" %}
+            {% include "HTML/home/home-extended.html" %}
             <br>
-            {% include "HTML/home-posts.html" %}
+            {% include "HTML/home/home-posts.html" %}
 
             </div>
         </div>
@@ -233,7 +236,6 @@
 
     </div>
 
-    <script src="script.js"></script>
     <script src="{% static "Javascript/homepage.js"%}"></script>
     <script src="{% static "Javascript/userProfile/userProfile.js"%}"></script>
 

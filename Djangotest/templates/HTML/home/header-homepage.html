@@ -1,0 +1,55 @@
+{% load static %}
+
+<div class="header-container">
+    <div class="header-wrapper">
+        <div class="logoBox">
+            <div class="website-name">
+                <h2><em>Campus</em> <span>Media </span></h2>
+            </div>
+            {% comment %} <img src="{%static 'Assets/Images/Logo_Ws.png' %}" alt="logo"> {% endcomment %}
+        </div>
+        <div class="searchBox">
+            <input type="search">
+            <i class="fas fa-search"></i>
+        </div>
+        
+        {% if not visiteur %}
+        <div class="iconBox1">
+            <i class="fa-solid fa-house"></i>
+            <i class="fa-solid fa-user-group"></i>
+        </div>
+        <div class="iconBox2">
+            <i class="fa-solid fa-circle-plus"></i>
+            <i class="fa-solid fa-bell"></i>
+        </div>        
+        {% endif %}
+        <div class="iconBox3-container">
+            {% if not visiteur %}
+            <div class="iconBox3" id="iconBox3Button">
+                <label><img src="/media/{{user_pdp}}" alt="user"></label>
+                <i class="fa-solid fa-caret-down"></i>
+            </div>
+            {% else %}
+            <div class="login-box">
+                <a href="/login/" class="login">Login</a>
+                <i class="fa-solid fa-arrow-right-to-bracket"></i>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% if not visiteur %}
+    <div class="dropdown" id="profileMenu">
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li><a class="dropdown-item" href="#">Classroom</a></li>
+            <li><a class="dropdown-item" href="#">My Pages</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li>
+                <a type="submit" class="dropdown-item" href="/logout/" >Logout</a>
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+</div>
+

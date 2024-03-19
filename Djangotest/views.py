@@ -9,6 +9,8 @@ def home_view(request):
         user = request.user
         user_email = user.email        
         user_first_name = user.first_name
+        user_pdp = user.utilisateur.profile_picture
+
         all_users = utilisateur.objects.all()
         for util in all_users:
             if request.user == util.user:
@@ -16,26 +18,31 @@ def home_view(request):
             else:
                 full_name = f"{util.user.first_name} {util.user.last_name}"
                 online = util.online_status
+                pdp = util.profile_picture
+                
                 obj = {
                     'full_name':full_name,
-                    "online":'online' if online else 'offline'
-
+                    "online":'online' if online else 'offline',
+                    'profile_picture': pdp
                 }
+                # print(obj)
                 all_users_names.append(obj)
 
     else:
         isguest = True
         user_email = "Guest@g.uae.ac.ma"       
         user_first_name = "visiteur"
+        user_pdp = 'Images/us2.png'
         allUsers = ''
     
     context = {'visiteur':isguest,
                'user_email':user_email,
                'user_first_name':user_first_name,
-               'usersobj':all_users_names
+               'usersobj':all_users_names,
+               'user_pdp':user_pdp
                }
     
-    return render(request, 'HTML/home.html', context)
+    return render(request, 'HTML/home/home.html', context)
 
 def index_view(request):
     context = {}  # You can pass context data to the template if needed
@@ -47,11 +54,11 @@ def admin_panel(request):
 
 def group_view(request):
     context = {}  # You can pass context data to the template if needed
-    return render(request,'HTML/groupe_page.html', context)
+    return render(request,'HTML/home/groupe_page.html', context)
 
 def login_view(request):
     context = {}  # You can pass context data to the template if needed
-    return render(request,'HTML/login.html', context)
+    return render(request,'HTML/home/login.html', context)
 def profile(request):
     context = {}  # You can pass context data to the template if needed
     return render(request,'HTML/userProfile/profile.html', context)
@@ -70,3 +77,9 @@ def todo_view(request):
 
 def chat_app_view(request):
     return render(request, 'HTML/userProfile/chatApp.html')
+
+
+def contact_view(request):
+    return render(request, 'HTML/userProfile/contactInfo.html')
+
+    

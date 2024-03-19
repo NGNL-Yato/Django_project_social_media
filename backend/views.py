@@ -29,7 +29,7 @@ def login_in(request):
     # if not above , creat signup form is user want to signup 
     Signupform = CreationdUser()
     context = {'signUpform':Signupform} 
-    return render(request,'HTML/login.html', context)
+    return render(request,'HTML/home/login.html', context)
 
 def signup(request):
     if request.method == 'POST':

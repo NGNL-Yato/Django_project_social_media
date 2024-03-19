@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900');
 
 *{
     margin: 0;
@@ -63,7 +64,6 @@ header{
     width: 95%;
     background: var(--white);
     height: 100px;
-    overflow: hidden;
     padding: 20px;
     border-radius: 20px;
     box-shadow: 0 2px 5px 0 var(--shadow);
@@ -73,14 +73,37 @@ header{
     width: 100%;
     height: 100%;
     padding: 0 8px;
-    justify-content: center;
-        align-items: center;
+    justify-content: space-around;
+    align-items: center;
 }
 .logoBox{
     width: 7%;
 }
 .logoBox img{
     width: 60px;
+}
+.website-name h2 {
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 1px;
+    position: relative;
+}
+.website-name h2 span{
+    text-shadow: -1px 0 #6632e0, 0 1px #6632e0, 1px 0 #6632e0, 0 -1px #6632e0;
+}
+  
+.website-name h2 em {
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-size: 20px;
+    color: #6632e0;
+    font-weight: 900;
+    position: relative;
 }
 .searchBox{
     width: 38%;
@@ -328,7 +351,7 @@ header{
 /* home center section start here */
 
 .home-center{
-    width: auto;
+    width: inherit;
     overflow: hidden;
     margin: 0% 1.5%;
 }
@@ -852,11 +875,92 @@ header{
     color: var(--black);
     cursor: pointer;
 }
-.profile.menu {
-    display: none;}
+.dropdown {
+    float: inline-end;
+    overflow: hidden;
+  }
+.dropdown-menu {
+    border: 1px solid #ccc; /* This gives the box a border */
+    display: none; /* This hides the dropdown menu by default */
 
-.profile.menu.show {
-    display: block;
+    background-color: #fff; /* This sets the background color of the box */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* This gives the box a shadow */
+    border-radius: 5px; /* This rounds the corners of the box */
+    padding: 10px; /* This adds some space around the dropdown menu */
+    width: 200px; /* This sets the width of the box */
+    position: relative; /* This positions the box absolutely on the page */
+    z-index: 1;
+}
+.dropdown.show .dropdown-menu {
+    display: block; /* This shows the dropdown menu when the 'show' class is added to the dropdown */
 }
 
 /* home right end */
+
+/* chat start */
+
+.home-chat {
+    position: fixed;
+    padding: 5px;
+    top: 85%;
+    right: 0%;
+}
+.chat {
+    display: flex;
+    position: relative;
+}
+.background {
+    background-color: #6524c4;
+    border-radius: 50%;
+    box-shadow: 0 2.1px 1.3px rgba(0, 0, 0, 0.044),
+        0 5.9px 4.2px rgba(0, 0, 0, 0.054), 0 12.6px 9.5px rgba(0, 0, 0, 0.061),
+        0 25px 20px rgba(0, 0, 0, 0.1);
+    height: 50px;
+    left: 10px;
+    position: absolute;
+    top: 10px;
+    width: 50px;
+}
+.chat-bubble {
+    cursor: pointer;
+    position: relative;
+}
+.bubble {
+    transform-origin: 50%;
+    transition: transform 500ms cubic-bezier(0.17, 0.61, 0.54, 0.9);
+}
+.line {
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 2.75;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.line1 {
+    stroke-dasharray: 60 90;
+    stroke-dashoffset: -20;
+}
+.line2 {
+    stroke-dasharray: 67 87;
+    stroke-dashoffset: -1;
+}
+.circle {
+    fill: #ffffff;
+    stroke: none;
+    transform-origin: 50%;
+    transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.active .bubble {
+    transform: translateX(24px) translateY(4px) rotate(45deg);
+}
+.active .line1 {
+    stroke-dashoffset: 21;
+}
+.active .line2 {
+    stroke-dashoffset: 30;
+}
+.active .circle {
+    transform: scale(0);
+}
+
+/* chat end */

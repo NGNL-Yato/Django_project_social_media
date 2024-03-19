@@ -15,7 +15,7 @@ class utilisateur(models.Model):
     phone_number = models.PositiveIntegerField(blank=True, null=True)
     #
     online_status = models.BooleanField(default=False)
-    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True)
+    profile_picture = models.ImageField(default='profile_pictures/us2.png',upload_to='profile_pictures/', blank=True)
     CV = models.FileField(upload_to='cv_files/', blank=True)
     BIO = models.TextField(blank=True)
     public_email = models.EmailField(blank=True)
