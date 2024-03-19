@@ -77,3 +77,9 @@ def todo_view(request):
 
 def chat_app_view(request):
     return render(request, 'HTML/userProfile/chatApp.html')
+
+
+def contact_view(request):
+    return render(request, 'HTML/userProfile/contactInfo.html')
+
+    

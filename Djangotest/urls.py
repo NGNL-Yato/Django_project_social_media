@@ -52,6 +52,11 @@ urlpatterns = [
     path('chatApp/', views.chat_app_view, name='chat_app'),
     # 
     path('test/',backendviews.test,name="test"),
+    #
+    path('contact/',views.contact_view,name="contact"),
+
+    
+    
 
     
 ]
