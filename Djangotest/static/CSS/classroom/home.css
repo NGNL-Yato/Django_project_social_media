@@ -21,27 +21,26 @@ body {
    color: #fff;
 }
 .round-image {
-   border-radius: 50%;
-   overflow: hidden;
-   margin-bottom: 41px;
-   width: 30%;
-   margin-left: 35px;
-   height: 80%;
-   justify-content: center;
-   align-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-top:20px ;
+  margin-bottom: 40px;
+  width: 50%;
+  margin-left: 35px;
+  height: 80%;
+  justify-content: center;
+  align-items: center;
 }
-.card:last-child .picture {
-   display: flex;
-   justify-content: center; /* Pour centrer horizontalement */
-   align-items: center; /* Pour centrer verticalement */
+.card:last-child .round-image {
+   width: 60%;
+   
 }
 
-.card:last-child .round-image {
+/*.card:last-child .round-image {
    border-radius: 50%; /* Pour arrondir l'image */
-   max-width: 100%; /* Pour que l'image ne dépasse pas de son conteneur */
-   max-height: 100%; 
+   /*max-width: 100%; /* Pour que l'image ne dépasse pas de son conteneur */
+   /*max-height: 100%; 
    /* Pour que l'image ne dépasse pas de son conteneur */
-}
 
 
 .card-container {
@@ -114,18 +113,6 @@ body {
 .card:hover {
    transform: translateY(-1rem);
 }
-   
-   .card:hover .picture {
-      display: flex;
-      justify-content: center; 
-      align-items: center; 
-  }
-  
-  .card:hover  .round-image {
-      border-radius: 50%; 
-      max-width: 1000px; 
-      max-height : 100px; 
-  }
 
 
 .card:hover~.card{
