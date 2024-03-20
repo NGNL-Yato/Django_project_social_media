@@ -121,24 +121,6 @@
     }
   }
   
-  .tab-name {
-    appearance: none;
-    display: flex;
-    height: 100%;
-    align-items: center;
-    position: absolute;
-    width: 100%;
-    padding: 2px var(--offset);
-    pointer-events: none;
-    list-style: none;
-  }
-  
-  .tab-name li {
-    flex: 1;
-    text-align: center;
-    color: #222;
-    transition: color 0.3s;
-  }
   
   input[type="range"]:active::after {
     scale: 0.95;
