@@ -3,18 +3,28 @@
 
 
 <div class="createPost">
-                    
     <h3 class="mini-headign">Create Post</h3>
     {% if form %}
         <div class="post-text">
             <img src="/media/{{user_pdp}}" alt="user">
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {% comment %} {{ form.contenue }} {% endcomment %}
-                {{ form }}
-                <button type="submit">Post</button>
+                {% for field in form %}
+                    {% if field.name == 'contenue' %}
+                        <input type="text" class="your-css-class" name="{{ field.name }}" id="{{ field.auto_id }}" placeholder="What's up today ! Share it !">
+                    {% elif field.field.widget.input_type == 'file' %}
+                        <input type="file" class="your-css-class" name="{{ field.name }}" id="{{ field.auto_id }}" onchange="displayFile(this)" style="display: none;">
+                        <div class="post-buttons">
+                            <button type="button" class="upload-file-bt" onclick="document.getElementById('{{ field.auto_id }}').click()">Add file
+                                <i class="fa-solid fa-file-import"></i>
+                            </button>
+                    {% endif %}
+                {% endfor %}
+                            <button type="submit">Post</button>
+                        </div>
             </form>
         </div>
+        <div id="file-display"></div>
     {% endif %}
 
     <div class="post-icon">

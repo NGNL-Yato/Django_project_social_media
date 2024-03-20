@@ -1,16 +1,17 @@
 {% load static %}
 {% load user_tags %}
 
+<div class="fb-post1-header">
+    <ul>
+        <li class="active">popular</li>
+        <li>recent</li>
+        <li>most view</li>
+    </ul>
+</div>
 {% for post in posts %}
 <div class="fb-post1">
     <div class="fb-post1-container">
-        <div class="fb-post1-header">
-            <ul>
-                <li class="active">popular</li>
-                <li>recent</li>
-                <li>most view</li>
-            </ul>
-        </div>
+        
         <div class="fb-p1-main">
             <div class="post-title">
                 {% with post.user_id as user_id %}
@@ -25,11 +26,7 @@
             </div>
 
             <div class="post-images">
-                <div class="post-images1">
-                    {% for image in post.images.all %}
-                    <img src="{{ image.file.url }}" alt="post image">
-                    {% endfor %}
-                </div>
+                <img src="/media/{{ post.file }}" alt="post file">
             </div>
 
             <div class="like-comment">

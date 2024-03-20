@@ -4,7 +4,17 @@ var darkmodeactivate = false;
 document.getElementsByClassName('website-name')[0].addEventListener('click', function() {
     window.location.href = this.getAttribute('data-url');
 });
-
+function displayFile(input) {
+    var fileDisplayArea = document.getElementById('file-display');
+    var file = input.files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            fileDisplayArea.innerHTML = '<img src="' + e.target.result + '" style ="height: 20%; width: 20%;">';
+        }
+        reader.readAsDataURL(file);
+    }
+}
 darkButton.onclick = function(){
     darkButton.classList.toggle("button-Active");
     document.body.classList.toggle("dark-color");
