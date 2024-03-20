@@ -1,8 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render , redirect
 from backend.models import User,utilisateur
+from django.core.mail import send_mail
+from django.conf import settings
 
 def home_view(request):
     all_users_names = []
+
+    if request.user.is_authenticated and request.user.is_superuser :
+        return redirect('admin_panel')
+
     #
     if request.user.is_authenticated:
         isguest = False
@@ -59,9 +65,27 @@ def group_view(request):
 def login_view(request):
     context = {}  # You can pass context data to the template if needed
     return render(request,'HTML/home/login.html', context)
+
 def profile(request):
     context = {}  # You can pass context data to the template if needed
     return render(request,'HTML/userProfile/profile.html', context)
+
+
+def view_profile(request,first_name, last_name):
+    
+    user = User.objects.get(first_name=first_name, last_name=last_name)
+    if user is not None:    
+        u = utilisateur.objects.get(user_id = user.id)
+        if u is not None:
+            context = {'utilisateur_data':u,
+               'first_name':first_name,
+                'last_name':last_name,
+               }  
+            return render(request, 'HTML/userProfile/profile.html', context)
+        
+    return redirect('home')
+        
+   
 
 def welcome_view(request):
     context = {}  # You can pass context data to the template if needed
@@ -82,4 +106,10 @@ def chat_app_view(request):
 def contact_view(request):
     return render(request, 'HTML/userProfile/contactInfo.html')
 
-    
+
+def course_view(request):
+    return render( request, 'HTML/classroom/course.html')  
+
+ 
+
+
