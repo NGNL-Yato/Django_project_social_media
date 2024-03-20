@@ -2,19 +2,28 @@
 
 <div class="group-header">
     <div class="group-picture">
-        <img src="{%static '/Assets/Images/cover.jpg' %}" alt="image-test">
-    </div>
+        <img src="{% static 'Assets/Images/cover.jpg' %}" alt="group-image" style="width: -moz-available;border-radius: 10px 10px 0px 0px;">    </div>
     <div class="group-info">
-        <h1>Groupe Test</h1>
-        <p>This is just a filler test</p>
+        <div class="group-name">
+            <h1>Groupe Test</h1>
+        </div>
+        <div class="group-description">
+            <p>This is just a filler test</p>
+        </div>
     </div>
-    <div class ="group-join">
-        <a href="" class="btn btn-primary">Join Group</a>
+    <div class ="join-group-btn">
+        <button href="" class="btn btn-primary">Join Group</button>
     </div>
     <div class="group-buttons">
-        <a href="" class="btn btn-secondary">Discussions</a>
-        <a href="" class="btn btn-secondary">Events</a>
-        <a href="" class="btn btn-secondary">About</a>
+        <div class ="group-discussion">
+            <a href="" class="btn btn-secondary">Discussions</a>
+        </div>
+        <div class ="group-events">
+            <a href="" class="btn btn-secondary">Events</a>
+        </div>
+        <div class ="group-about">
+            <a href="" class="btn btn-secondary">About</a>
+        </div>
     </div>
 </div>
 

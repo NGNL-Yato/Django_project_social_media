@@ -1,6 +1,10 @@
 var darkButton = document.querySelector(".darkTheme");
 var darkmodeactivate = false;
 
+document.getElementsByClassName('website-name')[0].addEventListener('click', function() {
+    window.location.href = this.getAttribute('data-url');
+});
+
 darkButton.onclick = function(){
     darkButton.classList.toggle("button-Active");
     document.body.classList.toggle("dark-color");
@@ -29,6 +33,9 @@ darkButton.onclick = function(){
         console.log("dark mode down");
     }   
 }
+
+console.log("Homepage.js loaded")
+
 document.getElementById('iconBox3Button').addEventListener('click', function() {
     var profileMenu = document.getElementById('profileMenu');
     var iconBox3Button = document.getElementById('iconBox3Button');

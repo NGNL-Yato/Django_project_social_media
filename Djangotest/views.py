@@ -1,16 +1,30 @@
 from django.shortcuts import render , redirect
-from backend.models import User,utilisateur
+from backend.models import User,utilisateur,Post
+from backend.forms import PostForm
 from django.core.mail import send_mail
 from django.conf import settings
 
+
 def home_view(request):
     all_users_names = []
+    form = None
+    posts = Post.objects.all()
 
     if request.user.is_authenticated and request.user.is_superuser :
         return redirect('admin_panel')
 
     #
     if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = PostForm(request.POST, request.FILES)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.user = request.user
+                post.save()
+                return redirect('home')
+        else:
+            form = PostForm()
+
         isguest = False
         user = request.user
         user_email = user.email        
@@ -45,7 +59,9 @@ def home_view(request):
                'user_email':user_email,
                'user_first_name':user_first_name,
                'usersobj':all_users_names,
-               'user_pdp':user_pdp
+               'user_pdp':user_pdp,
+                'form':form,
+                'posts':posts,
                }
     
     return render(request, 'HTML/home/home.html', context)

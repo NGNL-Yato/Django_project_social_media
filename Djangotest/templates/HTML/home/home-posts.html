@@ -1,7 +1,7 @@
 {% load static %}
+{% load user_tags %}
 
-
-
+{% for post in posts %}
 <div class="fb-post1">
     <div class="fb-post1-container">
         <div class="fb-post1-header">
@@ -13,36 +13,37 @@
         </div>
         <div class="fb-p1-main">
             <div class="post-title">
-                <img src="{%static 'Assets/Images/user2.jpg' %}" alt="user picture">
+                {% with post.user_id as user_id %}
+                {% get_user post.user_id as user %}
+                <img src="{{ user.profile_picture.url }}" alt="user picture">
                 <ul>
-                    <li><h3>Arham Kabir <span> . 2 hours ago</span></h3></li>
-                    <li><span>02 march at 12:55 PM</span></li>
+                    <li><h3>{{ user.username }} <span> . {{ post.created_at|timesince }} ago</span></h3></li>
+                    <li><span>{{ post.created_at|date:"F j, Y, P" }}</span></li>
                 </ul>
-                <p>Hello Everyone Thanks for Reading my post</p>
+                {% endwith %}
+                <p>{{ post.contenue }}</p>
             </div>
 
             <div class="post-images">
                 <div class="post-images1">
-                    <img src="{%static 'Assets/Images/pp.jpg' %}" alt="post images 01">
-                    <img src="{%static 'Assets/Images/pp2.jpg' %}" alt="post images 02">
-                    <img src="{%static 'Assets/Images/pp3.jpg' %}" alt="post images 03">
-                </div>
-                <div class="post-images2">
-                    <img src="{%static 'Assets/Images/pp4.jpg' %}" alt="post images 04">
+                    {% for image in post.images.all %}
+                    <img src="{{ image.file.url }}" alt="post image">
+                    {% endfor %}
                 </div>
             </div>
 
             <div class="like-comment">
                 <ul>
                     <li>
-                        <img src="{%static 'Assets/Images/love.png' %}" alt="love">
-                        <img src="{%static 'Assets/Images/like.png' %}" alt="like">
-                        <span>500k like</span>
+                        <img src="{% static 'Assets/Images/love.png' %}" alt="love">
+                        <img src="{% static 'Assets/Images/like.png' %}" alt="like">
+                        <span>{{ post.likes.count }} likes</span>
                     </li>
-                    <li><i class="fa-regular fa-comment-dots"></i> <span>555 comments</span></li>
-                    <li><i class="fa-solid fa-share-from-square"></i> <span>254 share</span></li>
+                    <li><i class="fa-regular fa-comment-dots"></i> <span>{{ post.comments.count }} comments</span></li>
+                    {% comment %} <li><i class="fa-solid fa-share-from-square"></i> <span>254 share</span></li> {% endcomment %}
                 </ul>
             </div>
         </div>
     </div>
 </div>
+{% endfor %}

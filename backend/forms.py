@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django import forms
 from .models import utilisateur
+from .models import Post
 
 class CreationdUser(UserCreationForm):
     class Meta:
@@ -20,3 +21,8 @@ class UtilisateurForm(ModelForm):
     class Meta:
         model = utilisateur
         fields = '__all__'
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['contenue', 'file']
