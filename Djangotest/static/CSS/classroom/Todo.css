@@ -15,178 +15,9 @@
     justify-content: center;
     display:flex;
    
-  }
-  :root {
-    --offset: 2px;
-    --range-min: 1;
-    --range-max: 3;
-    --range: var(--range-min);
-    --slider-thumb-size: 32px;
-    --track-height: 36px;
-    --progress-bg: linear-gradient(
-      45deg,
-      rgb(99, 182, 220) 0%,
-      rgb(75, 166, 241) 25%,
-      rgb(189, 113, 217) 51%,
-      rgb(232, 101, 149) 100%
-    );
-  }
+  } 
   
-  * {
-    box-sizing: border-box;
-    margin: 0;
-  }
-  .box a{
-    color:white ;
-    font-weight : bold;
-    font-size : 15px;
 
-
-  }
- 
-  .box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    container-name: change-datalist;
-    
-    animation: range-observer linear reverse;
-    animation-timeline: --range-thumb;
-    animation-range: contain;
-    timeline-scope: --range-thumb;
-  }
-  
-  @property --range {
-    syntax: "<integer>";
-    initial-value: 0;
-    inherits: true;
-  }
-  
-  @supports (timeline-scope: --foo) {
-    input[type="range"] {
-      &::-webkit-slider-thumb {
-        view-timeline: --range-thumb inline;
-      }
-    }
-  
-    @keyframes range-observer {
-      0% {
-        --range: var(--range-min);
-      }
-  
-      100% {
-        --range: var(--range-max);
-      }
-    }
-  }
-  
-  input[type="range"] {
-    --tab-track-width: calc((100% - var(--offset) * 2));
-    --tab-size: calc(var(--tab-track-width) / 3);
-    --progress: (var(--range) - var(--range-min)) /
-      (var(--range-max) - var(--range-min));
-    --progress-length: calc(
-      (var(--tab-track-width) - var(--tab-size)) * var(--progress) + var(--offset)
-    );
-  
-    position: relative;
-    appearance: none;
-    background: none;
-    width: 100%;
-  
-    &::after {
-      pointer-events: none;
-      content: "";
-      border-radius: 6px;
-      background-color: #23e179b1;
-      background-color: #fff;
-      background: var(--progress-bg) no-repeat;
-      font-size: 16px;
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: absolute;
-      width: var(--tab-size);
-      top: 2px;
-      bottom: 2px;
-      transition: left 0.4s, scale 0.3s, top 0.3s, bottom 0.3s;
-      left: var(--progress-length);
-    }
-  
-    &::-webkit-slider-thumb {
-      appearance: none;
-      background: none;
-      cursor: pointer;
-      width: calc(100% / 3);
-      height: 100%;
-      position: relative;
-      top: 50%;
-      transform: translateY(-50%);
-      border-radius: 7px;
-      opacity: 0;
-    }
-  
-    &::-webkit-slider-runnable-track {
-      appearance: none;
-      background-color: #ddd;
-      height: var(--track-height);
-      border-radius: 6px;
-      padding: 2px var(--offset);
-    }
-  }
-  
-  
-  input[type="range"]:active::after {
-    scale: 0.95;
-  }
-  
-  @container change-datalist style(--range: 1) {
-    .box1 li[value="1"] {
-      color: #fff;
-    }
-  }
-  
-  @container change-datalist style(--range: 2) {
-    .box1 li:nth-child(2) {
-      color: #fff;
-    }
-  }
-  
-  @container change-datalist style(--range: 3) {
-    .box1 li[value="3"] {
-      color: #fff;
-    }
-  }
-  
-  
-  .menu {
-    display: flex;
-    justify-content:left;
-    background-color: transparent;
-    padding: 10px 0;
-    animation: slide 10s linear infinite;
- }
- 
- .menu a {
-    color: #eb437e;
-    font-size: 15px;
-    font-weight: bolder;
-    padding: 10px 20px;
-    margin: 0 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
- }
- 
- 
- .menu a:hover {
-    background-image:linear-gradient(120deg, hsl(180, 71%, 39%) ,#eb3584 );
-    color:white;
- }
- 
   .head .title h2{
     font-weight:bold;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -307,4 +138,166 @@
     margin-top: 20px; /* Marge supérieure */
     font-size: 18px; /* Taille de la police */
   }
+  :root {
+    --offset: 2px;
+    --range-min: 1;
+    --range-max: 3;
+    --range: var(--range-min);
+    --slider-thumb-size: 32px;
+    --track-height: 36px;
+    --progress-bg: linear-gradient(
+      45deg,
+      rgb(99, 182, 220) 0%,
+      rgb(75, 166, 241) 25%,
+      rgb(189, 113, 217) 51%,
+      rgb(232, 101, 149) 100%
+    );
+  }
   
+  * {
+    box-sizing: border-box;
+    margin: 0;
+  }
+  .box a{
+    color:white ;
+    font-weight : bold;
+    font-size : 15px;
+
+
+  }
+ 
+  .box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    container-name: change-datalist;
+    margin-top:9px;
+    animation: range-observer linear reverse;
+    animation-timeline: --range-thumb;
+    animation-range: contain;
+    timeline-scope: --range-thumb;
+  }
+  
+  @property --range {
+    syntax: "<integer>";
+    initial-value: 0;
+    inherits: true;
+  }
+  
+  @supports (timeline-scope: --foo) {
+    input[type="range"] {
+      &::-webkit-slider-thumb {
+        view-timeline: --range-thumb inline;
+      }
+    }
+  
+    @keyframes range-observer {
+      0% {
+        --range: var(--range-min);
+      }
+  
+      100% {
+        --range: var(--range-max);
+      }
+    }
+  }
+  
+  input[type="range"] {
+    --tab-track-width: calc((100% - var(--offset) * 2));
+    --tab-size: calc(var(--tab-track-width) / 3);
+    --progress: (var(--range) - var(--range-min)) /
+      (var(--range-max) - var(--range-min));
+    --progress-length: calc(
+      (var(--tab-track-width) - var(--tab-size)) * var(--progress) + var(--offset)
+    );
+  
+    position: relative;
+    appearance: none;
+    background: none;
+    width: 100%;
+  
+    &::after {
+      pointer-events: none;
+      content: "";
+      border-radius: 6px;
+      background-color: #23e179b1;
+      background-color: #fff;
+      background: var(--progress-bg) no-repeat;
+      font-size: 16px;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      width: var(--tab-size);
+      top: 2px;
+      bottom: 2px;
+      transition: left 0.4s, scale 0.3s, top 0.3s, bottom 0.3s;
+      left: var(--progress-length);
+    }
+  
+    &::-webkit-slider-thumb {
+      appearance: none;
+      background: none;
+      cursor: pointer;
+      width: calc(100% / 3);
+      height: 100%;
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      border-radius: 7px;
+      opacity: 0;
+    }
+  
+    &::-webkit-slider-runnable-track {
+      appearance: none;
+      background-color: #ddd;
+      height: var(--track-height);
+      border-radius: 6px;
+      padding: 2px var(--offset);
+    }
+  }
+  
+  .tab-name {
+    appearance: none;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    padding: 2px var(--offset);
+    pointer-events: none;
+    list-style: none;
+  }
+  
+  .tab-name li {
+    flex: 1;
+    text-align: center;
+    color: #222;
+    transition: color 0.3s;
+  }
+  
+  input[type="range"]:active::after {
+    scale: 0.95;
+  }
+  
+  @container change-datalist style(--range: 1) {
+    .box1 li[value="1"] {
+      color: #fff;
+    }
+  }
+  
+  @container change-datalist style(--range: 2) {
+    .box1 li:nth-child(2) {
+      color: #fff;
+    }
+  }
+  
+  @container change-datalist style(--range: 3) {
+    .box1 li[value="3"] {
+      color: #fff;
+    }
+  }

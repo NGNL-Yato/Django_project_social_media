@@ -183,112 +183,7 @@ body.light-theme {
 .light-theme::-webkit-scrollbar {
   background-color: hsl(var(--second-hue), 8%, 80%);
 }
-/*=============== REUSABLE CSS CLASSES ===============*/
 
-
-/*===
-/*=============== CONTACT ===============*/
-.contact__container {
-  row-gap: 3rem;
-  padding-bottom: 3rem;
-}
-
-.contact__title {
-  text-align: center;
-  font-size: var(--h3-font-size);
-  margin-bottom: 1.5rem;
-}
-
-.contact__info {
-  display: grid;
-  gap: 1rem;
-}
-
-.contact__card {
-  background-color: var(--container-color);
-  padding: 2rem 1rem;
-  border-radius: 0.75rem;
-  text-align: center;
-}
-
-.contact__card-icon {
-  font-size: 2rem;
-  color: var(--title-color);
-  margin-bottom: 0.25rem;
-}
-
-.contact__card-title,
-.contact__card-data {
-  font-size: var(--small-font-size);
-}
-
-.contact__card-title {
-  font-weight: var(--font-medium);
-}
-
-.contact__card-data {
-  display: block;
-  margin-bottom: 0.75rem;
-}
-
-.contact__button {
-  color: var(--first-color);
-  font-size: var(--small-font-size);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  column-gap: 0.25rem;
-  cursor: pointer;
-}
-
-.contact__button:hover .contact__button-icon {
-  transform: translateX(0.25rem);
-}
-
-.contact__button-icon {
-  font-size: 1rem;
-  transition: 0.4s;
-}
-
-.contact__form-div {
-  position: relative;
-  margin-bottom: 2rem;
-  height: 4rem;
-}
-
-.contact__form-input {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 2px solid var(--text-color-light);
-  background: none;
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  font-size: var(--normal-font-size);
-  color: var(--text-color);
-  outline: none;
-  z-index: 1;
-}
-
-.contact__form-tag {
-  position: absolute;
-  top: -0.75rem;
-  left: 1.25rem;
-  font-size: var(--smaller-font-size);
-  padding: 0.25rem;
-  background-color: var(--body-color);
-  z-index: 10;
-}
-
-.contact__form-area {
-  height: 17rem;
-}
-
-.contact__form-area textarea {
-  resize: none;
-}
 
   .work__filters {
     column-gap: 0.25rem;
@@ -314,23 +209,10 @@ body.light-theme {
     right: 0;
     margin: 0 auto;
   }
+}
 
   
-  .contact__container {
-    display: grid;
-    grid-template-columns: 220px 340px;
-    column-gap: 2rem;
-    justify-content: center;
-  }
-
-  .contact__info {
-    grid-template-columns: 200px;
-    gap: 1rem;
-  }
-
-  .contact__form {
-    width: 340px;
-  }
+  
  
 @media screen and (min-width: 992px) {
   .container {
@@ -341,18 +223,5 @@ body.light-theme {
   .section {
     padding: 6.5rem 0 1rem;
   }
-  .contact__info {
-    grid-template-columns: 430px;
-    gap: 1rem;
-  }
-  .contact__form {
-    width: 430px;
-  }
-  .contact__form-area {
-    height: 18rem;
-  }
-  .contact__container {
-    grid-template-columns: repeat(2, 430px);
-    column-gap: 6rem;
-  }
-}}
+  
+}

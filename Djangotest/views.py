@@ -109,3 +109,7 @@ def contact_view(request):
 
 def course_view(request):
     return render( request, 'HTML/classroom/course.html')  
+
+ 
+
+
