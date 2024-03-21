@@ -37,3 +37,6 @@ document.getElementById('iconBox3Button').addEventListener('click', function() {
     profileMenu.style.left = iconBox3Button.offsetLeft + 'px'; // Adjusted this line
     profileMenu.classList.toggle('show');
 });
+document.getElementsByClassName('website-name')[0].addEventListener('click', function() {
+    redirect('home');
+});

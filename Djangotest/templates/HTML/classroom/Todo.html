@@ -25,7 +25,12 @@
    
    <section class="flex">
 
-      <a href="home" class="logo">Campus Classroom</a>
+    <div class="logo">
+      <h2>
+          <em>Campus</em>
+          <span>Classroom</span>
+      </h2>
+  </div>
       <div class="icons">
         <div id="menu-btn" class="fas fa-bars"></div>
         <div id="search-btn" class="fas fa-search"></div>
@@ -45,7 +50,6 @@
        <img src="images/pic-1.jpg" class="image" alt="">
        <h3 class="name"> aya khalifi</h3>
        <p class="role">student</p>
-       <a href="profile.html" class="btn">view profile</a>
     </div>
  
     <nav class="navbar">
@@ -60,6 +64,8 @@
  </div>
  <section> 
   <div class="head">
+    <div class="box-container">
+  
     <div class="title">
       <i class="fas fa-check" style="margin-top: 1.5%;"></i><h2>To do</h2>
       </div>
@@ -76,14 +82,18 @@
           </option>
         </select>
 
-
+        <div class="box box1">
+          <input type="range" value="1" min="1" max="3" id="range">
+        <ul class="tab-name">
+          <li value="1"><a href="alltasks.html" class="alltasks">All tasks</a> </li>
+          <li value="2"><a href="missing.html" class="missing"> Missing</a></li>
+          <li value="3"><a href="completed.html" class="completed"> Completed </a>  
+          </li>
+          </ul>
+          </div>
       </div>
-      </div>
-      <div class="menu">
-        <a href="#all_tasks" class="allTasks">ALL tasks</a>
-        <a href="#missing" class="missing">Missing</a>
-        <a href="#completed" class="completed">Completed</a>
-    </div>
+     
+      
    <div class="liste">  
     <ul class="main">
     <li class="date">
@@ -128,6 +138,7 @@
     </ul>
     </li>
 </ul>
+</div>
 </div>
  </section>
     <script src="/static/Javascript/classroom/classroom.js"></script>

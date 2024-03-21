@@ -1,11 +1,30 @@
-from django.shortcuts import render
-from backend.models import User,utilisateur
+from django.shortcuts import render , redirect
+from backend.models import User,utilisateur,Post,Like
+from backend.forms import PostForm
 from django.core.mail import send_mail
 from django.conf import settings
+
+
 def home_view(request):
     all_users_names = []
+    form = None
+    posts = Post.objects.all()
+
+    if request.user.is_authenticated and request.user.is_superuser :
+        return redirect('admin_panel')
+
     #
     if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = PostForm(request.POST, request.FILES)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.user = request.user
+                post.save()
+                return redirect('home')
+        else:
+            form = PostForm()
+
         isguest = False
         user = request.user
         user_email = user.email        
@@ -40,7 +59,9 @@ def home_view(request):
                'user_email':user_email,
                'user_first_name':user_first_name,
                'usersobj':all_users_names,
-               'user_pdp':user_pdp
+               'user_pdp':user_pdp,
+                'form':form,
+                'posts':posts,
                }
     
     return render(request, 'HTML/home/home.html', context)
@@ -60,9 +81,29 @@ def group_view(request):
 def login_view(request):
     context = {}  # You can pass context data to the template if needed
     return render(request,'HTML/home/login.html', context)
+
 def profile(request):
-    context = {}  # You can pass context data to the template if needed
+    context = {
+            'user_pdp':request.user.utilisateur.profile_picture
+               }  # You can pass context data to the template if needed
     return render(request,'HTML/userProfile/profile.html', context)
+
+
+def view_profile(request,first_name, last_name):
+    
+    user = User.objects.get(first_name=first_name, last_name=last_name)
+    if user is not None:    
+        u = utilisateur.objects.get(user_id = user.id)
+        if u is not None:
+            context = {'utilisateur_data':u,
+               'first_name':first_name,
+                'last_name':last_name,
+               }  
+            return render(request, 'HTML/userProfile/profile.html', context)
+        
+    return redirect('home')
+        
+   
 
 def welcome_view(request):
     context = {}  # You can pass context data to the template if needed
@@ -83,8 +124,11 @@ def chat_app_view(request):
 def contact_view(request):
     return render(request, 'HTML/userProfile/contactInfo.html')
 
-    
-def post_view(request):
-    return render(request, 'HTML/userProfile/post.html')
 
-    
+def course_view(request):
+    return render( request, 'HTML/classroom/course.html')  
+
+ 
+def post_view(request):
+    context = {}  
+    return render(request,'HTML/userProfile/post.html', context)

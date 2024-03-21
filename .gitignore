@@ -4,3 +4,9 @@
 *.sqlite3
 /backend/__pycache__
 *.pyc
+db.sqlite3
+backend/__pycache__/models.cpython-311.pyc
+backend/__pycache__/views.cpython-311.pyc
+Djangotest/__pycache__/urls.cpython-311.pyc
+Djangotest/__pycache__/views.cpython-311.pyc
+/Djangotest/__pycache__

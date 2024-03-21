@@ -51,6 +51,10 @@
     border-radius: 15px;
 }
 
+.group-name {
+    /* padding : 10px; */
+}
+
 .group-buttons {
     /* padding: 10px; */
     display: flex;
