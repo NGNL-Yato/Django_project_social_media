@@ -482,6 +482,8 @@ header{
     border-radius: 20px;
     padding: 15px 20px;
     padding-bottom: 20px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 .fb-post1-container{
     display: flex;
@@ -541,11 +543,13 @@ header{
 .post-title p a{
     color: #6524c4;
 }
-.post-images{
+.post-images>img{
+    width :50%;
+    height: 50%;
     display: flex;
     justify-content: space-between;
 }
-.post-images1{
+/* .post-images1{
     width: 60%;
     overflow: hidden;
 }
@@ -578,7 +582,7 @@ header{
     height: 335px;
     border-radius: 15px;
     object-fit: cover;
-}
+} */
 .like-comment{
     width: 100%;
     margin-top: 15px;
@@ -627,6 +631,11 @@ header{
     border-radius: 20px;
     padding: 15px;
     margin-bottom: 20px;
+}
+.delete_post {
+    display: flex;
+    position: relative;
+    justify-content: end;
 }
 .event{
     display: flex;
@@ -1004,3 +1013,57 @@ header{
     cursor: pointer;
     font: inherit;
 }
+
+/* Like Button */
+
+.like-button .heart-icon {
+    height: 100px;
+    width: 100px;
+    background: url("/static/Assets/Images/heart.png");
+    background-position: left;
+    cursor: pointer;
+    position: absolute;
+}
+
+.like-button .heart-icon.liked {
+    scale: 0.6;
+    animation: like-anim 0.7s steps(28) forwards;
+}
+
+.like-button .heart-icon {
+    scale: 0.6;
+}
+
+@keyframes like-anim {
+    to {
+        background-position: right;
+    }
+}
+
+.like-button .heart-bg {
+    background: rgba(255, 192, 200, 0);
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 100ms ease;
+}
+
+.like-button .heart-bg:hover {
+    background: rgba(255, 192, 200, 0.7);
+}
+
+.like-button {
+    display: flex;
+    align-items: center;
+}
+
+/* .like-button .likes-amount {
+    font-size: 20px;
+    font-family: "Roboto", sans-serif;
+    color: #888;
+    font-weight: 900;
+    margin-left: 6px;
+} */

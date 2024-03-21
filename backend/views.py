@@ -5,7 +5,7 @@ from django.contrib.auth.models import auth
 from .forms import CreationdUser , UtilisateurForm
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
-
+from .Post import delete_post
 # unfollow_user
 def unfollow_user(request, first_name, last_name):
     #

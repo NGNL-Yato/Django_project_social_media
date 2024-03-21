@@ -11,8 +11,13 @@
 {% for post in posts %}
 <div class="fb-post1">
     <div class="fb-post1-container">
-        
         <div class="fb-p1-main">
+            <div class ="delete_post">
+                <form method="POST" action="{% url 'delete_post' post.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
             <div class="post-title">
                 {% with post.user_id as user_id %}
                 {% get_user post.user_id as user %}
@@ -24,20 +29,24 @@
                 {% endwith %}
                 <p>{{ post.contenue }}</p>
             </div>
-
             <div class="post-images">
-                <img src="/media/{{ post.file }}" alt="post file">
+                <img src="/media/{{ post.file }}" alt="">
             </div>
-
             <div class="like-comment">
                 <ul>
                     <li>
-                        <img src="{% static 'Assets/Images/love.png' %}" alt="love">
+                        <div class="like-button">
+                            <div class="heart-bg">
+                              <div class="heart-icon"></div>
+                            </div>
+                            <div class="likes-amount">7</div>
+                        </div>
+                        {% comment %} <img src="{% static 'Assets/Images/love.png' %}" alt="love">
                         <img src="{% static 'Assets/Images/like.png' %}" alt="like">
-                        <span>{{ post.likes.count }} likes</span>
+                        <span>{{ post.likes.count }} likes</span> {% endcomment %}
                     </li>
                     <li><i class="fa-regular fa-comment-dots"></i> <span>{{ post.comments.count }} comments</span></li>
-                    {% comment %} <li><i class="fa-solid fa-share-from-square"></i> <span>254 share</span></li> {% endcomment %}
+                    <li><i class="fa-solid fa-share-from-square"></i> <span>254 share</span></li>
                 </ul>
             </div>
         </div>
