@@ -4,12 +4,6 @@ from django.contrib.auth.models import User
 
 
 class utilisateur(models.Model):
-    # username = models.CharField(max_length=255)
-    # password = models.CharField(max_length=255)
-    # email = models.EmailField()
-    # first_name = models.CharField(max_length=255, blank=True)
-    # last_name = models.CharField(max_length=255, blank=True)
-    #
     user = models.OneToOneField(User,null=False,on_delete=models.CASCADE)
     role = models.IntegerField(blank=True, null=True)
     phone_number = models.PositiveIntegerField(blank=True, null=True)

@@ -50,6 +50,9 @@ urlpatterns = [
     path('follow/<str:first_name>-<str:last_name>/', backendviews.follow_user, name='follow'),
     #
     path('unfollow/<str:first_name>-<str:last_name>/', backendviews.unfollow_user, name='unfollow'),
+    
+    path('remove_follower/<str:first_name>-<str:last_name>/', backendviews.remove_follower, name='remove_follower'),
+
     #
     path('classroom/home',views.homeClass_view,name='Classroom'),
     #
@@ -60,6 +63,14 @@ urlpatterns = [
     path('chatApp/', views.chat_app_view, name='chat_app'),
     #
     path('settings/',backendviews.profile_settings , name='settings'),
+    #
+    # path('mes-posts/',backendviews.mesposts , name='settings'),
+    #
+    # path('mes-groups/',backendviews.mesgroupes , name='settings'),
+    #
+    path('my-Followers/',backendviews.myfollowers , name='myfollowers'),
+    #
+    path('my-Followings/',backendviews.myfollowings , name='myfollowings'),
     #
     path('test/',backendviews.test,name="test"),
     #
