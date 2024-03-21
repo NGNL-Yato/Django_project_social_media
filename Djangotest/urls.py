@@ -82,7 +82,9 @@ urlpatterns = [
     #
     path('like_post/<int:post_id>/', backendviews.like_post, name='like_post'),
 
-    
+    path('post/',views.post_view, name='post_view'),
+
+
     
 
     

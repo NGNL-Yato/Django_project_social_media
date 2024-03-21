@@ -20,7 +20,6 @@ body {
 
 .profile-container img {
   border: inherit;
-  border-radius: 10px 10px 0px 0px;
 }
 
 a {
@@ -30,7 +29,7 @@ a {
 
 .main-content {
   display: grid;
-  grid-template-columns: 3fr 1fr
+  grid-template-columns: 3fr 1fr;
 }
 
 /* Navbar Start */
@@ -632,6 +631,7 @@ a {
   flex-direction: column;
   align-items: center;
   border-radius: 10px;
+  box-shadow: 0 2px 5px 0 var(--shadow);
 }
 
 .profile-container-inner {
@@ -645,8 +645,6 @@ a {
   width: 150px;
   border-radius: 50%;
   margin-top: -75px;
-  padding: 5px;
-  background: #fff;
 }
 
 .profile-container h1 {
@@ -856,7 +854,6 @@ a {
   padding: 1rem;
 }
 
-
 #showMoreLink {
   display: none;
 }
@@ -899,8 +896,6 @@ a {
     top: unset;
   }
 
-
-
   .main-content {
     flex-basis: 100%;
   }
@@ -924,7 +919,6 @@ a {
 
   .profile-container {
     font-size: 14px;
-
   }
 
   .profile-pic {
@@ -1082,3 +1076,27 @@ a {
 }
 
 /* facebook post 01 end */
+
+#input-file {
+  display: none;
+}
+
+#uploadbtn {
+  position: relative;
+  height: 30px;
+  width: 30px;
+  padding: 6px 6px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #fff;
+  background-color: rgb(173, 172, 172, 0.801);
+  box-shadow: 2px 4px 4px rgb(0, 0, 0, 0.644);
+  transform: translateX(-90%);
+  margin-top: 100px;
+  right: 50px;
+}
+
+#upload-container {
+  position: relative;
+  margin-right: 10px;
+}

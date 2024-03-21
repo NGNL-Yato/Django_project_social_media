@@ -83,7 +83,9 @@ def login_view(request):
     return render(request,'HTML/home/login.html', context)
 
 def profile(request):
-    context = {}  # You can pass context data to the template if needed
+    context = {
+            'user_pdp':request.user.utilisateur.profile_picture
+               }  # You can pass context data to the template if needed
     return render(request,'HTML/userProfile/profile.html', context)
 
 
@@ -127,5 +129,6 @@ def course_view(request):
     return render( request, 'HTML/classroom/course.html')  
 
  
-
-
+def post_view(request):
+    context = {}  
+    return render(request,'HTML/userProfile/post.html', context)
