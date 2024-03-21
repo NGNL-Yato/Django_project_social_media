@@ -17,26 +17,6 @@ class utilisateur(models.Model):
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 
-    # @classmethod
-    # def signup(cls, username, password, email):
-    #     hashed_password = make_password(password)
-    #     return cls.objects.create(
-    #         username=username,
-    #         password=hashed_password,
-    #         email=email
-    #     )
-
-    # @classmethod
-    # def login(cls, username, password):
-    #     try:
-    #         user = cls.objects.get(username=username)
-    #     except cls.DoesNotExist:
-    #         return None
-
-    #     if check_password(password, user.password):
-    #         return user
-    #     else:
-    #         return None
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
         
@@ -126,6 +106,8 @@ class Post(models.Model):
         return True
     def count_likes(self):
         return Like.objects.filter(post=self).count()
+#
+#
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
