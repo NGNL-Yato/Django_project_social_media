@@ -24,6 +24,10 @@ heartIcon.forEach((icon) => {
         icon.classList.toggle("liked");
     });
 });
+function toggleLike(element) {
+    var heartIcon = element.querySelector('.heart-icon');
+    heartIcon.classList.toggle('liked');
+}
 
 darkButton.onclick = function(){
     darkButton.classList.toggle("button-Active");

@@ -46,7 +46,15 @@
                                 <div class="heart-icon"></div>
                                 {% endif %}
                             </div>
-                            <div class="likes-amount">{{ post.count_likes }}</div>                        </div>
+                            <div class="likes-amount">{{ post.count_likes }}</div>                        
+                        </div>
+                        {% else %}
+                        <div class="like-button" onclick="toggleLike(this)">
+                            <div class="heart-bg">
+                                <div class="heart-icon liked"></div>
+                            </div>
+                            <div class="likes-amount">{{ post.count_likes }}</div>
+                        </div>
                         {% endif %}
                         {% comment %} <img src="{% static 'Assets/Images/love.png' %}" alt="love">
                         <img src="{% static 'Assets/Images/like.png' %}" alt="like">
