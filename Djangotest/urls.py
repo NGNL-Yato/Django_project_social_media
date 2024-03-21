@@ -68,7 +68,8 @@ urlpatterns = [
     path('classroom/course',views.course_view,name='Course'),
     #
     path('delete_post/<int:post_id>/', backendviews.delete_post, name='delete_post'),
-
+    #
+    path('like_post/<int:post_id>/', backendviews.like_post, name='like_post'),
 
     
     

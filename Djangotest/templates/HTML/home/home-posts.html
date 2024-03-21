@@ -1,5 +1,6 @@
 {% load static %}
 {% load user_tags %}
+{% load like_helpers %}
 
 <div class="fb-post1-header">
     <ul>
@@ -15,13 +16,13 @@
             <div class ="delete_post">
                 <form method="POST" action="{% url 'delete_post' post.id %}">
                     {% csrf_token %}
-                    <button type="submit">Delete</button>
+                    <button type="submit"><i class="fa-solid fa-trash"></i></button>
                 </form>
             </div>
             <div class="post-title">
                 {% with post.user_id as user_id %}
                 {% get_user post.user_id as user %}
-                <img src="{{ user.profile_picture.url }}" alt="user picture">
+                <img src="/media/{{ user.profile_picture }}" alt="user picture">
                 <ul>
                     <li><h3>{{ user.username }} <span> . {{ post.created_at|timesince }} ago</span></h3></li>
                     <li><span>{{ post.created_at|date:"F j, Y, P" }}</span></li>
@@ -35,12 +36,26 @@
             <div class="like-comment">
                 <ul>
                     <li>
-                        <div class="like-button">
+                        {% if not visiteur %}
+                        <div class="like-button" data-post-id="{{ post.id }}">
                             <div class="heart-bg">
-                              <div class="heart-icon"></div>
+                                {% has_liked user post as liked %}
+                                {% if liked %}
+                                <div class="heart-icon liked"></div>
+                                {% else %}
+                                <div class="heart-icon"></div>
+                                {% endif %}
                             </div>
-                            <div class="likes-amount">7</div>
+                            <div class="likes-amount">{{ post.count_likes }}</div>                        
                         </div>
+                        {% else %}
+                        <div class="like-button" onclick="toggleLike(this)">
+                            <div class="heart-bg">
+                                <div class="heart-icon liked"></div>
+                            </div>
+                            <div class="likes-amount">{{ post.count_likes }}</div>
+                        </div>
+                        {% endif %}
                         {% comment %} <img src="{% static 'Assets/Images/love.png' %}" alt="love">
                         <img src="{% static 'Assets/Images/like.png' %}" alt="like">
                         <span>{{ post.likes.count }} likes</span> {% endcomment %}

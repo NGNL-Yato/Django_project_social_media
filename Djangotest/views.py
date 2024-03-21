@@ -1,5 +1,5 @@
 from django.shortcuts import render , redirect
-from backend.models import User,utilisateur,Post
+from backend.models import User,utilisateur,Post,Like
 from backend.forms import PostForm
 from django.core.mail import send_mail
 from django.conf import settings

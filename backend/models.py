@@ -124,4 +124,14 @@ class Post(models.Model):
     file = models.FileField(upload_to='post_files/', null=True, blank=True)
     #
     created_at = models.DateTimeField(auto_now_add=True)
-
+    def like_post(self, user):
+        like, created = Like.objects.get_or_create(user=user, post=self)
+        if not created:
+            like.delete()
+            return False
+        return True
+    def count_likes(self):
+        return Like.objects.filter(post=self).count()
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
