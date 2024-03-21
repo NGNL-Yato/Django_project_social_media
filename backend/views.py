@@ -7,6 +7,24 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from .Post import delete_post
 from .Like import like_post
+
+def remove_follower(request, first_name, last_name):
+    # to be implemented later
+    # Find the follower user
+    follower_user = models.User.objects.get(first_name=first_name, last_name=last_name)
+    follower_user = follower_user.utilisateur
+    # Find the follow relationship between the current user and the follower
+    follow_relationship = models.follow.objects.filter(followed=request.user.utilisateur, follower=follower_user).first()
+    
+    # Check if the follow relationship exists
+    if follow_relationship:
+        # Delete the follow relationship
+        follow_relationship.delete()
+    
+    # Redirect to the profile page of the follower
+    return redirect('myfollowers')
+
+
 # unfollow_user
 def unfollow_user(request, first_name, last_name):
     #
@@ -31,7 +49,7 @@ def unfollow_user(request, first_name, last_name):
     
     follow_instance.delete()
 
-    return redirect('profile', first_name=first_name, last_name=last_name)
+    return redirect('myfollowings')
 
 # follow 
 def follow_user(request, first_name, last_name):
@@ -137,12 +155,77 @@ def test(request):
     elif request.user.is_authenticated:
         userinstance = models.utilisateur.objects.get(user_id=request.user.id)
         # userinstance = get_object_or_404(models.user, user=request.user)
-        userform = UtilisateurForm(instance=userinstance)
-        context = {'userform': userform}
+        userform = CreationdUser(instance=userinstance.user)
+        utilisateurform = UtilisateurForm(instance=userinstance)
+        context = {
+                   'utilisateurform': utilisateurform,
+                   'userform':userform
+                   }
         return render(request, 'HTML/tmp/test.html', context)
     
     return redirect('home')
 
 
 def profile_settings(request):
-    return render(request, 'HTML/userProfile/settings.html')
+
+    if request.method == 'POST':
+        userinstance = models.utilisateur.objects.get(user_id=request.user.id)
+        # user_form = CreationdUser(request.POST,instance=request.user)
+        form = UtilisateurForm(request.POST,request.FILES, instance=userinstance)
+        # if user_form.is_valid():
+        #     user_form.save()
+        if form.is_valid():
+            form.save()
+            # print(userinstance.role)
+            return redirect('home')
+        
+
+    elif request.user.is_authenticated:
+        userinstance = models.utilisateur.objects.get(user_id=request.user.id)
+        # userinstance = get_object_or_404(models.user, user=request.user)
+        # userform = CreationdUser(instance=userinstance.user)
+        utilisateurform = UtilisateurForm(instance=userinstance)
+        context = {
+                   'utilisateurform': utilisateurform,
+                   'userdata':request.user,
+                   'utilisateurdata':request.user.utilisateur,
+                   'settings_page':True
+                   }
+        return render(request, 'HTML/userProfile/settings.html', context)
+    
+    return redirect('home')
+
+def myfollowers(request):
+    if request.user.is_authenticated:
+            userinstance = models.utilisateur.objects.get(user_id=request.user.id)
+            # userinstance = get_object_or_404(models.user, user=request.user)
+            # userform = CreationdUser(instance=userinstance.user)
+            utilisateurform = UtilisateurForm(instance=userinstance)
+            context = {
+                    'utilisateurform': utilisateurform,
+                    'userdata':request.user,
+                    'utilisateurdata':request.user.utilisateur,
+                    'myfollowers':True,
+                    'all_myfollowers':request.user.utilisateur.followers.all(),
+                    }
+            return render(request, 'HTML/userProfile/settings.html', context)
+        
+    return redirect('home')    
+
+def myfollowings(request):
+
+    if request.user.is_authenticated:
+        userinstance = models.utilisateur.objects.get(user_id=request.user.id)
+        # userinstance = get_object_or_404(models.user, user=request.user)
+        # userform = CreationdUser(instance=userinstance.user)
+        utilisateurform = UtilisateurForm(instance=userinstance)
+        context = {
+                   'utilisateurform': utilisateurform,
+                   'userdata':request.user,
+                   'utilisateurdata':request.user.utilisateur,
+                   'myfollowings':True,
+                   'all_myfollowings':request.user.utilisateur.following.all(),
+                   }
+        return render(request, 'HTML/userProfile/settings.html', context)
+    
+    return redirect('home')

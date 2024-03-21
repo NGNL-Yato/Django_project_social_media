@@ -6,6 +6,10 @@ from .models import utilisateur
 from .models import Post
 
 class CreationdUser(UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields.pop('password2')  # Remove the password2 field
+
     class Meta:
         model = User
         fields = ['username','email','first_name','last_name']
@@ -20,6 +24,7 @@ class CreationdUser(UserCreationForm):
 class UtilisateurForm(ModelForm):
     class Meta:
         model = utilisateur
+        exclude = ['user','role']  # Exclude the 'user' field from the form
         fields = '__all__'
 
 class PostForm(forms.ModelForm):
