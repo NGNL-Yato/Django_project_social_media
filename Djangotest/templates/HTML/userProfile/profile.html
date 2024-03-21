@@ -23,13 +23,74 @@
     />
     <link rel="stylesheet" href="{% static 'CSS/userProfile/userProfile.css' %}"/>
     <link rel="stylesheet" href="{% static 'CSS/style.css' %}"/>
+   
+    <!--=============== BOXICONS ===============-->
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+
+    <!--=============== SWIPER CSS ===============-->
+    <link rel="stylesheet" href="{% static 'CSS/userProfile/swiper-bundle.min.css' %}">
+
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="{% static 'CSS/userProfile/styles.css' %}">
+
+
+    <title> Profile </title>
   </head>
 
   <body>
+    <div id = "profile_card">
+      <div id = "services_card">   <section class="services_section">
+        <div class="services__container container grid">
+          
+          <div class="services__card" >
+            <div class="services__modal">
+              <div class="services__modal-content">
+                <i class="bx bx-x services__modal-close"></i>
+                <div class="contact__container container grid">
+                  <div class="contact__content">
+                      <h3 class="contact__title contact__title-info">Talk to me</h3>
+  
+                      <div class="contact__info">
+                          <div class="contact__card">
+                              <i class='bx bx-mail-send contact__card-icon'></i>
+                              <h3 class="contact__card-title">Email</h3>
+                              <span class="contact__card-data">teamsjdweaof@etu.ac.ma.</span>
+  
+                            
+                          </div>
+  
+                          <div class="contact__card">
+                              <i class='bx bxl-whatsapp contact__card-icon'></i>
+                              <h3 class="contact__card-title">Whatsapp</h3>
+                              <span class="contact__card-data">090979868758</span>
+  
+                            
+                          </div>
+  
+                          <div class="contact__card">
+                              <i class='bx bxl-github contact__card-icon'></i>
+                              <h3 class="contact__card-title">Github</h3>
+                              <span class="contact__card-data">Bouassab Chaimae</span>
+  
+                              
+                          </div>
+  
+                          
+                  </div>
+      
+              </div>
+          
+              </div>
+            </div>
+          </div>
+        </div>
+      </section> </div>
+    </div>
     <header>
       {% include "HTML/home/header-homepage.html"%}
     </header>
     <main class='main-content' >
+      
       <div class="profile-container">
         <!-- profile main -->
         <div class="container">
@@ -41,23 +102,34 @@
                 width="100%"
               />
               <div class="profile-container-inner">
+                <div class="user-img">
+                  <div id="upload-container">
                 <img
                   src="{%static '/Assets/Images/user.jpg' %}"
                   alt="user-1"
-                  class="profile-pic" id="profile-pic"
-                />
-                <label for="input-file"> Edit Picture</label>
+                  class="profile-pic" id="profile-pic"/>
+                <label for="input-file" id="uploadbtn"> <i class="fas fa-camera"></i></label>
+              </div>
                 <input type="file" accept="image/jpeg , image/png ,image/jpg" id="input-file">
+                         </div>
+                         <div>
                 <h1>John Bak</h1>
+                
                 <b
                   >Web Developer at Microsoft | Former developer at DataStack and
-                  Intern at Oracle</b
-                >
+                  Intern at Oracle</b>
+               
                 <p>
-                  San Francisco, United States &middot;
-                  <a href="{% url 'contact' %}">Contact Info</a>
-                </p>
-  
+                  San Francisco, United States &middot;  </p>
+                  <div id ="contact_trigger">
+                    <span class="services__button" id="services_button">
+                      Contact Info <i class="bx bx-right-arrow services__icon"></i>
+                    </span>
+                  </div>
+                  
+                            
+
+              </div>
                 <div class="profile-btn">
                   <a href="#" class="primary-btn">
                     <img
@@ -73,16 +145,14 @@
                     />
                     Message
                   </a>
-                </div>
-                <div class="profile-btn">
                   <a href="#" class="primary-btn">
                     <img
                       src="{%static '/Assets/Images/network.png'%}"
                       alt="connect"
                     />
-                    About
+                    Credentials
                   </a>
-                    <a href="#"  onclick="hideShow()" >
+                  <a href="{% url 'post_view' %}">
                     <img
                       src="{%static '/Assets/Images/sss.webp' %}"
                       alt="connect"
@@ -90,6 +160,7 @@
                     posts
                   </a>
                 </div>
+               
               </div>
               
             </div>
@@ -126,7 +197,6 @@
                 </div>
               </div>
   
-              <!-- Experiene 2 -->
   
               <div class="profile-desc-row">
                 <img src="/static/Assets/Images/google.png" alt="microsoft" />
@@ -174,12 +244,7 @@
                   <hr />
                 </div>
               </div>
-            </div>
-  
-            <!-- Profile description 2 -->
-  
-            <div class="profile-description">
-              <h2>Education</h2>
+
               <div class="profile-desc-row">
                 <img src="/static/Assets/Images/north.png" alt="north" />
                 <div>
@@ -189,12 +254,7 @@
                   <hr />
                 </div>
               </div>
-            </div>
-  
-            <!-- Profile description 3 -->
-  
-            <div class="profile-description">
-              <h2>Education</h2>
+
               <div class="profile-desc-row">
                 <img src="/static/Assets/Images/mit.png" alt="north" />
                 <div>
@@ -203,6 +263,36 @@
                   <b>2005 - 2015</b>
                 </div>
               </div>
+
+            </div>
+  
+        
+  
+            <!-- Profile description 3 -->
+  
+            <div class="profile-description">
+              <h2>Certification</h2>
+
+              <div class="profile-desc-row">
+                <img src="/static/Assets/Images/mit.png" alt="north" />
+                <div>
+                  <h3>JavaScript certificate</h3>
+                  <b>Senior High School</b>
+                  <b>2005 - 2015</b>
+                </div>
+
+             
+              </div>
+
+              <div class="profile-desc-row">
+                <img src="/static/Assets/Images/mit.png" alt="north" />
+                <div>
+                  <h3>machine learning certificate</h3>
+                  <b>Senior High university</b>
+                  <b>2005 - 2015</b>
+                </div>
+              </div>
+              
             </div>
             <div class="profile-description">
               <h2>Skills</h2>
@@ -225,14 +315,8 @@
               <a href="#" class="language-btn">Spanish</a>
             </div>
             <div class="profile-description"  id="main" class="main">
-              <div class="profile-description">
-  
-                {% include "HTML/home/home-extended.html" %}
-                <br>
-                {% include "HTML/home/home-posts.html" %}
-  
-                </div>
-            </div>
+          
+            </div>  
           </div>
         </div>
        <!-- home right start here -->
@@ -270,6 +354,18 @@
     <script src="{% static "Javascript/homepage.js"%}"></script>
     <script src="{% static "Javascript/userProfile/userProfile.js"%}"></script>
 
+
+
+        <!--=============== SWIPER JS ===============-->
+        <script src="{% static "Javascript/userProfile/swiper-bundle.min.js"%}"></script>
+    
+        <!--=============== MIXITUP FILTER ===============-->
+        <script src="{% static "Javascript/userProfile/mixitup.min.js"%}"></script>
+    
+        <!--=============== MAIN JS ===============-->
+        <script src="{% static "Javascript/userProfile/main.js" %}"></script>
+
+        <script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
 
   </body>
 </html>

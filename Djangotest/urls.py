@@ -57,7 +57,9 @@ urlpatterns = [
     #
     path('contact/',views.contact_view,name="contact"),
 
-    
+    path('post/',views.post_view, name='post_view'),
+
+
     
 
     

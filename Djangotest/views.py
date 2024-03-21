@@ -84,3 +84,7 @@ def contact_view(request):
     return render(request, 'HTML/userProfile/contactInfo.html')
 
     
+def post_view(request):
+    return render(request, 'HTML/userProfile/post.html')
+
+    
