@@ -82,14 +82,17 @@ def login_view(request):
     context = {}  # You can pass context data to the template if needed
     return render(request,'HTML/home/login.html', context)
 
+# seeing my profile
 def profile(request):
     context = {
-        'userdata':request.user,
-            'user_pdp':request.user.utilisateur.profile_picture
+            'userdata':request.user,
+            'user_pdp':request.user.utilisateur.profile_picture,
+            'utilisateurdata':request.user.utilisateur,
+            'myprofile':True,
                }  # You can pass context data to the template if needed
     return render(request,'HTML/userProfile/profile.html', context)
 
-
+# seeing others profiles
 def view_profile(request,first_name, last_name):
     
     user = User.objects.get(first_name=first_name, last_name=last_name)
@@ -100,6 +103,8 @@ def view_profile(request,first_name, last_name):
                        'user_pdp': u.profile_picture,
                         'first_name':first_name,
                         'last_name':last_name,
+                        'utilisateurdata':u,
+                        'myprofile':False,
                }  
             return render(request, 'HTML/userProfile/profile.html', context)
         

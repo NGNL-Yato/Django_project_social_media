@@ -39,7 +39,8 @@
 
   <body>
     <div id = "profile_card">
-      <div id = "services_card">   <section class="services_section">
+      <div id = "services_card">   
+        <section class="services_section">
         <div class="services__container container grid">
           
           <div class="services__card" >
@@ -52,27 +53,18 @@
   
                       <div class="contact__info">
                           <div class="contact__card">
-                              <i class='bx bx-mail-send contact__card-icon'></i>
-                              <h3 class="contact__card-title">Email</h3>
-                              <span class="contact__card-data">teamsjdweaof@etu.ac.ma.</span>
-  
-                            
+                              <h3 class="contact__card-title"><i class='bx bx-mail-send contact__card-icon'></i> Email</h3>
+                              <span class="contact__card-data">{{utilisateurdata.public_email}}</span>
                           </div>
   
                           <div class="contact__card">
-                              <i class='bx bxl-whatsapp contact__card-icon'></i>
-                              <h3 class="contact__card-title">Whatsapp</h3>
-                              <span class="contact__card-data">090979868758</span>
-  
-                            
+                              <h3 class="contact__card-title"><i class='bx bxl-whatsapp contact__card-icon'></i> Phone Number</h3>
+                              <span class="contact__card-data">{{utilisateurdata.public_phone_number}}</span>
                           </div>
   
                           <div class="contact__card">
-                              <i class='bx bxl-github contact__card-icon'></i>
-                              <h3 class="contact__card-title">Github</h3>
-                              <span class="contact__card-data">Bouassab Chaimae</span>
-  
-                              
+                              <h3 class="contact__card-title"><i class='bx bxl-github contact__card-icon'></i> Github</h3>
+                              <span class="contact__card-data">{{ userdata.first_name }} {{ userdata.last_name }}</span>
                           </div>
   
                           
@@ -101,62 +93,45 @@
                 alt="cover-pic"
                 width="100%"
               />
-              <div class="profile-container-inner">
+              <div class="profile-container-inner" style="width: 90%;">
                 <div class="user-img">
-                  <div id="upload-container">
-                <img
-                  src="/media/{{user_pdp}}"
-                  alt="user-1"
-                  class="profile-pic" id="profile-pic"/>
-                <label for="input-file" id="uploadbtn"> <i class="fas fa-camera"></i></label>
-              </div>
-                <input type="file" accept="image/jpeg , image/png ,image/jpg" id="input-file">
-                <h1>{{userdata.first_name}} {{userdata.last_name}}</h1>
+            <div id="upload-container">
+              <img src="/media/{{user_pdp}}" alt="user-1" class="profile-pic" id="profile-pic"/>
+              
+              <label for="input-file" id="uploadbtn"> <i class="fas fa-camera"></i></label>
+           </div>
 
-                <b
-                  >Web Developer at Microsoft | Former developer at DataStack and
-                  Intern at Oracle</b>
-               
-                <p>
-                  San Francisco, United States &middot;  </p>
+                 <input type="file" accept="image/jpeg , image/png ,image/jpg" id="input-file">
+
+                 <h1>{{userdata.first_name}} {{userdata.last_name}}</h1>
+              <br>
+                <h3 style="font-weight: 400;">{{utilisateurdata.BIO}}</h3>
+               <br>
+              <!-- </p> my adress <p> -->
                   <div id ="contact_trigger">
                     <span class="services__button" id="services_button">
                       Contact Info <i class="bx bx-right-arrow services__icon"></i>
                     </span>
                   </div>
                   
+            </div>
                             
 
-              </div>
                 <div class="profile-btn">
+                  {% if not myprofile %}
                   <a href="{% url 'follow' first_name=userdata.first_name last_name=userdata.last_name %}" class="primary-btn">
-                    <img
-                      src="{%static 'Assets/Images/connect.png'%}"
-                      alt="connect"
-                    />
-                    Follow
-                  </a>
+                    <img src="{%static 'Assets/Images/connect.png'%}" alt="connect"/>Follow</a>
+
                   <a href="{% url 'chat_app' %}">
-                    <img
-                      src="{%static '/Assets/Images/chat.png'%}"
-                      alt="connect"
-                    />
-                    Message
-                  </a>
-                  {% comment %} <a href="#" class="primary-btn">
-                    <img
-                      src="{%static '/Assets/Images/network.png'%}"
-                      alt="connect"
-                    />
-                    Credentials
-                  </a> {% endcomment %}
+                    <img src="{%static '/Assets/Images/chat.png'%}" alt="connect" /> Message </a>
+                    {% endif %}
+                   <!-- <a href="#" class="primary-btn">
+                    <img src="{%static '/Assets/Images/network.png'%}" alt="connect" /> Credentials </a> 
+                   -->
+                  
                   <a href="{% url 'post_view' %}">
-                    <img
-                      src="{%static '/Assets/Images/sss.webp' %}"
-                      alt="connect"
-                    />
-                    posts
-                  </a>
+                    <img src="{%static '/Assets/Images/sss.webp' %}" alt="connect" /> posts </a>
+
                 </div>
                
               </div>
@@ -168,9 +143,7 @@
             
           
               <p id="paragraphContent" contenteditable="false">
-                  The success of every website depends on search engine optimization
-                  and digital marketing strategy. If you are on the first page of all
-                  major search engines, then you are ahead among your competitors.
+                  {{utilisateurdata.AboutME}}
               </p>
           </div>
             <div class="profile-description">
@@ -233,6 +206,7 @@
   
             <div class="profile-description">
               <h2>Education</h2>
+
               <div class="profile-desc-row">
                 <img src="/static/Assets/Images/stanford.png" alt="stanford" />
                 <div>
@@ -349,19 +323,19 @@
     </main>
 
 
-    <script src="{% static "Javascript/homepage.js"%}"></script>
-    <script src="{% static "Javascript/userProfile/userProfile.js"%}"></script>
+    <script src="{% static 'Javascript/homepage.js'%}"></script>
+    <script src="{% static 'Javascript/userProfile/userProfile.js' %}"></script>
 
 
 
         <!--=============== SWIPER JS ===============-->
-        <script src="{% static "Javascript/userProfile/swiper-bundle.min.js"%}"></script>
+        <script src="{% static 'Javascript/userProfile/swiper-bundle.min.js'%}"></script>
     
         <!--=============== MIXITUP FILTER ===============-->
-        <script src="{% static "Javascript/userProfile/mixitup.min.js"%}"></script>
+        <script src="{% static 'Javascript/userProfile/mixitup.min.js'%}"></script>
     
         <!--=============== MAIN JS ===============-->
-        <script src="{% static "Javascript/userProfile/main.js" %}"></script>
+        <script src="{% static 'Javascript/userProfile/main.js' %}"></script>
 
         <script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
 

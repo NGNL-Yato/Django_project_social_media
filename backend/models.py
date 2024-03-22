@@ -12,6 +12,7 @@ class utilisateur(models.Model):
     profile_picture = models.ImageField(default='profile_pictures/us2.png',upload_to='profile_pictures/', blank=True)
     CV = models.FileField(upload_to='cv_files/', blank=True)
     BIO = models.TextField(blank=True)
+    AboutME = models.TextField(blank=True , null=True)
     public_email = models.EmailField(blank=True)
     public_phone_number = models.PositiveIntegerField(blank=True, null=True)
     created_at = models.DateField(auto_now_add=True)
@@ -80,8 +81,8 @@ class utilisateur(models.Model):
 class Etudiant(models.Model):
     utilisateur = models.OneToOneField(utilisateur, on_delete=models.CASCADE)
     #
-    filiere = models.CharField(max_length=100)
-    date_inscription = models.DateField()
+    filiere = models.CharField(max_length=100,blank=True, null=True)
+    date_inscription = models.DateField(blank=True,null=True)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     
@@ -94,8 +95,8 @@ class Etudiant(models.Model):
 class Professor(models.Model):
     utilisateur = models.OneToOneField(utilisateur, on_delete=models.CASCADE)
     # 
-    poste_administratif = models.DateField() # !!!!
-    date_integration = models.DateField()
+    poste_administratif = models.CharField(max_length=100,blank=True, null=True) # !!!!
+    date_integration = models.DateField(null=True)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 
@@ -106,18 +107,41 @@ class Professor(models.Model):
 class Research(models.Model):
     professors = models.ManyToManyField(Professor, related_name='researches')
     #
-    recherche_referrence = models.CharField(max_length=100) # public id or referrence
-    description = models.TextField()
-    recherche_document = models.FileField(upload_to='research_documents/', blank=True)
+    recherche_referrence = models.CharField(max_length=100,blank=True, null=True) # public id or referrence
+    description = models.TextField(blank=True, null=True)
+    recherche_document = models.FileField(upload_to='research_documents/', blank=True, null=True)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
+
+#    
+#
+class Experience(models.Model):
+    utilisateur = models.ForeignKey(utilisateur, on_delete=models.CASCADE)
+    #
+    titre =  models.CharField(max_length=100)
+    entreprise = models.CharField(max_length=100, default='Self Employed')
+    description = models.TextField(blank=True, null=True)
+    date_debut = models.DateField(auto_now_add=True)
+    date_fin = models.DateField(auto_now_add=True)
+    picture = models.ImageField(default='profile_pictures/jobs.png',upload_to='Experiences_images/', blank=True)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+
+class Certification(models.Model):
+    utilisateur = models.ForeignKey(utilisateur, on_delete=models.CASCADE)
+    #
+    Nom_Certificat =  models.CharField(max_length=100, default='Nom de Certification')
+    date_obtention = models.DateField(auto_now_add=True,null=True)
+    picture = models.ImageField(default='profile_pictures/jobs.png',upload_to='Certificates_images/', blank=True)
+    description = models.TextField(blank=True, null=True)
+
 #
 #   Entreprise
 class Enterprise(models.Model):
     utilisateur = models.OneToOneField(utilisateur, on_delete=models.CASCADE)
     #
-    fax = models.PositiveIntegerField()
-    localisation = models.PositiveIntegerField()
+    localisation = models.CharField(max_length=100,blank=True, null=True)
+    fax = models.PositiveIntegerField(blank=True, null=True)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     
@@ -131,8 +155,8 @@ class Event(models.Model):
     #
     background_image = models.ImageField(upload_to='event_images/', blank=True)
     head_title = models.CharField(max_length=100)
-    event_time = models.DateTimeField()
-    description = models.TextField()
+    event_time = models.DateTimeField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
     file = models.FileField(upload_to='event_files/', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)  
@@ -165,12 +189,14 @@ class Post(models.Model):
     file = models.FileField(upload_to='post_files/', null=True, blank=True)
     #
     created_at = models.DateTimeField(auto_now_add=True)
+
     def like_post(self, user):
         like, created = Like.objects.get_or_create(user=user, post=self)
         if not created:
             like.delete()
             return False
         return True
+    
     def count_likes(self):
         return Like.objects.filter(post=self).count()
 #

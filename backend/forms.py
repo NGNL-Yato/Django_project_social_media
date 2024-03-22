@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django import forms
-from .models import utilisateur
+from .models import utilisateur ,Etudiant,Professor, Enterprise ,Experience, Event
 from .models import Post
 
 class CreationdUser(UserCreationForm):
@@ -26,6 +26,41 @@ class UtilisateurForm(ModelForm):
         model = utilisateur
         exclude = ['user','role']  # Exclude the 'user' field from the form
         fields = '__all__'
+
+class EtudiantForm(ModelForm):
+    class Meta:
+        model = Etudiant
+        exclude = ['utilisateur']
+        fields = '__all__'
+        widgets={
+            'date_inscription':forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
+        }
+
+class ProfesseurForm(ModelForm):
+    class Meta:
+        model = Professor
+        exclude = ['utilisateur']
+        fields = '__all__'
+        widgets={
+            'date_integration':forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
+        }
+        
+class EntrepriseForm(ModelForm):
+    class Meta:
+        model = Enterprise
+        exclude = ['utilisateur']
+        fields = '__all__'
+        
+class ExperienceForm(ModelForm):
+    class Meta:
+        model = Experience
+        fields = '__all__'
+
+class EventForm(ModelForm):
+    class Meta:
+        model = Event
+        fields = '__all__'
+
 
 class PostForm(forms.ModelForm):
     class Meta:

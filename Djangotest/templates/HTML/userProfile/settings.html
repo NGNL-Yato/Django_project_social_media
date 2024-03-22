@@ -164,6 +164,12 @@
                         <!-- <input id="BIO" type="text" name="BIO"> -->
                       </div>
                       <br>
+                      <div class="form-field short">
+                        <label for="aboutME">About Me</label>
+                        {{utilisateurform.AboutME}}
+
+                        <!-- <input id="BIO" type="text" name="BIO"> -->
+                      </div>
                         <hr>
                         <br>
                       <div class="form-field short">
@@ -172,7 +178,12 @@
 
                         <!-- <input id="CV" type="file" name="CV"> -->
                       </div>
-
+                      <br>
+                      {% for e in epeForm %}
+                      {{e.label}}
+                      {{e}}<br><br>
+                      {% endfor %}
+                      <br>
                       <!-- submit button  -->
                       <div class="settings-actions">
                         <div class="button-container">

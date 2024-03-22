@@ -2,7 +2,7 @@ from django.shortcuts import render , redirect
 from backend import models
 from django.contrib.auth import authenticate, login , logout
 from django.contrib.auth.models import auth
-from .forms import CreationdUser , UtilisateurForm
+from .forms import CreationdUser , UtilisateurForm , EntrepriseForm , EtudiantForm , ProfesseurForm
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from .Post import delete_post
@@ -112,6 +112,8 @@ def login_in(request):
     
     return render(request,'HTML/home/login.html', context)
 
+#
+#
 def signup(request):
 
     if request.method == 'POST':
@@ -129,7 +131,9 @@ def signup(request):
                 usr = Sform.save()
                 utilisateuur = models.utilisateur.objects.create( user=usr )
                 utilisateuur.role = 3 ###
-                utilisateuur.save()  
+                utilisateuur.save()
+                # creat instance of the entreprise
+                models.Enterprise.objects.create(utilisateur=utilisateuur)
 
                 # then log him here 
                 Username = request.POST.get('username')
@@ -162,9 +166,12 @@ def signup(request):
                 if emailusedtosignups == 'uae.ac.ma':
                     utilisateuur.role = 1
                     utilisateuur.save()
+                    models.Professor.objects.create( utilisateur=utilisateuur )
+
                 elif emailusedtosignups == 'etu.uae.ac.ma':
                     utilisateuur.role = 2
                     utilisateuur.save()
+                    models.Etudiant.objects.create( utilisateur=utilisateuur )
                         
                 # then log him here 
                 Username = request.POST.get('username')
@@ -224,27 +231,49 @@ def profile_settings(request):
 
     if request.method == 'POST':
         userinstance = models.utilisateur.objects.get(user_id=request.user.id)
-        # user_form = CreationdUser(request.POST,instance=request.user)
         form = UtilisateurForm(request.POST,request.FILES, instance=userinstance)
-        # if user_form.is_valid():
-        #     user_form.save()
+
         if form.is_valid():
             form.save()
-            # print(userinstance.role)
-            return redirect('home')
+
+        if userinstance.role == 1:
+            userinstance = models.Professor.objects.get(utilisateur=userinstance)
+            epeForm = ProfesseurForm(request.POST,request.FILES,instance=userinstance) 
+        elif userinstance.role == 2:
+            userinstance = models.Etudiant.objects.get(utilisateur=userinstance)
+            epeForm = EtudiantForm(request.POST,request.FILES,instance=userinstance) 
+        elif userinstance.role == 3 :
+            userinstance = models.Enterprise.objects.get(utilisateur=userinstance)
+            epeForm = EntrepriseForm(request.POST,request.FILES,instance=userinstance) 
+
+        if epeForm.is_valid():
+            epeForm.save()
+
+        return redirect('home')
         
 
     elif request.user.is_authenticated:
         userinstance = models.utilisateur.objects.get(user_id=request.user.id)
-        # userinstance = get_object_or_404(models.user, user=request.user)
-        # userform = CreationdUser(instance=userinstance.user)
         utilisateurform = UtilisateurForm(instance=userinstance)
+       
+        if userinstance.role == 1:
+            userinstance = models.Professor.objects.get(utilisateur=userinstance)
+            epeForm = ProfesseurForm(instance=userinstance) 
+        elif userinstance.role == 2:
+            userinstance = models.Etudiant.objects.get(utilisateur=userinstance)
+            epeForm = EtudiantForm(instance=userinstance) 
+        elif userinstance.role == 3 :
+            userinstance = models.Enterprise.objects.get(utilisateur=userinstance)
+            epeForm = EntrepriseForm(instance=userinstance) 
+
         context = {
                    'utilisateurform': utilisateurform,
                    'userdata':request.user,
                    'utilisateurdata':request.user.utilisateur,
-                   'settings_page':True
+                   'settings_page':True,
+                   'epeForm':epeForm
                    }
+        
         return render(request, 'HTML/userProfile/settings.html', context)
     
     return redirect('home')
