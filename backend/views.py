@@ -8,8 +8,8 @@ from django.shortcuts import get_object_or_404
 from .Post import delete_post
 from .Like import like_post
 
+# remove follower , i no longer want this person to be following me.
 def remove_follower(request, first_name, last_name):
-    # to be implemented later
     # Find the follower user
     follower_user = models.User.objects.get(first_name=first_name, last_name=last_name)
     follower_user = follower_user.utilisateur
@@ -71,7 +71,7 @@ def follow_user(request, first_name, last_name):
     return redirect('profile', first_name=first_name, last_name=last_name)
     
 
-# Create your views here.
+# login
 def login_in(request):
 
     # dont show login page if already logged
@@ -80,9 +80,16 @@ def login_in(request):
     
     # check for login detail if its a post request
     if request.method == 'POST':
-        Username = request.POST.get('Username')
+        # Username = request.POST.get('Username')
+        email = request.POST.get('email')
         Login_password = request.POST.get('Password')
-        user = authenticate(request,username=Username,password=Login_password)
+
+        try:
+            Usr = models.User.objects.get(email=email) 
+        except models.User.DoesNotExist:
+            return redirect('login')
+
+        user = authenticate(request,username=Usr.username ,password=Login_password)
         # if user details matches details in DB , log him in 
         if user is not None:
             login(request,user)
@@ -108,26 +115,73 @@ def login_in(request):
 def signup(request):
 
     if request.method == 'POST':
-        Sform = CreationdUser(request.POST)
-        if Sform.is_valid():
-            usr = Sform.save()
-            models.utilisateur.objects.create( user=usr )
-            # then log him here 
-            Username = request.POST.get('username')
-            Login_password = request.POST.get('password1')
-            user = authenticate(request,username=Username,password=Login_password)
-            # if user details matches details in DB , log him in 
-            if user is not None:
-                login(request,user)
-                u = models.utilisateur.objects.get(user_id = request.user.id)
-                u.online_status = True
-                u.save()
+        
+        emailusedtosignup = request.POST.get('email')
+
+        emailusedtosignups = emailusedtosignup.split('@')[1]
+
+        Entreprisechoice = request.POST.get('choice-radio')
+
+        if Entreprisechoice == 'Oui':
+            Sform = CreationdUser(request.POST)
+
+            if Sform.is_valid():
+                usr = Sform.save()
+                utilisateuur = models.utilisateur.objects.create( user=usr )
+                utilisateuur.role = 3 ###
+                utilisateuur.save()  
+
+                # then log him here 
+                Username = request.POST.get('username')
+                Login_password = request.POST.get('password1')
+                user = authenticate(request,username=Username,password=Login_password)
+                # if user details matches details in DB , log him in 
+                if user is not None:
+                    login(request,user)
+                    u = models.utilisateur.objects.get(user_id = request.user.id)
+                    u.online_status = True
+                    u.save()
+                    #
+                    return redirect('home')
                 #
-                return redirect('home')
-            #
-        else:
-            request.session['invalid_signup'] = "True"
-            return redirect('login')
+            else:
+                request.session['invalid_signup'] = "True"
+                return redirect('login')
+
+        elif Entreprisechoice == 'Non':
+
+            if emailusedtosignups != 'uae.ac.ma' and emailusedtosignups != 'etu.uae.ac.ma':
+                return redirect('login')
+            
+            Sform = CreationdUser(request.POST)
+
+            if Sform.is_valid():
+                usr = Sform.save()
+                utilisateuur = models.utilisateur.objects.create( user=usr )
+
+                if emailusedtosignups == 'uae.ac.ma':
+                    utilisateuur.role = 1
+                    utilisateuur.save()
+                elif emailusedtosignups == 'etu.uae.ac.ma':
+                    utilisateuur.role = 2
+                    utilisateuur.save()
+                        
+                # then log him here 
+                Username = request.POST.get('username')
+                Login_password = request.POST.get('password1')
+                user = authenticate(request,username=Username,password=Login_password)
+                # if user details matches details in DB , log him in 
+                if user is not None:
+                    login(request,user)
+                    u = models.utilisateur.objects.get(user_id = request.user.id)
+                    u.online_status = True
+                    u.save()
+                    #
+                    return redirect('home')
+                #
+            else:
+                request.session['invalid_signup'] = "True"
+                return redirect('login')
 
     return redirect('login')
 

@@ -17,26 +17,6 @@ class utilisateur(models.Model):
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 
-    # @classmethod
-    # def signup(cls, username, password, email):
-    #     hashed_password = make_password(password)
-    #     return cls.objects.create(
-    #         username=username,
-    #         password=hashed_password,
-    #         email=email
-    #     )
-
-    # @classmethod
-    # def login(cls, username, password):
-    #     try:
-    #         user = cls.objects.get(username=username)
-    #     except cls.DoesNotExist:
-    #         return None
-
-    #     if check_password(password, user.password):
-    #         return user
-    #     else:
-    #         return None
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
         
@@ -93,7 +73,74 @@ class utilisateur(models.Model):
 
     def get_role(self):
         return self.role
+    
+
+#
 # 
+class Etudiant(models.Model):
+    utilisateur = models.OneToOneField(utilisateur, on_delete=models.CASCADE)
+    #
+    filiere = models.CharField(max_length=100)
+    date_inscription = models.DateField()
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    
+    def __str__(self):
+        return 'Etudiant :'+self.utilisateur.user.first_name +' '+self.utilisateur.user.last_name
+
+
+#
+# Prof
+class Professor(models.Model):
+    utilisateur = models.OneToOneField(utilisateur, on_delete=models.CASCADE)
+    # 
+    poste_administratif = models.DateField() # !!!!
+    date_integration = models.DateField()
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return 'Professeur :'+self.utilisateur.user.first_name +' '+self.utilisateur.user.last_name
+#
+#   Recherche des Doctorants (carrer de prof)
+class Research(models.Model):
+    professors = models.ManyToManyField(Professor, related_name='researches')
+    #
+    recherche_referrence = models.CharField(max_length=100) # public id or referrence
+    description = models.TextField()
+    recherche_document = models.FileField(upload_to='research_documents/', blank=True)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+#
+#   Entreprise
+class Enterprise(models.Model):
+    utilisateur = models.OneToOneField(utilisateur, on_delete=models.CASCADE)
+    #
+    fax = models.PositiveIntegerField()
+    localisation = models.PositiveIntegerField()
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    
+    def __str__(self):
+        return 'Entreprise :'+self.utilisateur.user.first_name +' '+self.utilisateur.user.last_name
+
+#
+#
+class Event(models.Model):
+    entreprise = models.ForeignKey(Enterprise, on_delete=models.CASCADE)
+    #
+    background_image = models.ImageField(upload_to='event_images/', blank=True)
+    head_title = models.CharField(max_length=100)
+    event_time = models.DateTimeField()
+    description = models.TextField()
+    file = models.FileField(upload_to='event_files/', blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)  
+
+    def __str__(self):
+        return 'Event:'+self.head_title
+ 
+#    
 # 
 class follow(models.Model):
     follower = models.ForeignKey(utilisateur, related_name='following', on_delete=models.CASCADE)
@@ -126,6 +173,8 @@ class Post(models.Model):
         return True
     def count_likes(self):
         return Like.objects.filter(post=self).count()
+#
+#
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
