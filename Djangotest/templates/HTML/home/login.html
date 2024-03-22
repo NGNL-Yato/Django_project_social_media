@@ -30,15 +30,16 @@
                     {% csrf_token %}
                    
                     <h1>Create Account</h1>
-                   
-                    <div class="social-container">
+                   <br>
+                    <!-- <div class="social-container">
                         <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
                         <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
+                    </div> -->
 
-                    <span>or use your email for registration</span>
-
+                    <span>important d'utiliser votre email institusionel !</span>
+                    <span>pas requise pour les Entreprises</span>
+<br>
                     <!-- {{signUpform.errors}} -->
                     
 
@@ -48,6 +49,19 @@
                     {{signUpform.email}}
                     <input type="password" name="password1" id="id_password1" placeholder="Password">
                     <!-- <input type="password" name="password2" id="id_password2" placeholder="Confirm Password"> -->
+                    <div style="display: flex;justify-content:space-around;width: 100%;">
+                        <p for="choice-radio" style="padding-right: 15px;font-size: 17px;">Entreprise ?</p>
+
+                        <label>
+                          <input type="radio" name="choice-radio" value="Oui">
+                          Oui
+                        </label>
+                        <label>
+                          <input type="radio" name="choice-radio" checked value="Non">
+                          Non
+                        </label>
+                      </div>
+                      
 
                     <button>Sign Up</button>
 
@@ -58,13 +72,14 @@
                 <form action="/login/" method="post">
                     {% csrf_token %}
                     <h1>Sign in</h1>
-                    <div class="social-container">
+                    <!-- <div class="social-container">
                         <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
                         <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                    <span>or use your account</span>
-                    <input type="text" name="Username" placeholder="Username" />
+                    </div> -->
+                    <!-- <span>or use your account</span> -->
+                    <br>
+                    <input type="text" name="email" placeholder="email" />
                     <input type="password" name="Password" placeholder="Password" />
                     <a href="#">Forgot your password?</a>
                     <button type="submit">Sign In</button>
