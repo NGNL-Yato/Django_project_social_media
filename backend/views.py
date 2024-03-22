@@ -283,3 +283,5 @@ def myfollowings(request):
         return render(request, 'HTML/userProfile/settings.html', context)
     
     return redirect('home')
+
+

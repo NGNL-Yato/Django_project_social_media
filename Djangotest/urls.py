@@ -86,6 +86,8 @@ urlpatterns = [
 
 
     
+    
+    path('event/',views.add_event,name='add_event')
 
     
 ]

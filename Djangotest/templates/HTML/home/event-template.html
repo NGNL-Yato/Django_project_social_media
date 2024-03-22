@@ -2,10 +2,12 @@
 
 <div class="event">
     <h3 class="heading">Upcoming Events <span>see all</span></h3>
-    <img src="{%static 'Assets/Images/eve.jpg' %}" alt="event-img">
+    <img src="{%static 'Assets/Images/machineLearning.jpg' %}" alt="event-img">
     <div class="event-date">
         <h3>21 <b>july</b></h3>
-        <h4>United state of America <span>New York City</span></h4>
+        <a href="{% url 'add_event' %}">
+        <h4>Machine Learning in Drug Discovery Certificate  Training
+            <span>in person event</span></h4></a>
     </div>
     {% if not visiteur %}
     <button><i class="fa-regular fa-star"></i> interested</button>

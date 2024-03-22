@@ -111,7 +111,8 @@
                 <label for="input-file" id="uploadbtn"> <i class="fas fa-camera"></i></label>
               </div>
                 <input type="file" accept="image/jpeg , image/png ,image/jpg" id="input-file">
-                <h1></h1>
+                <h1>{{userdata.first_name}} {{userdata.last_name}}</h1>
+
                 <b
                   >Web Developer at Microsoft | Former developer at DataStack and
                   Intern at Oracle</b>
@@ -128,7 +129,7 @@
 
               </div>
                 <div class="profile-btn">
-                  <a href="" class="primary-btn">
+                  <a href="{% url 'follow' first_name=userdata.first_name last_name=userdata.last_name %}" class="primary-btn">
                     <img
                       src="{%static 'Assets/Images/connect.png'%}"
                       alt="connect"
