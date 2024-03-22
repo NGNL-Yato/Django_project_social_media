@@ -103,7 +103,31 @@
 
                  <input type="file" accept="image/jpeg , image/png ,image/jpg" id="input-file">
 
-                 <h1>{{userdata.first_name}} {{userdata.last_name}}</h1>
+                 <div style="display: flex;">
+
+                 <h1>
+                  {{userdata.first_name}} {{userdata.last_name}}
+                </h1>
+
+                  {% if utilisateurdata.role is 1 %}
+                  <div style="display: flex;">
+                    <i class="fa-solid fa-user-tie" style="margin-inline: 10px;"></i>
+                    <h6 style="font-weight: 400;">Professeur</h6>
+                  </div>
+                  {% elif utilisateurdata.role is 2  %}
+                  <div style="display: flex;">
+                    <i class="fa-solid fa-user-graduate" style="margin-inline: 10px;"></i>
+                    <h6 style="font-weight: 400;">Etudiant</h6>
+                  </div>
+                  {% elif utilisateurdata.role is 3  %}
+                  <div style="display: flex;">
+                    <i class="fa-solid fa-hotel" style="margin-inline: 10px;"></i>
+                    <h6 style="font-weight: 400;">Entreprise</h6>
+                  </div>
+                  {% endif %}
+                </div>
+                 
+
               <br>
                 <h3 style="font-weight: 400;">{{utilisateurdata.BIO}}</h3>
                <br>

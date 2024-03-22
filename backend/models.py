@@ -15,6 +15,7 @@ class utilisateur(models.Model):
     AboutME = models.TextField(blank=True , null=True)
     public_email = models.EmailField(blank=True)
     public_phone_number = models.PositiveIntegerField(blank=True, null=True)
+    #
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 
@@ -83,6 +84,7 @@ class Etudiant(models.Model):
     #
     filiere = models.CharField(max_length=100,blank=True, null=True)
     date_inscription = models.DateField(blank=True,null=True)
+    #
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     
@@ -97,6 +99,7 @@ class Professor(models.Model):
     # 
     poste_administratif = models.CharField(max_length=100,blank=True, null=True) # !!!!
     date_integration = models.DateField(null=True)
+    #
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 
@@ -110,6 +113,7 @@ class Research(models.Model):
     recherche_referrence = models.CharField(max_length=100,blank=True, null=True) # public id or referrence
     description = models.TextField(blank=True, null=True)
     recherche_document = models.FileField(upload_to='research_documents/', blank=True, null=True)
+    #
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 
@@ -124,17 +128,55 @@ class Experience(models.Model):
     date_debut = models.DateField(auto_now_add=True)
     date_fin = models.DateField(auto_now_add=True)
     picture = models.ImageField(default='profile_pictures/jobs.png',upload_to='Experiences_images/', blank=True)
+    #
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+#
+#
+class Education(models.Model):
+    utilisateur = models.ForeignKey(utilisateur, on_delete=models.CASCADE)
+    #
+    UniversityName =  models.CharField(max_length=100)
+    FiledOfStudy = models.CharField(max_length=100)
+    description = models.TextField(blank=True, null=True)
+    date_debut = models.DateField()
+    date_fin = models.DateField(null=True,blank=True)
+    #
+    picture = models.ImageField(default='profile_pictures/jobs.png',upload_to='University_images/', blank=True)
+    #
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 
+class Skills(models.Model):
+    utilisateur = models.ForeignKey(utilisateur, on_delete=models.CASCADE)
+    #
+    SkillName =  models.CharField(max_length=100)
+    #
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+
+#
+#
+class Languages(models.Model):
+    utilisateur = models.ForeignKey(utilisateur, on_delete=models.CASCADE)
+    #
+    Language =  models.CharField(max_length=100)
+    #
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+#
+#
 class Certification(models.Model):
     utilisateur = models.ForeignKey(utilisateur, on_delete=models.CASCADE)
     #
     Nom_Certificat =  models.CharField(max_length=100, default='Nom de Certification')
     date_obtention = models.DateField(auto_now_add=True,null=True)
-    picture = models.ImageField(default='profile_pictures/jobs.png',upload_to='Certificates_images/', blank=True)
     description = models.TextField(blank=True, null=True)
-
+    picture = models.ImageField(default='profile_pictures/jobs.png',upload_to='Certificates_images/', blank=True)
+    #
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+   
 #
 #   Entreprise
 class Enterprise(models.Model):
@@ -142,6 +184,7 @@ class Enterprise(models.Model):
     #
     localisation = models.CharField(max_length=100,blank=True, null=True)
     fax = models.PositiveIntegerField(blank=True, null=True)
+    #
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     
@@ -158,6 +201,7 @@ class Event(models.Model):
     event_time = models.DateTimeField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     file = models.FileField(upload_to='event_files/', blank=True)
+    #
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)  
 
