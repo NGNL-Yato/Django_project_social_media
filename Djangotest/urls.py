@@ -45,14 +45,13 @@ urlpatterns = [
     path('myprofile/', views.profile, name='profile'),
     #
     # getter route to see other users profiles
-    path('profile/<str:first_name>-<str:last_name>/', views.view_profile, name='profile'),
+    path('profile/<str:first_name>-<str:last_name>/', views.view_profile, name='hisprofile'),
     #
     path('follow/<str:first_name>-<str:last_name>/', backendviews.follow_user, name='follow'),
     #
     path('unfollow/<str:first_name>-<str:last_name>/', backendviews.unfollow_user, name='unfollow'),
-    
+    #
     path('remove_follower/<str:first_name>-<str:last_name>/', backendviews.remove_follower, name='remove_follower'),
-
     #
     path('classroom/home',views.homeClass_view,name='Classroom'),
     #
@@ -64,15 +63,31 @@ urlpatterns = [
     #
     path('settings/',backendviews.profile_settings , name='settings'),
     #
-    # path('mes-posts/',backendviews.mesposts , name='settings'),
+    # path('mes-posts/',backendviews.mesposts , name='mes-posts'),
     #
-    # path('mes-groups/',backendviews.mesgroupes , name='settings'),
+    path('educations-settings/',backendviews.educationsSettings , name='educations-settings'),
+    #
+    path('deleteEducation/<int:id>',backendviews.deleteEducation,name='deleteEducation'),
+    #
+    # path('mes-groups/',backendviews.mesgroupes , name='mes-groups'),
+    #
+    path('certificates-settings/',backendviews.certificatesSettings , name='certificates-settings'),
+    #
+    path('deleteCertificate/<int:id>',backendviews.deletecertificates , name='delete-certificates-settings'),
+    #
+    path('Experiences-settings/',backendviews.ExperiencesSettings , name='Experiences-settings'),
+    #
+    path('deleteExperiences/<int:id>',backendviews.deleteExperiences,name='deleteExperiences'),
     #
     path('my-Followers/',backendviews.myfollowers , name='myfollowers'),
     #
     path('my-Followings/',backendviews.myfollowings , name='myfollowings'),
     #
     path('test/',backendviews.test,name="test"),
+    #
+    path('removeSkill/<int:id>',backendviews.removeSkill,name="removeSkill"),
+    #
+    path('removeLanguage/<int:id>',backendviews.removeLanguage,name="removeLanguage"),
     #
     path('contact/',views.contact_view,name="contact"),
     #

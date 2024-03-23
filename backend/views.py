@@ -2,11 +2,13 @@ from django.shortcuts import render , redirect
 from backend import models
 from django.contrib.auth import authenticate, login , logout
 from django.contrib.auth.models import auth
-from .forms import CreationdUser , UtilisateurForm , EntrepriseForm , EtudiantForm , ProfesseurForm
+from .forms import CreationdUser , UtilisateurForm , EntrepriseForm , EtudiantForm , ProfesseurForm , SkillForm, languagesForm ,CertificationForm , EducationForm , ExperienceForm
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from .Post import delete_post
 from .Like import like_post
+
+
 
 # remove follower , i no longer want this person to be following me.
 def remove_follower(request, first_name, last_name):
@@ -27,6 +29,8 @@ def remove_follower(request, first_name, last_name):
 
 # unfollow_user
 def unfollow_user(request, first_name, last_name):
+    if not request.user.is_authenticated:
+        return redirect('home')
     #
     user_to_unfollow = models.User.objects.filter(first_name=first_name, last_name=last_name).first()
     
@@ -54,6 +58,9 @@ def unfollow_user(request, first_name, last_name):
 # follow 
 def follow_user(request, first_name, last_name):
 
+    if not request.user.is_authenticated:
+        return redirect('home')
+ 
     user_to_follow = models.User.objects.filter(first_name=first_name, last_name=last_name).first()
 
     if user_to_follow is None:
@@ -226,15 +233,73 @@ def test(request):
     
     return redirect('home')
 
+# deleteEducation
+def deleteEducation(request, id):
+    c = models.Education.objects.filter(id=id).first()
+    if c is not None:
+        c.delete()
+        return redirect('settings')
 
+    return redirect('settings')
+
+# deleteExperiences
+def deleteExperiences(request, id):
+    c = models.Experience.objects.filter(id=id).first()
+    if c is not None:
+        c.delete()
+        return redirect('settings')
+
+    return redirect('settings')
+
+
+
+# deletecertificates
+def deletecertificates(request, id):
+    c = models.Certification.objects.filter(id=id).first()
+    if c is not None:
+        c.delete()
+        return redirect('settings')
+
+    return redirect('settings')
+
+# removeSkill
+def removeSkill(request, id):
+    skill = models.Skills.objects.filter(id=id).first()
+    if skill is not None:
+        skill.delete()
+        return redirect('settings')
+
+    return redirect('settings')
+
+
+# remove languague
+def removeLanguage(request,id):
+    L = models.Languages.objects.filter(id=id).first()
+    if L is not None:
+        L.delete()
+        return redirect('settings')
+    return redirect('settings')
+
+# settings
 def profile_settings(request):
 
     if request.method == 'POST':
         userinstance = models.utilisateur.objects.get(user_id=request.user.id)
         form = UtilisateurForm(request.POST,request.FILES, instance=userinstance)
+        skillform = SkillForm(request.POST)
+        languagesform = languagesForm(request.POST)
 
         if form.is_valid():
             form.save()
+
+        if languagesform.is_valid() and request.POST.get('Language', '').strip() != '' :
+            lang = languagesform.cleaned_data['Language']
+            models.Languages.objects.create(utilisateur=userinstance,Language=lang)
+            
+        if skillform.is_valid() and request.POST.get('SkillName', '').strip() != '' :
+            skill = skillform.cleaned_data['SkillName']  # Accessing cleaned data
+            models.Skills.objects.create(utilisateur=userinstance, SkillName=skill)
+   
 
         if userinstance.role == 1:
             userinstance = models.Professor.objects.get(utilisateur=userinstance)
@@ -249,7 +314,9 @@ def profile_settings(request):
         if epeForm.is_valid():
             epeForm.save()
 
-        return redirect('home')
+   
+
+        return redirect('settings')
         
 
     elif request.user.is_authenticated:
@@ -270,14 +337,94 @@ def profile_settings(request):
                    'utilisateurform': utilisateurform,
                    'userdata':request.user,
                    'utilisateurdata':request.user.utilisateur,
+                   'skillform' : SkillForm(instance=userinstance),
+                   'skills':models.Skills.objects.filter(utilisateur=request.user.utilisateur),
+                   'languageForm':languagesForm(instance=userinstance),
+                   'languages':models.Languages.objects.filter(utilisateur=request.user.utilisateur),
                    'settings_page':True,
-                   'epeForm':epeForm
+                   'epeForm':epeForm,
                    }
         
         return render(request, 'HTML/userProfile/settings.html', context)
     
     return redirect('home')
 
+
+
+# certificates Settings
+def certificatesSettings(request):
+    
+    if request.method == 'POST':
+        # c = models.Certification.objects.create()
+        userinstance = models.utilisateur.objects.get(user_id=request.user.id)
+        c = CertificationForm(request.POST, request.FILES)
+        if c.is_valid():
+            certification_instance = c.save(commit=False)  # Create Certification instance from form data without saving to the database
+            certification_instance.utilisateur = userinstance  # Associate the utilisateur instance with the Certification instance
+            certification_instance.save()   
+                    
+
+    if request.user.is_authenticated:
+        userinstance = models.utilisateur.objects.get(user_id=request.user.id)
+    
+    context = {
+        'Certificationssettings':True,
+        "Certificationsforum":CertificationForm(),
+        'certificates':models.Certification.objects.filter(utilisateur=userinstance)
+    }
+
+    return render(request, 'HTML/userProfile/settings.html', context)
+
+
+# ExperiencesSettings
+def ExperiencesSettings(request):
+
+
+    if request.method == 'POST':
+        # c = models.Certification.objects.create()
+        userinstance = models.utilisateur.objects.get(user_id=request.user.id)
+        c = ExperienceForm(request.POST, request.FILES)
+        if c.is_valid():
+            certification_instance = c.save(commit=False)  # Create Certification instance from form data without saving to the database
+            certification_instance.utilisateur = userinstance  # Associate the utilisateur instance with the Certification instance
+            certification_instance.save()   
+                    
+
+    if request.user.is_authenticated:
+        userinstance = models.utilisateur.objects.get(user_id=request.user.id)
+    
+
+    context = {
+        'ExperiencesSettings':True,
+        "Experiencesform":ExperienceForm(),
+        'allmyExperiences':models.Experience.objects.filter(utilisateur=userinstance)
+    }
+
+    return render(request, 'HTML/userProfile/settings.html', context)
+
+
+
+# educationsSettings
+def educationsSettings(request):
+    if request.method == 'POST':
+        userinstance = models.utilisateur.objects.get(user_id=request.user.id)
+        edu = EducationForm(request.POST, request.FILES)
+        if edu.is_valid():
+            eduins = edu.save(commit=False)  # Create Certification instance from form data without saving to the database
+            eduins.utilisateur = userinstance  # Associate the utilisateur instance with the Certification instance
+            eduins.save()   
+           
+    if request.user.is_authenticated:
+        userinstance = models.utilisateur.objects.get(user_id=request.user.id)
+
+    context ={
+        'educationssetings':True,
+        'educations':models.Education.objects.all(),
+        'Educationform':EducationForm(),
+    }
+    return render(request, 'HTML/userProfile/settings.html', context)
+
+# my followers
 def myfollowers(request):
     if request.user.is_authenticated:
             userinstance = models.utilisateur.objects.get(user_id=request.user.id)

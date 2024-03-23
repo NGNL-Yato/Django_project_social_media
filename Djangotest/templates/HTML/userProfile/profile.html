@@ -43,26 +43,29 @@
         <section class="services_section">
         <div class="services__container container grid">
           
-          <div class="services__card" >
-            <div class="services__modal">
-              <div class="services__modal-content">
+          <div class="services__card" style="width: 100%;" >
+            <div class="services__modal" >
+              <div class="services__modal-content" >
                 <i class="bx bx-x services__modal-close"></i>
-                <div class="contact__container container grid">
-                  <div class="contact__content">
-                      <h3 class="contact__title contact__title-info">Talk to me</h3>
+                <div class="contact__container container grid" style="width: 100%;">
+                  <div class="contact__content" style="width: 100%;">
+                      <h2 class="contact__title contact__title-info">Talk to me</h2>
   
-                      <div class="contact__info">
-                          <div class="contact__card">
+                      <div class="contact__info" style="width: 100%;">
+                        <br>
+                          <div class="contact__card" style="width: 100%;">
                               <h3 class="contact__card-title"><i class='bx bx-mail-send contact__card-icon'></i> Email</h3>
                               <span class="contact__card-data">{{utilisateurdata.public_email}}</span>
                           </div>
+                          <br>
   
-                          <div class="contact__card">
+                          <div class="contact__card" style="width: 100%;">
                               <h3 class="contact__card-title"><i class='bx bxl-whatsapp contact__card-icon'></i> Phone Number</h3>
                               <span class="contact__card-data">{{utilisateurdata.public_phone_number}}</span>
                           </div>
+                          <br>
   
-                          <div class="contact__card">
+                          <div class="contact__card" style="width: 100%;">
                               <h3 class="contact__card-title"><i class='bx bxl-github contact__card-icon'></i> Github</h3>
                               <span class="contact__card-data">{{ userdata.first_name }} {{ userdata.last_name }}</span>
                           </div>
@@ -127,21 +130,22 @@
                   {% endif %}
                 </div>
                  
-
+{% if utilisateurdata.BIO %}
               <br>
                 <h3 style="font-weight: 400;">{{utilisateurdata.BIO}}</h3>
                <br>
+               {% endif %}
               <!-- </p> my adress <p> -->
-                  <div id ="contact_trigger">
+                  <!-- <div id ="contact_trigger">
                     <span class="services__button" id="services_button">
                       Contact Info <i class="bx bx-right-arrow services__icon"></i>
                     </span>
-                  </div>
+                  </div> -->
                   
             </div>
                             
 
-                <div class="profile-btn">
+                <div class="profile-btn" style=" align-content: center;display: flex;">
                   {% if not myprofile %}
                   <a href="{% url 'follow' first_name=userdata.first_name last_name=userdata.last_name %}" class="primary-btn">
                     <img src="{%static 'Assets/Images/connect.png'%}" alt="connect"/>Follow</a>
@@ -149,18 +153,30 @@
                   <a href="{% url 'chat_app' %}">
                     <img src="{%static '/Assets/Images/chat.png'%}" alt="connect" /> Message </a>
                     {% endif %}
-                   <!-- <a href="#" class="primary-btn">
-                    <img src="{%static '/Assets/Images/network.png'%}" alt="connect" /> Credentials </a> 
-                   -->
+
+                    {% if utilisateurdata.CV %}
+                   <a href="/media/{{utilisateurdata.CV}}" class="primary-btn">
+                    <img src="{%static '/Assets/Images/network.png'%}" alt="connect" /> CV Public </a> 
+                    {% endif %}
+                  
                   
                   <a href="{% url 'post_view' %}">
                     <img src="{%static '/Assets/Images/sss.webp' %}" alt="connect" /> posts </a>
 
+                    <a style="cursor: pointer;"><div id ="contact_trigger">
+                      <span class="services__button" id="services_button">
+                        Contact Info <i class="bx bx-right-arrow services__icon"></i>
+                      </span>
+                    </div></a>
+  
                 </div>
                
               </div>
               
             </div>
+
+
+            {% if utilisateurdata.AboutME %}
         
             <div class="profile-description" style="text-align: left;">
               <h2>About</h2>
@@ -169,150 +185,97 @@
               <p id="paragraphContent" contenteditable="false">
                   {{utilisateurdata.AboutME}}
               </p>
-          </div>
+            </div>
+{% endif %}  
+
+          {% if Experiences %}
+
             <div class="profile-description">
               <h2>Experience</h2>
             
-              <!-- Experiene 1 -->
+              <!-- Experiene -->
+
+              {% for exp in Experiences%}
               <div class="profile-desc-row">
-                <img
-                  src="{% static 'Assets/Images/microsoft.png' %}"
-                  alt="microsoft"
-                />
+                <img src="/media/{{exp.picture}}" alt="north" />
                 <div>
-                  <h3>Lead Front-End Developer</h3>
-                  <b>Microsoft &middot; Full-time</b>
-                  <b>Feb 2021 - Present &middot; 1.5 years</b>
-                  <p>
-                    Computer programming is the process of performing a particular
-                    computation, usually by designing and building an executable
-                    computer program.
-                  </p>
+                  <h3>{{exp.titre}}</h3>
+                  <h5>{{exp.entreprise}}</h5>
+                  <b>{{exp.date_debut}} - {{exp.date_fin}}</b>
+                  <p>{{exp.description}}</p>
+
                   <hr />
                 </div>
               </div>
-  
-  
-              <div class="profile-desc-row">
-                <img src="/static/Assets/Images/google.png" alt="microsoft" />
-                <div>
-                  <h3>Web Developer</h3>
-                  <b>Google Inc &middot; Full-time</b>
-                  <b>Set 2015 - May 2018 &middot; 2.6 years</b>
-                  <p>
-                    Computer programming is the process of performing a particular
-                    computation, usually by designing and building an executable
-                    computer program.
-                  </p>
-                  <hr />
-                </div>
-              </div>
-  
-              <!-- Experiene 3 -->
-  
-              <div class="profile-desc-row">
-                <img src="/static/Assets/Images/slack.png" alt="microsoft" />
-                <div>
-                  <h3>Full Stack Developer</h3>
-                  <b>Slack &middot; Full-time</b>
-                  <b>June 2018 - Jan 2021 &middot; 2.6 years</b>
-                  <p>
-                    Computer programming is the process of performing a particular
-                    computation, usually by designing and building an executable
-                    computer program.
-                  </p>
-                </div>
-              </div>
-              <hr />
+          {% endfor %}
             </div>
-  
+{% endif %}  
+
             <!-- Profile description 1 -->
-  
+  {% if Educations %}
             <div class="profile-description">
               <h2>Education</h2>
 
+              {% for edu in Educations %}
+
               <div class="profile-desc-row">
-                <img src="/static/Assets/Images/stanford.png" alt="stanford" />
+                <img src="/media/{{edu.picture}}" alt="north" />
                 <div>
-                  <h3>Stanford University</h3>
-                  <b>BSEE, Electrical Engineering</b>
-                  <b>2018 - 2022</b>
+                  <h3>{{edu.UniversityName}}</h3>
+                  <b>{{edu.FiledOfStudy}}</b>
+                  <b>{{edu.date_debut}} - {{edu.date_fin}}</b>
                   <hr />
                 </div>
               </div>
 
-              <div class="profile-desc-row">
-                <img src="/static/Assets/Images/north.png" alt="north" />
-                <div>
-                  <h3>Northwestern University</h3>
-                  <b>Computer Science</b>
-                  <b>2015 - 2018</b>
-                  <hr />
-                </div>
-              </div>
+{% endfor %}
 
-              <div class="profile-desc-row">
-                <img src="/static/Assets/Images/mit.png" alt="north" />
-                <div>
-                  <h3>MIT University</h3>
-                  <b>Senior High School</b>
-                  <b>2005 - 2015</b>
-                </div>
-              </div>
+</div>
 
-            </div>
-  
+{% endif%}    
         
   
             <!-- Profile description 3 -->
-  
+  {% if certificates %}
             <div class="profile-description">
               <h2>Certification</h2>
-
+{% for c in certificates %}
               <div class="profile-desc-row">
-                <img src="/static/Assets/Images/mit.png" alt="north" />
+                <img src="/media/{{c.picture}}" alt="north" />
                 <div>
-                  <h3>JavaScript certificate</h3>
-                  <b>Senior High School</b>
-                  <b>2005 - 2015</b>
+                  <h3>{{c.Nom_Certificat}}</h3>
+                  <h5>{{c.date_obtention}}</h5>
+                  <b>{{c.description}}</b>
                 </div>
 
              
               </div>
-
-              <div class="profile-desc-row">
-                <img src="/static/Assets/Images/mit.png" alt="north" />
-                <div>
-                  <h3>machine learning certificate</h3>
-                  <b>Senior High university</b>
-                  <b>2005 - 2015</b>
-                </div>
-              </div>
-              
+{% endfor %}
             </div>
+{% endif%}    
+
+
+{% if skills %}
+
             <div class="profile-description">
               <h2>Skills</h2>
-              <a href="#" class="skills-btn">Leadership</a>
-              <a href="#" class="skills-btn">Web Design</a>
-              <a href="#" class="skills-btn">Development</a>
-              <a href="#" class="skills-btn">Communications</a>
-              <a href="#" class="skills-btn">UI/UX</a>
-              <a href="#" class="skills-btn">Planning</a>
-              <a href="#" class="skills-btn">Codding</a>
-              <a href="#" class="skills-btn">JavaScript</a>
-              <a href="#" class="skills-btn">Python</a>
-              <a href="#" class="skills-btn">Enterprenuorship</a>
+              {% for skill in skills %}
+              <a href="#" style="font-size: 15px;" class="skills-btn">{{skill.SkillName}}</a>
+              {% endfor %}
+             
             </div>
-            <div class="profile-description">
+{% endif%}    
+
+{% if languages %}
+
+            <div class="profile-description" >
               <h2>Languages</h2>
-              <a href="#" class="language-btn">English</a>
-              <a href="#" class="language-btn">German</a>
-              <a href="#" class="language-btn">French</a>
-              <a href="#" class="language-btn">Spanish</a>
-            </div>
-            <div class="profile-description"  id="main" class="main">
-          
-            </div>  
+              {% for L in languages %}
+              <a href="#" class="language-btn" style="font-size: 15px;">{{L.Language}}</a>
+              {% endfor %}
+
+            </div>{% endif%}    
+   
           </div>
         </div>
        <!-- home right start here -->
