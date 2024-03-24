@@ -129,6 +129,11 @@ header{
     padding: 0 25px;
     position: relative;
 }
+#circleMenu {
+    position: absolute;  /* Set position: absolute on the dropdown */
+    top: 100%;  /* Position the dropdown just below the parent */
+    left: 0;  /* Align the dropdown to the left edge of the parent */
+}
 .searchBox input{
     padding: 15px 45px 15px 15px;
     border-radius: 50px;
@@ -897,14 +902,21 @@ header{
 .dropdown-menu {
     border: 1px solid #ccc; /* This gives the box a border */
     display: none; /* This hides the dropdown menu by default */
-
-    background-color: #fff; /* This sets the background color of the box */
+    cursor: pointer;
+    background-color: var(--foreground); /* This sets the background color of the box */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* This gives the box a shadow */
     border-radius: 5px; /* This rounds the corners of the box */
     padding: 10px; /* This adds some space around the dropdown menu */
     width: 200px; /* This sets the width of the box */
     position: relative; /* This positions the box absolutely on the page */
     z-index: 1;
+}
+.dropdown-menu>li>i {
+    font-size: 0.9em;
+}
+.dropdown-menu>li>a {
+    font-size: 0.9em;
+    color: var(#d1deec);
 }
 .dropdown.show .dropdown-menu {
     display: block; /* This shows the dropdown menu when the 'show' class is added to the dropdown */

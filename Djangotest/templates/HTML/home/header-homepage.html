@@ -19,9 +19,16 @@
             <i class="fa-solid fa-user-group"></i>
         </div>
         <div class="iconBox2">
-            <i class="fa-solid fa-circle-plus"></i>
+            <i class="fa-solid fa-circle-plus" id="circleButton"></i>
             <i class="fa-solid fa-bell"></i>
-        </div>        
+
+            <div class="dropdown" id="circleMenu">
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li class = "group_buttons"><i class="fa-solid fa-users-line"> Create Group </i></li>
+                    <li class = "event_buttons"><i class="fa-regular fa-calendar-days"> Create Event</i></li>
+                </ul>
+            </div>
+        </div>      
         {% endif %}
         <div class="iconBox3-container">
             {% if not visiteur %}
@@ -40,14 +47,11 @@
     {% if not visiteur %}
     <div class="dropdown" id="profileMenu">
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li><a class="dropdown-item" href="/classroom/home">Classroom</a></li>
-            <li><a class="dropdown-item" href="/mes-groups">Mes Groups</a></li>
+            <li><a class="dropdown-item" href="/classroom/home"><i class="fa-solid fa-book-open"> Classroom</i></a></li>
+            <li><a class="dropdown-item" href="/mes-groups"><i class="fa-solid fa-users-rectangle"> My Groups</i></a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="/settings">Settings</a></li>
-            <li>
-                <a type="submit" class="dropdown-item" href="/logout/" >Logout</a>
-                <i class="fa-solid fa-arrow-right-from-bracket"></i>
-            </li>
+            <li><a class="dropdown-item" href="/settings"><i class="fa-solid fa-gear"> Settings</i></a></li>
+            <li><a type="submit" class="dropdown-item" href="/logout/"><i class="fa-solid fa-arrow-right-from-bracket"> Logout</i></a></li>
         </ul>
     </div>
     {% endif %}

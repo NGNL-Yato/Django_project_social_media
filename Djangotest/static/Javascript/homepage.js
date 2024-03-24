@@ -73,17 +73,27 @@ darkButton.onclick = function(){
 
 console.log("Homepage.js loaded")
 
-document.getElementById('iconBox3Button').addEventListener('click', function() {
+document.getElementById('iconBox3Button').addEventListener('click', function(event) {
+    event.stopPropagation(); // Prevent this click from triggering the document's onclick
     var profileMenu = document.getElementById('profileMenu');
     var iconBox3Button = document.getElementById('iconBox3Button');
     var rect = iconBox3Button.getBoundingClientRect();
-    profileMenu.style.top = (iconBox3Button.offsetTop + rect.height) + 'px'; // Adjusted this line
-    profileMenu.style.left = iconBox3Button.offsetLeft + 'px'; // Adjusted this line
+    profileMenu.style.top = (iconBox3Button.offsetTop + rect.height) + 'px';
+    profileMenu.style.left = iconBox3Button.offsetLeft + 'px';
     profileMenu.classList.toggle('show');
 });
 
+// Add an onclick event to the document that will close the dropdown
+document.body.onclick = function(event) {
+    var profileMenu = document.getElementById('profileMenu');
+    var iconBox3Button = document.getElementById('iconBox3Button');
+    if (event.target != iconBox3Button && !iconBox3Button.contains(event.target) && !profileMenu.contains(event.target)) {
+        profileMenu.classList.remove('show');
+    }
+}
+
 var modal = document.getElementById("myModal");
-var buttons = document.getElementsByClassName("fa-circle-plus");
+var buttons = document.getElementsByClassName("group_buttons");
 var span = document.getElementsByClassName("close")[0];
 
 Array.from(buttons).forEach((btn) => {
@@ -91,7 +101,20 @@ Array.from(buttons).forEach((btn) => {
         modal.style.display = "block";
     }
 });
+var circleButton = document.getElementById('circleButton');
+var circleMenu = document.getElementById('circleMenu');
 
+circleButton.onclick = function() {
+    var rect = circleButton.getBoundingClientRect();
+    circleMenu.style.top = (circleButton.offsetTop + rect.height) + 'px';
+    circleMenu.style.left = circleButton.offsetLeft + 'px';
+    circleMenu.classList.toggle('show');
+}
+document.onclick = function(event) {
+    if (event.target != circleButton && event.target != circleMenu) {
+        circleMenu.classList.remove('show');
+    }
+}
 span.onclick = function() {
     modal.style.display = "none";
 }
