@@ -43,26 +43,29 @@
         <section class="services_section">
         <div class="services__container container grid">
           
-          <div class="services__card" >
-            <div class="services__modal">
-              <div class="services__modal-content">
+          <div class="services__card" style="width: 100%;" >
+            <div class="services__modal" >
+              <div class="services__modal-content" >
                 <i class="bx bx-x services__modal-close"></i>
-                <div class="contact__container container grid">
-                  <div class="contact__content">
-                      <h3 class="contact__title contact__title-info">Talk to me</h3>
+                <div class="contact__container container grid" style="width: 100%;">
+                  <div class="contact__content" style="width: 100%;">
+                      <h2 class="contact__title contact__title-info">Talk to me</h2>
   
-                      <div class="contact__info">
-                          <div class="contact__card">
+                      <div class="contact__info" style="width: 100%;">
+                        <br>
+                          <div class="contact__card" style="width: 100%;">
                               <h3 class="contact__card-title"><i class='bx bx-mail-send contact__card-icon'></i> Email</h3>
                               <span class="contact__card-data">{{utilisateurdata.public_email}}</span>
                           </div>
+                          <br>
   
-                          <div class="contact__card">
+                          <div class="contact__card" style="width: 100%;">
                               <h3 class="contact__card-title"><i class='bx bxl-whatsapp contact__card-icon'></i> Phone Number</h3>
                               <span class="contact__card-data">{{utilisateurdata.public_phone_number}}</span>
                           </div>
+                          <br>
   
-                          <div class="contact__card">
+                          <div class="contact__card" style="width: 100%;">
                               <h3 class="contact__card-title"><i class='bx bxl-github contact__card-icon'></i> Github</h3>
                               <span class="contact__card-data">{{ userdata.first_name }} {{ userdata.last_name }}</span>
                           </div>
@@ -127,21 +130,22 @@
                   {% endif %}
                 </div>
                  
-
+{% if utilisateurdata.BIO %}
               <br>
                 <h3 style="font-weight: 400;">{{utilisateurdata.BIO}}</h3>
                <br>
+               {% endif %}
               <!-- </p> my adress <p> -->
-                  <div id ="contact_trigger">
+                  <!-- <div id ="contact_trigger">
                     <span class="services__button" id="services_button">
                       Contact Info <i class="bx bx-right-arrow services__icon"></i>
                     </span>
-                  </div>
+                  </div> -->
                   
             </div>
                             
 
-                <div class="profile-btn">
+                <div class="profile-btn" style=" align-content: center;display: flex;">
                   {% if not myprofile %}
                   <a href="{% url 'follow' first_name=userdata.first_name last_name=userdata.last_name %}" class="primary-btn">
                     <img src="{%static 'Assets/Images/connect.png'%}" alt="connect"/>Follow</a>
@@ -149,18 +153,30 @@
                   <a href="{% url 'chat_app' %}">
                     <img src="{%static '/Assets/Images/chat.png'%}" alt="connect" /> Message </a>
                     {% endif %}
-                   <!-- <a href="#" class="primary-btn">
-                    <img src="{%static '/Assets/Images/network.png'%}" alt="connect" /> Credentials </a> 
-                   -->
+
+                    {% if utilisateurdata.CV %}
+                   <a href="/media/{{utilisateurdata.CV}}" class="primary-btn">
+                    <img src="{%static '/Assets/Images/network.png'%}" alt="connect" /> CV Public </a> 
+                    {% endif %}
+                  
                   
                   <a href="{% url 'post_view' %}">
                     <img src="{%static '/Assets/Images/sss.webp' %}" alt="connect" /> posts </a>
 
+                    <a style="cursor: pointer;"><div id ="contact_trigger">
+                      <span class="services__button" id="services_button">
+                        Contact Info <i class="bx bx-right-arrow services__icon"></i>
+                      </span>
+                    </div></a>
+  
                 </div>
                
               </div>
               
             </div>
+
+
+            {% if utilisateurdata.AboutME %}
         
             <div class="profile-description" style="text-align: left;">
               <h2>About</h2>
@@ -169,150 +185,133 @@
               <p id="paragraphContent" contenteditable="false">
                   {{utilisateurdata.AboutME}}
               </p>
-          </div>
+            </div>
+{% endif %}  
+
+<!-- 
+
+
+ -->
+{% if Reaserches %}
+<div class="profile-description">
+  <h2>Reaserches</h2>
+
+  {% for exp in Reaserches%}
+  <div class="profile-desc-row" style="display: flex;align-items: start;">
+    <!-- <img src="/media/profile_pictures/jobs.png" alt="north" /> -->
+    <div style="width: 70px;margin-inline: 15px;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 32v448h448V32H0zm262.2 334.4c-6.6 3-33.2 6-50-14.2-9.2-10.6-25.3-33.3-42.2-63.6-8.9 0-14.7 0-21.4-.6v46.4c0 23.5 6 21.2 25.8 23.9v8.1c-6.9-.3-23.1-.8-35.6-.8-13.1 0-26.1 .6-33.6 .8v-8.1c15.5-2.9 22-1.3 22-23.9V225c0-22.6-6.4-21-22-23.9V193c25.8 1 53.1-.6 70.9-.6 31.7 0 55.9 14.4 55.9 45.6 0 21.1-16.7 42.2-39.2 47.5 13.6 24.2 30 45.6 42.2 58.9 7.2 7.8 17.2 14.7 27.2 14.7v7.3zm22.9-135c-23.3 0-32.2-15.7-32.2-32.2V167c0-12.2 8.8-30.4 34-30.4s30.4 17.9 30.4 17.9l-10.7 7.2s-5.5-12.5-19.7-12.5c-7.9 0-19.7 7.3-19.7 19.7v26.8c0 13.4 6.6 23.3 17.9 23.3 14.1 0 21.5-10.9 21.5-26.8h-17.9v-10.7h30.4c0 20.5 4.7 49.9-34 49.9zm-116.5 44.7c-9.4 0-13.6-.3-20-.8v-69.7c6.4-.6 15-.6 22.5-.6 23.3 0 37.2 12.2 37.2 34.5 0 21.9-15 36.6-39.7 36.6z"/></svg>
+    </div>
+    <div>
+
+      <h3>{{exp.recherche_referrence}}</h3>
+
+      {% if exp.recherche_document %}
+      <a style="font-weight: 200;" href="/media/{{exp.recherche_document}}">Open Recherche Document <i class="fa-regular fa-file"></i></a>
+      {% endif %} 
+
+      <p>{{exp.description}}</p>
+
+      <hr />
+    </div>
+  </div>
+{% endfor %}
+</div>
+
+{% endif %}  
+
+<!-- 
+
+
+ -->
+          {% if Experiences %}
+
             <div class="profile-description">
               <h2>Experience</h2>
             
-              <!-- Experiene 1 -->
+              <!-- Experiene -->
+
+              {% for exp in Experiences%}
               <div class="profile-desc-row">
-                <img
-                  src="{% static 'Assets/Images/microsoft.png' %}"
-                  alt="microsoft"
-                />
+                <img src="/media/{{exp.picture}}" alt="north" />
                 <div>
-                  <h3>Lead Front-End Developer</h3>
-                  <b>Microsoft &middot; Full-time</b>
-                  <b>Feb 2021 - Present &middot; 1.5 years</b>
-                  <p>
-                    Computer programming is the process of performing a particular
-                    computation, usually by designing and building an executable
-                    computer program.
-                  </p>
+                  <h3>{{exp.titre}}</h3>
+                  <h5>{{exp.entreprise}}</h5>
+                  <b>{{exp.date_debut}} - {{exp.date_fin}}</b>
+                  <p>{{exp.description}}</p>
+
                   <hr />
                 </div>
               </div>
-  
-  
-              <div class="profile-desc-row">
-                <img src="/static/Assets/Images/google.png" alt="microsoft" />
-                <div>
-                  <h3>Web Developer</h3>
-                  <b>Google Inc &middot; Full-time</b>
-                  <b>Set 2015 - May 2018 &middot; 2.6 years</b>
-                  <p>
-                    Computer programming is the process of performing a particular
-                    computation, usually by designing and building an executable
-                    computer program.
-                  </p>
-                  <hr />
-                </div>
-              </div>
-  
-              <!-- Experiene 3 -->
-  
-              <div class="profile-desc-row">
-                <img src="/static/Assets/Images/slack.png" alt="microsoft" />
-                <div>
-                  <h3>Full Stack Developer</h3>
-                  <b>Slack &middot; Full-time</b>
-                  <b>June 2018 - Jan 2021 &middot; 2.6 years</b>
-                  <p>
-                    Computer programming is the process of performing a particular
-                    computation, usually by designing and building an executable
-                    computer program.
-                  </p>
-                </div>
-              </div>
-              <hr />
+          {% endfor %}
             </div>
-  
+{% endif %}  
+
             <!-- Profile description 1 -->
-  
+  {% if Educations %}
             <div class="profile-description">
               <h2>Education</h2>
 
+              {% for edu in Educations %}
+
               <div class="profile-desc-row">
-                <img src="/static/Assets/Images/stanford.png" alt="stanford" />
+                <img src="/media/{{edu.picture}}" alt="north" />
                 <div>
-                  <h3>Stanford University</h3>
-                  <b>BSEE, Electrical Engineering</b>
-                  <b>2018 - 2022</b>
+                  <h3>{{edu.UniversityName}}</h3>
+                  <b>{{edu.FiledOfStudy}}</b>
+                  <b>{{edu.date_debut}} - {{edu.date_fin}}</b>
                   <hr />
                 </div>
               </div>
 
-              <div class="profile-desc-row">
-                <img src="/static/Assets/Images/north.png" alt="north" />
-                <div>
-                  <h3>Northwestern University</h3>
-                  <b>Computer Science</b>
-                  <b>2015 - 2018</b>
-                  <hr />
-                </div>
-              </div>
+{% endfor %}
 
-              <div class="profile-desc-row">
-                <img src="/static/Assets/Images/mit.png" alt="north" />
-                <div>
-                  <h3>MIT University</h3>
-                  <b>Senior High School</b>
-                  <b>2005 - 2015</b>
-                </div>
-              </div>
+</div>
 
-            </div>
-  
+{% endif%}    
         
   
             <!-- Profile description 3 -->
-  
+  {% if certificates %}
             <div class="profile-description">
               <h2>Certification</h2>
-
+{% for c in certificates %}
               <div class="profile-desc-row">
-                <img src="/static/Assets/Images/mit.png" alt="north" />
+                <img src="/media/{{c.picture}}" alt="north" />
                 <div>
-                  <h3>JavaScript certificate</h3>
-                  <b>Senior High School</b>
-                  <b>2005 - 2015</b>
+                  <h3>{{c.Nom_Certificat}}</h3>
+                  <h5>{{c.date_obtention}}</h5>
+                  <b>{{c.description}}</b>
                 </div>
 
              
               </div>
-
-              <div class="profile-desc-row">
-                <img src="/static/Assets/Images/mit.png" alt="north" />
-                <div>
-                  <h3>machine learning certificate</h3>
-                  <b>Senior High university</b>
-                  <b>2005 - 2015</b>
-                </div>
-              </div>
-              
+{% endfor %}
             </div>
+{% endif%}    
+
+
+{% if skills %}
+
             <div class="profile-description">
               <h2>Skills</h2>
-              <a href="#" class="skills-btn">Leadership</a>
-              <a href="#" class="skills-btn">Web Design</a>
-              <a href="#" class="skills-btn">Development</a>
-              <a href="#" class="skills-btn">Communications</a>
-              <a href="#" class="skills-btn">UI/UX</a>
-              <a href="#" class="skills-btn">Planning</a>
-              <a href="#" class="skills-btn">Codding</a>
-              <a href="#" class="skills-btn">JavaScript</a>
-              <a href="#" class="skills-btn">Python</a>
-              <a href="#" class="skills-btn">Enterprenuorship</a>
+              {% for skill in skills %}
+              <a href="#" style="font-size: 15px;" class="skills-btn">{{skill.SkillName}}</a>
+              {% endfor %}
+             
             </div>
-            <div class="profile-description">
+{% endif%}    
+
+{% if languages %}
+
+            <div class="profile-description" >
               <h2>Languages</h2>
-              <a href="#" class="language-btn">English</a>
-              <a href="#" class="language-btn">German</a>
-              <a href="#" class="language-btn">French</a>
-              <a href="#" class="language-btn">Spanish</a>
-            </div>
-            <div class="profile-description"  id="main" class="main">
-          
-            </div>  
+              {% for L in languages %}
+              <a href="#" class="language-btn" style="font-size: 15px;">{{L.Language}}</a>
+              {% endfor %}
+
+            </div>{% endif%}    
+   
           </div>
         </div>
        <!-- home right start here -->
@@ -351,13 +350,6 @@
     <script src="{% static 'Javascript/userProfile/userProfile.js' %}"></script>
 
 
-
-        <!--=============== SWIPER JS ===============-->
-        <script src="{% static 'Javascript/userProfile/swiper-bundle.min.js'%}"></script>
-    
-        <!--=============== MIXITUP FILTER ===============-->
-        <script src="{% static 'Javascript/userProfile/mixitup.min.js'%}"></script>
-    
         <!--=============== MAIN JS ===============-->
         <script src="{% static 'Javascript/userProfile/main.js' %}"></script>
 

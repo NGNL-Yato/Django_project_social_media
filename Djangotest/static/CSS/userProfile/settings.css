@@ -26,13 +26,13 @@
    margin: 0px;
  }
  a {
-   color: #f44236;
+   color: #8652a0;
    text-decoration: none;
  }
  a:hover,
  a:focus,
  a:active {
-   color: #f44236 !important;
+   color: #8652a0 !important;
  }
  button {
    font-size: 0.8em;
@@ -77,7 +77,7 @@
    margin: 0px 8px;
  }
  .header-nav .nav-icon:hover {
-   color: #f44236;
+   color: #8652a0;
  }
  .body-root {
    min-height: 85.3vh;

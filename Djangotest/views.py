@@ -3,6 +3,7 @@ from backend.models import User,utilisateur,Post,Like, Group
 from backend.forms import PostForm, GroupForm
 from django.core.mail import send_mail
 from django.conf import settings
+from backend import models
 
 
 def home_view(request):
@@ -99,6 +100,12 @@ def profile(request):
             'userdata':request.user,
             'user_pdp':request.user.utilisateur.profile_picture,
             'utilisateurdata':request.user.utilisateur,
+            'skills':models.Skills.objects.filter(utilisateur=request.user.utilisateur),
+            'languages':models.Languages.objects.filter(utilisateur=request.user.utilisateur),
+            'certificates':models.Certification.objects.filter(utilisateur=request.user.utilisateur),
+            'Educations':models.Education.objects.filter(utilisateur=request.user.utilisateur),
+            'Experiences':models.Experience.objects.filter(utilisateur=request.user.utilisateur),
+            'Reaserches':models.Research.objects.filter(utilisateur=request.user.utilisateur),
             'myprofile':True,
                }  # You can pass context data to the template if needed
     return render(request,'HTML/userProfile/profile.html', context)
@@ -115,6 +122,12 @@ def view_profile(request,first_name, last_name):
                         'first_name':first_name,
                         'last_name':last_name,
                         'utilisateurdata':u,
+            'skills':models.Skills.objects.filter(utilisateur=u),
+            'languages':models.Languages.objects.filter(utilisateur=u),
+            'certificates':models.Certification.objects.filter(utilisateur=u),
+            'Educations':models.Education.objects.filter(utilisateur=u),
+            'Experiences':models.Experience.objects.filter(utilisateur=u),
+            'Reaserches':models.Research.objects.filter(utilisateur=u),
                         'myprofile':False,
                }  
             return render(request, 'HTML/userProfile/profile.html', context)

@@ -109,7 +109,7 @@ class Professor(models.Model):
 #
 #   Recherche des Doctorants (carrer de prof)
 class Research(models.Model):
-    professors = models.ManyToManyField(Professor, related_name='researches')
+    utilisateur = models.ForeignKey(utilisateur, on_delete=models.CASCADE) # this is a referrance for who posted the research 
     #
     recherche_referrence = models.CharField(max_length=100,blank=True, null=True) # public id or referrence
     description = models.TextField(blank=True, null=True)
@@ -117,6 +117,11 @@ class Research(models.Model):
     #
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
+
+# thos will be all professors that has a relation with the researches posted
+class research_profs(models.Model):
+    professor = models.ForeignKey(Professor, related_name='Professor', on_delete=models.CASCADE)
+    research = models.ForeignKey(Research, related_name='Research', on_delete=models.CASCADE)
 
 #    
 #
@@ -126,8 +131,8 @@ class Experience(models.Model):
     titre =  models.CharField(max_length=100)
     entreprise = models.CharField(max_length=100, default='Self Employed')
     description = models.TextField(blank=True, null=True)
-    date_debut = models.DateField(auto_now_add=True)
-    date_fin = models.DateField(auto_now_add=True)
+    date_debut = models.DateField()
+    date_fin = models.DateField()
     picture = models.ImageField(default='profile_pictures/jobs.png',upload_to='Experiences_images/', blank=True)
     #
     created_at = models.DateField(auto_now_add=True)
@@ -139,10 +144,8 @@ class Education(models.Model):
     #
     UniversityName =  models.CharField(max_length=100)
     FiledOfStudy = models.CharField(max_length=100)
-    description = models.TextField(blank=True, null=True)
     date_debut = models.DateField()
     date_fin = models.DateField(null=True,blank=True)
-    #
     picture = models.ImageField(default='profile_pictures/jobs.png',upload_to='University_images/', blank=True)
     #
     created_at = models.DateField(auto_now_add=True)
@@ -151,17 +154,19 @@ class Education(models.Model):
 class Skills(models.Model):
     utilisateur = models.ForeignKey(utilisateur, on_delete=models.CASCADE)
     #
-    SkillName =  models.CharField(max_length=100)
+    SkillName =  models.CharField(max_length=100,blank=True)
     #
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 
+    def __str__(self):
+        return self.utilisateur.user.first_name+' '+self.utilisateur.user.last_name+'knows : '+ self.SkillName
 #
 #
 class Languages(models.Model):
     utilisateur = models.ForeignKey(utilisateur, on_delete=models.CASCADE)
     #
-    Language =  models.CharField(max_length=100)
+    Language =  models.CharField(max_length=100,blank=True)
     #
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
@@ -170,9 +175,9 @@ class Languages(models.Model):
 class Certification(models.Model):
     utilisateur = models.ForeignKey(utilisateur, on_delete=models.CASCADE)
     #
-    Nom_Certificat =  models.CharField(max_length=100, default='Nom de Certification')
-    date_obtention = models.DateField(auto_now_add=True,null=True)
-    description = models.TextField(blank=True, null=True)
+    Nom_Certificat =  models.CharField(max_length=100)
+    date_obtention = models.DateField()
+    description = models.TextField()
     picture = models.ImageField(default='profile_pictures/jobs.png',upload_to='Certificates_images/', blank=True)
     #
     created_at = models.DateField(auto_now_add=True)
@@ -199,7 +204,7 @@ class Event(models.Model):
     #
     background_image = models.ImageField(upload_to='event_images/', blank=True)
     head_title = models.CharField(max_length=100)
-    event_time = models.DateTimeField(blank=True, null=True)
+    event_time = models.DateTimeField()
     description = models.TextField(blank=True, null=True)
     file = models.FileField(upload_to='event_files/', blank=True)
     #
