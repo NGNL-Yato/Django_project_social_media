@@ -44,6 +44,8 @@
                   <br>
                   <a style="font-size: 15px;" href="/settings" class="menu-item">Profile Settings</a>
                   <br>
+                  <a style="font-size: 15px;" href="/mes-recherches" class="menu-item">Recherches Settings</a>
+                  <br>
                   <a style="font-size: 15px;" href="/Experiences-settings" class="menu-item">Experiences Settings</a>
                   <br>
                   <a style="font-size: 15px;" href="/educations-settings" class="menu-item">Educations Settings</a>
@@ -65,8 +67,61 @@
                 </div>
               </div>
             </div>
+<!-- 
 
-            {% if myfollowers %}
+ -->
+
+ {% if ResearchesSetttings %}
+ <div class="main" >
+             <div class="main-content">
+               <div class="main-container account-settings">
+                 <div class="settings-form account">
+
+                   <h2>My Researches</h2>
+                   <hr>
+                   <!--  -->
+                   {% for Researche in Researches %}
+
+                   <div style="width: 90%;margin: 20px;">
+                     <div style="display: flex;align-items:baseline;justify-content: start;">
+                         <!-- <img src="/media/" style="justify-self: end;height: 35px;width: 35px;" alt="" srcset=""> -->
+                       <div>
+                         <h2 style="margin: 5px;font-size: 21px;font-weight:400;">{{Researche.recherche_referrence}}</h2>
+                         <p style="margin: 5px;font-size: 21px;font-weight:400;">{{Researche.description}}</p>
+                        </div>
+                        
+                        <a style=" color: red;" href="/deleterecherches/{{Researche.id}}">Delete</a>
+                       
+                       </div>
+                     </div>
+<!--  -->                     {% endfor %}
+
+
+                     <br><br>
+                     <h3>Ajouter Nouvel Researche</h3>
+                     <form class="account-settings-form" action="/mes-recherches/" method="post" enctype="multipart/form-data" >
+                     {% csrf_token %}
+                     {{Researchesform}}
+
+                       <!-- submit button  -->
+                       <div class="settings-actions">
+                         <div class="button-container">
+                           <button class="save-settings" style="background-color:#8652a0;color: white;" type="submit">Save Certification</button>
+                         </div>
+                       </div>
+                         <!--  -->
+                     </form>
+
+                 </div>
+               </div>
+             </div>
+           </div>
+
+           {% endif %}
+
+
+<!--  -->
+ {% if myfollowers %}
             <div class="main" >
                         <div class="main-content">
                           <div class="main-container account-settings">

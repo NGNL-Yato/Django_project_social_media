@@ -2,8 +2,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django import forms
-from .models import utilisateur ,Etudiant,Professor, Research , Skills , Languages ,Enterprise ,Experience, Event , Certification, Education
+from .models import utilisateur ,Etudiant,Professor , Skills , Languages ,Enterprise ,Experience, Event , Certification, Education ,Research
 from .models import Post
+
+
 
 class CreationdUser(UserCreationForm):
     def __init__(self, *args, **kwargs):

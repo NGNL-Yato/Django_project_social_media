@@ -63,7 +63,9 @@ urlpatterns = [
     #
     path('settings/',backendviews.profile_settings , name='settings'),
     #
-    # path('mes-posts/',backendviews.mesposts , name='mes-posts'),
+    path('mes-recherches/',backendviews.Researches , name='recherches'),
+    #
+    path('deleterecherches/<int:id>',backendviews.deleteResearches , name='Deleterecherches'),
     #
     path('educations-settings/',backendviews.educationsSettings , name='educations-settings'),
     #

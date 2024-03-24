@@ -2,7 +2,7 @@ from django.shortcuts import render , redirect
 from backend import models
 from django.contrib.auth import authenticate, login , logout
 from django.contrib.auth.models import auth
-from .forms import CreationdUser , UtilisateurForm , EntrepriseForm , EtudiantForm , ProfesseurForm , SkillForm, languagesForm ,CertificationForm , EducationForm , ExperienceForm
+from .forms import CreationdUser , UtilisateurForm , EntrepriseForm , EtudiantForm , ProfesseurForm , SkillForm, languagesForm ,CertificationForm ,ResearchForm, EducationForm , ExperienceForm
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from .Post import delete_post
@@ -76,7 +76,40 @@ def follow_user(request, first_name, last_name):
     models.follow.objects.create(follower=current_user, followed=user_to_follow)
     
     return redirect('profile', first_name=first_name, last_name=last_name)
-    
+
+def deleteResearches(request,id):
+    # deleteResearches
+    Researche = models.Research.objects.filter(id=id).first()
+    if Researche is not None:
+        Researche.delete()
+        return redirect('settings')
+
+    return redirect('settings')
+
+#    
+def Researches(request):
+    r = []
+    userinstance = models.utilisateur.objects.get(user_id=request.user.id)
+
+    if request.method == 'POST':
+        f = ResearchForm(request.POST,request.FILES)
+        if f.is_valid():
+            x = f.save(commit=False)
+            x.utilisateur = userinstance
+            x.save()
+
+    if request.user.is_authenticated:
+        userinstance = models.utilisateur.objects.get(user_id=request.user.id)
+        r = models.Research.objects.filter(utilisateur=userinstance)
+
+    context = {
+        'ResearchesSetttings':True,
+        'Researchesform':ResearchForm(),
+        'Researches':r
+    }
+
+    return render(request, 'HTML/userProfile/settings.html', context)
+
 
 # login
 def login_in(request):

@@ -94,6 +94,7 @@ def profile(request):
             'certificates':models.Certification.objects.filter(utilisateur=request.user.utilisateur),
             'Educations':models.Education.objects.filter(utilisateur=request.user.utilisateur),
             'Experiences':models.Experience.objects.filter(utilisateur=request.user.utilisateur),
+            'Reaserches':models.Research.objects.filter(utilisateur=request.user.utilisateur),
             'myprofile':True,
                }  # You can pass context data to the template if needed
     return render(request,'HTML/userProfile/profile.html', context)
@@ -115,6 +116,7 @@ def view_profile(request,first_name, last_name):
             'certificates':models.Certification.objects.filter(utilisateur=u),
             'Educations':models.Education.objects.filter(utilisateur=u),
             'Experiences':models.Experience.objects.filter(utilisateur=u),
+            'Reaserches':models.Research.objects.filter(utilisateur=u),
                         'myprofile':False,
                }  
             return render(request, 'HTML/userProfile/profile.html', context)

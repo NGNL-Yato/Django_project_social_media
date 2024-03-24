@@ -108,7 +108,7 @@ class Professor(models.Model):
 #
 #   Recherche des Doctorants (carrer de prof)
 class Research(models.Model):
-    professors = models.ManyToManyField(Professor, related_name='researches')
+    utilisateur = models.ForeignKey(utilisateur, on_delete=models.CASCADE) # this is a referrance for who posted the research 
     #
     recherche_referrence = models.CharField(max_length=100,blank=True, null=True) # public id or referrence
     description = models.TextField(blank=True, null=True)
@@ -116,6 +116,11 @@ class Research(models.Model):
     #
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
+
+# thos will be all professors that has a relation with the researches posted
+class research_profs(models.Model):
+    professor = models.ForeignKey(Professor, related_name='Professor', on_delete=models.CASCADE)
+    research = models.ForeignKey(Research, related_name='Research', on_delete=models.CASCADE)
 
 #    
 #
