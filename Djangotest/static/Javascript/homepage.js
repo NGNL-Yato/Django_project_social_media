@@ -14,7 +14,20 @@ function displayFile(input) {
         }
         reader.readAsDataURL(file);
     }
+}   
+function displayFile2(input) {
+    console.log("displayFile2 is called");
+    var fileDisplayArea = document.getElementById('Img_display');
+    var file = input.files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            fileDisplayArea.innerHTML = '<img src="' + e.target.result + '" style ="height: 20%; width: 20%;">';
+        }
+        reader.readAsDataURL(file);
+    }
 }
+
 
 const heartIcon = document.querySelectorAll(".like-button .heart-icon");
 const likesAmountLabel = document.querySelectorAll(".like-button .likes-amount");
@@ -68,3 +81,23 @@ document.getElementById('iconBox3Button').addEventListener('click', function() {
     profileMenu.style.left = iconBox3Button.offsetLeft + 'px'; // Adjusted this line
     profileMenu.classList.toggle('show');
 });
+
+var modal = document.getElementById("myModal");
+var buttons = document.getElementsByClassName("fa-circle-plus");
+var span = document.getElementsByClassName("close")[0];
+
+Array.from(buttons).forEach((btn) => {
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+});
+
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}

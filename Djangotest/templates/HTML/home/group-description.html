@@ -1,0 +1,24 @@
+<div class = "group_about">
+    <div class = "about__content">
+        <h2>About this group</h2>
+        <hr>
+        <p>{{ group.description }}</p>
+        <hr>
+        <p><span> <i class="fa-solid fa-users-viewfinder"></i> Target:</span> {{ group.target }}</p>
+        <p class = "little_par"><span class = "eight_char_spacer"></span>
+        {% if group.target == 'public' %}
+        Everybody can see what's shared in this group.
+        {% else %}
+        Everyoby can see join this group.
+        {% endif %}
+        </p>
+        <p><span> <i class="fa-solid fa-user-tie"></i> This group has been created by: </span></p>
+        <p class ="little_par"> {{ group.user.first_name }} {{ group.user.last_name }}</p>
+        <p><span> <i class="fa-solid fa-people-group"></i> Number of members: </span></p>
+        <p class ="little_par"> {{ group.members.count }} member in total</p>
+        <p><span> <i class="fa-solid fa-clipboard"></i> Total posts: </span></p>
+        <p class ="little_par"> {{ group.post_set.count }} posts in total</p>
+        <p><span> <i class="fa-solid fa-clock-rotate-left"></i> Historique: </span></p>
+        <p class ="little_par">Group created the {{ group.created_at|date:"d F Y" }}</p>
+    </div>
+</div>

@@ -2,11 +2,12 @@ from django.shortcuts import render , redirect
 from backend import models
 from django.contrib.auth import authenticate, login , logout
 from django.contrib.auth.models import auth
-from .forms import CreationdUser , UtilisateurForm , EntrepriseForm , EtudiantForm , ProfesseurForm
+from .forms import CreationdUser , UtilisateurForm , EntrepriseForm , EtudiantForm , ProfesseurForm, GroupForm
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from .Post import delete_post
 from .Like import like_post
+
 
 # remove follower , i no longer want this person to be following me.
 def remove_follower(request, first_name, last_name):
@@ -313,4 +314,15 @@ def myfollowings(request):
     
     return redirect('home')
 
+def create_group(request):
+    if request.method == 'POST':
+        form = GroupForm(request.POST)
+        if form.is_valid():
+            group = form.save(commit=False)
+            group.user = request.user
+            group.save()
+            return redirect('some-view')
+    else:
+        form = GroupForm()
 
+    return render(request, 'group_creation.html', {'form': form})

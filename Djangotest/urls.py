@@ -81,9 +81,15 @@ urlpatterns = [
     path('delete_post/<int:post_id>/', backendviews.delete_post, name='delete_post'),
     #
     path('like_post/<int:post_id>/', backendviews.like_post, name='like_post'),
-
+    #
     path('post/',views.post_view, name='post_view'),
-
+    #
+    path('groups/<str:group_name>/about', views.group_about, name='group_about'),
+    #
+    path('groups/<str:group_name>', views.group_posts, name='group_posts'),
+    #
+    path('groups/<str:group_name>/events', views.group_events, name='group_events'),
+    #
 
     
     

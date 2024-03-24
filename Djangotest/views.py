@@ -1,14 +1,16 @@
 from django.shortcuts import render , redirect
-from backend.models import User,utilisateur,Post,Like
-from backend.forms import PostForm
+from backend.models import User,utilisateur,Post,Like, Group
+from backend.forms import PostForm, GroupForm
 from django.core.mail import send_mail
 from django.conf import settings
 
 
 def home_view(request):
     all_users_names = []
-    form = None
+    post_form = None
+    group_form = None
     posts = Post.objects.all()
+    groups = Group.objects.all()
 
     if request.user.is_authenticated and request.user.is_superuser :
         return redirect('admin_panel')
@@ -16,14 +18,21 @@ def home_view(request):
     #
     if request.user.is_authenticated:
         if request.method == 'POST':
-            form = PostForm(request.POST, request.FILES)
-            if form.is_valid():
-                post = form.save(commit=False)
+            post_form = PostForm(request.POST, request.FILES)
+            group_form = GroupForm(request.POST, request.FILES)
+            if post_form.is_valid():
+                post = post_form.save(commit=False)
                 post.user = request.user
                 post.save()
                 return redirect('home')
+            elif group_form.is_valid():
+                group = group_form.save(commit=False)
+                group.user = request.user
+                group.save()
+                return redirect('groups')
         else:
-            form = PostForm()
+            post_form = PostForm()
+            group_form = GroupForm()
 
         isguest = False
         user = request.user
@@ -60,8 +69,10 @@ def home_view(request):
                'user_first_name':user_first_name,
                'usersobj':all_users_names,
                'user_pdp':user_pdp,
-                'form':form,
+                'post_form':post_form,
+                'group_form':group_form,
                 'posts':posts,
+                'groups':groups
                }
     
     return render(request, 'HTML/home/home.html', context)
@@ -145,3 +156,18 @@ def add_event(request):
     context={}
     return render(request,'HTML/Events/event.html')
 
+
+def group_about(request, group_name):
+    group = Group.objects.get(group_name=group_name)
+    context = {'group': group}
+    return render(request, 'HTML/home/group-about.html', context)
+
+def group_posts(request, group_name):
+    group = Group.objects.get(group_name=group_name)
+    context = {'group': group}
+    return render(request, 'HTML/home/groupe_page.html', context)
+
+def group_events(request, group_name):
+    group = Group.objects.get(group_name=group_name)
+    context = {'group': group}
+    return render(request, 'HTML/home/group_events.html', context)

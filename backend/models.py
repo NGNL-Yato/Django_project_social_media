@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.models import User
-
+from django.utils.text import slugify
+from django.conf import settings
 
 class utilisateur(models.Model):
     user = models.OneToOneField(User,null=False,on_delete=models.CASCADE)
@@ -177,7 +178,7 @@ class Certification(models.Model):
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
    
-#
+
 #   Entreprise
 class Enterprise(models.Model):
     utilisateur = models.OneToOneField(utilisateur, on_delete=models.CASCADE)
@@ -216,13 +217,20 @@ class follow(models.Model):
 
     def __str__(self):
         return self.follower.user.first_name+' '+self.follower.user.last_name+"  -->  "+self.followed.user.first_name+' '+self.followed.user.last_name
+#
+#
 
-#
-#
+def get_default_user():
+    return settings.DEFAULT_USER_ID
+
 class Group(models.Model):
     group_name = models.CharField(max_length=100)
-    members = models.ManyToManyField(User)
-
+    members = models.ManyToManyField(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='admin_groups')
+    profile_banner = models.ImageField(default='profile_pictures/img_banniere.png',upload_to='profile_pictures/', blank=True)
+    description = models.TextField(default = "Add a description to this group here...")
+    target = models.CharField(max_length=100, default='Public')
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 #  
 #
 class Post(models.Model):

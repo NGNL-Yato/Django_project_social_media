@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django import forms
-from .models import utilisateur ,Etudiant,Professor, Enterprise ,Experience, Event
+from .models import utilisateur ,Etudiant,Professor, Enterprise ,Experience, Event, Group
 from .models import Post
 
 class CreationdUser(UserCreationForm):
@@ -66,3 +66,14 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['contenue', 'file']
+
+TARGET_CHOICES = [
+    ('public', 'Public'),
+    ('private', 'Private'),
+]
+
+class GroupForm(forms.ModelForm):
+    target = forms.ChoiceField(choices=TARGET_CHOICES, widget=forms.Select(attrs={'class': 'your-css-class'}))
+    class Meta:
+        model = Group
+        fields = ['group_name', 'description', 'target', 'profile_banner']
