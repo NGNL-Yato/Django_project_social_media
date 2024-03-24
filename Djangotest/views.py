@@ -184,3 +184,6 @@ def group_events(request, group_name):
     group = Group.objects.get(group_name=group_name)
     context = {'group': group}
     return render(request, 'HTML/home/group_events.html', context)
+    
+def qcm_view(request):
+    return render( request, 'HTML/classroom/qcm.html') 
