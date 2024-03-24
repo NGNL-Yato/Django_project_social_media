@@ -200,7 +200,7 @@ class Enterprise(models.Model):
 #
 #
 class Event(models.Model):
-    entreprise = models.ForeignKey(Enterprise, on_delete=models.CASCADE)
+    utilisateur = models.ForeignKey(utilisateur, on_delete=models.CASCADE)
     #
     background_image = models.ImageField(upload_to='event_images/', blank=True)
     head_title = models.CharField(max_length=100)
