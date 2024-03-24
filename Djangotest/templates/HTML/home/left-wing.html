@@ -10,28 +10,20 @@
 
 {% if not visiteur %}
 <div class="group">
-    <h4 class="mini-headign">Group</h4>
-    <label>
-        <img src="{%static 'Assets/Images/gg.png' %}" alt="group01">
-        <span>Graphic design</span>
-    </label>
-    
-    <label>
-        <img src="{%static 'Assets/Images/gg2.png' %}" alt="group02">
-        <span>website design</span>
-    </label>
-
-    <label>
-        <img src="{%static 'Assets/Images/gg3.png' %}" alt="group03">
-        <span>ZED.zahidul</span>
-    </label>
-
-    <button class="see-more-btn">See more <i class="fa-solid fa-angle-down"></i></button>
+    <h4 class="mini-heading">Groups</h4>
+    {% for group in groups %}
+        <label>
+            <img src="{{ group.profile_banner.url }}" alt="Group banner">
+            <a href="{% url 'group_posts' group.group_name %}">
+                <span>{{ group.group_name }}</span>
+            </a>
+        </label>
+    {% endfor %}
+    {% comment %} <button class="see-more-btn">See more <i class="fa-solid fa-angle-down"></i></button> {% endcomment %}
 </div>
 {% endif %}
 <div class="explore">
     <h4 class="mini-headign">Explore</h4>
-   
     <a href="#"><i class="fa-solid fa-flag"></i> Pages</a>
     <a href="#"><i class="fa-solid fa-user-group"></i> Groups</a>
     <a href="#"><i class="fa-solid fa-clock"></i> Events</a>
@@ -39,7 +31,6 @@
     <a href="#"><i class="fa-solid fa-star"></i></i> Favorites</a>
     <a href="#"><i class="fa-solid fa-bookmark"></i></i> Saves</a>
     {% endif %}
-
     <div><label class="darkTheme"> <span></span></label> Apply Dark Theme</div>
 
     <button class="see-more-btn">See more <i class="fa-solid fa-angle-down"></i></button>

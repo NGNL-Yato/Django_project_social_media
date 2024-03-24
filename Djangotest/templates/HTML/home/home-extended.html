@@ -4,12 +4,12 @@
 
 <div class="createPost">
     <h3 class="mini-headign">Create Post</h3>
-    {% if form %}
+    {% if post_form %}
         <div class="post-text">
             <img src="/media/{{user_pdp}}" alt="user">
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {% for field in form %}
+                {% for field in post_form %}
                     {% if field.name == 'contenue' %}
                         <input type="text" class="your-css-class" name="{{ field.name }}" id="{{ field.auto_id }}" placeholder="What's up today ! Share it !">
                     {% elif field.field.widget.input_type == 'file' %}

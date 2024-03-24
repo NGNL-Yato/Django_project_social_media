@@ -2,13 +2,18 @@
 
 <div class="group-header">
     <div class="group-picture">
-        <img src="{% static 'Assets/Images/cover.jpg' %}" alt="group-image" style="width: -moz-available;border-radius: 10px 10px 0px 0px;">    </div>
+        {% if group.profile_banner.url %}
+            <img src="{{ group.profile_banner.url }}" alt="{{ group.name }}" style="width: -moz-available;border-radius: 10px 10px 0px 0px; object-fit: cover;height: 250px;">
+        {% else %}
+            <img src="{% static 'Assets/Images/cover.jpg' %}" alt="{{ group.name }}" style="width: -moz-available;border-radius: 10px 10px 0px 0px; object-fit: cover;height: 250px;">
+        {% endif %}
+    </div>
     <div class="group-info">
         <div class="group-name">
-            <h1>Groupe Test</h1>
+            <h1>{{ group.group_name }}</h1>
         </div>
         <div class="group-description">
-            <p>This is just a filler test</p>
+            <p>{{ group.description }}</p>
         </div>
     </div>
     <div class ="join-group-btn">
@@ -16,13 +21,13 @@
     </div>
     <div class="group-buttons">
         <div class ="group-discussion">
-            <a href="" class="btn btn-secondary">Discussions</a>
+            <a href="{% url 'group_posts' group_name=group.group_name %}" class="btn btn-secondary">Discussions</a>
         </div>
         <div class ="group-events">
-            <a href="" class="btn btn-secondary">Events</a>
+            <a href="{% url 'group_events' group_name=group.group_name %}" class="btn btn-secondary">Events</a>
         </div>
         <div class ="group-about">
-            <a href="" class="btn btn-secondary">About</a>
+            <a href="{% url 'group_about' group_name=group.group_name %}" class="btn btn-secondary">About</a>
         </div>
     </div>
 </div>

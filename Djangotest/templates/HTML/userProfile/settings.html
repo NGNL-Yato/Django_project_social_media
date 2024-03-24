@@ -11,7 +11,7 @@
   </head>
   <body>
 
-    <div class="backend-root">
+    <div class="backend-root" >
 
 
       <header>
@@ -31,34 +31,98 @@
 
 
 
-      <div class="body-root">
-        <div class="body-section">
-          <div class="body-content">
+      <div class="body-root "  >
+        <div class="body-section " >
+          <div class="body-content " >
 
 
-            <div class="sidebar" >
+            <div class="sidebar" style="width: 16%;">
               <div class="sidebar-content" >
                 <div class="sidebar-container sidebar-menu"  >
                   
-                  <a style="font-size: 20px;" href="/home" class="menu-item">Home</a>
+                  <a style="font-size: 15px;" href="/home" class="menu-item">Home</a>
                   <br>
-                  <a style="font-size: 20px;" href="/mes-posts" class="menu-item">My Posts</a>
+                  <a style="font-size: 15px;" href="/settings" class="menu-item">Profile Settings</a>
                   <br>
-                  <a style="font-size: 20px;" href="/mes-groups" class="menu-item">My Groups</a>
+                  <a style="font-size: 15px;" href="/mes-recherches" class="menu-item">Recherches Settings</a>
                   <br>
-                  <a style="font-size: 20px;" href="/my-Followers" class="menu-item">My Followers</a>
+                  <a style="font-size: 15px;" href="/Experiences-settings" class="menu-item">Experiences Settings</a>
                   <br>
-                  <a style="font-size: 20px;" href="/my-Followings" class="menu-item">My Followings</a>
+                  <a style="font-size: 15px;" href="/educations-settings" class="menu-item">Educations Settings</a>
                   <br>
-                  <a style="font-size: 20px;" href="/settings" class="menu-item">settings</a>
-                  <br><!-- <a href="#" class="menu-item">i>Analytics</a> -->
+                  <a style="font-size: 15px;" href="/certificates-settings" class="menu-item">certificates Settings</a>
+                  <br>
+                  <a style="font-size: 15px;" href="/my-Followers" class="menu-item">My Followers</a>
+                  <br>
+                  <a style="font-size: 15px;" href="/my-Followings" class="menu-item">My Followings</a>
+                  <br>
+                  <a style="font-size: 15px;" href="/mes-posts" class="menu-item">My Posts</a>
+                  <br>
+                  <a style="font-size: 15px;" href="/mes-groups" class="menu-item">My Groups</a>
+                  <br>
+                  
+                  
+                  <!-- <a href="#" class="menu-item">i>Analytics</a> -->
                   <!-- <a href="#" class="menu-item">Settings</a> -->
                 </div>
               </div>
             </div>
+<!-- 
 
-            {% if myfollowers %}
-            <div class="main">
+ -->
+
+ {% if ResearchesSetttings %}
+ <div class="main" >
+             <div class="main-content">
+               <div class="main-container account-settings">
+                 <div class="settings-form account">
+
+                   <h2>My Researches</h2>
+                   <hr>
+                   <!--  -->
+                   {% for Researche in Researches %}
+
+                   <div style="width: 90%;margin: 20px;">
+                     <div style="display: flex;align-items:baseline;justify-content: start;">
+                         <!-- <img src="/media/" style="justify-self: end;height: 35px;width: 35px;" alt="" srcset=""> -->
+                       <div>
+                         <h2 style="margin: 5px;font-size: 21px;font-weight:400;">{{Researche.recherche_referrence}}</h2>
+                         <p style="margin: 5px;font-size: 21px;font-weight:400;">{{Researche.description}}</p>
+                        </div>
+                        
+                        <a style=" color: red;" href="/deleterecherches/{{Researche.id}}">Delete</a>
+                       
+                       </div>
+                     </div>
+<!--  -->                     {% endfor %}
+
+
+                     <br><br>
+                     <h3>Ajouter Nouvel Researche</h3>
+                     <form class="account-settings-form" action="/mes-recherches/" method="post" enctype="multipart/form-data" >
+                     {% csrf_token %}
+                     {{Researchesform}}
+
+                       <!-- submit button  -->
+                       <div class="settings-actions">
+                         <div class="button-container">
+                           <button class="save-settings" style="background-color:#8652a0;color: white;" type="submit">Save Certification</button>
+                         </div>
+                       </div>
+                         <!--  -->
+                     </form>
+
+                 </div>
+               </div>
+             </div>
+           </div>
+
+           {% endif %}
+
+
+<!--  -->
+ {% if myfollowers %}
+            <div class="main" >
                         <div class="main-content">
                           <div class="main-container account-settings">
                             <div class="settings-form account">
@@ -121,7 +185,176 @@
 <!-- 
 
  -->
-            {% if settings_page %}
+ <!--  -->
+
+ {% if Certificationssettings %}
+ <div class="main">
+             <div class="main-content">
+               <div class="main-container account-settings">
+                 <div class="settings-form account">
+
+                   <h2>My Certifications</h2>
+                   <hr>
+                   {% for certificate in certificates %}
+<br>
+                   <div style="width: 80%;padding: 5px;">
+                     <div style="display: flex;width: 100%;align-items: center;justify-content: space-around;">
+                      <div style="display: flex">
+
+                        <img src="/media/{{certificate.picture}}" style="height: 85px;width: 85px;" alt="" srcset="">
+                        
+                        <div style="padding-inline: 50px;">
+                          <h3 style="font-size: 25px;font-weight:400;">{{certificate.Nom_Certificat}}</h3>
+                          <h5>{{certificate.date_obtention}}</h5>
+                          <p>{{certificate.description}}</p>
+                        </div>
+                      </div>   
+
+                           <a style="color:red;padding: 10px" href="/deleteCertificate/{{certificate.id}}"> Delete </a>
+                       
+                       </div>
+                     </div>
+                     <br>
+                     {% endfor %}
+
+                      <br><br>
+                      <h3>Ajouter Nouvel Certification</h3>
+                      <form class="account-settings-form" action="/certificates-settings/" method="post" enctype="multipart/form-data" >
+                      {% csrf_token %}
+                      {{Certificationsforum}}
+
+                        <!-- submit button  -->
+                        <div class="settings-actions">
+                          <div class="button-container">
+                            <button class="save-settings" style="background-color:#8652a0;color: white;" type="submit">Save Certification</button>
+                          </div>
+                        </div>
+                          <!--  -->
+                      </form>
+
+                 </div>
+               </div>
+             </div>
+           </div>
+
+           {% endif %}
+
+           <!--  -->
+
+           <!--  -->
+
+{% if ExperiencesSettings %}
+<div class="main">
+            <div class="main-content">
+              <div class="main-container account-settings">
+                <div class="settings-form account">
+
+                  <h2>My Experiences</h2>
+                  <hr>
+                  {% for exp in allmyExperiences %}
+<br>
+                  <div style="width: 80%;padding: 5px;">
+                    <div style="display: flex;width: 100%;align-items: center;justify-content: space-around;">
+                     <div style="display: flex">
+
+                       <img src="/media/{{exp.picture}}" style="height: 85px;width: 85px;" alt="" srcset="">
+                       
+                       <div style="padding-inline: 50px;">
+                         <h3 style="font-size: 25px;font-weight:400;">{{exp.titre}}</h3>
+                         <h5>{{exp.entreprise}}</h5>
+                         <p>{{exp.date_debut}} - {{exp.date_fin}}</p>
+                         <p>{{exp.description}}</p>
+                       </div>
+                     </div>   
+
+                          <a style="color:red;padding: 10px" href="/deleteExperiences/{{exp.id}}"> Delete </a>
+                      
+                      </div>
+                    </div>
+                    <br>
+                    {% endfor %}
+
+                     <br><br>
+                     <h3>Ajouter Nouvel Experience</h3>
+                     <form class="account-settings-form" action="/Experiences-settings/" method="post" enctype="multipart/form-data" >
+                     {% csrf_token %}
+                     {{Experiencesform}}
+
+                       <!-- submit button  -->
+                       <div class="settings-actions">
+                         <div class="button-container">
+                           <button class="save-settings" style="background-color:#8652a0;color: white;" type="submit">Save Education</button>
+                         </div>
+                       </div>
+                         <!--  -->
+                     </form>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {% endif %}
+
+<!--  -->
+
+<!--  -->
+
+{% if educationssetings %}
+ <div class="main">
+             <div class="main-content">
+               <div class="main-container account-settings">
+                 <div class="settings-form account">
+
+                   <h2>My Educations</h2>
+                   <hr>
+                   {% for education in educations %}
+<br>
+                   <div style="width: 80%;padding: 5px;">
+                     <div style="display: flex;width: 100%;align-items: center;justify-content: space-around;">
+                      <div style="display: flex">
+
+                        <img src="/media/{{education.picture}}" style="height: 85px;width: 85px;" alt="" srcset="">
+                        
+                        <div style="padding-inline: 50px;">
+                          <h3 style="font-size: 25px;font-weight:400;">{{education.UniversityName}}</h3>
+                          <h5>{{education.FiledOfStudy}}</h5>
+                          <p>{{education.date_debut}} - {{education.date_fin}}</p>
+                        </div>
+                      </div>   
+
+                           <a style="color:red;padding: 10px" href="/deleteEducation/{{education.id}}"> Delete </a>
+                       
+                       </div>
+                     </div>
+                     <br>
+                     {% endfor %}
+
+                      <br><br>
+                      <h3>Ajouter Nouvel Education</h3>
+                      <form class="account-settings-form" action="/educations-settings/" method="post" enctype="multipart/form-data" >
+                      {% csrf_token %}
+                      {{Educationform}}
+
+                        <!-- submit button  -->
+                        <div class="settings-actions">
+                          <div class="button-container">
+                            <button class="save-settings" style="background-color:#8652a0;color: white;" type="submit">Save Education</button>
+                          </div>
+                        </div>
+                          <!--  -->
+                      </form>
+
+                 </div>
+               </div>
+             </div>
+           </div>
+
+           {% endif %}
+
+ <!--  -->
+
+ {% if settings_page %}
             <div class="main">
               <div class="main-content">
                 <div class="main-container account-settings">
@@ -131,7 +364,6 @@
                     <form class="account-settings-form" action="/settings/" method="post" enctype="multipart/form-data" >
                       <!--  -->
                       {% csrf_token %}
-                      <hr>
                       <br>
                       <div style="width: 100%;display: flex; justify-content: space-between;">
                         <div class="form-field short">
@@ -140,11 +372,13 @@
   
                           <!-- <input id="CV" type="file" name="CV"> -->
                         </div>
-                        <img src="/media/{{utilisateurdata.profile_picture}}" style="height: 150px;width: 150px;" alt="" srcset="">
+                        <img src="/media/{{utilisateurdata.profile_picture}}" style="height: 150px;width: 150px;" >
                       </div>
-                      <hr>
                       <br>
-
+                      
+                      <h3>Public Details</h3>
+                      
+                      <br>
                       <div class="form-field short">
                         <label for="contact-email">Public Email Address</label>
                         {{utilisateurform.public_email}}
@@ -160,18 +394,20 @@
                       <div class="form-field short">
                         <label for="BIO">BIO</label>
                         {{utilisateurform.BIO}}
-
-                        <!-- <input id="BIO" type="text" name="BIO"> -->
                       </div>
+                      <br>
+                      
+                      <h3>Professional Details</h3>
+                      
                       <br>
                       <div class="form-field short">
                         <label for="aboutME">About Me</label>
                         {{utilisateurform.AboutME}}
-
-                        <!-- <input id="BIO" type="text" name="BIO"> -->
                       </div>
-                        <hr>
-                        <br>
+
+                      <br>
+
+                      <br>
                       <div class="form-field short">
                         <label for="CV">CV</label>
                         {{utilisateurform.CV}}
@@ -183,11 +419,32 @@
                       {{e.label}}
                       {{e}}<br><br>
                       {% endfor %}
+                      
                       <br>
+<!-- skills -->
+                      <h3>Your Skills</h3>
+                      {% for skill in skills %}
+                      <br>
+                      <h4>{{skill.SkillName }}  <a href="{% url 'removeSkill' id=skill.id %}" style="font-weight: 200;margin-left: 30px;color: red;background-color: white;">remove</a></h4>
+                      {% endfor%}
+                      <br>
+                      {{skillform}}
+
+<!-- languages -->
+<br>
+<h3>Your languages</h3>
+{% for L in languages %}
+<br>
+<h4>{{L.Language }}  <a href="{% url 'removeLanguage' id=L.id %}" style="font-weight: 200;margin-left: 30px;color: red;background-color: white;">remove</a></h4>
+{% endfor%}
+<br>
+{{languageForm}}
+<!--  -->
+
                       <!-- submit button  -->
                       <div class="settings-actions">
                         <div class="button-container">
-                          <button class="save-settings" style="background-color:#f44236;color: white;" type="submit">Save settings</button>
+                          <button class="save-settings" style="background-color:#8652a0;color: white;" type="submit">Save settings</button>
                         </div>
                       </div>
                         <!--  -->

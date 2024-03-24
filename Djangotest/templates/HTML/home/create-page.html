@@ -1,10 +1,48 @@
 {% load static %}
 
+
+<div id="myModal" class="modal createPost">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="group_creation post-text">
+            <div class="group_creation_title mini-headign">
+                <h1>Create a group</h1>
+                    {% if group_form %}
+
+            </div>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in group_form %}
+                    {% if field.name == 'group_name' or field.name == 'description' %}
+                        <input type="text" class="your-css-class" name="{{ field.name }}" id="{{ field.auto_id }}" placeholder="{{ field.label }}">
+                    {% elif field.name == 'target' %}
+                        <select name="{{ field.name }}" id="{{ field.auto_id }}">
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                        </select>
+                    {% elif field.name == 'profile_banner' %}
+                        <h3>Profile Banner</h3>
+                        <input type="file" class="your-css-class" name="{{ field.name }}" id="{{ field.auto_id }}" onchange="displayFile2(this)" style="display: none;">
+                        <div class="post-buttons">
+                            <button type="button" class="upload-file-bt" onclick="document.getElementById('{{ field.auto_id }}').click()">Add file
+                                <i class="fa-solid fa-file-import"></i>
+                            </button>
+                    {% endif %}
+                {% endfor %}
+                <button type="submit">Create</button>
+            </div>    
+            </form>
+        </div>
+        <div id="Img_display"></div>
+        {% endif %}
+    </div>
+</div>
+
 <div class="create-page">
     <ul>
-        <li>
+        <li class ="group_buttons">
             <i class="fa-solid fa-circle-plus"></i>
-            <h4>Create Page & Groups</h4>
+            <h4>Create Groups</h4>
             <i class="fa-solid fa-magnifying-glass"></i>
         </li>
         <li>
