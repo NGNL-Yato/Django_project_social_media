@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='research',
             name='utilisateur',
-            field=models.AutoField(default=0, primary_key=True, serialize=False),
+            field=models.AutoField(default=None, primary_key=True, serialize=False),
             preserve_default=False,
         ),
     ]
