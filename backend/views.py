@@ -74,7 +74,7 @@ def follow_user(request, first_name, last_name):
     
     models.follow.objects.create(follower=current_user, followed=user_to_follow)
     
-    return redirect('profile', first_name=first_name, last_name=last_name)
+    return redirect('hisprofile', first_name=first_name, last_name=last_name)
 
 def deleteResearches(request,id):
     # deleteResearches

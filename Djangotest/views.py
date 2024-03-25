@@ -10,7 +10,12 @@ def home_view(request):
     all_users_names = []
     post_form = None
     group_form = None
-    posts = Post.objects.all()
+    # posts = Post.objects.all()
+    posts = []
+    all_my_followings = request.user.utilisateur.following.all()
+    for f in all_my_followings:
+        posts += Post.objects.filter(user=f.followed.user)
+
     groups = Group.objects.all()
 
     if request.user.is_authenticated and request.user.is_superuser :
@@ -73,7 +78,8 @@ def home_view(request):
                 'post_form':post_form,
                 'group_form':group_form,
                 'posts':posts,
-                'groups':groups
+                'groups':groups,
+                'isHomePage':True
                }
     
     return render(request, 'HTML/home/home.html', context)
