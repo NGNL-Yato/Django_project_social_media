@@ -1,5 +1,5 @@
 from django.shortcuts import render , redirect
-from backend.models import User,utilisateur,Post,Like, Group
+from backend.models import User,utilisateur,Post,Like, Group, UserGroup
 from backend.forms import PostForm, GroupForm
 from django.core.mail import send_mail
 from django.conf import settings
@@ -172,15 +172,29 @@ def add_event(request):
 
 def group_about(request, group_name):
     group = Group.objects.get(group_name=group_name)
-    context = {'group': group}
+    members_count = UserGroup.objects.filter(group=group).count()
+    context = {'group': group, 'members_count': members_count}
     return render(request, 'HTML/home/group-about.html', context)
 
 def group_posts(request, group_name):
-    group = Group.objects.get(group_name=group_name)
-    context = {'group': group}
+    group = Group.objects.filter(group_name=group_name).first()
+    posts = Post.objects.filter(group=group)
+    is_member = group.is_member(request.user)
+    if request.method == 'POST':
+        post_form = PostForm(request.POST, request.FILES)
+        if post_form.is_valid():
+            post = post_form.save(commit=False)
+            post.user = request.user
+            post.group = group
+            post.save()
+            return redirect('group_posts', group_name=group.group_name)
+    else:
+        post_form = PostForm()
+    context = {'group': group, 'is_member': is_member, 'post_form': post_form, 'posts': posts}
     return render(request, 'HTML/home/groupe_page.html', context)
 
 def group_events(request, group_name):
-    group = Group.objects.get(group_name=group_name)
-    context = {'group': group}
+    group = Group.objects.filter(group_name=group_name).first()
+    is_member = group.is_member(request.user)
+    context = {'group': group, 'is_member': is_member}
     return render(request, 'HTML/home/group_events.html', context)

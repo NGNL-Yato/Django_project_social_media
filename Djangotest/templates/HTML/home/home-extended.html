@@ -7,7 +7,7 @@
     {% if post_form %}
         <div class="post-text">
             <img src="/media/{{user_pdp}}" alt="user">
-            <form method="post" enctype="multipart/form-data">
+            <form method="post" enctype="multipart/form-data" {% if group %} action="{% url 'group_posts' group_name=group.group_name %}" {% endif %}>                
                 {% csrf_token %}
                 {% for field in post_form %}
                     {% if field.name == 'contenue' %}

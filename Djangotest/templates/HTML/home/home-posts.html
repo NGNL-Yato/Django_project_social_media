@@ -22,7 +22,7 @@
             <div class="post-title">
                 {% with post.user_id as user_id %}
                 {% get_user post.user_id as user %}
-                <img src="/media/{{ user.profile_picture }}" alt="user picture">
+                <img src="{{ post.user.utilisateur.profile_picture.url }}" alt="user picture">
                 <ul>
                     <li><h3>{{ user.username }} <span> . {{ post.created_at|timesince }} ago</span></h3></li>
                     <li><span>{{ post.created_at|date:"F j, Y, P" }}</span></li>

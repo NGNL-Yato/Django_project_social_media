@@ -1125,7 +1125,9 @@ header{
 #id_description {
     margin: 10px 10px 10px 0px;
 }
-
+.group-name {
+    margin-left: 5%;
+}
 #id_group_name {
     height: 60px;
 }

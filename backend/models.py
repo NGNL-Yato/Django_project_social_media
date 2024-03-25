@@ -230,13 +230,28 @@ def get_default_user():
 
 class Group(models.Model):
     group_name = models.CharField(max_length=100)
-    members = models.ManyToManyField(settings.AUTH_USER_MODEL)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='admin_groups')
     profile_banner = models.ImageField(default='profile_pictures/img_banniere.png',upload_to='profile_pictures/', blank=True)
     description = models.TextField(default = "Add a description to this group here...")
     target = models.CharField(max_length=100, default='Public')
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    def is_member(self, user):
+        return self.usergroup_set.filter(user=user).exists()
+    def save(self, *args, **kwargs):
+        # Check if this is a new instance
+        is_new = self.pk is None
+        super().save(*args, **kwargs)
+        if is_new:
+            UserGroup.objects.create(user=self.user, group=self, is_admin=True, invitation_on=True)
 #  
+#
+class UserGroup(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    is_admin = models.BooleanField(default=False)
+    invitation_on = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+#
 #
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -256,6 +271,9 @@ class Post(models.Model):
     
     def count_likes(self):
         return Like.objects.filter(post=self).count()
+    
+    def get_user_profile_picture(self):
+        return self.user.utilisateur.profile_picture
 #
 #
 class Like(models.Model):

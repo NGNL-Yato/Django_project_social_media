@@ -1,16 +1,22 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import PostForm
-from .models import Post
+from .models import Post, Group
 
 # Create
-def create_post(request):
+def create_post(request, group_id=None):
+    print(f"Group ID: {group_id}")  # Debug line
+    group = Group.objects.get(id=group_id) if group_id else None
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.user = request.user
+            post.group = group
             post.save()
-            return redirect('home')
+            if group:
+                return redirect('group_posts', group_name=group.group_name)
+            else:
+                return redirect('home')
     else:
         form = PostForm()
     return render(request, 'create_post.html', {'form': form})
