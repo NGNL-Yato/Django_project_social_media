@@ -107,6 +107,7 @@ urlpatterns = [
     #
     path('groups/<str:group_name>/events', views.group_events, name='group_events'),
     #
+    path('classroom/qcm',views.qcm_view,name='qcm'),
 
     
     

@@ -198,3 +198,6 @@ def group_events(request, group_name):
     is_member = group.is_member(request.user)
     context = {'group': group, 'is_member': is_member}
     return render(request, 'HTML/home/group_events.html', context)
+
+def qcm_view(request):
+    return render( request, 'HTML/classroom/qcm.html') 
