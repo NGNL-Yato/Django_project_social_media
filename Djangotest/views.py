@@ -171,7 +171,7 @@ def add_event(request):
 
 
 def group_about(request, group_name):
-    group = Group.objects.get(group_name=group_name)
+    group = Group.objects.filter(group_name=group_name).first()
     members_count = UserGroup.objects.filter(group=group).count()
     context = {'group': group, 'members_count': members_count}
     return render(request, 'HTML/home/group-about.html', context)
