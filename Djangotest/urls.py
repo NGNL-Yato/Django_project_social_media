@@ -114,6 +114,13 @@ urlpatterns = [
     path('event/',views.add_event,name='add_event'),
     #
     path('invite_user/', backendviews.invite_user, name='invite_user'),
+    #
+    path('get_pending_invitations/', backendviews.get_pending_invitations, name='get_pending_invitations'),
+    #
+    path('accept_invitation/', backendviews.accept_invitation, name='accept_invitation'),
+    #
+    path('reject_invitation/', backendviews.reject_invitation, name='reject_invitation'),
+    
     
 ]
 
