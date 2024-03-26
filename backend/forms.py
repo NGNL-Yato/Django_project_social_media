@@ -129,7 +129,9 @@ class EventForm(ModelForm):
     class Meta:
         model = Event
         fields = '__all__'
-
+        widgets={
+            'event_time':forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
+            }
 
 class PostForm(forms.ModelForm):
     class Meta:

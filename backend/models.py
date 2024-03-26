@@ -197,23 +197,6 @@ class Enterprise(models.Model):
     def __str__(self):
         return 'Entreprise :'+self.utilisateur.user.first_name +' '+self.utilisateur.user.last_name
 
-#
-#
-class Event(models.Model):
-    utilisateur = models.ForeignKey(utilisateur, on_delete=models.CASCADE)
-    #
-    background_image = models.ImageField(upload_to='event_images/', blank=True)
-    head_title = models.CharField(max_length=100)
-    event_time = models.DateTimeField()
-    description = models.TextField(blank=True, null=True)
-    file = models.FileField(upload_to='event_files/', blank=True)
-    #
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)  
-
-    def __str__(self):
-        return 'Event:'+self.head_title
- 
 #    
 # 
 class follow(models.Model):
@@ -245,6 +228,25 @@ class Group(models.Model):
             UserGroup.objects.create(user=self.user, group=self, is_admin=True, invitation_on=True)
     def is_admin(self, user):
         return self.usergroup_set.filter(user=user, is_admin=True).exists()
+
+#
+#
+class Event(models.Model):
+    utilisateur = models.ForeignKey(utilisateur, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE,blank=True,null=True)
+    #
+    background_image = models.ImageField(upload_to='event_images/')
+    head_title = models.CharField(max_length=100)
+    event_time = models.DateTimeField()
+    description = models.TextField(blank=True, null=True)
+    file = models.FileField(upload_to='event_files/', blank=True)
+    #
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)  
+
+    def __str__(self):
+        return 'Event:'+self.head_title
+ 
 #  
 #
 class UserGroup(models.Model):
