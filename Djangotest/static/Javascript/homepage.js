@@ -101,6 +101,21 @@ Array.from(buttons).forEach((btn) => {
         modal.style.display = "block";
     }
 });
+
+
+var btnn = document.getElementsByClassName("event_buttons");
+var eventmodal = document.getElementById("myeventModal");
+
+Array.from(btnn).forEach((btn) => {
+    btn.onclick = function() {
+        console.log('clicked')
+        eventmodal.style.display = "block";
+        // console.log(eventmodal)
+    }
+});
+
+
+
 var circleButton = document.getElementById('circleButton');
 var circleMenu = document.getElementById('circleMenu');
 
@@ -134,7 +149,15 @@ span.onclick = function() {
 }
 
 window.addEventListener('click', function(event) {    
-    if (event.target == modal) {
+    if (event.target == modal ||  event.target == eventmodal  ) {
         modal.style.display = "none";
     }
 })
+
+window.addEventListener('click', function(event) {    
+    if (event.target == eventmodal  ) {
+        eventmodal.style.display = "none";
+    }
+})
+
+

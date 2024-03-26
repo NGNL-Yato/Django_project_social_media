@@ -1,0 +1,70 @@
+{% load static %}
+
+
+<div id="myeventModal" class="modal createPost">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="group_creation post-text">
+            <div class="group_creation_title mini-headign">
+                <h1>Create New EVENT</h1>
+
+            </div>
+            <form action="/create_event/" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <h3>Event Title</h3>
+                {{eventform.head_title}}
+                <br><br>
+                
+                <h3>Event Day</h3>
+                {{eventform.event_time}}
+                <br><br>
+                
+                <h3>Event Banner</h3>
+                <div class="post-buttons">
+                    <button type="button" class="upload-file-bt" onclick="document.getElementById('id_backgroundimage').click()">
+                        Add Event Banner
+                        <i class="fa-solid fa-file-import"></i>
+                    </button>
+                </div> 
+                {{eventform.backgroundimage}}
+                <br><br>
+
+                {{eventform.description}}
+
+                <h3>Event Poster</h3>
+                <div class="post-buttons">
+                    <button type="button" class="upload-file-bt" onclick="document.getElementsByClassName('id_file2')[0].click()">
+                        Add Event Poster
+                        <i class="fa-solid fa-file-import"></i>
+                    </button>
+                </div> 
+                {{eventform.file}}
+
+                        <!-- <input type="text" class="your-css-class" placeholder="">                         -->
+                    <!-- <select name="" id=""> -->
+                            <!-- hna looper 3la ga3 les group li ana mswb , isAdmin  -->
+                            <!-- <option value="group1">group1</option> -->
+                            <!-- <option value="group2">group2</option> -->
+                    <!--  -->
+                    <!-- </select> -->
+
+                    <!--  -->
+                        <!-- <input type="file" class="your-css-class" name="{{ eventform.file.label }}" id="{{ eventform.auto_id }}" onchange="displayFile2(this)" style="display: none;"> -->
+                    <!--  -->
+
+                <div class="post-buttons">
+                            <button type="button" class="upload-file-bt">
+                                <!-- Add Event -->
+                                <!-- <i class="fa-solid fa-file-import"></i> -->
+                            </button>
+                        <button type="submit">Create Event</button>
+                </div>    
+            </form>
+
+
+        </div>
+        <div id="Img_display"></div>
+    </div>
+    
+</div>
