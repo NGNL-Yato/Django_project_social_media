@@ -41,31 +41,33 @@
     <header>
       {% include "HTML/home/header-homepage.html"%}
     </header>
-    <main class='main-content' style='display:flex;justify-content:center' >
+    <main class="main-content" style="display:flex;justify-content:center;" >
       
-      <div class="profile-container">
+      <div class="profile-container" style="width: 80%;">
         <!-- profile main -->
         <div class="container">
           <div class="profile-main">
             <div class="profile-container">
               <img
-                src="/static/Assets/Images/machineLearning.jpg"
+                src="/media/{{eventContent.backgroundimage}}"
+                style="max-height: 300px;width: 100%; object-fit: cover;"
                 alt="cover-pic"
-                width="100%"
               />              
 
               </div>
                 <div class="profile-btn">
-                    <h1>Machine Learning in Drug Discovery Certificate  Training</h1>
-                 <div>   <i class='bx bxs-calendar-alt contact__card-icon'></i>
-<b>Mar 23, 2024, 2:30 PM - Mar 24, 2024, 4:00 PM (your local time)
-</b>
-</div>
-<div>
-<i class='bx bxs-map contact__card-icon'></i>
-<b>Tangier,Morocco</b>
-</div>
-                  <a href="" class="primary-btn">
+                    <h1>{{eventContent.head_title}}</h1>
+                 
+                    <div> 
+                        <i class="bx bxs-calendar-alt contact__card-icon"></i>
+                        <b>{{eventContent.event_time}}</b>
+                    </div>
+                    
+                    <!-- <div>
+                      <i class='bx bxs-map contact__card-icon'></i>
+                      <b>Tangier,Morocco</b>
+                    </div> -->
+                  <!-- <a href="" class="primary-btn">
                     <i class="bx bx-calendar-event contact__card-icon"></i>
 
                     Attend
@@ -74,7 +76,7 @@
                     <i class="bx bx-share-alt contact__card-icon"></i>
 
                     share
-                  </a>
+                  </a> -->
                  
                 
                 </div>
@@ -83,35 +85,19 @@
               
             </div>
         
-            <div class="profile-description" style="text-align: left;margin-inline:65px">
+            <div class="profile-description" style="text-align: left;margin-inline:65px;width: 90%;">
               <h2>About</h2>
             
           
               <p id="paragraphContent" contenteditable="false">
-                THIS EVENT IS NOT FREE, YOU HAVE TO PAY THE FEE TO ATTEND IT
-                Kindly click on the mentioned link and register in the correct category in which you fall.
-                
-                DETAILS- We have launched a 2-day technical online training program on CHEMOINFORMATICS & DRUG DISCOVERY USING MACHINE LEARNING. This 2 day, hands-on training course will focus on the use of efficient technologies with HANDS-ON practical application where everyday 90 minutes training session will be conducted and the participants will perform on their own computer system.
-                
-                Video recording of each session will be provided at the end of the session to give the user a unique learning experience. On successful completion of the course participation certificate will be awarded.
-                
-                TRAINING CONTENT
-                Introduction to Machine Learning and its Applications
-                Dataset retrieval for classification (focusing on drug discovery)
-                Descriptors or Features and types
-                Dimensionality reduction and Identifying significant features via various Feature selection techniques
-                Machine Learning Algorithms: Naïve Bayes, Random Forest, K Nearest Neighbour, Support Vector Machine, Multilayer perceptron
-                Classification Using Machine Learning methods
-                Evaluating classifier performance
-                Building machine learning model on PubChem Bioassay dataset
-                
+                {{eventContent.description}}                
               </p>
           </div>
            
 
 
-    <script src="{% static "Javascript/homepage.js"%}"></script>
-    <script src="{% static "Javascript/userProfile/userProfile.js"%}"></script>
+    <script src="{% static 'Javascript/homepage.js'%}"></script>
+    <script src="{% static 'Javascript/userProfile/userProfile.js'%}"></script>
 
 
 

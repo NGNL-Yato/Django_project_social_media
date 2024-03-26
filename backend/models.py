@@ -235,7 +235,7 @@ class Event(models.Model):
     utilisateur = models.ForeignKey(utilisateur, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE,blank=True,null=True)
     #
-    background_image = models.ImageField(upload_to='event_images/')
+    backgroundimage = models.ImageField(upload_to='event_images/')
     head_title = models.CharField(max_length=100)
     event_time = models.DateTimeField()
     description = models.TextField(blank=True, null=True)

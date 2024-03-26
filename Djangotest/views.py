@@ -1,6 +1,6 @@
 from django.shortcuts import render , redirect
 from backend.models import User,utilisateur,Post,Like, Group, UserGroup
-from backend.forms import PostForm, GroupForm
+from backend.forms import PostForm, GroupForm, EventForm
 from django.core.mail import send_mail
 from django.conf import settings
 from backend import models
@@ -90,7 +90,8 @@ def home_view(request):
                 'posts':posts,
                 'posts_visitor':posts_visitor,
                 'groups':groups,
-                'isHomePage':True
+                'isHomePage':True,
+                'eventform': EventForm()
                }
     
     return render(request, 'HTML/home/home.html', context)
@@ -182,9 +183,28 @@ def post_view(request):
     return render(request,'HTML/userProfile/post.html', context)
 
 
-def add_event(request):
-    context={}
-    return render(request,'HTML/Events/event.html')
+def create_event(request):
+    if request.user.is_authenticated and request.method == 'POST':
+        form = EventForm(request.POST,request.FILES)
+        print(request.POST)
+        if form.is_valid():
+            f = form.save(commit=False)
+            f.utilisateur = models.utilisateur.objects.get(user_id=request.user.id)
+            f.save()
+
+    return redirect('all_events')
+
+def view_event(request,id):   
+    if request.user.is_authenticated:
+        visiteur =False
+    else:
+        visiteur = True
+    context={
+        'eventContent':models.Event.objects.filter(id=id).first(),
+        'user':request.user,
+        'visiteur':visiteur,
+    }
+    return render(request,'HTML/Events/event.html',context)
 
 def all_events(request):
     
@@ -203,6 +223,7 @@ def all_events(request):
                'user_pdp':user_pdp,
                 'isHomePage':False,
                 'isEventsPage':True,
+                'all_events':models.Event.objects.all(),
                }
 
     return render(request,'HTML/home/home.html',context)

@@ -111,7 +111,9 @@ urlpatterns = [
     #
     path('search_people/', backendviews.search_people, name='search_people'),  # new URL pattern
     #
-    path('event/',views.add_event,name='add_event'),
+    path('event/<int:id>',views.view_event,name='view_event'),
+    #
+    path('create_event/',views.create_event,name='create_event'),
     #
     path('events/',views.all_events,name='all_events'),
     #

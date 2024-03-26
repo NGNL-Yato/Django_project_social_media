@@ -130,7 +130,12 @@ class EventForm(ModelForm):
         model = Event
         fields = '__all__'
         widgets={
-            'event_time':forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
+            'event_time':forms.DateInput(format="%Y-%m-%d", attrs={"type": "date",'style':'height:60px;'}),
+            'head_title':forms.TextInput(attrs={'placeholder':'Event Title','style':'height:60px;'}),
+            'description':forms.Textarea(attrs={'placeholder':'Event Description','style':'width:100%;','class':'your-css-class'}),
+            'backgroundimage':forms.FileInput(attrs={'class':'your-css-class','style':'display:none;'}),
+            'file':forms.FileInput(attrs={'class':'id_file2','style':'display:none;'}),
+
             }
 
 class PostForm(forms.ModelForm):
