@@ -115,6 +115,8 @@ urlpatterns = [
     #
     path('create_event/',views.create_event,name='create_event'),
     #
+    path('deleteEvent/<int:id>',views.deleteEvent,name='deleteEvent'),
+    #
     path('events/',views.all_events,name='all_events'),
     #
     path('invite_user/', backendviews.invite_user, name='invite_user'),

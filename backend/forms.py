@@ -128,6 +128,7 @@ class ExperienceForm(ModelForm):
 class EventForm(ModelForm):
     class Meta:
         model = Event
+        exclude = ['utilisateur','group']
         fields = '__all__'
         widgets={
             'event_time':forms.DateInput(format="%Y-%m-%d", attrs={"type": "date",'style':'height:60px;'}),

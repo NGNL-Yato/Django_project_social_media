@@ -206,6 +206,16 @@ def view_event(request,id):
     }
     return render(request,'HTML/Events/event.html',context)
 
+# delete event
+def deleteEvent(request, id):
+    ev = models.Event.objects.filter(id=id).first()
+    if ev is not None:
+        ev.delete()
+        return redirect('all_events')
+
+    return redirect('home')
+
+
 def all_events(request):
     
     if request.user.is_authenticated:

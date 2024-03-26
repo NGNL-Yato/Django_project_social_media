@@ -237,7 +237,7 @@ class Event(models.Model):
     #
     backgroundimage = models.ImageField(upload_to='event_images/')
     head_title = models.CharField(max_length=100)
-    event_time = models.DateTimeField()
+    event_time = models.DateField()
     description = models.TextField(blank=True, null=True)
     file = models.FileField(upload_to='event_files/', blank=True)
     #
