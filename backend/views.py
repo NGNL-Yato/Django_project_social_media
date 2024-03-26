@@ -539,6 +539,7 @@ def create_group(request):
 def search_people(request):
     query = request.GET.get('query')
     people = User.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
+    person = UserGroup.objects.filter(Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query))
     data = [{'first_name': person.first_name, 'last_name': person.last_name, 'username': person.username} for person in people]
     return JsonResponse(data, safe=False)
 
@@ -568,6 +569,7 @@ def get_pending_invitations(request):
 @login_required
 def accept_invitation(request):
     group_name = request.POST.get('group_name')
+    print(f"Accepted invitation for group: {group_name}")
     UserGroup.objects.filter(user=request.user, group__group_name=group_name).update(invitation_on=True)
     return JsonResponse({'message': 'Invitation accepted.'})
 
@@ -575,5 +577,6 @@ def accept_invitation(request):
 @login_required
 def reject_invitation(request):
     group_name = request.POST.get('group_name')
+    print(f"Rejected invitation for group: {group_name}")
     UserGroup.objects.filter(user=request.user, group__group_name=group_name).delete()
     return JsonResponse({'message': 'Invitation rejected.'})
