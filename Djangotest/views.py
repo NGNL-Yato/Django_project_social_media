@@ -186,6 +186,27 @@ def add_event(request):
     context={}
     return render(request,'HTML/Events/event.html')
 
+def all_events(request):
+    
+    if request.user.is_authenticated:
+        isGuest = False
+        user = request.user
+        user_first_name = user.first_name
+        user_pdp = user.utilisateur.profile_picture
+    else:
+        isGuest = True
+        user_first_name = "visiteur"
+        user_pdp = 'Images/us2.png'
+
+    context = {'visiteur':isGuest,
+               'user_first_name':user_first_name,
+               'user_pdp':user_pdp,
+                'isHomePage':False,
+                'isEventsPage':True,
+               }
+
+    return render(request,'HTML/home/home.html',context)
+
 
 def group_about(request, group_name):
     group = Group.objects.filter(group_name=group_name).first()
