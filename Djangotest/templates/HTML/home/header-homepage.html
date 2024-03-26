@@ -35,7 +35,7 @@
         <div class="iconBox3-container">
             {% if not visiteur %}
             <div class="iconBox3" id="iconBox3Button">
-                <label><img src="/media/{{user_pdp}}" alt="user"></label>
+                <label><img src="{{ user.utilisateur.profile_picture.url }}" alt="user"></label>
                 <i class="fa-solid fa-caret-down"></i>
             </div>
             {% else %}
@@ -53,7 +53,8 @@
             <li><a class="dropdown-item" href="/mes-groups"><i class="fa-solid fa-users-rectangle"> My Groups</i></a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="/settings"><i class="fa-solid fa-gear"> Settings</i></a></li>
-            <li><a type="submit" class="dropdown-item" href="/logout/"><i class="fa-solid fa-arrow-right-from-bracket"> Logout</i></a></li>
+            <li style ="color: var(--black);">Apply Dark Theme<label class="darkTheme"><span></span></label></li>
+            <li style = "font-family: "";font-weight: 900;"><a type="submit" class="dropdown-item" href="/logout/"><i class="fa-solid fa-arrow-right-from-bracket"> Logout</i></a></li>
         </ul>
     </div>
     {% endif %}

@@ -493,6 +493,7 @@ header{
     margin-bottom: 15px;
 }
 .fb-post1-container{
+    position: relative;
     display: flex;
     flex-direction: column;
 }
@@ -527,7 +528,7 @@ header{
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    margin: 15px 0;
+    /* margin: 15px 0; */
 }
 .post-title img{
     width: 50px;
@@ -641,8 +642,19 @@ header{
 }
 .delete_post {
     display: flex;
-    position: relative;
+    position: absolute;
     justify-content: end;
+    top: 0;
+    right: 0;
+}
+.delete_button {
+    border: none;
+    background: none;
+    padding: 0;
+    transition: transform 0.3s ease;
+}
+.delete_button:active {
+    transform: scale(0.9);
 }
 .event{
     display: flex;
@@ -1084,7 +1096,7 @@ header{
 
 /* Like Button End */
 
-.modal {
+.modal, .modal1 {
     display: none; 
     position: fixed; 
     z-index: 1; 
@@ -1098,7 +1110,7 @@ header{
     background-color: rgba(0,0,0,0.4); 
 }
 
-.modal-content {
+.modal-content, .modal-content1 {
     background-color: #fefefe;
     margin: auto;
     padding: 20px;
@@ -1162,4 +1174,18 @@ header{
 
 .little_par {
     font-size: 0.8em;
+}
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }

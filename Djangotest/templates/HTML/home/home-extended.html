@@ -6,7 +6,7 @@
     <h3 class="mini-headign">Create Post</h3>
     {% if post_form %}
         <div class="post-text">
-            <img src="/media/{{user_pdp}}" alt="user">
+            <img src="{{user.utilisateur.profile_picture.url}}" alt="user">
             <form method="post" enctype="multipart/form-data" {% if group %} action="{% url 'group_posts' group_name=group.group_name %}" {% endif %}>                
                 {% csrf_token %}
                 {% for field in post_form %}

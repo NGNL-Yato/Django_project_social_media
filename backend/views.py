@@ -7,6 +7,12 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from .Post import delete_post
 from .Like import like_post
+from django.http import JsonResponse
+from django.core import serializers
+from .models import User, UserGroup, Group
+from django.db.models import Q
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import get_user_model
 
 
 # remove follower , i no longer want this person to be following me.
@@ -156,7 +162,7 @@ def login_in(request):
 def signup(request):
 
     if request.method == 'POST':
-        
+
         emailusedtosignup = request.POST.get('email')
 
         emailusedtosignups = emailusedtosignup.split('@')[1]
@@ -314,7 +320,7 @@ def removeLanguage(request,id):
 
 # settings
 def profile_settings(request):
-
+    epeForm = None
     if request.method == 'POST':
         userinstance = models.utilisateur.objects.get(user_id=request.user.id)
         form = UtilisateurForm(request.POST,request.FILES, instance=userinstance)
@@ -504,3 +510,47 @@ def create_group(request):
         form = GroupForm()
 
     return render(request, 'group_creation.html', {'form': form})
+
+# def settings_posts (request):
+#     if request.method == 'POST':
+#         userinstance = models.utilisateur.objects.get(user_id=request.user.id)
+#         form = UtilisateurForm(request.POST,request.FILES, instance=userinstance)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('home')
+#     elif request.user.is_authenticated:
+#         userinstance = models.utilisateur.objects.get(user_id=request.user.id)
+#         # userinstance = get_object_or_404(models.user, user=request.user)
+#         userform = CreationdUser(instance=userinstance.user)
+#         utilisateurform = UtilisateurForm(instance=userinstance)
+#         context = {
+#                    'utilisateurform': utilisateurform,
+#                    'userform':userform
+#                    }
+#         return render(request, 'HTML/userProfile/mes-posts.html', context)
+    
+#     return redirect('home')
+
+def search_people(request):
+    query = request.GET.get('query')
+    people = User.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
+    data = [{'first_name': person.first_name, 'last_name': person.last_name, 'username': person.username} for person in people]
+    return JsonResponse(data, safe=False)
+
+from django.core.exceptions import ObjectDoesNotExist
+
+@csrf_exempt
+def invite_user(request):
+    username = request.POST.get('username')
+    group_name = request.POST.get('group_name')
+
+    # Print the username and group_name
+    print(f"Username: {username}, Group Name: {group_name}")
+
+    try:
+        user = get_user_model().objects.get(username=username)
+        group = Group.objects.get(group_name=group_name)  # Use group_name instead of name
+        UserGroup.objects.create(user=user, group=group, is_admin=False, invitation_on=False)
+        return JsonResponse({'message': 'Invitation sent.'})
+    except ObjectDoesNotExist:
+        return JsonResponse({'message': 'User or group does not exist.'}, status=400)

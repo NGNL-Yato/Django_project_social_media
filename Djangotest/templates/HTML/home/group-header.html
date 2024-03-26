@@ -17,7 +17,16 @@
         </div> {% endcomment %}
     </div>
     <div class ="join-group-btn">
-        <button href="" class="btn btn-primary">Join Group</button>
+        {% if is_member %}
+            <button id="invite_button" action="" class="btn btn-primary" style ="margin-right: 1%;">Invite people</button>
+            {% if is_admin %}
+                <button href="" class="btn btn-primary"><i class="fa-solid fa-sliders"></i></button>
+            {% else %}
+                <button href="" class="btn btn-primary">Leave Group</button>
+            {% endif %}
+        {% else %}
+            <button href="" class="btn btn-primary">Join Group</button>
+        {% endif %}
     </div>
     <div class="group-buttons">
         <div class ="group-discussion">

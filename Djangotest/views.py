@@ -4,17 +4,27 @@ from backend.forms import PostForm, GroupForm
 from django.core.mail import send_mail
 from django.conf import settings
 from backend import models
-
+from django.db.models import QuerySet
 
 def home_view(request):
     all_users_names = []
     post_form = None
     group_form = None
-    # posts = Post.objects.all()
+    posts_visitor = Post.objects.all()
     posts = []
-    all_my_followings = request.user.utilisateur.following.all()
-    for f in all_my_followings:
-        posts += Post.objects.filter(user=f.followed.user)
+
+    if request.user.is_authenticated:
+        all_my_followings = request.user.utilisateur.following.all()
+        following_users = [f.followed.user for f in all_my_followings]
+        following_posts = Post.objects.filter(user__in=following_users)
+
+        user_groups = UserGroup.objects.filter(user=request.user).values_list('group', flat=True)
+        group_posts = Post.objects.filter(group__in=user_groups)
+
+        user_posts = Post.objects.filter(user=request.user)
+
+        # Combine the querysets and order
+        posts = following_posts.union(group_posts, user_posts).order_by('-created_at')
 
     groups = Group.objects.all()
 
@@ -78,6 +88,7 @@ def home_view(request):
                 'post_form':post_form,
                 'group_form':group_form,
                 'posts':posts,
+                'posts_visitor':posts_visitor,
                 'groups':groups,
                 'isHomePage':True
                }
@@ -178,14 +189,19 @@ def add_event(request):
 
 def group_about(request, group_name):
     group = Group.objects.filter(group_name=group_name).first()
+    isguest = not request.user.is_authenticated
+    is_member = group.is_member(request.user)
+    is_admin = group.is_admin(request.user)
     members_count = UserGroup.objects.filter(group=group).count()
-    context = {'group': group, 'members_count': members_count}
+    context = {'group': group, 'members_count': members_count, 'is_member': is_member, 'is_admin': is_admin, 'user': request.user, 'visiteur': isguest}
     return render(request, 'HTML/home/group-about.html', context)
 
 def group_posts(request, group_name):
+    isguest = not request.user.is_authenticated
     group = Group.objects.filter(group_name=group_name).first()
-    posts = Post.objects.filter(group=group)
+    posts = Post.objects.filter(group=group).order_by('-created_at')
     is_member = group.is_member(request.user)
+    is_admin = group.is_admin(request.user)
     if request.method == 'POST':
         post_form = PostForm(request.POST, request.FILES)
         if post_form.is_valid():
@@ -196,13 +212,15 @@ def group_posts(request, group_name):
             return redirect('group_posts', group_name=group.group_name)
     else:
         post_form = PostForm()
-    context = {'group': group, 'is_member': is_member, 'post_form': post_form, 'posts': posts}
+    context = {'group': group, 'is_member': is_member, 'post_form': post_form, 'posts': posts, 'is_admin': is_admin, 'user': request.user, 'visiteur': isguest}
     return render(request, 'HTML/home/groupe_page.html', context)
 
 def group_events(request, group_name):
     group = Group.objects.filter(group_name=group_name).first()
+    isguest = not request.user.is_authenticated
     is_member = group.is_member(request.user)
-    context = {'group': group, 'is_member': is_member}
+    is_admin = group.is_admin(request.user)
+    context = {'group': group, 'is_member': is_member, 'is_admin': is_admin, 'user': request.user, 'visiteur': isguest}
     return render(request, 'HTML/home/group_events.html', context)
 
 def qcm_view(request):

@@ -84,13 +84,13 @@ document.getElementById('iconBox3Button').addEventListener('click', function(eve
 });
 
 // Add an onclick event to the document that will close the dropdown
-document.body.onclick = function(event) {
+document.body.addEventListener('click', function(event) {
     var profileMenu = document.getElementById('profileMenu');
     var iconBox3Button = document.getElementById('iconBox3Button');
     if (event.target != iconBox3Button && !iconBox3Button.contains(event.target) && !profileMenu.contains(event.target)) {
         profileMenu.classList.remove('show');
     }
-}
+})
 
 var modal = document.getElementById("myModal");
 var buttons = document.getElementsByClassName("group_buttons");
@@ -110,17 +110,17 @@ circleButton.onclick = function() {
     circleMenu.style.left = circleButton.offsetLeft + 'px';
     circleMenu.classList.toggle('show');
 }
-document.onclick = function(event) {
+document.body.addEventListener('click', function(event) {
     if (event.target != circleButton && event.target != circleMenu) {
         circleMenu.classList.remove('show');
     }
-}
+})
 span.onclick = function() {
     modal.style.display = "none";
 }
 
-window.onclick = function(event) {
+window.addEventListener('click', function(event) {    
     if (event.target == modal) {
         modal.style.display = "none";
     }
-}
+})

@@ -108,11 +108,12 @@ urlpatterns = [
     path('groups/<str:group_name>/events', views.group_events, name='group_events'),
     #
     path('classroom/qcm',views.qcm_view,name='qcm'),
-
-    
-    
-    path('event/',views.add_event,name='add_event')
-
+    #
+    path('search_people/', backendviews.search_people, name='search_people'),  # new URL pattern
+    #
+    path('event/',views.add_event,name='add_event'),
+    #
+    path('invite_user/', backendviews.invite_user, name='invite_user'),
     
 ]
 

@@ -12,24 +12,37 @@
 {% for post in posts %}
 <div class="fb-post1">
     <div class="fb-post1-container">
+        {% if post.user_id == user.id %}
+        <div class="delete_post">
+            <form method="POST" action="{% url 'delete_post' post.id %}">
+                {% csrf_token %}
+                <button class="delete_button" type="submit">
+                    <i class="fa-solid fa-trash delete_icon"></i>
+                </button>
+            </form>
+        </div>
+        {% endif %}
         <div class="fb-p1-main">
-            <div class ="delete_post">
-                <form method="POST" action="{% url 'delete_post' post.id %}">
-                    {% csrf_token %}
-                    <button type="submit"><i class="fa-solid fa-trash"></i></button>
-                </form>
-            </div>
             <div class="post-title">
                 {% with post.user_id as user_id %}
                 {% get_user post.user_id as user %}
                 <a href="{% url 'hisprofile' first_name=user.first_name last_name=user.last_name %}"><img src="{{ post.user.utilisateur.profile_picture.url }}" alt="user picture"></a>
                 <ul>
-                    <li><h3>  <a href="{% url 'hisprofile' first_name=user.first_name last_name=user.last_name %}">{{ user.username }}</a> <span> . {{ post.created_at|timesince }} ago</span></h3></li>
+                    <li>
+                        <h3>
+                            {% if post.group %}
+                            <a href="{% url 'group_posts' group_name=post.group.group_name %}" style ="color:red;">{{ post.group.group_name }}</a></br><a href="{% url 'hisprofile' first_name=user.first_name last_name=user.last_name %}" style ="font-size:14px;">{{ user.first_name }} {{ user.last_name }}</a>
+                            {% else %}
+                            <a href="{% url 'hisprofile' first_name=user.first_name last_name=user.last_name %}">{{ user.first_name }} {{ user.last_name }}</a>
+                            {% endif %}
+                            <span> . {{ post.created_at|timesince }} ago</span>
+                        </h3>
+                    </li>
                     <li><span>{{ post.created_at|date:"F j, Y, P" }}</span></li>
                 </ul>
                 {% endwith %}
-                <p>{{ post.contenue }}</p>
-            </div>
+            </div>     
+            <p style ="color: var(--black);">{{ post.contenue }}</p>
             <div class="post-images">
                 <img src="/media/{{ post.file }}" alt="">
             </div>

@@ -25,6 +25,16 @@
 
     <!-- home section start -->
     <div class="home">
+        <div class="modal1" id="home_settings">
+            <div class="modal-content1" style="width: 42%;">
+                <span class="close">&times;</span>
+                <div class="searchBox" style ="width: 80%;">
+                    <input type="text" id="search-input" placeholder="Search for people">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div id="search-results"></div>
+            </div>
+        </div>
         <div class="container">
             <div class="home-weapper">
 
@@ -70,5 +80,7 @@
     <!--Scripts link-->
     <script src="{% static "Javascript/homepage.js"%}"></script>
     <script src="{% static "Javascript/group/group.js"%}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>    
+    <script src="{% static 'Javascript/ajaxcall.js' %}" ></script>
 </body>
 </html>
