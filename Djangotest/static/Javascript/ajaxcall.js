@@ -71,3 +71,43 @@ $(document).on('click', '.invite-button', function() {
         }
     });
 });
+
+$(document).ready(function() {
+    $.ajax({
+        url: '/get_pending_invitations/',
+        success: function(data) {
+            var results = '';
+            $.each(data, function(index, invitation) {
+                results += '<li>' + invitation.group_name + '<button style="cursor: pointer;border: none; background: none; padding: 0; transition: transform 0.3s ease; margin-inline-start: 5%;" class="accept-invitation" data-group-name="' + invitation.group_name + '">Accept</button><button style ="border: none; background: none; padding: 0; transition: transform 0.3s ease; margin-inline-start: 5%;cursor: pointer;" class="reject-invitation" data-group-name="' + invitation.group_name + '">Reject</button> </li>';
+            });
+            $('#NotificationsMenu .dropdown-menu .Invitations_group').html(results);
+        }
+    });
+});
+$(document).on('click', '.accept-invitation', function() {
+    var groupName = $(this).data('group-name');
+    $.ajax({
+        url: '/accept_invitation/',
+        method: 'POST',
+        data: {
+            'group_name': groupName
+        },
+        success: function(response) {
+            alert(response.message);
+        }
+    });
+});
+
+$(document).on('click', '.reject-invitation', function() {
+    var groupName = $(this).data('group-name');
+    $.ajax({
+        url: '/reject_invitation/',
+        method: 'POST',
+        data: {
+            'group_name': groupName
+        },
+        success: function(response) {
+            alert(response.message);
+        }
+    });
+});

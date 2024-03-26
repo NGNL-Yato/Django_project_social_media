@@ -104,6 +104,20 @@ Array.from(buttons).forEach((btn) => {
 var circleButton = document.getElementById('circleButton');
 var circleMenu = document.getElementById('circleMenu');
 
+var NotificationButton = document.getElementById('NotificationButton');
+var NotificationsMenu = document.getElementById('NotificationsMenu');
+NotificationButton.onclick = function() {
+    console.log("Notification button clicked")
+    var rect = NotificationButton.getBoundingClientRect();
+    NotificationsMenu.style.top = (NotificationButton.offsetTop + rect.height) + 'px';
+    NotificationsMenu.style.left = NotificationButton.offsetLeft + 'px';
+    NotificationsMenu.classList.toggle('show');
+}
+document.body.addEventListener('click', function(event) {
+    if (event.target != NotificationButton && event.target != NotificationsMenu) {
+        NotificationsMenu.classList.remove('show');
+    }
+})
 circleButton.onclick = function() {
     var rect = circleButton.getBoundingClientRect();
     circleMenu.style.top = (circleButton.offsetTop + rect.height) + 'px';

@@ -129,7 +129,7 @@ header{
     padding: 0 25px;
     position: relative;
 }
-#circleMenu {
+#circleMenu, #NotificationsMenu {
     position: absolute;  /* Set position: absolute on the dropdown */
     top: 100%;  /* Position the dropdown just below the parent */
     left: 0;  /* Align the dropdown to the left edge of the parent */
@@ -652,6 +652,9 @@ header{
     background: none;
     padding: 0;
     transition: transform 0.3s ease;
+}
+.invitation-button:active {
+    transform: scale(0.9);
 }
 .delete_button:active {
     transform: scale(0.9);

@@ -22,12 +22,16 @@
             {% if isHomePage %}
             <i class="fa-solid fa-circle-plus" id="circleButton"></i>
             {% endif %}
-            <i class="fa-solid fa-bell"></i>
-
             <div class="dropdown" id="circleMenu">
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <li class = "group_buttons"><i class="fa-solid fa-users-line"> Create Group </i></li>
-                    <li class = "event_buttons"><i class="fa-regular fa-calendar-days"> Create Event</i></li>
+                </ul>
+            </div>
+            <i class="fa-solid fa-bell" id ="NotificationButton"></i>
+            <div class="dropdown" id="NotificationsMenu">
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <p class="mini-headign">Notifications</p>
+                    <li class = "Invitations_group"></li>
                 </ul>
             </div>
         </div>      

@@ -13,6 +13,11 @@ from .models import User, UserGroup, Group
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+
+
 
 
 # remove follower , i no longer want this person to be following me.
@@ -320,7 +325,7 @@ def removeLanguage(request,id):
 
 # settings
 def profile_settings(request):
-    epeForm = None
+    # epeForm = None
     if request.method == 'POST':
         userinstance = models.utilisateur.objects.get(user_id=request.user.id)
         form = UtilisateurForm(request.POST,request.FILES, instance=userinstance)
@@ -537,8 +542,6 @@ def search_people(request):
     data = [{'first_name': person.first_name, 'last_name': person.last_name, 'username': person.username} for person in people]
     return JsonResponse(data, safe=False)
 
-from django.core.exceptions import ObjectDoesNotExist
-
 @csrf_exempt
 def invite_user(request):
     username = request.POST.get('username')
@@ -554,3 +557,23 @@ def invite_user(request):
         return JsonResponse({'message': 'Invitation sent.'})
     except ObjectDoesNotExist:
         return JsonResponse({'message': 'User or group does not exist.'}, status=400)
+    
+@login_required
+def get_pending_invitations(request):
+    pending_invitations = UserGroup.objects.filter(user=request.user, invitation_on=False)
+    data = [{'group_name': invitation.group.group_name} for invitation in pending_invitations]
+    return JsonResponse(data, safe=False)
+
+@require_POST
+@login_required
+def accept_invitation(request):
+    group_name = request.POST.get('group_name')
+    UserGroup.objects.filter(user=request.user, group__group_name=group_name).update(invitation_on=True)
+    return JsonResponse({'message': 'Invitation accepted.'})
+
+@require_POST
+@login_required
+def reject_invitation(request):
+    group_name = request.POST.get('group_name')
+    UserGroup.objects.filter(user=request.user, group__group_name=group_name).delete()
+    return JsonResponse({'message': 'Invitation rejected.'})
