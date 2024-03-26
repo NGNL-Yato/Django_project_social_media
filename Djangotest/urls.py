@@ -113,6 +113,8 @@ urlpatterns = [
     #
     path('event/',views.add_event,name='add_event'),
     #
+    path('events/',views.all_events,name='all_events'),
+    #
     path('invite_user/', backendviews.invite_user, name='invite_user'),
     #
     path('get_pending_invitations/', backendviews.get_pending_invitations, name='get_pending_invitations'),

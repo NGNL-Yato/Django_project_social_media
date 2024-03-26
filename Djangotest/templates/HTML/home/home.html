@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="{%static 'Assets/Images/favicon.ico'" type="image/x-icon">
+    <link rel="shortcut icon" href="{%static 'Assets/Images/favicon.ico' %}" type="image/x-icon">
     <title>Django socialmedia</title>
     <!-- style css link -->
     <link rel="stylesheet" href="{% static 'CSS/style.css' %}">    
@@ -37,6 +37,8 @@
                 <div class="home-center">
                     <div class="home-center-wrapper">
                         
+                {% if not isEventsPage %}
+
                         {% if not visiteur %}
                         <!-- Creat your Post -->
                         {% include "HTML/home/home-extended.html" %}
@@ -46,13 +48,93 @@
 
                         {% include "HTML/home/home-posts.html" %}
 
-                       
+                {% endif %}
+
+                {% if isEventsPage %}
+                <div style="width: 100%;">
+                    
+                    <div class="header-container" style="height: auto; background-color: rgb(252, 252, 252);">
+                        <h3 class="mini-headign">All Events</h3>
+<!--  -->
+                        <div class="" style="padding-top: 15px;margin: 10px;display: flex;height: auto;">
+                            <!--  -->
+                            <div class="post-images" >
+                                <img src="/media/profile_pictures/cisco.png" style="height: 80px;width: auto;">
+                            </div>
+
+                            <!--  -->
+                        <div style="margin-left: 30px;width: 70%">
+                            <a href=""><h4 class="mini-headign">test tsttsda </h4></a>
+                            <!--  -->
+                            <p style ="color: var(--black);">ckksacaskjcioj hihcasuhaoscjh oaso cai casckksacaskjcioj hihcasuhaoscjh oaso cai casckksacaskjcioj hihcasuhaoscjh oaso cai casckksacaskjcioj hihcasuhaoscjh oaso cai casckksacaskjcioj hihcasuhaoscjh oaso cai casckksacaskjcioj hihcasuhaoscjh oaso cai cas </p>
+                            <!--  -->
+                        </div>   
+
+                            <div style="width:15%;display: flex;justify-content: center;align-items: center;">
+                                <a style="height: auto;padding: 8px;background-color: rgb(239, 239, 239);color: rgb(44, 44, 44);" href="#">See Details</a>
+                            </div>
+                            
+                        </div>
+<!--  -->
+
+
+<!--  -->
+<div class="" style="padding-top: 15px;margin: 10px;display: flex;height: auto;">
+    <!--  -->
+    <div class="post-images" >
+        <img src="/media/profile_pictures/cisco.png" style="height: 80px;width: auto;">
+    </div>
+
+    <!--  -->
+<div style="margin-left: 30px;width: 70%">
+    <a href=""><h4 class="mini-headign">test tsttsda </h4></a>
+    <!--  -->
+    <p style ="color: var(--black);">ckksacaskjcioj hihcasuhaoscjh oaso cai casckksacaskjcioj hihcasuhaoscjh oaso cai casckksacaskjcioj hihcasuhaoscjh oaso cai casckksacaskjcioj hihcasuhaoscjh oaso cai casckksacaskjcioj hihcasuhaoscjh oaso cai casckksacaskjcioj hihcasuhaoscjh oaso cai cas </p>
+    <!--  -->
+</div>   
+
+    <div style="width:15%;display: flex;justify-content: center;align-items: center;">
+        <a style="height: auto;padding: 8px;background-color: rgb(239, 239, 239);color: rgb(44, 44, 44);" href="#">See Details</a>
+    </div>
+    
+</div>
+<!--  -->
+
+<!--  -->
+<div class="" style="padding-top: 15px;margin: 10px;display: flex;height: auto;">
+    <!--  -->
+    <div class="post-images" >
+        <img src="/media/profile_pictures/cisco.png" style="height: 80px;width: auto;">
+    </div>
+
+    <!--  -->
+<div style="margin-left: 30px;width: 70%">
+    <a href=""><h4 class="mini-headign">test tsttsda </h4></a>
+    <!--  -->
+    <p style ="color: var(--black);">ckksacaskjcioj hihcasuhaoscjh oaso cai casckksacaskjcioj hihcasuhaoscjh oaso cai casckksacaskjcioj hihcasuhaoscjh oaso cai casckksacaskjcioj hihcasuhaoscjh oaso cai casckksacaskjcioj hihcasuhaoscjh oaso cai casckksacaskjcioj hihcasuhaoscjh oaso cai cas </p>
+    <!--  -->
+</div>   
+
+    <div style="width:15%;display: flex;justify-content: center;align-items: center;">
+        <a style="height: auto;padding: 8px;background-color: rgb(239, 239, 239);color: rgb(44, 44, 44);" href="#">See Details</a>
+    </div>
+    
+</div>
+<!--  -->
+
+
+
+
+                    </div>
+                </div>
+                {% endif %}
                     
                     </div> <!-- home center wrapper end -->
 
                 </div> 
                 <!-- home center end -->
 
+                {% if not isEventsPage %}
                 <!-- home right start here -->
                 <div class="home-right">
                     <div class="home-right-wrapper">
@@ -82,7 +164,7 @@
                     </div>
                 </div>
                 <!-- home right end -->
-
+                {% endif %}
             </div>
         </div>
     </div>
