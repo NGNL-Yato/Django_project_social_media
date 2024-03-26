@@ -84,6 +84,31 @@ $(document).ready(function() {
         }
     });
 });
+
+
+// CSRF token setup on jquery
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+var csrftoken = getCookie('csrftoken');
 $(document).on('click', '.accept-invitation', function() {
     var groupName = $(this).data('group-name');
     $.ajax({
@@ -94,9 +119,12 @@ $(document).on('click', '.accept-invitation', function() {
         },
         success: function(response) {
             alert(response.message);
+            location.reload();
         }
     });
 });
+// CSRF token setup on jquery end here
+
 
 $(document).on('click', '.reject-invitation', function() {
     var groupName = $(this).data('group-name');
@@ -108,6 +136,36 @@ $(document).on('click', '.reject-invitation', function() {
         },
         success: function(response) {
             alert(response.message);
+            location.reload();
+        }
+    });
+});
+$(document).on('click', '.join-group', function() {
+    var groupName = $(this).data('group-name');
+    $.ajax({
+        url: '/join_group/',
+        method: 'POST',
+        data: {
+            'group_name': groupName
+        },
+        success: function(response) {
+            alert(response.message);
+            location.reload();
+        }
+    });
+});
+
+$(document).on('click', '.leave-group', function() {
+    var groupName = $(this).data('group-name');
+    $.ajax({
+        url: '/leave_group/',
+        method: 'POST',
+        data: {
+            'group_name': groupName
+        },
+        success: function(response) {
+            alert(response.message);
+            location.reload();
         }
     });
 });

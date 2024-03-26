@@ -41,7 +41,9 @@
                 <!-- home center start here -->
                 <div class="home-center">
                     {% include "HTML/home/group-header.html" %}
-                    {% include "HTML/home/home-extended.html" %}
+                    {% if is_member %}
+                        {% include "HTML/home/home-extended.html" %}
+                    {% endif %}
                     {% include "HTML/home/home-posts.html" %}
                 </div> 
                 <!-- home center end -->

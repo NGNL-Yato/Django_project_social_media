@@ -26,7 +26,7 @@ function Mousehover(target) {
 function exit(target) {
     let button = target;
     button.children[0].style.color = "#8c79a9";
-    button.style.backgroundColor = "#fff";
+    button.style.backgroundColor = "var(--white)";
 }
 // When the user clicks on "Invite people", open the modal
 document.getElementById('invite_button').addEventListener('click', function() {

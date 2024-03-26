@@ -580,3 +580,17 @@ def reject_invitation(request):
     print(f"Rejected invitation for group: {group_name}")
     UserGroup.objects.filter(user=request.user, group__group_name=group_name).delete()
     return JsonResponse({'message': 'Invitation rejected.'})
+
+@require_POST
+@login_required
+def join_group(request):
+    group_name = request.POST.get('group_name')
+    UserGroup.objects.create(user=request.user, group=Group.objects.get(group_name=group_name), invitation_on = True)
+    return JsonResponse({'message': 'Group joined.'})
+
+@require_POST
+@login_required
+def leave_group(request):
+    group_name = request.POST.get('group_name')
+    UserGroup.objects.filter(user=request.user, group__group_name=group_name).delete()
+    return JsonResponse({'message': 'Group left.'})

@@ -18,14 +18,13 @@
     </div>
     <div class ="join-group-btn">
         {% if is_member %}
-            <button id="invite_button" action="" class="btn btn-primary" style ="margin-right: 1%;">Invite people</button>
             {% if is_admin %}
+                <button id="invite_button" action="" class="btn btn-primary" style ="margin-right: 1%;">Invite people</button>
                 <button href="" class="btn btn-primary"><i class="fa-solid fa-sliders"></i></button>
             {% else %}
-                <button href="" class="btn btn-primary">Leave Group</button>
-            {% endif %}
+                <button href="" class="btn btn-primary leave-group" data-group-name="{{ group.group_name }}">Leave Group</button>            {% endif %}
         {% else %}
-            <button href="" class="btn btn-primary">Join Group</button>
+                <button href="" class="btn btn-primary join-group" data-group-name="{{ group.group_name }}">Join Group</button>
         {% endif %}
     </div>
     <div class="group-buttons">
@@ -40,22 +39,3 @@
         </div>
     </div>
 </div>
-
-{% comment %} <div class="group-header">
-    <div class="group-picture">
-        <img src="{{ $group->picture }}" alt="{{ $group->name }}">
-    </div>
-    <div class="group-info">
-        <h1>{{ $group->name }}</h1>
-        <p>{{ $group->description }}</p>
-    </div>
-    <div class ="group-join">
-        <a href="{{ route('group.join', $group->id) }}" class="btn btn-primary">Join Group</a>
-    </div>
-    <div class="group-buttons">
-        <a href="{{ route('group.discussion', $group->id) }}" class="btn btn-secondary">Discussions</a>
-        <a href="{{ route('group.events', $group->id) }}" class="btn btn-secondary">Events</a>
-        <a href="{{ route('group.about', $group->id) }}" class="btn btn-secondary">About</a>
-    </div>
-</div>
- {% endcomment %}

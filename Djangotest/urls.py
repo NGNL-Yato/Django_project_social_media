@@ -122,7 +122,11 @@ urlpatterns = [
     path('accept_invitation/', backendviews.accept_invitation, name='accept_invitation'),
     #
     path('reject_invitation/', backendviews.reject_invitation, name='reject_invitation'),
-    
+    #
+    path('join_group/', backendviews.join_group, name='join_group'),
+    #
+    path('leave_group/', backendviews.leave_group, name='leave_group'),
+    #
     
 ]
 
