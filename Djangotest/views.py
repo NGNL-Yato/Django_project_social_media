@@ -1,6 +1,6 @@
 from django.shortcuts import render , redirect
 from backend.models import User,utilisateur,Post,Like, Group, UserGroup
-from backend.forms import PostForm, GroupForm, EventForm
+from backend.forms import PostForm, GroupForm, EventForm , ClassRoomForm
 from django.core.mail import send_mail
 from django.conf import settings
 from backend import models
@@ -157,9 +157,18 @@ def view_profile(request,first_name, last_name):
 def welcome_view(request):
     context = {}  # You can pass context data to the template if needed
     return render(request,'HTML/welcome/welcome.html',context)
+
+# 
 def homeClass_view(request):
-    context = {}  # You can pass context data to the template if needed
-    return render(request,'HTML/classroom/home.html',context)
+    if request.user.is_authenticated:
+        context = {
+            'userdata':request.user,
+            'classrooms':models.ClassRoom.objects.all(),
+            'ClassRoomform':ClassRoomForm()
+            }  
+        return render(request,'HTML/classroom/home.html',context)
+    else:
+        return redirect('login')
 
 def todo_view(request):
     context = {}  # You can pass context data to the template if needed
@@ -182,14 +191,14 @@ def post_view(request):
     context = {}  
     return render(request,'HTML/userProfile/post.html', context)
 
-
 def create_event(request):
     if request.user.is_authenticated and request.method == 'POST':
         form = EventForm(request.POST,request.FILES)
-        print(request.POST)
+        # print(request.POST)
         if form.is_valid():
             f = form.save(commit=False)
-            f.utilisateur = models.utilisateur.objects.get(user_id=request.user.id)
+            f.Admin_Professor = models.Professor.objects.get(utilisateur=request.user.utilisateur)
+            # hna khss ngeneriww unique code for invitation !!!!!!!
             f.save()
 
     return redirect('all_events')

@@ -1,0 +1,105 @@
+{% load static %}
+
+<style>
+    .modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 9999; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 3px solid rgb(238, 97, 174);
+  width: 60%; /* Could be more or less, depending on screen size */
+  border-radius: 30px;
+  color: rgb(238, 97, 174);
+}
+</style>
+
+<div id="CreateClassroomModal" class="modal createPost" style="display: none;">
+    <div class="modal-content" >
+        
+        <div>
+
+        <!-- <span class="close">&times;</span> -->
+        <div class="group_creation post-text" >
+            <div class="group_creation_title mini-headign">
+                <h1>Create New Classroom</h1>
+                    <br><br>
+            </div>
+            <form action="/create_event/" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <br><hr><hr>
+                
+                <h3>Classroom Title</h3>
+                {{ClassRoomform.ClassRoomtitle}}
+                <!-- <input type="text" style="max-width: 100%;width: 100%;padding: 10px;background-color: #eeeeee;"  placeholder="" > -->
+                <br><br>
+
+                <h3>Classroom description</h3>
+                {{ClassRoomform.description}}
+                <!-- <textarea type="textarea" style="max-width: 100%;width: 100%;padding: 10px;background-color: #eeeeee;" placeholder="" ></textarea> -->
+                <br><br>
+                
+                <br><br>
+                <div style="display: flex;justify-content: space-between;width: 100%;">
+
+                    <!-- <h3>Classroom Image</h3> -->
+                    {{ClassRoomform.ClassRoomimage}}
+                <div class="post-buttons">
+                    <button type="button" class="upload-file-bt" style="padding: 15px;background-color: rgb(238, 97, 174);color: #eeeeee;" onclick="document.getElementById('id_ClassRoomimage').click()">
+                        Add Classroom Image
+                        <i class="fa-solid fa-file-import"></i>
+                    </button>
+                </div> 
+
+                <br><br>
+
+                <div class="post-buttons">
+                            <!-- <button type="button" class="upload-file-bt">
+                            </button> -->
+                        <button type="submit" style="padding: 15px;background-color: rgb(238, 97, 174);color: #eeeeee;">Create Classroom</button>
+                </div>  
+                
+            </div>
+                
+            </form>
+
+        </div>
+
+        </div>
+        <!-- <div id="Img_display"></div> -->
+    </div>
+    
+</div>
+<script>
+
+eventmodal = document.getElementById('CreateClassroomModal')
+btn = document.getElementById('create_classroom_btn')
+
+btn.onclick = function() {
+        console.log('clicked')
+        eventmodal.style.display = "block";
+        // console.log(eventmodal)
+    }
+
+    
+
+    window.addEventListener('click', function(event) {    
+    if (event.target == eventmodal  ) {
+        eventmodal.style.display = "none";
+    }
+})
+
+</script>
