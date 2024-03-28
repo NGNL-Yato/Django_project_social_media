@@ -5,6 +5,8 @@ from django.core.mail import send_mail
 from django.conf import settings
 from backend import models
 from django.db.models import QuerySet
+import random
+import string
 
 def home_view(request):
     all_users_names = []
@@ -191,17 +193,21 @@ def post_view(request):
     context = {}  
     return render(request,'HTML/userProfile/post.html', context)
 
+def generate_random_code(length=8):
+    characters = string.ascii_letters + string.digits  # includes both uppercase and lowercase letters and digits
+    return ''.join(random.choice(characters) for _ in range(length))
+
 def create_event(request):
     if request.user.is_authenticated and request.method == 'POST':
         form = EventForm(request.POST,request.FILES)
-        # print(request.POST)
         if form.is_valid():
             f = form.save(commit=False)
             f.Admin_Professor = models.Professor.objects.get(utilisateur=request.user.utilisateur)
-            # hna khss ngeneriww unique code for invitation !!!!!!!
+            f.UniqueinvitationCode = generate_random_code()
             f.save()
 
     return redirect('all_events')
+
 
 def view_event(request,id):   
     if request.user.is_authenticated:
