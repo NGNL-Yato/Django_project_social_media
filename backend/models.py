@@ -322,7 +322,7 @@ class Task(models.Model):
 class PostClassroom(models.Model):
     classroom = models.ForeignKey(ClassRoom, on_delete=models.CASCADE)
     contentPost = models.TextField()
-    creator = models.ForeignKey(Professor, on_delete=models.CASCADE)
+    author = models.ForeignKey(Professor, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     filePost = models.FileField(upload_to='postClassroom_files/', blank=True)
 
