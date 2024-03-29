@@ -308,7 +308,27 @@ class Studentselectedreponse(models.Model):
     selectedanswer = models.ForeignKey(Answer, on_delete=models.CASCADE)
 
 
+class Task(models.Model):
+    classroom = models.ForeignKey(ClassRoom, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    due_date = models.DateTimeField()
+    creator = models.ForeignKey(Professor, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
+
 #  
+class PostClassroom(models.Model):
+    classroom = models.ForeignKey(ClassRoom, on_delete=models.CASCADE)
+    contentPost = models.TextField()
+    creator = models.ForeignKey(Professor, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    filePost = models.FileField(upload_to='postClassroom_files/', blank=True)
+
+
+    def __str__(self):
+        return self.title
 #
 class UserGroup(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
