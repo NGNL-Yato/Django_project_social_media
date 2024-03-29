@@ -56,17 +56,23 @@
       </div>
    
       <div class="profile">
-         <img src="images/pic-1.jpg" class="image" alt="">
-         <h3 class="name"> aya khalifi</h3>
+         <img src="/media/{{userdata.utilisateur.profile_picture}}" class="image" alt="">
+         <h3 class="name"> {{userdata.first_name}} {{userdata.last_name }} </h3>
+         {% if userdata.utilisateur.role is 2 %}   
          <p class="role">student</p>
-      </div>
+         {% elif  userdata.utilisateur.role is 1 %}
+         <p class="role">Professeur</p>
+         {% else %}
+         <p class="role">Entreprise</p>
+         {% endif %}     
+       </div>
    
       <nav class="navbar">
          <a href="home"><i class="fas fa-home"></i><span>home</span></a>
          <a href="#"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
          <a href="#"><i class="fas fa-box-archive"></i><span>archived courses</span></a>
          <a href="Todo"><i class="fas fa-check"></i><span>To Do</span></a>
-         <a href="settings.html"><i class="fas fa-gear"></i><span>Settings</span></a>
+         <a href="{% url 'settings' %}"><i class="fas fa-gear"></i><span>Settings</span></a>
    
       </nav>
    
@@ -88,14 +94,14 @@
             <div class="head" style="background-color:rgb(246, 132, 177);align-items: center;display: flex;margin-top:20px;justify-content: space-between;">
                
                <div class="image" style="margin: 10px;margin-bottom: -5%;">
-                  <img src="/static/Assets/Images/10780-NN3O2S.jpg">
+                  <img src="/media/{{ class.ClassRoomimage }}">
                </div>
 
                <div class="infos" style="width: 70%;margin: 2%;">
-                  <h3>Course name </h3>
+                  <h3>{{ class.ClassRoomtitle }} </h3>
 
-                  <h3 style="font-size:16px;margin-left:30px"> professor name </h3>
-                  <p style="font-size:12px;margin-left:30px"> description csacasfasknk kcjakc casd cad a ssdadadesdescridescription csacasfasknk kcjakc casd cad a ssdadadescription csacasfasknk kcjakc casd cad a ssdadaption csacasfasknk kcjakc casd cad a ssdadadescription csacasfasknk kcjakc casd cad a ssdadacription csacasfasknk kcjakc casd cad a ssdadadescription description csacasfasknk kcjakc casd cad a ssdadadescription csacasfasknk kcjakc casd cad a ssdadacsacasfasknk kcjdescription csacasfasknk kcjakc casd cad a ssdadaakc casd cad a ssdadadescription csacasfasknk kcjakc casd cad a ssdada </p>
+                  <h3 style="font-size:16px;margin-left:30px"> {{ class.Admin_Professor.utilisateur.user.first_name}} {{ class.Admin_Professor.utilisateur.user.last_name}} </h3>
+                  <p style="font-size:12px;margin-left:30px"> {{class.description}} </p>
                
                </div>
 
