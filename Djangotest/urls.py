@@ -134,6 +134,20 @@ urlpatterns = [
     #
     path('leave_group/', backendviews.leave_group, name='leave_group'),
     #
+    path('group/<str:group_name>/settings/', backendviews.group_settings, name='group_settings'),
+    #
+    path('toggle_admin/', backendviews.toggle_admin, name='toggle_admin'),
+    #
+    path('kick_user/', backendviews.kick_user, name='kick_user'),
+    #
+    path('cancel_invitation/', backendviews.cancel_invitation, name='cancel_invitation'),
+    #
+    path('chat/', views.chat, name='chat'),
+    #
+    path('get_friends/', backendviews.get_friends, name='get_friends'),
+
+
+
     
 ]
 

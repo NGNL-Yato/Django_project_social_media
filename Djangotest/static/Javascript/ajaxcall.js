@@ -169,3 +169,65 @@ $(document).on('click', '.leave-group', function() {
         }
     });
 });
+$(document).ready(function() {
+    $('.toggle-admin').click(function() {
+        var userId = $(this).data('user-id');
+        var groupName = $(this).data('group-name');
+        $.ajax({
+            url: '/toggle_admin/',  // URL of your Django view
+            type: 'POST',
+            data: {
+                'user_id': userId,
+                'group_name': groupName,
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: function(data) {
+                alert(data.message);
+                location.reload();  // Reload the page to reflect the changes
+            }
+        });
+    });
+});
+$(document).ready(function() {
+    $('.kick-user').click(function() {
+        var userId = $(this).data('user-id');
+        var groupName = $(this).data('group-name');
+        $.ajax({
+            url: '/kick_user/',  // URL of your Django view
+            type: 'POST',
+            data: {
+                'user_id': userId,
+                'group_name': groupName,
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: function(data) {
+                if (data.message === 'User kicked.') {
+                    alert('User kicked successfully.');
+                    location.reload();  // Reload the page to reflect the changes
+                } else {
+                    alert('Failed to kick user.');
+                }
+            }
+        });
+    });
+});
+$(document).ready(function() {
+    $('.decline-invitation').click(function() {
+        var userId = $(this).data('user-id');
+        $.ajax({
+            url: '/cancel_invitation/',  // URL of your Django view
+            type: 'POST',
+            data: {
+                'user_id': userId,
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: function(data) {
+                if (data.success) {
+                    alert('Invitation cancelled successfully.');
+                } else {
+                    alert('Failed to cancel invitation.');
+                }
+            }
+        });
+    });
+});

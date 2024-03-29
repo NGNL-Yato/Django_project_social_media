@@ -9,14 +9,14 @@ from .Post import delete_post
 from .Like import like_post
 from django.http import JsonResponse
 from django.core import serializers
-from .models import User, UserGroup, Group
+from .models import User, UserGroup, Group, follow, Conversation
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
-
+from django.core.paginator import Paginator
 
 
 
@@ -325,7 +325,7 @@ def removeLanguage(request,id):
 
 # settings
 def profile_settings(request):
-    # epeForm = None
+    epeForm = None
     if request.method == 'POST':
         userinstance = models.utilisateur.objects.get(user_id=request.user.id)
         form = UtilisateurForm(request.POST,request.FILES, instance=userinstance)
@@ -594,3 +594,90 @@ def leave_group(request):
     group_name = request.POST.get('group_name')
     UserGroup.objects.filter(user=request.user, group__group_name=group_name).delete()
     return JsonResponse({'message': 'Group left.'})
+
+@login_required   
+def group_settings(request, group_name):
+    group = Group.objects.get(group_name=group_name)
+    admins = UserGroup.objects.filter(group=group, is_admin=True)
+    search = request.GET.get('search', '')
+    users_list = group.usergroup_set.exclude(user=group.user).filter(Q(user__first_name__icontains=search) | Q(user__last_name__icontains=search), invitation_on=True)
+    paginator = Paginator(users_list, 7)
+    page_number = request.GET.get('page')
+    users = paginator.get_page(page_number)
+
+    # Handle invitation search
+    invitation_search = request.GET.get('invitation_search', '')
+    invitation_users_list = group.usergroup_set.filter(Q(user__first_name__icontains=invitation_search) | Q(user__last_name__icontains=invitation_search), invitation_on=False)
+    invitation_users = Paginator(invitation_users_list, 7).get_page(request.GET.get('invitation_page'))
+
+    if (request.user not in admins) and (request.user != group.user):
+        return redirect('group_posts', group_name=group_name)
+    if request.method == 'POST':
+        group_name = request.POST.get('group_name')
+        description = request.POST.get('description')
+        target = request.POST.get('target')
+        profile_banner = request.FILES.get('profile_banner')
+        if group_name:
+            group.group_name = group_name
+        if description:
+            group.description = description
+        if target:
+            group.target = target
+        if profile_banner:
+            group.profile_banner = profile_banner
+        group.save()
+    return render(request, 'HTML/home/group_settings.html', {'group': group, 'users': users, 'invitation_users': invitation_users})
+
+@require_POST
+@login_required
+def toggle_admin(request):
+    user_id = request.POST.get('user_id')
+    group_name = request.POST.get('group_name')
+    user_group = UserGroup.objects.get(user__id=user_id, group__group_name=group_name)
+    user_group.is_admin = not user_group.is_admin
+    user_group.save()
+    if user_group.is_admin:
+        return JsonResponse({'message': 'User made admin.'})
+    else:
+        return JsonResponse({'message': 'Admin removed.'})
+
+@require_POST
+@login_required
+def kick_user(request):
+    user_id = request.POST.get('user_id')
+    group_name = request.POST.get('group_name')
+    rows_deleted = UserGroup.objects.filter(user__id=user_id, group__group_name=group_name).delete()
+    if rows_deleted[0] > 0:
+        return JsonResponse({'message': 'User kicked.'})
+    else:
+        return JsonResponse({'message': 'Failed to kick user.'})
+
+@csrf_exempt
+def cancel_invitation(request):
+    if request.method == 'POST':
+        user_id = request.POST.get('user_id')
+        user_group = UserGroup.objects.get(user__id=user_id)
+        user_group.invitation_on = True  # Or whatever you do to cancel the invitation
+        user_group.save()
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'success': False})
+
+@login_required
+def get_friends(request):
+    user = request.user
+    utilisateur = user.utilisateur
+    friends = set()
+    Conversations = Conversation.objects.filter(participant__user=user)    
+    Conversations_info = [{'title': conversation.title,'picture':conversation.Conversation_picture} for conversation in Conversations]
+    for f in utilisateur.following.all():
+        if f.followed.followers.filter(follower=utilisateur).exists():
+            friends.add(f.followed)
+    friends = {friend for friend in friends if friend.following.filter(followed=utilisateur).exists()}
+    friends_info = [{'first_name': friend.user.first_name, 'last_name': friend.user.last_name, 'profile_picture': friend.profile_picture.url} for friend in friends]
+    data = {
+        'friends': friends_info,
+        'conversations': Conversations_info
+    }
+
+    return JsonResponse(data, safe=False)

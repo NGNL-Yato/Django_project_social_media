@@ -1,0 +1,54 @@
+.menu {
+    justify-content: center;
+    display: flex;
+    gap: 3%;
+    margin: 10px;
+}
+.users_setting_wrapper>div>h1,
+.content-section>h1{
+    display: flex;
+    justify-content: center;
+    position: inherit;
+    margin: 0px 0px 10px 0px;
+}
+#settings-content,
+#invitations-content,
+#members-content {
+    background-color: var(--white);
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  border-radius: 15px;
+}
+.menu>button {
+    background-color: #6524c4;
+    border: none;
+    padding: 8px;
+    border-radius: 10px;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.menu>button:hover {
+    background-color: #4d1a9c;
+    transform: scale(1.05);
+}
+.menu>button.active {
+    background-color: #7b649d;
+    transform: scale(0.95);
+}
+.back_to_group {
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+}
+h1, input[type="text"], textarea {
+    text-align: left;
+    display: block;
+    width: 100%;
+}
+
+input[type="submit"], button {
+    display: block;
+    margin: 0 auto;
+}

@@ -1,0 +1,98 @@
+<div class="messaging_template">
+    <div class="chat">
+        <div class="card">
+            <div class="card-header">
+                <div class="friend_searchbar">
+                    <input type="text" placeholder="Search..." name="" class="search_bar">
+                    <div class="input_group">
+                        <span class="input_group_icon"><i class="fas fa-search"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="toggle_buttons">
+                <button class="toggle_button" id="show_friends">Friends</button>
+                <button class="toggle_button" id="show_conversations">Groups</button>
+            </div>
+            <div class="all-contacts">
+                <ul class="contacts_display">
+                    {% comment %} <li class="active">
+                        <div class="user_friend_displayed">
+                            <div class="img_cont">
+                                <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="user_img">
+                                <span class="online_icon"></span>
+                            </div>
+                            <div class="user_info">
+                                <span>Khalid Charif</span>
+                                <p>Online</p>
+                            </div>
+                        </div>
+                    </li> {% endcomment %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="chat-messages">
+        <div class="card">
+            <div class="message_top_info">
+                <div class="message_header">
+                    <div class="img_cont">
+                        <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="user_img">
+                        <span class="online_icon"></span>
+                    </div>
+                    <div class="user_info">
+                        <span>Khalid Charif</span>
+                        <p>Online</p>
+                    </div>
+                </div>
+                <div class="more_options">
+                    <input id="checkbox" type="checkbox">
+                    <label class="toggle" for="checkbox">
+                        <div id="bar1" class="bars"></div>
+                        <div id="bar2" class="bars"></div>
+                        <div id="bar3" class="bars"></div>
+                    </label>
+                </div>
+                <div class="action_menu" id="action_menu">
+                    <ul>
+                        <li><i class="fas fa-user-circle"></i> View profile</li>
+                        <li><i class="fas fa-users"></i> Add to close friends</li>
+                        <li><i class="fas fa-plus"></i> Add to group</li>
+                        <li><i class="fas fa-ban"></i> Block</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="message_box">
+                <div class="message_container_receiver">
+                    <div class="img_cont_msg">
+                        <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="user_img_msg">
+                    </div>
+                    <div class="msg_container">
+                        Hi, how are you samim?
+                        <span class="msg_time">8:40 AM, Today</span>
+                    </div>
+                </div>
+                <div class="message_container_sender">
+                    <div class="msg_container_send">
+                        Hi Khalid i am good tnx how about you?
+                        <span class="msg_time_send">8:55 AM, Today</span>
+                    </div>
+                    <div class="img_cont_msg">
+                        <img src="https://avatars.hsoubcdn.com/ed57f9e6329993084a436b89498b6088?s=256" class="user_img_msg">
+                    </div>
+                </div>
+            </div>
+            <div class="message_input_box">
+                <div class="input-group">
+                    <div class="input-group-append">
+                        <span class="input-group-text-bt1"><i class="fas fa-paperclip"></i></span>
+                    </div>
+                    <textarea name="" class="form-control" placeholder="Type your message..."></textarea>
+                    <div class="input-group-append">
+                        <span class="input-group-text-bt2"><i class="fas fa-location-arrow"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- JQuery -->

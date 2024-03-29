@@ -35,15 +35,15 @@
            <div class="icons">
               <div id="menu-btn" class="fas fa-bars"></div>
               <div id="search-btn" class="fas fa-search"></div>
-              <div id="user-btn" class="fas fa-plus"></div>
+              <!-- <div id="user-btn" class="fas fa-plus"></div> -->
               <div id="toggle-btn" class="fas fa-sun"></div>
            </div>
      
-           <div class="profile" style="height:120px">
+           <!-- <div class="profile" style="height:120px">
              <h3 class="name">Rejoindre un cours</h3>
              <input type="text" name="code" placeholder="course code " style="padding-top:20px">
              <a  href="#" class="join_btn" style="background-color: rgb(238, 97, 174); height:40px">Join</a>
-             </div>
+             </div> -->
          
      
         </section>
@@ -57,18 +57,18 @@
    
       <div class="profile">
          <img src="/media/{{userdata.utilisateur.profile_picture}}" class="image" alt="">
-         <h3 class="name"> {{userdata.first_name}} {{userdata.last_name }} </h3>
-         {% if userdata.utilisateur.role is 2 %}   
+         <h3 class="name"> {{userdata.first_name}} {{userdata.last_name }}</h3>
+      {% if userdata.utilisateur.role is 2 %}   
          <p class="role">student</p>
-         {% elif  userdata.utilisateur.role is 1 %}
-         <p class="role">Professeur</p>
-         {% else %}
-         <p class="role">Entreprise</p>
-         {% endif %}     
+       {% elif  userdata.utilisateur.role is 1 %}
+       <p class="role">Professeur</p>
+       {% else %}
+       <p class="role">Entreprise</p>
+       {% endif %}
        </div>
    
       <nav class="navbar">
-         <a href="home"><i class="fas fa-home"></i><span>home</span></a>
+         <a href="{% url 'Classroom' %}"><i class="fas fa-home"></i><span>home</span></a>
          <a href="#"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
          <a href="#"><i class="fas fa-box-archive"></i><span>archived courses</span></a>
          <a href="Todo"><i class="fas fa-check"></i><span>To Do</span></a>
@@ -93,15 +93,16 @@
 
             <div class="head" style="background-color:rgb(246, 132, 177);align-items: center;display: flex;margin-top:20px;justify-content: space-between;">
                
-               <div class="image" style="margin: 10px;margin-bottom: -5%;">
-                  <img src="/media/{{ class.ClassRoomimage }}">
+               <div class="" style="margin: 25px;margin-bottom: -5%;">
+                  <img src="/media/{{classroomDetails.ClassRoomimage}}" style="height : 200px;width: 200px;">
                </div>
 
                <div class="infos" style="width: 70%;margin: 2%;">
-                  <h3>{{ class.ClassRoomtitle }} </h3>
+                  <h3>{{classroomDetails.ClassRoomtitle}}</h3>
 
-                  <h3 style="font-size:16px;margin-left:30px"> {{ class.Admin_Professor.utilisateur.user.first_name}} {{ class.Admin_Professor.utilisateur.user.last_name}} </h3>
-                  <p style="font-size:12px;margin-left:30px"> {{class.description}} </p>
+                  <h3  style="font-size:16px;margin-left:30px">{{classroomDetails.Admin_Professor.utilisateur.user.first_name}} {{classroomDetails.Admin_Professor.utilisateur.user.last_name}}</h3>
+                 
+                  <p style="font-size:12px;margin-left:30px;margin-top: 10px;"> {{classroomDetails.description}} </p>
                
                </div>
 
@@ -109,15 +110,88 @@
 
                <div style="margin-top: 80px;width: 100%;padding: 10px;background-color: rgb(255, 255, 255);"> 
                
-                     <!-- hna includer lform d post  -->
+                     <!--  including post form  -->
                      <div style="height: auto; width: 100%;display: flex;justify-content: center;color: #eb437e;">
                      {% include 'HTML/classroom/create_classroom_post.html'%}
-                     <hr><hr>
+                  </div>
+
+               </div>
+
+               <div>
+
+                  
+                  <div style="height: auto;background-color: transparent;color: black;">
+                     <div class="prof-post" style="height: 80px;background-color: transparent;">
+
+
+
+
+                        <!-- generate posts  -->
+                     <div style="margin-top: 20px;background-color: #eb437e;">
+
+                     <div style="width: auto;display: flex;align-items: center;justify-content: start;margin-left: 2%;">
+                        <img src="/media/{{classroomDetails.Admin_Professor.utilisateur.profile_picture}}" style="height: 80px;width: 80px;border-radius: 50%;padding: 10px;" alt="">
+                        <div style="color: aliceblue;">
+                           <h3  style="font-size:18px;margin-left:10px">{{classroomDetails.Admin_Professor.utilisateur.user.first_name}} {{classroomDetails.Admin_Professor.utilisateur.user.last_name}} </h3>
+                        <h4 style="margin-top: 0px;margin-left: 20px;">march 12.02.2024</h4>
+                     </div>  
+                     
                      </div>
 
-                     
-                     <!-- w hna lopper 3la ga3 les posts d had classroom -->
+                     <div style="background-color: rgb(255, 255, 255); padding: 10px;display: block;justify-content: start;align-items: center;">
+                        <div style="width:auto;margin-inline: 5%;padding: 10px;" >
+                        <h4 style="font-size: 18px;">post contentpost contentpost contentpost contccontentpost contentpost contccontentpost contentpost contccontentpost contentpost contcontentpost contentpost contentpost contcontentpost contentpost contentpost contcontentpost contentpost contentpost contcontentpost contentpost contentpost contentpost contentpost contentpost contentpost contentpost contentpost contentpost contentpost contentpost content</h4>
+                        </div>
+                        <div style="width: 100%;margin-left: 4%;padding: 8px;">
+                           <button style="background-color: #eb437e;color: aliceblue;padding: 18px;border-radius: 10px;">
+                              Download File
+                           </button>
+                        </div>
+                     </div>
+                  </div>
+
+                     <!-- end post -->
+
+
+
+                        <!-- generate posts  -->
+                        <div style="margin-top: 20px;background-color: #eb437e;">
+
+                           <div style="width: auto;display: flex;align-items: center;justify-content: start;margin-left: 2%;">
+                              <img src="/media/{{classroomDetails.Admin_Professor.utilisateur.profile_picture}}" style="height: 80px;width: 80px;border-radius: 50%;padding: 10px;" alt="">
+                           <div style="color: aliceblue;">
+                              <h3  style="font-size:18px;margin-left:10px">{{classroomDetails.Admin_Professor.utilisateur.user.first_name}} {{classroomDetails.Admin_Professor.utilisateur.user.last_name}} </h3>
+                              <h4 style="margin-top: 0px;margin-left: 20px;">march 12.02.2024</h4>
+                           </div>  
+                           
+                           </div>
+      
+                           <div style="background-color: rgb(255, 255, 255); padding: 10px;display: block;justify-content: start;align-items: center;">
+                              <div style="width:auto;margin-inline: 5%;padding: 10px;" >
+                              <h4 style="font-size: 18px;">post contentpost contentpost contentpost contccontentpost contentpost contccontentpost contentpost contccontentpost contentpost contcontentpost contentpost contentpost contcontentpost contentpost contentpost contcontentpost contentpost contentpost contcontentpost contentpost contentpost contentpost contentpost contentpost contentpost contentpost contentpost contentpost contentpost contentpost content</h4>
+                              </div>
+                              <div style="width: 100%;margin-left: 4%;padding: 8px;">
+                                 <button style="background-color: #eb437e;color: aliceblue;padding: 18px;border-radius: 10px;">
+                                    Download File
+                                 </button>
+                              </div>
+                           </div>
+                        </div>
+      
+                           <!-- end post -->
+
+
+
+
+
+                  </div>
+               
                </div>
+
+            </div>
+
+
+               
 
          </div>
 

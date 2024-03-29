@@ -1,0 +1,149 @@
+{% load static %}
+
+
+<div class="settings_wrapper">
+    <a href="{% url 'group_posts' group_name=group.group_name %}"><button class="back_to_group"><i class="fa fa-chevron-left">  Back to Group</button></i></a>
+    <div class="menu">
+        <button class="menu-button" id="members-button">Members</button>
+        <button class="menu-button" id="invitations-button">Pending Invitations</button>
+        <button class="menu-button" id="settings-button">Group Settings</button>
+    </div>
+
+    <div class="contents" style ="justify-content: center; display: flex;">
+        <div id="members-content" class="content-section">
+            <div class="users_setting_wrapper">
+                <div style="max-height: 500px; overflow-y: auto;">
+                    <h1>Members</h1>
+                    <form method="GET">
+                        Search Users: <input type="text" name="search" value="{{ search }}">
+                        <input type="submit" value="Search">
+                    </form>
+                    <table>
+                        <tr>
+                            <th>Members</th>
+                            <th>Actions</th>
+                        </tr>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.user.first_name }} {{  user.user.last_name }}</td>
+                                <td>
+                                    <button class="toggle-admin" data-user-id="{{ user.user.id }}" data-group-name="{{ group.group_name }}">
+                                        {% if user.is_admin %}
+                                            Remove Admin
+                                        {% else %}
+                                            Make Admin
+                                        {% endif %}
+                                    </button>
+                                    <button class="kick-user" data-user-id="{{ user.user.id }}" data-group-name="{{ group.group_name }}">Kick User</button>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="2">No users found.</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+
+                    {% if users.has_previous %}
+                    <a href="?page={{ users.previous_page_number }}&search={{ search }}">Previous</a>
+                    {% endif %}
+                    {% if users.has_next %}
+                    <a href="?page={{ users.next_page_number }}&search={{ search }}">Next</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div id="invitations-content" class="content-section" style="display: none;">
+            <h1>Pending Invitations</h1>
+
+            <form method="GET">
+                Search Invitations: <input type="text" name="invitation_search" value="{{ invitation_search }}">
+                <input type="submit" value="Search">
+            </form>
+        
+            <table>
+                <tr>
+                    <th>Invited</th>
+                    <th>Actions</th>
+                </tr>
+                {% for user in invitation_users %}
+                    <tr>
+                        <td>{{ user.user.first_name }} {{  user.user.last_name }}</td>
+                        <td>
+                            <button class="decline-invitation" data-user-id="{{ user.user.id }}">Cancel Invitation</button>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="2">No pending invitations.</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div id="settings-content" class="content-section" style="display: none;">
+        <h1>Settings</h1>
+        <form method="POST" enctype="mtrtipart/form-data">
+            {% csrf_token %}
+            Group Name: <input type="text" name="group_name" value="{{ group.group_name }}"><br>
+            Description: <textarea name="description">{{ group.description }}</textarea><br>
+            Target: 
+            <select name="target">
+                <option value="Public" {% if group.target == 'Public' %}selected{% endif %}>Public</option>
+                <option value="Private" {% if group.target == 'Private' %}selected{% endif %}>Private</option>
+            </select><br>
+            Profile Banner: <input id="profile-banner-input" type="file" name="profile_banner"><br>
+            <img id="profile-banner" src="{{ group.profile_banner.url }}" style ="height:300px;display:flex;justify-content: center;" alt="Profile Banner"><br>
+            <input type="submit" value="Save changes">
+        </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var buttons = document.querySelectorAll('.menu-button');
+        var sections = document.querySelectorAll('.content-section');
+        var sectionMap = {};
+
+        // Map each button to its corresponding section
+        buttons.forEach(function(button) {
+            var sectionId = button.id.replace('-button', '-content');
+            sectionMap[button.id] = document.getElementById(sectionId);
+        });
+
+        buttons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                // Hide all sections
+                sections.forEach(function(section) {
+                    section.style.display = 'none';
+                });
+
+                // Remove active class from all buttons
+                buttons.forEach(function(button) {
+                    button.classList.remove('active');
+                });
+
+                // Add active class to clicked button
+                button.classList.add('active');
+
+                // Show the clicked section
+                sectionMap[button.id].style.display = 'block';
+            });
+        });
+
+        var profileBannerInput = document.getElementById('profile-banner-input');
+        var profileBanner = document.getElementById('profile-banner');
+
+        profileBannerInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    profileBanner.src = e.target.result;
+                }
+
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    });
+</script>

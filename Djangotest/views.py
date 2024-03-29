@@ -184,15 +184,22 @@ def chat_app_view(request):
 def contact_view(request):
     return render(request, 'HTML/userProfile/contactInfo.html')
 
+ 
+def post_view(request):
+    context = {}  
+    return render(request,'HTML/userProfile/post.html', context)
+
 
  
 def post_view(request):
     context = {}  
     return render(request,'HTML/userProfile/post.html', context)
 
+
 def generate_random_code(length=8):
     characters = string.ascii_letters + string.digits  # includes both uppercase and lowercase letters and digits
     return ''.join(random.choice(characters) for _ in range(length))
+
 
 #
 def create_Classroom(request):
@@ -274,8 +281,9 @@ def group_about(request, group_name):
     isguest = not request.user.is_authenticated
     is_member = group.is_member(request.user)
     is_admin = group.is_admin(request.user)
+    target = group.target
     members_count = UserGroup.objects.filter(group=group).count()
-    context = {'group': group, 'members_count': members_count, 'is_member': is_member, 'is_admin': is_admin, 'user': request.user, 'visiteur': isguest}
+    context = {'group': group, 'members_count': members_count, 'is_member': is_member, 'is_admin': is_admin, 'user': request.user, 'visiteur': isguest, 'target': target}
     return render(request, 'HTML/home/group-about.html', context)
 
 def group_posts(request, group_name):
@@ -307,6 +315,7 @@ def group_events(request, group_name):
 
 def qcm_view(request):
     return render( request, 'HTML/classroom/qcm.html') 
+
  
 def create_Classroom_post(request, uid):
     if request.user.is_authenticated and request.method == 'POST':
@@ -330,3 +339,9 @@ def course_view(request, uid):
             }  
         return render(request, 'HTML/classroom/course.html', context)
     
+
+
+def chat(request):
+    context = {}  
+    return render(request,'HTML/Messaging/messages-page.html', context)
+

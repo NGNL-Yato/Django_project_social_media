@@ -45,3 +45,7 @@ window.addEventListener('mousedown', function(event) {
 document.querySelector('.close').addEventListener('click', function() {
     document.querySelector('#home_settings').style.display = 'none';
 });
+//When user click on the settings buttons
+document.querySelector('#settings_bt').addEventListener('click', function() {
+    window.location.href = this.getAttribute('href');
+});

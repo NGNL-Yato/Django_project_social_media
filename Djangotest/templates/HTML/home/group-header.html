@@ -20,9 +20,10 @@
         {% if is_member %}
             {% if is_admin %}
                 <button id="invite_button" action="" class="btn btn-primary" style ="margin-right: 1%;">Invite people</button>
-                <button href="" class="btn btn-primary"><i class="fa-solid fa-sliders"></i></button>
+                <button id="settings_bt" href="{% url 'group_settings' group_name=group.group_name %}" class="btn btn-primary"><i class="fa-solid fa-sliders"></i></button>
             {% else %}
-                <button href="" class="btn btn-primary leave-group" data-group-name="{{ group.group_name }}">Leave Group</button>            {% endif %}
+                <button href="" class="btn btn-primary leave-group" data-group-name="{{ group.group_name }}">Leave Group</button>            
+            {% endif %}
         {% else %}
                 <button href="" class="btn btn-primary join-group" data-group-name="{{ group.group_name }}">Join Group</button>
         {% endif %}

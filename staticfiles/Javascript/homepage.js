@@ -114,8 +114,6 @@ Array.from(btnn).forEach((btn) => {
     }
 });
 
-
-
 var circleButton = document.getElementById('circleButton');
 var circleMenu = document.getElementById('circleMenu');
 

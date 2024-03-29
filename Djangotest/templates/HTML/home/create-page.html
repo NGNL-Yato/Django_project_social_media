@@ -13,7 +13,9 @@
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {% for field in group_form %}
-                    {% if field.name == 'group_name' or field.name == 'description' %}
+                    {% if field.name == 'description' %}
+                        <textarea class="your-css-class" name="{{ field.name }}" id="{{ field.auto_id }}" placeholder="{{ field.label }}"></textarea>
+                    {% elif field.name == 'group_name' %}
                         <input type="text" class="your-css-class" name="{{ field.name }}" id="{{ field.auto_id }}" placeholder="{{ field.label }}">
                     {% elif field.name == 'target' %}
                         <select name="{{ field.name }}" id="{{ field.auto_id }}">

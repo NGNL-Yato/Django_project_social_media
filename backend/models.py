@@ -228,7 +228,6 @@ class Group(models.Model):
             UserGroup.objects.create(user=self.user, group=self, is_admin=True, invitation_on=True)
     def is_admin(self, user):
         return self.usergroup_set.filter(user=user, is_admin=True).exists()
-
 #
 #
 class Event(models.Model):
@@ -317,3 +316,28 @@ class Post(models.Model):
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
+#
+#
+class Conversation(models.Model):
+    title = models.CharField(max_length=200, null=True, blank=True)
+    Conversation_picture = models.ImageField(default='profile_pictures/img_banniere.png',upload_to='profile_pictures/', blank=True)
+    description = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+#
+#
+class Participant(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE)
+    group_id = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True)
+#
+#
+class Message(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE)
+    conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+#
+#
+class MessageFile(models.Model):
+    message = models.ForeignKey(Message, related_name='files', on_delete=models.CASCADE)
+    file = models.FileField(upload_to='messages_files/', null=True, blank=True)
