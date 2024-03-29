@@ -185,8 +185,18 @@ def contact_view(request):
     return render(request, 'HTML/userProfile/contactInfo.html')
 
 
-def course_view(request):
-    return render( request, 'HTML/classroom/course.html')  
+def course_view(request,uid):
+    if request.user.is_authenticated:
+        context = {
+            'userdata':request.user,
+            'classroomDetails':models.ClassRoom.objects.filter(UniqueinvitationCode=uid).first(),
+            # 'ClassRoompostform':classroom post form () 
+            }  
+        return render( request, 'HTML/classroom/course.html',context)  
+        # return render(request,'HTML/classroom/home.html',context)
+    else:
+        return redirect('login')
+
 
  
 def post_view(request):
@@ -197,13 +207,31 @@ def generate_random_code(length=8):
     characters = string.ascii_letters + string.digits  # includes both uppercase and lowercase letters and digits
     return ''.join(random.choice(characters) for _ in range(length))
 
+#
+def create_Classroom(request):
+    if request.user.is_authenticated and request.method == 'POST':
+        form = ClassRoomForm(request.POST,request.FILES)
+        if form.is_valid():
+            
+            unique_code = generate_random_code()
+            while models.ClassRoom.objects.filter(UniqueinvitationCode=unique_code).exists():
+                unique_code = generate_random_code() 
+
+            f = form.save(commit=False)
+            f.Admin_Professor = models.Professor.objects.filter(utilisateur=request.user.utilisateur).first()
+            f.UniqueinvitationCode = unique_code
+            f.save()
+
+    return redirect('Classroom')
+
+#
 def create_event(request):
     if request.user.is_authenticated and request.method == 'POST':
         form = EventForm(request.POST,request.FILES)
+        print(request.POST)
         if form.is_valid():
             f = form.save(commit=False)
-            f.Admin_Professor = models.Professor.objects.get(utilisateur=request.user.utilisateur)
-            f.UniqueinvitationCode = generate_random_code()
+            f.utilisateur = models.utilisateur.objects.get(user_id=request.user.id)
             f.save()
 
     return redirect('all_events')

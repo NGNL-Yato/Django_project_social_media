@@ -45,14 +45,10 @@
 }
 
 .group-header {
-    background-color: white;
+    background-color: var(--white);
     margin-top: 10px;
     margin-bottom: 10px;
     border-radius: 15px;
-}
-
-.group-name {
-    /* padding : 10px; */
 }
 
 .group-buttons {
@@ -70,7 +66,7 @@
     height: 3%;
     color: rgb(255, 255, 255);
     border-bottom: 5px solid rgb(102, 50, 224);
-    background-color: rgb(255, 255, 255);
+    background-color: var(--white);
     padding: 8px;
 }
 

@@ -57,6 +57,14 @@ urlpatterns = [
     #
     path('classroom/Todo',views.todo_view,name='Todo'),
     #
+    path('classroom/course/<str:uid>',views.course_view,name='Course'),
+    #
+    path('classroom/qcm',views.qcm_view,name='qcm'),
+    #
+    path('create_Classroom/',views.create_Classroom,name='createClassroom'),
+    #
+    # path('create_Classroom_post/',views.create_Classroom_post,name='createClassroomPost'),
+    #
     path('about/',views.index_view,name='about'),
     #
     path('chatApp/', views.chat_app_view, name='chat_app'),
@@ -93,8 +101,6 @@ urlpatterns = [
     #
     path('contact/',views.contact_view,name="contact"),
     #
-    path('classroom/course',views.course_view,name='Course'),
-    #
     path('delete_post/<int:post_id>/', backendviews.delete_post, name='delete_post'),
     #
     path('like_post/<int:post_id>/', backendviews.like_post, name='like_post'),
@@ -106,8 +112,6 @@ urlpatterns = [
     path('groups/<str:group_name>', views.group_posts, name='group_posts'),
     #
     path('groups/<str:group_name>/events', views.group_events, name='group_events'),
-    #
-    path('classroom/qcm',views.qcm_view,name='qcm'),
     #
     path('search_people/', backendviews.search_people, name='search_people'),  # new URL pattern
     #

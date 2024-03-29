@@ -44,6 +44,8 @@
         </div>
 
         <br><br>
+   {% if userdata.utilisateur.role is 1 %}   
+
         <div style="background-color: rgb(238, 97, 174);height: 3px; width: 100%;"></div>
         <br>
 
@@ -52,6 +54,7 @@
             <h3 class="name">Cree un cours</h3><br>
             <a  id="create_classroom_btn" class="join_btn" style="background-color: rgb(238, 97, 174); border-radius: 5px;padding: 10px;font-size: 12px;color: #eeeeee;font-weight: 500;">Create</a>
         </div>
+        {% endif %}
 
       </div>
     
@@ -94,33 +97,44 @@
 <!--  -->
 <section class="home-grid" >
    <div class="box-container" >
-         <div class="card-container" >
+         <div class="card-container" style="background-color: transparent;">
+
 
        <!--  -->
-<div class="card" style="max-width: 230px;">
-   <header class="article-header">
+       {% for class in classrooms %}
+<div class="card" style="max-height: 320px;" onclick="visitclassroom('{{class.UniqueinvitationCode}}')">
+   <header class="article-header" style="">
        <div>
            <div class="category-title">
                
-               <span class="date">Jan 19, 2020</span>
+               <span class="date">{{ class.created_at }}</span> 
            </div>
        </div>
-       <h2 class="article-title">Course 1</h2>
+       <h2 class="article-title">{{ class.ClassRoomtitle }}</h2>
    </header>
-   <div class="picture">
-       <img src="/static/Assets/Images/10780-NN3O2S.jpg"  class="round-image" >
+
+
+   <div class="" style="height: 100%;display: flex;align-items: center;justify-content: center;">
+       <img src="/media/{{ class.ClassRoomimage }}"  class="" style="padding: 10px;width: 190px;height: 190px; border-radius: 50%;" >
    </div>
-   <div class="author">
-       <div class="profile"></div>
-       <div class="info">
-           <div class="name">Professor</div>
-       </div>
+   
+   <!-- <div style="height: 30px;"></div> -->
+
+   <div class="" style="width: 100%; display: flex;justify-content: center;">
+       <!-- <div class="profile"></div> -->
+       <div class="" style="width: 80%;text-align:center">
+          <h2>{{ class.Admin_Professor.utilisateur.user.first_name}} {{ class.Admin_Professor.utilisateur.user.last_name}}</h2>
+        </div>
+
    </div>
+   
+
    <div class="tags">
-       <div><a herf="#">Open</a></div>
-       <div>archived</div>
+       <!-- <div> <a herf="{% url 'Course' uid=class.UniqueinvitationCode %}" style="padding: 8px;">Acceder</a></div> -->
+       <!-- <div style="padding: 8px;">archiver</div> -->
    </div>
 </div>
+{% endfor %}
         <!--  -->
 
 </div>
@@ -131,6 +145,10 @@
 <!-- custom js file link  -->
 <script src="/static/Javascript/classroom/classroom.js"></script>
 
-   
+<script>
+    function visitclassroom(uid){
+        window.location.href = '/classroom/course/'+uid
+    }
+</script>
 </body>
 </html>
