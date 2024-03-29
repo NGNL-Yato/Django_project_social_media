@@ -184,6 +184,11 @@ def chat_app_view(request):
 def contact_view(request):
     return render(request, 'HTML/userProfile/contactInfo.html')
 
+ 
+def post_view(request):
+    context = {}  
+    return render(request,'HTML/userProfile/post.html', context)
+
 
 def course_view(request,uid):
     if request.user.is_authenticated:
@@ -198,14 +203,11 @@ def course_view(request,uid):
         return redirect('login')
 
 
- 
-def post_view(request):
-    context = {}  
-    return render(request,'HTML/userProfile/post.html', context)
-
+#
 def generate_random_code(length=8):
     characters = string.ascii_letters + string.digits  # includes both uppercase and lowercase letters and digits
     return ''.join(random.choice(characters) for _ in range(length))
+
 
 #
 def create_Classroom(request):

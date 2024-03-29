@@ -44,7 +44,7 @@ body {
 
 
 .card-container {
-   /* width: auto; */
+   width: auto;
    overflow-x: auto;
    display: flex;
    background-color:white;
@@ -52,9 +52,9 @@ body {
 }
 
 .card {
-   /* min-width: 200px; */
-   /* height: 350px; */
-   /* border-radius: 16px; */
+   min-width: 200px;
+   height: 350px;
+   border-radius: 16px;
    background-color: #eb5d8a;
    box-shadow: -1rem 0 1rem #605c5c;
    display: flex;

@@ -6,23 +6,20 @@
     <input type="search" placeholder="Search">
     <i class="fa-solid fa-magnifying-glass"></i>
 </div>
+
 <ul>
     {% for obj in usersobj %}
     <li>
         <img src="/media/{{obj.profile_picture}}" alt="user">
-        <b>{{obj.full_name}} <span>{{obj.online}}</span></b>
+        <b>{{obj.full_name}} 
+            {% if obj.online == 'online' %}
+            <span style="color: rgb(0, 202, 135);">{{obj.online}}</span>
+            {% else %}
+            <span style="color: rgb(198, 0, 0);">{{obj.online}}</span>
+
+            {%endif%}
+        </b>
         <i class="fa-brands fa-facebook-messenger"></i>
     </li>
 {% endfor %}
-    <!-- <li>
-        <img src="{%static 'Assets/Images/us3.png' %}" alt="user">
-        <b>Armanul Islam <span>Offline</span></b>
-        <i class="fa-brands fa-facebook-messenger"></i>
-    </li>
-
-    <li>
-        <img src="{%static 'Assets/Images/us4.png' %}" alt="user">
-        <b>Mohammad Amir <span>Online</span></b>
-        <i class="fa-brands fa-facebook-messenger"></i>
-    </li> -->
 </ul>
