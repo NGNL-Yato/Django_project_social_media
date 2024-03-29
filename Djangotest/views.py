@@ -244,8 +244,9 @@ def group_about(request, group_name):
     isguest = not request.user.is_authenticated
     is_member = group.is_member(request.user)
     is_admin = group.is_admin(request.user)
+    target = group.target
     members_count = UserGroup.objects.filter(group=group).count()
-    context = {'group': group, 'members_count': members_count, 'is_member': is_member, 'is_admin': is_admin, 'user': request.user, 'visiteur': isguest}
+    context = {'group': group, 'members_count': members_count, 'is_member': is_member, 'is_admin': is_admin, 'user': request.user, 'visiteur': isguest, 'target': target}
     return render(request, 'HTML/home/group-about.html', context)
 
 def group_posts(request, group_name):
@@ -277,3 +278,7 @@ def group_events(request, group_name):
 
 def qcm_view(request):
     return render( request, 'HTML/classroom/qcm.html') 
+
+def chat(request):
+    context = {}  
+    return render(request,'HTML/Messaging/messages-page.html', context)

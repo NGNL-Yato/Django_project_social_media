@@ -228,7 +228,6 @@ class Group(models.Model):
             UserGroup.objects.create(user=self.user, group=self, is_admin=True, invitation_on=True)
     def is_admin(self, user):
         return self.usergroup_set.filter(user=user, is_admin=True).exists()
-
 #
 #
 class Event(models.Model):

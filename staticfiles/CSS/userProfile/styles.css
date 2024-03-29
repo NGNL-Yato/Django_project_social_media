@@ -35,7 +35,7 @@ textarea {
 }
 
 body {
-  background-color: var(--body-color);
+  background-color: var(--background);
   color: var(--text-color);
   transition: 0.4s; /* for light mode animation */
 }
@@ -121,7 +121,7 @@ body.light-theme {
 }
 #profile_card {
   display: none;
-  background-color: gray ;
+  background-color: rgba(0,0,0,0.4);
   position: fixed;
   height: 100%;
   width: 100%;
@@ -193,6 +193,6 @@ body.light-theme {
 
   /* .section {
     padding: 6.5rem 0 1rem;
-  }
+  }*/
   
 }

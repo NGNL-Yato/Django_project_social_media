@@ -16,7 +16,7 @@
         {% if not visiteur %}
         <div class="iconBox1">
             <i class="fa-solid fa-house"></i>
-            <i class="fa-solid fa-user-group"></i>
+            <a href= "{% url 'chat' %}"><i class="fa-solid fa-user-group"></i></a>
         </div>
         <div class="iconBox2">
             {% if isHomePage %}

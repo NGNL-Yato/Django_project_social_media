@@ -1,0 +1,62 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="{%static 'Assets/Images/favicon.ico" type="image/x-icon">
+        <title>Django socialmedia</title>
+        <!-- style css link -->
+        <link rel="stylesheet" href="{% static 'CSS/style.css' %}">    
+        <link rel="stylesheet" href="{% static 'CSS/message/message.css' %}">
+        <!-- font link -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    </head>
+    <body>
+            
+        <!-- header section start -->
+            <header>
+                {% include "HTML/home/header-homepage.html"%}
+            </header>
+        <!-- header section end -->
+
+        <!-- home section start -->
+        <div class="home">
+            <div class="container">
+                <div class="home-weapper">
+
+                    <!-- home center start here -->
+                    <div class="home-center">
+                        {% include "HTML/Messaging/message-template.html" %}
+                    </div> 
+                    <!-- home center end -->
+
+                    <!-- home right start here -->
+                    <div class="home-right">
+                        <div class="home-right-wrapper">
+
+                            <!-- event and friend start -->
+                            <div class="event-friend">
+                                {% include "HTML/home/event-template.html" %}
+                            </div>
+                            <!-- event and friend end -->
+
+                        </div>
+                    </div>
+                    <!-- home right end -->
+
+                </div>
+            </div>
+        </div>
+        <!-- home section end -->
+
+        <!--Scripts link-->
+        <script src="{% static 'Javascript/homepage.js'%}"></script>
+        <script type="text/javascript" src="{% static 'Javascript/messages/message.js' %}"></script>
+        <script type="text/javascript" src="{% static 'Javascript/messages/ajaxcall.js' %}"></script>
+        <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>    
+    </body>
+</html>

@@ -10,7 +10,8 @@
     <title>Django socialmedia</title>
     <!-- style css link -->
     <link rel="stylesheet" href="{% static 'CSS/style.css' %}">    
-    <link rel="stylesheet" href="{% static 'CSS/group-page/group-header.css' %}">    
+    <link rel="stylesheet" href="{% static 'CSS/group-page/group-header.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/group-page/settings_group.css' %}">    
     <!-- font link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -25,7 +26,7 @@
 
     <!-- home section start -->
     <div class="home">
-        <div class="modal1" id="home_settings">
+        {% comment %} <div class="modal1" id="home_settings">
             <div class="modal-content1" style="width: 42%;">
                 <span class="close">&times;</span>
                 <div class="searchBox" style ="width: 80%;">
@@ -34,19 +35,13 @@
                 </div>
                 <div id="search-results"></div>
             </div>
-        </div>
+        </div> {% endcomment %}
         <div class="container">
             <div class="home-weapper">
 
                 <!-- home center start here -->
                 <div class="home-center">
-                    {% include "HTML/home/group-header.html" %}
-                    {% if is_member %}
-                        {% include "HTML/home/home-extended.html" %}
-                    {% endif %}
-                    {% if target is "Public" or is_member %}
-                        {% include "HTML/home/home-posts.html" %}
-                    {% endif %}
+                    {% include "HTML/home/group-settings-alt.html" %}
                 </div> 
                 <!-- home center end -->
 
