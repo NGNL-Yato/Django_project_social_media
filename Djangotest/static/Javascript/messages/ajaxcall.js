@@ -1,17 +1,38 @@
-$.ajax({
-    url: '/get_friends/',  // Update with the correct URL
-    type: 'GET',
-    dataType: 'json',
-    success: function(data) {
-        updateContactsDisplay(data.friends);
-        updateConversationsDisplay(data.conversations);
-    }
+$(document).ready(function() {
+    $.ajax({
+        url: '/get_friends/', 
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            updateContactsDisplay(data.friends);
+        }
+    });
+});
+
+$('#show_friends').click(function() {
+    $.ajax({
+        url: '/get_friends/', 
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            updateContactsDisplay(data.friends);
+        }
+    });
+});
+
+$('#show_conversations').click(function() {
+    $.ajax({
+        url: '/get_friends/',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            updateConversationsDisplay(data.conversations);
+        }
+    });
 });
 function updateContactsDisplay(friends) {
     var contactsDisplay = $('.contacts_display');
-    contactsDisplay.empty();  // Clear the current display
-
-    // Loop through the friends data and create HTML for each friend
+    contactsDisplay.empty();
     for (var i = 0; i < friends.length; i++) {
         var friend = friends[i];
         var friendHTML = '<li class="active">' +
@@ -33,10 +54,8 @@ function updateContactsDisplay(friends) {
 }
 
 function updateConversationsDisplay(conversations) {
-    var conversationsDisplay = $('.conversations_display');
-    conversationsDisplay.empty();  // Clear the current display
-
-    // Loop through the conversations data and create HTML for each conversation
+    var conversationsDisplay = $('.contacts_display');
+    conversationsDisplay.empty(); 
     for (var i = 0; i < conversations.length; i++) {
         var conversation = conversations[i];
         var conversationHTML = '<li class="active">' +
@@ -49,8 +68,6 @@ function updateConversationsDisplay(conversations) {
             '</div>' +
             '</div>' +
             '</li>';
-
-        // Append the conversation HTML to the conversations display
         conversationsDisplay.append(conversationHTML);
     }
 }
