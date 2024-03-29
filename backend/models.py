@@ -246,6 +246,20 @@ class Event(models.Model):
     def __str__(self):
         return 'Event:'+self.head_title
  
+#
+#
+class ClassRoom(models.Model):
+    Admin_Professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
+    #
+    ClassRoomtitle = models.CharField(max_length=100)
+    UniqueinvitationCode = models.CharField(max_length=20,unique=True)
+    ClassRoomimage = models.FileField(upload_to='classroom_course_images/')
+    description = models.TextField(blank=True, null=True)
+    #
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)  
+
+
 #  
 #
 class UserGroup(models.Model):

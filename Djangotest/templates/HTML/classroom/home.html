@@ -35,11 +35,28 @@
          <div id="toggle-btn" class="fas fa-sun"></div>
       </div>
 
-      <div class="profile" style="height:120px">
-        <h3 class="name">Rejoindre un cours</h3>
-        <input type="text" name="code" placeholder="course code " style="padding-top:20px">
-        <a  href="#" class="join_btn" style="background-color: rgb(238, 97, 174); height:40px">Join</a>
+      <div class="profile" style="background-color: #eeeeee ;">
+      
+        <h3 class="name">Rejoindre un cours</h3><br>
+        <div style="display: flex;align-items: center;justify-content: space-around;margin-top: 5px;">
+                <input type="text" name="code" placeholder="course code " style="height: 40px;">
+            <a  class="join_btn" style="background-color: rgb(238, 97, 174);border-radius: 5px;padding-inline: 18px;padding-block: 10px;font-size: 12px;color: #eeeeee;font-weight: 500;">Join</a>
         </div>
+
+        <br><br>
+   {% if userdata.utilisateur.role is 1 %}   
+
+        <div style="background-color: rgb(238, 97, 174);height: 3px; width: 100%;"></div>
+        <br>
+
+        <div style="display: flex;justify-content: space-around;align-items: center;">
+
+            <h3 class="name">Cree un cours</h3><br>
+            <a  id="create_classroom_btn" class="join_btn" style="background-color: rgb(238, 97, 174); border-radius: 5px;padding: 10px;font-size: 12px;color: #eeeeee;font-weight: 500;">Create</a>
+        </div>
+        {% endif %}
+
+      </div>
     
 
    </section>
@@ -53,248 +70,74 @@
    </div>
 
    <div class="profile">
-      <img src="images/pic-1.jpg" class="image" alt="">
-      <h3 class="name"> aya khalifi</h3>
+      <img src="/media/{{userdata.utilisateur.profile_picture}}" class="image" alt="">
+      <h3 class="name"> {{userdata.first_name}} {{userdata.last_name }}</h3>
+   {% if userdata.utilisateur.role is 2 %}   
       <p class="role">student</p>
-   </div>
+    {% elif  userdata.utilisateur.role is 1 %}
+    <p class="role">Professeur</p>
+    {% else %}
+    <p class="role">Entreprise</p>
+    {% endif %}
+    </div>
 
    <nav class="navbar">
       <a href="home"><i class="fas fa-home"></i><span>home</span></a>
       <a href="#"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
       <a href="#"><i class="fas fa-box-archive"></i><span>archived courses</span></a>
       <a href="Todo"><i class="fas fa-check"></i><span>To Do</span></a>
-      <a href="settings.html"><i class="fas fa-gear"></i><span>Settings</span></a>
-
+      <a href="{% url 'settings' %}"><i class="fas fa-gear"></i><span>Settings</span></a>
    </nav>
-
 </div>
 
-<section class="home-grid">
-   <div class="box-container">
-         <div class="card-container">
-            <div class="card">
-                <header class="article-header">
-                    <div>
-                        <div class="category-title">
-                            
-                            <span class="date">Jan 19, 2020</span>
-                        </div>
-                    </div>
-                    <h2 class="article-title">
-                     Course 1                    </h2>
-                </header>
-                <div class="picture">
-                    <img src="/static/Assets/Images/10780-NN3O2S.jpg"  class="round-image" >
-                </div>
-                <div class="author">
-                    <div class="profile"></div>
-                    <div class="info">
-                        <div class="name">Professor</div>
-                    </div>
-                </div>
-                <div class="tags">
-                    <div><a herf="#">Open</a></div>
-                    <div>archived</div>
-                </div>
-            </div>
-            <div class="card">
-               <header class="article-header">
-                   <div>
-                       <div class="category-title">
-                           
-                           <span class="date">Jan 19, 2020</span>
-                       </div>
-                   </div>
-                   <h2 class="article-title">
-                    Course 1                    </h2>
-               </header>
-               <div class="picture">
-                   <img src="/static/Assets/Images/10780-NN3O2S.jpg"  class="round-image" >
-               </div>
-               <div class="author">
-                   <div class="profile"></div>
-                   <div class="info">
-                       <div class="name">Professor</div>
-                   </div>
-               </div>
-               <div class="tags">
-                   <div><a herf="#">Open</a></div>
-                   <div>archived</div>
-               </div>
+
+<!--  -->
+{% include 'HTML/classroom/create_classroom.html'%}
+
+<!--  -->
+<section class="home-grid" >
+   <div class="box-container" >
+         <div class="card-container" style="background-color: transparent;">
+
+
+       <!--  -->
+       {% for class in classrooms %}
+<div class="card" style="max-height: 320px;" onclick="visitclassroom('{{class.UniqueinvitationCode}}')">
+   <header class="article-header" style="">
+       <div>
+           <div class="category-title">
+               
+               <span class="date">{{ class.created_at }}</span> 
            </div>
-           <div class="card">
-            <header class="article-header">
-                <div>
-                    <div class="category-title">
-                        
-                        <span class="date">Jan 19, 2020</span>
-                    </div>
-                </div>
-                <h2 class="article-title">
-                 Course 1                    </h2>
-            </header>
-            <div class="picture">
-                <img src="/static/Assets/Images/10780-NN3O2S.jpg"  class="round-image" >
-            </div>
-            <div class="author">
-                <div class="profile"></div>
-                <div class="info">
-                    <div class="name">Professor</div>
-                </div>
-            </div>
-            <div class="tags">
-                <div><a herf="#">Open</a></div>
-                <div>archived</div>
-            </div>
+       </div>
+       <h2 class="article-title">{{ class.ClassRoomtitle }}</h2>
+   </header>
+
+
+   <div class="" style="height: 100%;display: flex;align-items: center;justify-content: center;">
+       <img src="/media/{{ class.ClassRoomimage }}"  class="" style="padding: 10px;width: 190px;height: 190px; border-radius: 50%;" >
+   </div>
+   
+   <!-- <div style="height: 30px;"></div> -->
+
+   <div class="" style="width: 100%; display: flex;justify-content: center;">
+       <!-- <div class="profile"></div> -->
+       <div class="" style="width: 80%;text-align:center">
+          <h2>{{ class.Admin_Professor.utilisateur.user.first_name}} {{ class.Admin_Professor.utilisateur.user.last_name}}</h2>
         </div>
-        <div class="card">
-         <header class="article-header">
-             <div>
-                 <div class="category-title">
-                     
-                     <span class="date">Jan 19, 2020</span>
-                 </div>
-             </div>
-             <h2 class="article-title">
-              Course 1                    </h2>
-         </header>
-         <div class="picture">
-             <img src="/static/Assets/Images/10780-NN3O2S.jpg"  class="round-image" >
-         </div>
-         <div class="author">
-             <div class="profile"></div>
-             <div class="info">
-                 <div class="name">Professor</div>
-             </div>
-         </div>
-         <div class="tags">
-             <div><a herf="#">Open</a></div>
-             <div>archived</div>
-         </div>
-     </div>
-     <div class="card">
-      <header class="article-header">
-          <div>
-              <div class="category-title">
-                  
-                  <span class="date">Jan 19, 2020</span>
-              </div>
-          </div>
-          <h2 class="article-title">
-           Course 1                    </h2>
-      </header>
-      <div class="picture">
-          <img src="/static/Assets/Images/10780-NN3O2S.jpg"  class="round-image" >
-      </div>
-      <div class="author">
-          <div class="profile"></div>
-          <div class="info">
-              <div class="name">Professor</div>
-          </div>
-      </div>
-      <div class="tags">
-          <div><a herf="#">Open</a></div>
-          <div>archived</div>
-      </div>
-  </div> <div class="card">
-   <header class="article-header">
-       <div>
-           <div class="category-title">
-               
-               <span class="date">Jan 19, 2020</span>
-           </div>
-       </div>
-       <h2 class="article-title">
-        Course 1                    </h2>
-   </header>
-   <div class="picture">
-       <img src="/static/Assets/Images/10780-NN3O2S.jpg"  class="round-image" >
+
    </div>
-   <div class="author">
-       <div class="profile"></div>
-       <div class="info">
-           <div class="name">Professor</div>
-       </div>
-   </div>
+   
+
    <div class="tags">
-       <div><a herf="#">Open</a></div>
-       <div>archived</div>
-   </div>
-</div> <div class="card">
-   <header class="article-header">
-       <div>
-           <div class="category-title">
-               
-               <span class="date">Jan 19, 2020</span>
-           </div>
-       </div>
-       <h2 class="article-title">
-        Course 1                    </h2>
-   </header>
-   <div class="picture">
-       <img src="/static/Assets/Images/10780-NN3O2S.jpg"  class="round-image" >
-   </div>
-   <div class="author">
-       <div class="profile"></div>
-       <div class="info">
-           <div class="name">Professor</div>
-       </div>
-   </div>
-   <div class="tags">
-       <div><a herf="#">Open</a></div>
-       <div>archived</div>
-   </div>
-</div> <div class="card">
-   <header class="article-header">
-       <div>
-           <div class="category-title">
-               
-               <span class="date">Jan 19, 2020</span>
-           </div>
-       </div>
-       <h2 class="article-title">
-        Course 1                    </h2>
-   </header>
-   <div class="picture">
-       <img src="/static/Assets/Images/10780-NN3O2S.jpg"  class="round-image" >
-   </div>
-   <div class="author">
-       <div class="profile"></div>
-       <div class="info">
-           <div class="name">Professor</div>
-       </div>
-   </div>
-   <div class="tags">
-       <div><a herf="#">Open</a></div>
-       <div>archived</div>
+       <!-- <div> <a herf="{% url 'Course' uid=class.UniqueinvitationCode %}" style="padding: 8px;">Acceder</a></div> -->
+       <!-- <div style="padding: 8px;">archiver</div> -->
    </div>
 </div>
-<div class="card">
-   <header class="article-header">
-       <div>
-           <div class="category-title">
-               
-               <span class="date">Jan 19, 2020</span>
-           </div>
-       </div>
-       <h2 class="article-title">
-        Course 1                    </h2>
-   </header>
-   <div class="picture">
-       <img src="/static/Assets/Images/10780-NN3O2S.jpg"  class="round-image" >
-   </div>
-   <div class="author">
-       <div class="profile"></div>
-       <div class="info">
-           <div class="name">Professor</div>
-       </div>
-   </div>
-   <div class="tags">
-       <div><a herf="#">Open</a></div>
-       <div>archived</div>
-   </div>
+{% endfor %}
+        <!--  -->
+
 </div>
-        </div>
         </div>
             
 </section>
@@ -302,6 +145,10 @@
 <!-- custom js file link  -->
 <script src="/static/Javascript/classroom/classroom.js"></script>
 
-   
+<script>
+    function visitclassroom(uid){
+        window.location.href = '/classroom/course/'+uid
+    }
+</script>
 </body>
 </html>

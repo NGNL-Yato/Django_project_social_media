@@ -1,10 +1,12 @@
 from django.shortcuts import render , redirect
 from backend.models import User,utilisateur,Post,Like, Group, UserGroup
-from backend.forms import PostForm, GroupForm, EventForm
+from backend.forms import PostForm, GroupForm, EventForm , ClassRoomForm
 from django.core.mail import send_mail
 from django.conf import settings
 from backend import models
 from django.db.models import QuerySet
+import random
+import string
 
 def home_view(request):
     all_users_names = []
@@ -157,9 +159,18 @@ def view_profile(request,first_name, last_name):
 def welcome_view(request):
     context = {}  # You can pass context data to the template if needed
     return render(request,'HTML/welcome/welcome.html',context)
+
+# 
 def homeClass_view(request):
-    context = {}  # You can pass context data to the template if needed
-    return render(request,'HTML/classroom/home.html',context)
+    if request.user.is_authenticated:
+        context = {
+            'userdata':request.user,
+            'classrooms':models.ClassRoom.objects.all(),
+            'ClassRoomform':ClassRoomForm()
+            }  
+        return render(request,'HTML/classroom/home.html',context)
+    else:
+        return redirect('login')
 
 def todo_view(request):
     context = {}  # You can pass context data to the template if needed
@@ -173,16 +184,49 @@ def chat_app_view(request):
 def contact_view(request):
     return render(request, 'HTML/userProfile/contactInfo.html')
 
-
-def course_view(request):
-    return render( request, 'HTML/classroom/course.html')  
-
  
 def post_view(request):
     context = {}  
     return render(request,'HTML/userProfile/post.html', context)
 
 
+def course_view(request,uid):
+    if request.user.is_authenticated:
+        context = {
+            'userdata':request.user,
+            'classroomDetails':models.ClassRoom.objects.filter(UniqueinvitationCode=uid).first(),
+            # 'ClassRoompostform':classroom post form () 
+            }  
+        return render( request, 'HTML/classroom/course.html',context)  
+        # return render(request,'HTML/classroom/home.html',context)
+    else:
+        return redirect('login')
+
+
+#
+def generate_random_code(length=8):
+    characters = string.ascii_letters + string.digits  # includes both uppercase and lowercase letters and digits
+    return ''.join(random.choice(characters) for _ in range(length))
+
+
+#
+def create_Classroom(request):
+    if request.user.is_authenticated and request.method == 'POST':
+        form = ClassRoomForm(request.POST,request.FILES)
+        if form.is_valid():
+            
+            unique_code = generate_random_code()
+            while models.ClassRoom.objects.filter(UniqueinvitationCode=unique_code).exists():
+                unique_code = generate_random_code() 
+
+            f = form.save(commit=False)
+            f.Admin_Professor = models.Professor.objects.filter(utilisateur=request.user.utilisateur).first()
+            f.UniqueinvitationCode = unique_code
+            f.save()
+
+    return redirect('Classroom')
+
+#
 def create_event(request):
     if request.user.is_authenticated and request.method == 'POST':
         form = EventForm(request.POST,request.FILES)
@@ -193,6 +237,7 @@ def create_event(request):
             f.save()
 
     return redirect('all_events')
+
 
 def view_event(request,id):   
     if request.user.is_authenticated:

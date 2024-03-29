@@ -43,9 +43,13 @@
                 {% endwith %}
             </div>     
             <p style ="color: var(--black);">{{ post.contenue }}</p>
+
+            {% if post.file %}
             <div class="post-images">
                 <img src="/media/{{ post.file }}" alt="">
             </div>
+            {% endif %}
+            
             <div class="like-comment">
                 <ul>
                     <li>

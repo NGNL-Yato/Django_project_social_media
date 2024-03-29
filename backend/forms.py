@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django import forms
-from .models import utilisateur ,Etudiant,Professor , Skills , Languages ,Enterprise ,Experience, Event , Certification, Education ,Research, Group
+from .models import utilisateur ,Etudiant,Professor , Skills , Languages ,Enterprise ,Experience, Event , Certification, Education ,Research, Group, ClassRoom
 from .models import Post
 
 
@@ -26,7 +26,7 @@ class CreationdUser(UserCreationForm):
 class UtilisateurForm(ModelForm):
     class Meta:
         model = utilisateur
-        exclude = ['user','role']  # Exclude the 'user' field from the form
+        exclude = ['user','role']  
         fields = '__all__'
 
 
@@ -154,3 +154,15 @@ class GroupForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = ['group_name', 'description', 'target', 'profile_banner']
+
+
+class ClassRoomForm(forms.ModelForm):
+     class Meta:
+        model = ClassRoom
+        exclude = ['Admin_Professor','UniqueinvitationCode']
+        fields = '__all__'
+        widgets ={
+            'description':forms.Textarea(attrs={'style':'max-width: 100%;width: 100%;padding: 10px;background-color: #eeeeee;'}),
+            'ClassRoomtitle': forms.TextInput(attrs={'style':'max-width: 100%;width: 100%;padding: 10px;background-color: #eeeeee;'}),
+            'ClassRoomimage':forms.FileInput(attrs={'style':'display:none;'}),
+        }

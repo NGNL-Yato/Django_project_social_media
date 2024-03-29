@@ -169,12 +169,14 @@
 
   }
   .head .image{
-    width:25%;
+    width:20%;
+    height: auto;
+    /* max-width: 30%; */
   }
  
   .head .infos {
-      margin-left: 270px;
-      margin-top: -190px;
+      /* margin-left: 270px; */
+      /* margin-top: -190px; */
       font-size: 25px;
       font-family: system-ui;
       
