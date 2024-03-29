@@ -334,7 +334,7 @@ def course_view(request, uid):
     if request.user.is_authenticated:
         context = {
             'userdata':request.user,
-            'class': ClassRoom.objects.get(UniqueinvitationCode=uid),
+            'classroomDetails': ClassRoom.objects.get(UniqueinvitationCode=uid),
             'form':PostClassroomForm()
             }  
         return render(request, 'HTML/classroom/course.html', context)
