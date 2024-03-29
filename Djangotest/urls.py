@@ -144,6 +144,9 @@ urlpatterns = [
     path('cancel_invitation/', backendviews.cancel_invitation, name='cancel_invitation'),
     #
     path('chat/', views.chat, name='chat'),
+    #
+    path('get_friends/', backendviews.get_friends, name='get_friends'),
+
 
 
     

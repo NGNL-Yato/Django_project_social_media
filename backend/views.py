@@ -9,7 +9,7 @@ from .Post import delete_post
 from .Like import like_post
 from django.http import JsonResponse
 from django.core import serializers
-from .models import User, UserGroup, Group
+from .models import User, UserGroup, Group, follow, Conversation
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
@@ -662,4 +662,22 @@ def cancel_invitation(request):
         return JsonResponse({'success': True})
     else:
         return JsonResponse({'success': False})
-    
+
+@login_required
+def get_friends(request):
+    user = request.user
+    utilisateur = user.utilisateur
+    friends = set()
+    Conversations = Conversation.objects.filter(participant__user=user)    
+    Conversations_info = [{'title': conversation.title,'picture':conversation.Conversation_picture} for conversation in Conversations]
+    for f in utilisateur.following.all():
+        if f.followed.followers.filter(follower=utilisateur).exists():
+            friends.add(f.followed)
+    friends = {friend for friend in friends if friend.following.filter(followed=utilisateur).exists()}
+    friends_info = [{'first_name': friend.user.first_name, 'last_name': friend.user.last_name, 'profile_picture': friend.profile_picture.url} for friend in friends]
+    data = {
+        'friends': friends_info,
+        'conversations': Conversations_info
+    }
+
+    return JsonResponse(data, safe=False)
