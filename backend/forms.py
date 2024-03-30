@@ -166,12 +166,13 @@ class ClassRoomForm(forms.ModelForm):
             'ClassRoomtitle': forms.TextInput(attrs={'style':'max-width: 100%;width: 100%;padding: 10px;background-color: #eeeeee;'}),
             'ClassRoomimage':forms.FileInput(attrs={'style':'display:none;'}),
         }
+
 class PostClassroomForm(forms.ModelForm):
     class Meta:
         model = PostClassroom
-        exclude=['creator','Classroom']
+        exclude=['author','classroom']
         fields = '__all__'
         widgets={
-            'contentPost':forms.TextInput(attrs={'style':"background: transparent;height: 95%;margin-left: 25px;width: 95%;"}),
+            'contentPost':forms.TextInput(attrs={'style':"background: transparent;height: 95%;margin-left: 25px;width: 95%;","placeholder":'Post Contenue'}),
              'filePost':forms.FileInput(attrs={'style':'display:none'}),
         }

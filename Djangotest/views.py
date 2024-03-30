@@ -319,23 +319,29 @@ def qcm_view(request):
  
 def create_Classroom_post(request, uid):
     if request.user.is_authenticated and request.method == 'POST':
-        form = PostClassroomForm(request.POST,request.FILES)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.uid = uid
-            post.author = models.Professor.objects.filter(utilisateur=request.user.utilisateur).first()
-            post.save()
-            classroom = ClassRoom.objects.get(UniqueinvitationCode=uid)
-    return redirect('Course', UniqueinvitationCode=uid)
+        classroom = models.ClassRoom.objects.get(UniqueinvitationCode=uid)
+        print(classroom)
+        if classroom is not None:
+            form = PostClassroomForm(request.POST,request.FILES)
+            print(form.is_valid())
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.classroom = classroom
+                post.author = models.Professor.objects.filter(utilisateur=request.user.utilisateur).first()
+                post.save()
+
+    return redirect('Course', uid=uid)
 
 
 
 def course_view(request, uid):
     if request.user.is_authenticated:
+        classroom = ClassRoom.objects.get(UniqueinvitationCode=uid)
         context = {
             'userdata':request.user,
-            'classroomDetails': ClassRoom.objects.get(UniqueinvitationCode=uid),
-            'form':PostClassroomForm()
+            'classroomDetails': classroom,
+            'form':PostClassroomForm(),
+            'classroom_posts':models.PostClassroom.objects.filter(classroom=classroom).order_by('-created_at')
             }  
         return render(request, 'HTML/classroom/course.html', context)
     
