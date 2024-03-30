@@ -70,7 +70,9 @@ urlpatterns = [
     path('deleteClassroom/<str:uid>',views.delete_Classroom,name='deleteClassroom'),
     #
     path('deleteClassroomPost/<int:id>',views.delete_ClassroomPost,name='deleteClassroomPost'),
-
+    #
+    path('kickParticipant/<int:id>',views.kickparticipant , name='kickparticipant'),
+    #
     path('about/',views.index_view,name='about'),
     #
     path('chatApp/', views.chat_app_view, name='chat_app'),

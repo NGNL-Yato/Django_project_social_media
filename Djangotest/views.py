@@ -194,10 +194,18 @@ def todo_view(request):
 def classroomJoin(request,uid):
     if request.user.is_authenticated:
         classroom = models.ClassRoom.objects.filter(UniqueinvitationCode=uid).first()
-        if classroom is not None:
-            p = models.classroomparticipants.objects.create(Classroom=classroom , Participant=request.user.utilisateur )
-            p.save()
-
+        prof = models.Professor.objects.filter(utilisateur=request.user.utilisateur).first()
+        # here making sure that if you are a prof and trying to join a cours , you shall not join your own cours
+        if prof is not None:
+            if (classroom is not None ) and (classroom.Admin_Professor.utilisateur.id is not prof.utilisateur.id):
+                if not models.classroomparticipants.objects.filter(Classroom=classroom , Participant = request.user.utilisateur).exists():
+                    p = models.classroomparticipants.objects.create(Classroom=classroom , Participant=request.user.utilisateur )
+                    p.save()
+        else:# else you can join any cours 
+            if classroom is not None and ( not models.classroomparticipants.objects.filter(Classroom=classroom , Participant=request.user.utilisateur).exists() ):
+                p = models.classroomparticipants.objects.create(Classroom=classroom , Participant=request.user.utilisateur )
+                p.save()
+            
     return redirect('Classroom')
 
 
@@ -356,6 +364,15 @@ def create_Classroom_post(request, uid):
 
     return redirect('Course', uid=uid)
 
+def kickparticipant(request, id):
+    if request.user.is_authenticated:
+        m = models.classroomparticipants.objects.filter(id=id).first()
+        if m is not None:
+            uid = m.Classroom.UniqueinvitationCode
+            m.delete()
+            return redirect('Course',uid=uid)
+        
+    return redirect('Classroom')
 
 
 def course_view(request, uid):
@@ -368,7 +385,10 @@ def course_view(request, uid):
                 'userdata':request.user,
                 'classroomDetails': classroom,
                 'form':PostClassroomForm(),
-                'classroom_posts':models.PostClassroom.objects.filter(classroom=classroom).order_by('-created_at')
+                'classroom_posts':models.PostClassroom.objects.filter(classroom=classroom).order_by('-created_at'),
+                'classroomparticipants':classroom.participants.all(),
+                # 'alltodos':
+                # 'todoform'
                 }  
             return render(request, 'HTML/classroom/course.html', context)
     
