@@ -228,6 +228,7 @@ class Group(models.Model):
             UserGroup.objects.create(user=self.user, group=self, is_admin=True, invitation_on=True)
     def is_admin(self, user):
         return self.usergroup_set.filter(user=user, is_admin=True).exists()
+
 #
 #
 class Event(models.Model):
@@ -247,6 +248,7 @@ class Event(models.Model):
         return 'Event:'+self.head_title
  
 #
+# a classroom is made by one professsor , but other proffessors can be invited to join too 
 #
 class ClassRoom(models.Model):
     Admin_Professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
@@ -259,8 +261,74 @@ class ClassRoom(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)  
 
+#
+# a pivot table between utilisateurs and classroom , (many to many)
+#
+class classroomparticipants(models.Model):
+    Classroom = models.ForeignKey(ClassRoom, on_delete=models.CASCADE)
+    Participant = models.ForeignKey(utilisateur , on_delete=models.CASCADE)
+
+#
+#  qcm belongs to a class room , classroom can have many qcms (one to many)
+#
+class QCM(models.Model):
+    Classroom = models.ForeignKey(ClassRoom, default=None ,on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    delai =  models.DateTimeField()
+    description = models.TextField(blank=True, null=True)
+
+
+#
+#  a qcm contain many questions (one to many)
+#
+class Question(models.Model):
+    qcm = models.ForeignKey(QCM, on_delete=models.CASCADE)
+    text = models.CharField(max_length=255)
+
+#
+# one question can have many answers (one to many)
+#
+class Answer(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    text = models.CharField(max_length=255)
+    is_correct = models.BooleanField(default=False)
+
+#
+# pivot table between students and questions  (many to many)
+#
+class Studentquestion(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+
+#
+# pivot table between students and responce (refer to the answer student selected)  (many to many)
+#
+class Studentselectedreponse(models.Model):
+    studentquestion = models.ForeignKey(Studentquestion, on_delete=models.CASCADE)
+    selectedanswer = models.ForeignKey(Answer, on_delete=models.CASCADE)
+
+
+class Task(models.Model):
+    classroom = models.ForeignKey(ClassRoom, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    due_date = models.DateTimeField()
+    creator = models.ForeignKey(Professor, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
 
 #  
+class PostClassroom(models.Model):
+    classroom = models.ForeignKey(ClassRoom, on_delete=models.CASCADE)
+    contentPost = models.TextField()
+    author = models.ForeignKey(Professor, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    filePost = models.FileField(upload_to='postClassroom_files/', blank=True)
+
+
+    def __str__(self):
+        return self.title
 #
 class UserGroup(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

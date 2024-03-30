@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django import forms
-from .models import utilisateur ,Etudiant,Professor , Skills , Languages ,Enterprise ,Experience, Event , Certification, Education ,Research, Group, ClassRoom
+from .models import utilisateur ,Etudiant,Professor , Skills , Languages ,Enterprise ,Experience, Event , Certification, Education ,Research, Group, ClassRoom,PostClassroom
 from .models import Post
 
 
@@ -165,4 +165,14 @@ class ClassRoomForm(forms.ModelForm):
             'description':forms.Textarea(attrs={'style':'max-width: 100%;width: 100%;padding: 10px;background-color: #eeeeee;'}),
             'ClassRoomtitle': forms.TextInput(attrs={'style':'max-width: 100%;width: 100%;padding: 10px;background-color: #eeeeee;'}),
             'ClassRoomimage':forms.FileInput(attrs={'style':'display:none;'}),
+        }
+
+class PostClassroomForm(forms.ModelForm):
+    class Meta:
+        model = PostClassroom
+        exclude=['author','classroom']
+        fields = '__all__'
+        widgets={
+            'contentPost':forms.TextInput(attrs={'style':"background: transparent;height: 95%;margin-left: 25px;width: 95%;","placeholder":'Post Contenue'}),
+             'filePost':forms.FileInput(attrs={'style':'display:none'}),
         }

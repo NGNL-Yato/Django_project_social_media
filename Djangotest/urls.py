@@ -63,7 +63,7 @@ urlpatterns = [
     #
     path('create_Classroom/',views.create_Classroom,name='createClassroom'),
     #
-    # path('create_Classroom_post/',views.create_Classroom_post,name='createClassroomPost'),
+    path('create_Classroom_post/<str:uid>/', views.create_Classroom_post, name='createClassroomPost'),    
     #
     path('about/',views.index_view,name='about'),
     #

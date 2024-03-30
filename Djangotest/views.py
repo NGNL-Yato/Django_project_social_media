@@ -1,6 +1,6 @@
 from django.shortcuts import render , redirect
-from backend.models import User,utilisateur,Post,Like, Group, UserGroup
-from backend.forms import PostForm, GroupForm, EventForm , ClassRoomForm
+from backend.models import User,utilisateur,Post,Like, Group, UserGroup,PostClassroom,ClassRoom
+from backend.forms import PostForm, GroupForm, EventForm , ClassRoomForm,PostClassroomForm
 from django.core.mail import send_mail
 from django.conf import settings
 from backend import models
@@ -190,20 +190,12 @@ def post_view(request):
     return render(request,'HTML/userProfile/post.html', context)
 
 
-def course_view(request,uid):
-    if request.user.is_authenticated:
-        context = {
-            'userdata':request.user,
-            'classroomDetails':models.ClassRoom.objects.filter(UniqueinvitationCode=uid).first(),
-            # 'ClassRoompostform':classroom post form () 
-            }  
-        return render( request, 'HTML/classroom/course.html',context)  
-        # return render(request,'HTML/classroom/home.html',context)
-    else:
-        return redirect('login')
+ 
+def post_view(request):
+    context = {}  
+    return render(request,'HTML/userProfile/post.html', context)
 
 
-#
 def generate_random_code(length=8):
     characters = string.ascii_letters + string.digits  # includes both uppercase and lowercase letters and digits
     return ''.join(random.choice(characters) for _ in range(length))
@@ -324,6 +316,38 @@ def group_events(request, group_name):
 def qcm_view(request):
     return render( request, 'HTML/classroom/qcm.html') 
 
+ 
+def create_Classroom_post(request, uid):
+    if request.user.is_authenticated and request.method == 'POST':
+        classroom = models.ClassRoom.objects.get(UniqueinvitationCode=uid)
+        print(classroom)
+        if classroom is not None:
+            form = PostClassroomForm(request.POST,request.FILES)
+            print(form.is_valid())
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.classroom = classroom
+                post.author = models.Professor.objects.filter(utilisateur=request.user.utilisateur).first()
+                post.save()
+
+    return redirect('Course', uid=uid)
+
+
+
+def course_view(request, uid):
+    if request.user.is_authenticated:
+        classroom = ClassRoom.objects.get(UniqueinvitationCode=uid)
+        context = {
+            'userdata':request.user,
+            'classroomDetails': classroom,
+            'form':PostClassroomForm(),
+            'classroom_posts':models.PostClassroom.objects.filter(classroom=classroom).order_by('-created_at')
+            }  
+        return render(request, 'HTML/classroom/course.html', context)
+    
+
+
 def chat(request):
     context = {}  
     return render(request,'HTML/Messaging/messages-page.html', context)
+

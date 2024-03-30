@@ -72,7 +72,7 @@
          <a href="#"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
          <a href="#"><i class="fas fa-box-archive"></i><span>archived courses</span></a>
          <a href="Todo"><i class="fas fa-check"></i><span>To Do</span></a>
-         <a href="settings.html"><i class="fas fa-gear"></i><span>Settings</span></a>
+         <a href="{% url 'settings' %}"><i class="fas fa-gear"></i><span>Settings</span></a>
    
       </nav>
    
@@ -101,106 +101,91 @@
                   <h3>{{classroomDetails.ClassRoomtitle}}</h3>
 
                   <h3  style="font-size:16px;margin-left:30px">{{classroomDetails.Admin_Professor.utilisateur.user.first_name}} {{classroomDetails.Admin_Professor.utilisateur.user.last_name}}</h3>
-                 
                   <p style="font-size:12px;margin-left:30px;margin-top: 10px;"> {{classroomDetails.description}} </p>
+                  <h5 style="float: right;">Code d'invitaton: {{classroomDetails.UniqueinvitationCode}}</h5>
+               </div>
                
-               </div>
+            </div>
+            <button onclick="deleteClassroom('{{classroomDetails.UniqueinvitationCode}}')" style="float: right;padding: 10px;background-color: #eb437e;color: white;font-weight: 300;font-size: 16px;margin-top: 15px;">Delete Classroom</button>
 
-               </div>
-
+               {% if userdata.utilisateur.role is 1 %}
                <div style="margin-top: 80px;width: 100%;padding: 10px;background-color: rgb(255, 255, 255);"> 
-               
                      <!--  including post form  -->
                      <div style="height: auto; width: 100%;display: flex;justify-content: center;color: #eb437e;">
                      {% include 'HTML/classroom/create_classroom_post.html'%}
                   </div>
 
                </div>
+               {% else %}
+               <div style="height: 90px;">
+
+               </div>
+               {% endif %}
 
                <div>
-
                   
                   <div style="height: auto;background-color: transparent;color: black;">
                      <div class="prof-post" style="height: 80px;background-color: transparent;">
 
-
-
-
-                        <!-- generate posts  -->
-                     <div style="margin-top: 20px;background-color: #eb437e;">
-
-                     <div style="width: auto;display: flex;align-items: center;justify-content: start;margin-left: 2%;">
-                        <img src="/media/{{classroomDetails.Admin_Professor.utilisateur.profile_picture}}" style="height: 80px;width: 80px;border-radius: 50%;padding: 10px;" alt="">
-                        <div style="color: aliceblue;">
-                           <h3  style="font-size:18px;margin-left:10px">{{classroomDetails.Admin_Professor.utilisateur.user.first_name}} {{classroomDetails.Admin_Professor.utilisateur.user.last_name}} </h3>
-                        <h4 style="margin-top: 0px;margin-left: 20px;">march 12.02.2024</h4>
-                     </div>  
-                     
-                     </div>
-
-                     <div style="background-color: rgb(255, 255, 255); padding: 10px;display: block;justify-content: start;align-items: center;">
-                        <div style="width:auto;margin-inline: 5%;padding: 10px;" >
-                        <h4 style="font-size: 18px;">post contentpost contentpost contentpost contccontentpost contentpost contccontentpost contentpost contccontentpost contentpost contcontentpost contentpost contentpost contcontentpost contentpost contentpost contcontentpost contentpost contentpost contcontentpost contentpost contentpost contentpost contentpost contentpost contentpost contentpost contentpost contentpost contentpost contentpost content</h4>
-                        </div>
-                        <div style="width: 100%;margin-left: 4%;padding: 8px;">
-                           <button style="background-color: #eb437e;color: aliceblue;padding: 18px;border-radius: 10px;">
-                              Download File
-                           </button>
-                        </div>
-                     </div>
-                  </div>
-
-                     <!-- end post -->
-
-
-
+                        {% for post in classroom_posts %}
                         <!-- generate posts  -->
                         <div style="margin-top: 20px;background-color: #eb437e;">
 
                            <div style="width: auto;display: flex;align-items: center;justify-content: start;margin-left: 2%;">
-                              <img src="/media/{{classroomDetails.Admin_Professor.utilisateur.profile_picture}}" style="height: 80px;width: 80px;border-radius: 50%;padding: 10px;" alt="">
-                           <div style="color: aliceblue;">
-                              <h3  style="font-size:18px;margin-left:10px">{{classroomDetails.Admin_Professor.utilisateur.user.first_name}} {{classroomDetails.Admin_Professor.utilisateur.user.last_name}} </h3>
-                              <h4 style="margin-top: 0px;margin-left: 20px;">march 12.02.2024</h4>
-                           </div>  
-                           
+                              <img src="/media/{{ post.author.utilisateur.profile_picture}}" style="height: 60px;width: 60px;border-radius: 50%;padding: 10px;" alt="">
+                              <div style="color: aliceblue;">
+                                 <h3  style="font-size:18px;margin-left:10px">{{ post.author.utilisateur.user.first_name}} {{ post.author.utilisateur.user.last_name}} </h3>
+                              <h4 style="margin-top: 0px;margin-left: 20px;">{{ post.created_at }}</h4>
+                        
+                           </div> 
+                           {% if post.author.utilisateur.id == userdata.utilisateur.id %}
+                           <div style="width: 78%;">
+                              <i onclick="deleteclassroomPost('{{post.id}}')" style="float: right;color: white;font-size: 20px;" class="fa-solid fa-trash"></i>
+                           </div>
+                           {% endif %}
+
                            </div>
       
                            <div style="background-color: rgb(255, 255, 255); padding: 10px;display: block;justify-content: start;align-items: center;">
                               <div style="width:auto;margin-inline: 5%;padding: 10px;" >
-                              <h4 style="font-size: 18px;">post contentpost contentpost contentpost contccontentpost contentpost contccontentpost contentpost contccontentpost contentpost contcontentpost contentpost contentpost contcontentpost contentpost contentpost contcontentpost contentpost contentpost contcontentpost contentpost contentpost contentpost contentpost contentpost contentpost contentpost contentpost contentpost contentpost contentpost content</h4>
+                              <h4 style="font-size: 18px;">{{post.contentPost}}</h4>
                               </div>
+                              {% if post.filePost %}
                               <div style="width: 100%;margin-left: 4%;padding: 8px;">
-                                 <button style="background-color: #eb437e;color: aliceblue;padding: 18px;border-radius: 10px;">
+                                 <button onclick="clicktodownlaodfile('{{post.filePost}}')" style="background-color: #eb437e;color: aliceblue;padding: 18px;border-radius: 10px;">
                                     Download File
                                  </button>
                               </div>
+                              {% endif %}
                            </div>
                         </div>
-      
                            <!-- end post -->
+                        {% endfor %}
 
-
-
-
-
+                        <div style="height: 80px;padding: 0;margin: 0;"></div>
                   </div>
                
                </div>
 
             </div>
-
-
-               
-
-         </div>
-
-
             
+         </div>
          
-         
-   
-   </section>
+      </section>
+      
+   <script>
+      function deleteclassroomPost(id){
+      window.location.href = '/deleteClassroomPost/'+id
+      }
+
+      function deleteClassroom(classroomuid) {
+      window.location.href = '/deleteClassroom/'+classroomuid
+      }
+
+     function clicktodownlaodfile(filepath){
+      window.location.href = '/media/'+filepath
+     }
+   </script>
    <script src ="/static/Javascript/classroom/classroom.js"></script>
    </body>
    </html>
