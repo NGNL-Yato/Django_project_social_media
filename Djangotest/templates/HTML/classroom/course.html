@@ -69,9 +69,12 @@
    
       <nav class="navbar">
          <a href="{% url 'Classroom' %}"><i class="fas fa-home"></i><span>home</span></a>
-         <a href="#"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
-         <a href="#"><i class="fas fa-box-archive"></i><span>archived courses</span></a>
-         <a href="Todo"><i class="fas fa-check"></i><span>To Do</span></a>
+         <!-- <a href="#"><i class="fas fa-graduation-cap"></i><span>courses</span></a> -->
+         <!-- <a href="#"><i class="fas fa-box-archive"></i><span>archived courses</span></a> -->
+         <!-- <a href="Todo"><i class="fas fa-check"></i><span>To Do</span></a> -->
+         {% if userdata.utilisateur.role is 2 %}   
+         <a href="{% url 'Todo' %}"><i class="fas fa-check"></i><span>To Do</span></a>
+     {% endif %}
          <a href="{% url 'settings' %}"><i class="fas fa-gear"></i><span>Settings</span></a>
    
       </nav>
@@ -85,7 +88,7 @@
           <ul class="tab-name">
             <li value="1"><a href="general.html" class="general">General</a> </li>
             <li value="2"><a href="todo.html" class="todo">To do</a></li>
-            <li value="3"><a href="participants.html" class="participants">All participants </a>  
+            <li value="3"><a href="participants" class="participants">All participants </a>  
             </li>
             </ul>
             </div>
@@ -102,11 +105,18 @@
 
                   <h3  style="font-size:16px;margin-left:30px">{{classroomDetails.Admin_Professor.utilisateur.user.first_name}} {{classroomDetails.Admin_Professor.utilisateur.user.last_name}}</h3>
                   <p style="font-size:12px;margin-left:30px;margin-top: 10px;"> {{classroomDetails.description}} </p>
+
+                  {% if classroomDetails.Admin_Professor.utilisateur.id is userdata.utilisateur.id %}
                   <h5 style="float: right;">Code d'invitaton: {{classroomDetails.UniqueinvitationCode}}</h5>
+                  {% endif %}
+
                </div>
                
             </div>
+            {% if classroomDetails.Admin_Professor.utilisateur.id is userdata.utilisateur.id %}
             <button onclick="deleteClassroom('{{classroomDetails.UniqueinvitationCode}}')" style="float: right;padding: 10px;background-color: #eb437e;color: white;font-weight: 300;font-size: 16px;margin-top: 15px;">Delete Classroom</button>
+            {% endif %}
+
 
                {% if userdata.utilisateur.role is 1 %}
                <div style="margin-top: 80px;width: 100%;padding: 10px;background-color: rgb(255, 255, 255);"> 
@@ -121,7 +131,6 @@
 
                </div>
                {% endif %}
-
                <div>
                   
                   <div style="height: auto;background-color: transparent;color: black;">

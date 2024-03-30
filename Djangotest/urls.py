@@ -55,6 +55,8 @@ urlpatterns = [
     #
     path('classroom/home',views.homeClass_view,name='Classroom'),
     #
+    path('classroom/Join/<str:uid>',views.classroomJoin,name='classroomJoin'),
+    #
     path('classroom/Todo',views.todo_view,name='Todo'),
     #
     path('classroom/course/<str:uid>',views.course_view,name='Course'),

@@ -163,9 +163,24 @@ def welcome_view(request):
 # 
 def homeClass_view(request):
     if request.user.is_authenticated:
+        #
+        mycourses = []
+        allcources = []
+        courceswhereiparticipate = models.classroomparticipants.objects.filter(Participant=request.user.utilisateur)
+
+        if request.user.utilisateur.role is 1:
+            prof = models.Professor.objects.filter(utilisateur=request.user.utilisateur).first()
+            mycourses =models.ClassRoom.objects.filter(Admin_Professor=prof )
+        #
+        for classr in courceswhereiparticipate:
+            allcources.append(classr.Classroom)
+        #
+        for cours in mycourses:
+            allcources.append(cours)
+        #
         context = {
             'userdata':request.user,
-            'classrooms':models.ClassRoom.objects.all(),
+            'classrooms':allcources,
             'ClassRoomform':ClassRoomForm()
             }  
         return render(request,'HTML/classroom/home.html',context)
@@ -175,6 +190,15 @@ def homeClass_view(request):
 def todo_view(request):
     context = {}  # You can pass context data to the template if needed
     return render(request,'HTML/classroom/Todo.html',context)
+
+def classroomJoin(request,uid):
+    if request.user.is_authenticated:
+        classroom = models.ClassRoom.objects.filter(UniqueinvitationCode=uid).first()
+        if classroom is not None:
+            p = models.classroomparticipants.objects.create(Classroom=classroom , Participant=request.user.utilisateur )
+            p.save()
+
+    return redirect('Classroom')
 
 
 def chat_app_view(request):
@@ -336,15 +360,19 @@ def create_Classroom_post(request, uid):
 
 def course_view(request, uid):
     if request.user.is_authenticated:
-        classroom = ClassRoom.objects.get(UniqueinvitationCode=uid)
-        context = {
-            'userdata':request.user,
-            'classroomDetails': classroom,
-            'form':PostClassroomForm(),
-            'classroom_posts':models.PostClassroom.objects.filter(classroom=classroom).order_by('-created_at')
-            }  
-        return render(request, 'HTML/classroom/course.html', context)
+        
+        if ClassRoom.objects.filter(UniqueinvitationCode=uid).exists():
+            classroom = ClassRoom.objects.get(UniqueinvitationCode=uid)
+        
+            context = {
+                'userdata':request.user,
+                'classroomDetails': classroom,
+                'form':PostClassroomForm(),
+                'classroom_posts':models.PostClassroom.objects.filter(classroom=classroom).order_by('-created_at')
+                }  
+            return render(request, 'HTML/classroom/course.html', context)
     
+    return redirect('Classroom')
 
 
 def chat(request):

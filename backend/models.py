@@ -265,8 +265,8 @@ class ClassRoom(models.Model):
 # a pivot table between utilisateurs and classroom , (many to many)
 #
 class classroomparticipants(models.Model):
-    Classroom = models.ForeignKey(ClassRoom, on_delete=models.CASCADE)
-    Participant = models.ForeignKey(utilisateur , on_delete=models.CASCADE)
+    Classroom = models.ForeignKey(ClassRoom, related_name='participants',on_delete=models.CASCADE)
+    Participant = models.ForeignKey(utilisateur ,related_name='participating_classrooms' ,on_delete=models.CASCADE)
 
 #
 #  qcm belongs to a class room , classroom can have many qcms (one to many)

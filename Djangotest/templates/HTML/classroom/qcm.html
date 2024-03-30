@@ -61,9 +61,11 @@
    
       <nav class="navbar">
          <a href="home"><i class="fas fa-home"></i><span>home</span></a>
-         <a href="#"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
-         <a href="#"><i class="fas fa-box-archive"></i><span>archived courses</span></a>
-         <a href="Todo"><i class="fas fa-check"></i><span>To Do</span></a>
+         <!-- <a href="#"><i class="fas fa-graduation-cap"></i><span>courses</span></a> -->
+         <!-- <a href="#"><i class="fas fa-box-archive"></i><span>archived courses</span></a> -->
+         {% if userdata.utilisateur.role is 2 %}   
+         <a href="{% url 'Todo' %}"><i class="fas fa-check"></i><span>To Do</span></a>
+     {% endif %}
          <a href="settings.html"><i class="fas fa-gear"></i><span>Settings</span></a>
    
       </nav>
