@@ -371,6 +371,11 @@ class Conversation(models.Model):
     Conversation_picture = models.ImageField(default='profile_pictures/img_banniere.png',upload_to='profile_pictures/', blank=True)
     description = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    def is_group_conversation(self):
+        return self.participant_set.filter(group_id__isnull=False).exists()
+
+    def is_friend_conversation(self):
+        return self.participant_set.count() == 2 and not self.is_group_conversation()
 #
 #
 class Participant(models.Model):

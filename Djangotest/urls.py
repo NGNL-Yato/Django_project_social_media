@@ -65,6 +65,10 @@ urlpatterns = [
     #
     path('create_Classroom_post/<str:uid>/', views.create_Classroom_post, name='createClassroomPost'),    
     #
+    path('deleteClassroom/<str:uid>',views.delete_Classroom,name='deleteClassroom'),
+    #
+    path('deleteClassroomPost/<int:id>',views.delete_ClassroomPost,name='deleteClassroomPost'),
+
     path('about/',views.index_view,name='about'),
     #
     path('chatApp/', views.chat_app_view, name='chat_app'),
@@ -146,7 +150,10 @@ urlpatterns = [
     path('chat/', views.chat, name='chat'),
     #
     path('get_friends/', backendviews.get_friends, name='get_friends'),
-
+    #
+    path('send_message/', backendviews.send_message, name='send_message'),
+    #
+    path('get_or_create_conversation/', backendviews.get_or_create_conversation, name='get_or_create_conversation'),
 
 
     

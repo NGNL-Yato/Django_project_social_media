@@ -9,6 +9,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="toggle_buttons">
                 <button class="toggle_button" id="show_friends">Friends</button>
                 <button class="toggle_button" id="show_conversations">Groups</button>
@@ -31,11 +32,14 @@
             </div>
         </div>
     </div>
-    <div class="chat-messages">
+    {% comment %} {% if not conversation %}
+    <p>No conversation to display</p>
+    {% else %} {% endcomment %}
+    <div class="chat-messages" id="conversation_id">
         <div class="card">
             <div class="message_top_info">
                 <div class="message_header">
-                    <div class="img_cont">
+                    <div id="Conversation_front_img" class="img_cont">
                         <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="user_img">
                         <span class="online_icon"></span>
                     </div>
@@ -55,9 +59,9 @@
                 <div class="action_menu" id="action_menu">
                     <ul>
                         <li><i class="fas fa-user-circle"></i> View profile</li>
-                        <li><i class="fas fa-users"></i> Add to close friends</li>
-                        <li><i class="fas fa-plus"></i> Add to group</li>
-                        <li><i class="fas fa-ban"></i> Block</li>
+                        {% comment %} <li><i class="fas fa-users"></i> Add to close friends</li> {% endcomment %}
+                        {% comment %} <li><i class="fas fa-plus"></i> Add to group</li> {% endcomment %}
+                        {% comment %} <li><i class="fas fa-ban"></i> Block</li> {% endcomment %}
                     </ul>
                 </div>
             </div>
@@ -94,5 +98,6 @@
             </div>
         </div>
     </div>
+    {% comment %} {% endif %} {% endcomment %}
+    
 </div>
-<!-- JQuery -->

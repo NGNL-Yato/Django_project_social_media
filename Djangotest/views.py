@@ -191,9 +191,9 @@ def post_view(request):
 
 
  
-def post_view(request):
-    context = {}  
-    return render(request,'HTML/userProfile/post.html', context)
+# def post_view(request):
+#     context = {}  
+#     return render(request,'HTML/userProfile/post.html', context)
 
 
 def generate_random_code(length=8):
@@ -351,3 +351,17 @@ def chat(request):
     context = {}  
     return render(request,'HTML/Messaging/messages-page.html', context)
 
+def delete_Classroom(request, uid):
+    classroom = models.ClassRoom.objects.filter(UniqueinvitationCode=uid).first()
+    if classroom is not None:
+        classroom.delete()
+        return redirect('Classroom')
+
+#
+def delete_ClassroomPost(request, id):
+    post = models.PostClassroom.objects.filter(id=id).first()
+    if post is not None:
+            uid = post.classroom.UniqueinvitationCode
+
+            post.delete()
+            return redirect('Course',uid=uid)
