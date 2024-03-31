@@ -345,9 +345,23 @@ def group_events(request, group_name):
     context = {'group': group, 'is_member': is_member, 'is_admin': is_admin, 'user': request.user, 'visiteur': isguest}
     return render(request, 'HTML/home/group_events.html', context)
 
-def qcm_view(request):
-    return render( request, 'HTML/classroom/qcm.html') 
+#
+#
+def qcm_view(request,qid):
+    if request.user.is_authenticated:
+        
+        if ClassRoom.objects.filter(UniqueinvitationCode=qid).exists():
+            classroom = ClassRoom.objects.get(UniqueinvitationCode=qid)
+        
+            context = {
+                        'userdata':request.user,
+                        'classroomDetails': classroom,
 
+                        }  
+
+            return render( request, 'HTML/classroom/qcm.html',context) 
+        
+    return render( request, 'HTML/classroom/qcm.html')
  
 def create_Classroom_post(request, uid):
     if request.user.is_authenticated and request.method == 'POST':

@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django import forms
-from .models import utilisateur ,Etudiant,Professor , Skills , Languages ,Enterprise ,Experience, Event , Certification, Education ,Research, Group, ClassRoom,PostClassroom
+from .models import utilisateur ,Etudiant,Professor , Skills , Languages ,Enterprise ,Experience, Event , Certification, Education ,Research, Group, ClassRoom,PostClassroom , QCM, Question,Answer
 from .models import Post
 
 
@@ -165,6 +165,15 @@ class ClassRoomForm(forms.ModelForm):
             'description':forms.Textarea(attrs={'style':'max-width: 100%;width: 100%;padding: 10px;background-color: #eeeeee;'}),
             'ClassRoomtitle': forms.TextInput(attrs={'style':'max-width: 100%;width: 100%;padding: 10px;background-color: #eeeeee;'}),
             'ClassRoomimage':forms.FileInput(attrs={'style':'display:none;'}),
+        }
+
+class QcmForm(forms.ModelForm):
+    class Meta:
+        model = QCM
+        exclude = ['Classroom']
+        fields = '__all__'
+        widgets = {
+            'delai':forms.DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
         }
 
 class PostClassroomForm(forms.ModelForm):
