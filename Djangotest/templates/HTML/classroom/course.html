@@ -47,9 +47,11 @@
            {% if userdata.utilisateur.role is 1 %}   
 
            <div class="profile" style="background-color: #eeeeee ;">
-      
+            
+         <div style="display: flex;justify-content: space-around;align-items: center;">
             <h3 class="name">Create Task</h3><br>
             <a  id="create_Task_btn" class="join_btn" style="background-color: rgb(238, 97, 174); border-radius: 5px;padding: 10px;font-size: 12px;color: #eeeeee;font-weight: 500;">Create</a>
+         </div>
 
     
             <br><br>
@@ -60,7 +62,7 @@
             <div style="display: flex;justify-content: space-around;align-items: center;">
     
                 <h3 class="name">Create  QCM</h3><br>
-                <a  id="create_qcm_btn" class="join_btn" style="background-color: rgb(238, 97, 174); border-radius: 5px;padding: 10px;font-size: 12px;color: #eeeeee;font-weight: 500;">Create</a>
+                <a  id="create_QCM_btn" class="join_btn" style="background-color: rgb(238, 97, 174); border-radius: 5px;padding: 10px;font-size: 12px;color: #eeeeee;font-weight: 500;">Create</a>
             </div>
             {% endif %}
             
@@ -98,16 +100,21 @@
       </nav>
    
    </div>
-   {% include 'HTML/classroom/create_task.html'%}
+   {% include 'HTML/classroom/create_task.html' %}
+
+   {% include 'HTML/classroom/creat_qcm.html' %}
+
    <section class="home-grid">
       <div class="box-container">
 
       <div class="box box1">
-            <input type="range" value="1" min="1" max="3" id="range" oninput="rangeValueChanged(this)" >
+            <input type="range" value="1" min="1" max="4" id="range" oninput="rangeValueChanged(this)" >
          <ul class="tab-name">
             <li value="1"><a class="general">General</a></li>
             <li value="2"><a class="todo">To do</a></li>
             <li value="3"><a class="participants">All participants</a></li>
+            <li value="4"><a class="qcms">All QCMs</a></li>
+
          </ul>
       </div>
 

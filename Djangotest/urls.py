@@ -61,7 +61,9 @@ urlpatterns = [
     #
     path('classroom/course/<str:uid>',views.course_view,name='Course'),
     #
-    path('classroom/qcm/<int:qid>',views.qcm_view,name='qcm'),
+    path('create_QCM/<str:uid>/',views.createQCM , name="creatQCM"),
+    #
+    path('classroom/qcm/',views.qcm_view,name='qcm'),
     #
     path('create_Classroom/',views.create_Classroom,name='createClassroom'),
     #

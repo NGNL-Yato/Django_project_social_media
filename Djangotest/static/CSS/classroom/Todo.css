@@ -141,7 +141,7 @@
   :root {
     --offset: 2px;
     --range-min: 1;
-    --range-max: 3;
+    --range-max: 4;
     --range: var(--range-min);
     --slider-thumb-size: 32px;
     --track-height: 36px;
@@ -207,7 +207,7 @@
   
   input[type="range"] {
     --tab-track-width: calc((100% - var(--offset) * 2));
-    --tab-size: calc(var(--tab-track-width) / 3);
+    --tab-size: calc(var(--tab-track-width) / 4);
     --progress: (var(--range) - var(--range-min)) /
       (var(--range-max) - var(--range-min));
     --progress-length: calc(

@@ -167,14 +167,28 @@ class ClassRoomForm(forms.ModelForm):
             'ClassRoomimage':forms.FileInput(attrs={'style':'display:none;'}),
         }
 
+
 class QcmForm(forms.ModelForm):
     class Meta:
         model = QCM
-        exclude = ['Classroom']
+        exclude = ['QCMClassroom']
         fields = '__all__'
         widgets = {
-            'delai':forms.DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
+            'QCMdelai':forms.DateTimeInput(attrs={'type': 'datetime-local', 'style':'width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; background-color: #eeeeee;color:gray'}),
+            'QCMtitle':forms.TextInput(attrs={'style':'max-width: 100%;width: 100%;padding: 10px;background-color: #eeeeee;'}),
+            'QCMdescription':forms.Textarea(attrs={'style':'max-width: 100%;width: 100%;padding: 10px;background-color: #eeeeee;'}),
         }
+
+class QuestionForm(forms.ModelForm):
+    class Meta:
+        model: Question
+        exclude = ['qcm']
+
+class AnswerForm(forms.ModelForm):
+    class Meta:
+        model: Answer
+        exclude = ['question']
+
 
 class PostClassroomForm(forms.ModelForm):
     class Meta:

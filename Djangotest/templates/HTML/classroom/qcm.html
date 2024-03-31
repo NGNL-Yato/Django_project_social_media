@@ -79,31 +79,33 @@
 
               <div style="width: 100%;height: auto;">
                 <form action="#" method="post">
+                  {% csrf_token %}
 
                   <div>
                     <label style="margin-block: 10px;font-size: 18px;">Question*</label>
                     <input style="margin-block: 10px;background-color: #eee ;height: 30px;width: 100%;" type="text" name="qst" id="">
 
                     <label style="margin-block: 10px;font-size: 18px;">answer 1* </label>
-                    <input style="margin-block: 10px;background-color: #eee ;height: 30px;width: 100%;" type="text" name="answer[]" id="">
+                    <input style="margin-block: 10px;background-color: #eee ;height: 30px;width: 100%;" type="text" name="answers[]" id="">
 
                     <label style="margin-block: 10px;font-size: 18px;">answer 2*</label>
-                    <input style="margin-block: 10px;background-color: #eee ;height: 30px;width: 100%;" type="text" name="answer[]" id="">
+                    <input style="margin-block: 10px;background-color: #eee ;height: 30px;width: 100%;" type="text" name="answers[]" id="">
 
                     <label style="margin-block: 10px;font-size: 18px;">answer 3</label>
-                    <input style="margin-block: 10px;background-color: #eee ;height: 30px;width: 100%;" type="text" name="answer[]" id="">
+                    <input style="margin-block: 10px;background-color: #eee ;height: 30px;width: 100%;" type="text" name="answers[]" id="">
 
                     <label style="margin-block: 10px;font-size: 18px;">answer 4</label>
-                    <input style="margin-block: 10px;background-color: #eee ;height: 30px;width: 100%;" type="text" name="answer[]" id="">
+                    <input style="margin-block: 10px;background-color: #eee ;height: 30px;width: 100%;" type="text" name="answers[]" id="">
             
                     <label style="margin-block: 10px;font-size: 18px;">Correct answer(s)*</label>
-                    <input type="checkbox" name="correct_answer[]" value="1"> 1
-                    <input type="checkbox" name="correct_answer[]" value="2"> 2
-                    <input type="checkbox" name="correct_answer[]" value="3"> 3
-                    <input type="checkbox" name="correct_answer[]" value="4"> 4
+                    <input type="checkbox" name="correct_answers[]" value="1"> 1
+                    <input type="checkbox" name="correct_answers[]" value="2"> 2
+                    <input type="checkbox" name="correct_answers[]" value="3"> 3
+                    <input type="checkbox" name="correct_answers[]" value="4"> 4
 
                 </div>
-            
+                <input type="hidden" name="qcm_id" value="{{ qcm_id }}">
+
                 <div style="margin-top: 25px;">
                     <button>Add Question</button>
                 </div>

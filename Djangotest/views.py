@@ -1,6 +1,6 @@
 from django.shortcuts import render , redirect
 from backend.models import User,utilisateur,Post,Like, Group, UserGroup,PostClassroom,ClassRoom,Task
-from backend.forms import PostForm, GroupForm, EventForm , ClassRoomForm,PostClassroomForm,TaskForm
+from backend.forms import PostForm, GroupForm, EventForm , ClassRoomForm,PostClassroomForm,TaskForm , QcmForm ,QuestionForm, AnswerForm
 from django.core.mail import send_mail
 from django.conf import settings
 from backend import models
@@ -168,7 +168,7 @@ def homeClass_view(request):
         allcources = []
         courceswhereiparticipate = models.classroomparticipants.objects.filter(Participant=request.user.utilisateur)
 
-        if request.user.utilisateur.role is 1:
+        if request.user.utilisateur.role == 1:
             prof = models.Professor.objects.filter(utilisateur=request.user.utilisateur).first()
             mycourses =models.ClassRoom.objects.filter(Admin_Professor=prof )
         #
@@ -347,7 +347,49 @@ def group_events(request, group_name):
 
 #
 #
-def qcm_view(request,qid):
+def add_questions(request, qcm_id):
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            qcm = models.QCM.objects.get(id=qcm_id)
+            question_text = form.cleaned_data['qst']
+            question = models.Question.objects.create(qcm=qcm, text=question_text)
+            answers = form.cleaned_data['answers']
+            correct_answers = form.cleaned_data['correct_answers']
+            for answer_text in answers:
+                answer = models.Answer.objects.create(question=question, text=answer_text)
+                if answer_text in correct_answers:
+                    answer.is_correct = True
+                    answer.save()
+            return redirect('qcm_detail', qcm_id=qcm_id)
+    else:
+        questionform = QuestionForm()
+    
+    context = {
+        'questionform': form,
+        'qcm_id': qcm_id
+    }
+    return render(request, 'add_questions.html', context)
+
+#
+#
+def createQCM(request,uid):
+    if request.user.is_authenticated and request.method == 'POST':
+        classroom = models.ClassRoom.objects.get(UniqueinvitationCode=uid)
+        # print(classroom)
+        if classroom is not None:
+            qcmform = QcmForm(request.POST)
+            # print(Taskform.is_valid())
+            if qcmform.is_valid():
+                qcm = qcmform.save(commit=False)
+                qcm.QCMClassroom = classroom
+                qcm.save()
+
+    return redirect('Course', uid=uid)
+
+#
+#
+def qcm_view(request):
     if request.user.is_authenticated:
         
         if ClassRoom.objects.filter(UniqueinvitationCode=qid).exists():
@@ -356,7 +398,6 @@ def qcm_view(request,qid):
             context = {
                         'userdata':request.user,
                         'classroomDetails': classroom,
-
                         }  
 
             return render( request, 'HTML/classroom/qcm.html',context) 
@@ -398,11 +439,15 @@ def course_view(request, uid):
             context = {
                 'userdata':request.user,
                 'classroomDetails': classroom,
+                #
                 'form':PostClassroomForm(),
                 'classroom_posts':models.PostClassroom.objects.filter(classroom=classroom).order_by('-created_at'),
+                #
                 'classroomparticipants':classroom.participants.all(),
-                # 'alltodos':
-                # 'todoform'
+                #
+                'Qcmform': QcmForm(),
+                'classroomQCMs': models.QCM.objects.filter(QCMClassroom=classroom).order_by('-QCMdelai'),
+                #
                 'Taskform':TaskForm(),
                 'classroom_tasks': Task.objects.filter(classroom=classroom).order_by('-created_at'),
                 }  
@@ -433,10 +478,10 @@ def delete_ClassroomPost(request, id):
 def create_Task(request, uid):
     if request.user.is_authenticated and request.method == 'POST':
         classroom = models.ClassRoom.objects.get(UniqueinvitationCode=uid)
-        print(classroom)
+        # print(classroom)
         if classroom is not None:
             Taskform = TaskForm(request.POST,request.FILES)
-            print(Taskform.is_valid())
+            # print(Taskform.is_valid())
             if Taskform.is_valid():
                 task = Taskform.save(commit=False)
                 task.classroom = classroom

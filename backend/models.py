@@ -272,10 +272,10 @@ class classroomparticipants(models.Model):
 #  qcm belongs to a class room , classroom can have many qcms (one to many)
 #
 class QCM(models.Model):
-    Classroom = models.ForeignKey(ClassRoom, default=None ,on_delete=models.CASCADE)
-    title = models.CharField(max_length=100)
-    delai =  models.DateTimeField()
-    description = models.TextField(blank=True, null=True)
+    QCMClassroom = models.ForeignKey(ClassRoom, default=None ,on_delete=models.CASCADE)
+    QCMtitle = models.CharField(max_length=100)
+    QCMdelai =  models.DateTimeField()
+    QCMdescription = models.TextField(blank=True, null=True)
 
 
 #
