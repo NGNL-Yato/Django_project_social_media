@@ -493,6 +493,14 @@ def delete_Classroom(request, uid):
     if classroom is not None:
         classroom.delete()
         return redirect('Classroom')
+#
+#
+def deletequestion(request,qstid):
+    qst = models.Question.objects.filter(id=qstid).first()
+    qcmid = qst.qcm.id
+    if qst is not None:
+        qst.delete()
+    return redirect('qcm', qcmID=qcmid)
 
 #
 def delete_ClassroomPost(request, id):

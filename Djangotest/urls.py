@@ -72,7 +72,9 @@ urlpatterns = [
     path('create_Classroom_post/<str:uid>/', views.create_Classroom_post, name='createClassroomPost'),    
     #
     path('create_Task/<str:uid>/', views.create_Task, name='createTask'),    
-
+    #
+    path('deletequestion/<int:qstid>/',views.deletequestion , name="deletequestion"),
+    #
     path('deleteClassroom/<str:uid>',views.delete_Classroom,name='deleteClassroom'),
     #
     path('deleteClassroomPost/<int:id>',views.delete_ClassroomPost,name='deleteClassroomPost'),

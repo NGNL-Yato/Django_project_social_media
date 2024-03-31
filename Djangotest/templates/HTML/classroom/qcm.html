@@ -83,6 +83,7 @@
             </div>
             <div id="content">
 
+              {% if userdata.utilisateur.role is 1 %}
               <div style="width: 100%;height: auto;">
                 <form action="{% url 'addquestion' %}" method="post">
                   {% csrf_token %}
@@ -119,7 +120,7 @@
               </form>
 
               </div>
-
+                {% endif %}
               
               <!--  -->
               
@@ -129,7 +130,9 @@
                 <div class="title">
                   <div class="chip">{{ forloop.counter }}</div> {{qst.text}}
                 </div>
-                <a onclick="deletequestion('qstid')" style="float: right;font-size: 15px;padding:5px;margin-top: -25px;background-color: #f684b1;color: white;">Delete</a>
+              {% if userdata.utilisateur.role is 1 %}
+                <a onclick="deletequestion('{{qst.id}}')" style="float: right;font-size: 15px;padding:5px;margin-top: -25px;background-color: #f684b1;color: white;">Delete</a>
+              {% endif %}
               </div>
 
               <div class="qcm-container" >
@@ -163,6 +166,11 @@
          
    
    </section>
+   <script>
+    function deletequestion(qstid){
+      window.location.href = '/deletequestion/'+qstid
+    }
+   </script>
    <script src ="/static/Javascript/classroom/classroom.js"></script>
    <script src ="/static/Javascript/classroom/qcm.js"></script>
 
