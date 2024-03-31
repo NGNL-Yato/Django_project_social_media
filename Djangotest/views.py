@@ -362,31 +362,52 @@ def createQCM(request,uid):
 
 #
 #
-def add_questions(request, qcm_id):
-    if request.method == 'POST':
-        form = QuestionForm(request.POST)
-        if form.is_valid():
-            qcm = models.QCM.objects.get(id=qcm_id)
-            question_text = form.cleaned_data['qst']
-            question = models.Question.objects.create(qcm=qcm, text=question_text)
-            answers = form.cleaned_data['answers']
-            correct_answers = form.cleaned_data['correct_answers']
-            for answer_text in answers:
-                answer = models.Answer.objects.create(question=question, text=answer_text)
-                if answer_text in correct_answers:
-                    answer.is_correct = True
-                    answer.save()
-            return redirect('qcm_detail', qcm_id=qcm_id)
-    else:
-        questionform = QuestionForm()
+# def add_questions(request, qcm_id):
+#     if request.method == 'POST':
+#         form = QuestionForm(request.POST)
+#         if form.is_valid():
+#             qcm = models.QCM.objects.get(id=qcm_id)
+#             question_text = form.cleaned_data['qst']
+#             question = models.Question.objects.create(qcm=qcm, text=question_text)
+#             answers = form.cleaned_data['answers']
+#             correct_answers = form.cleaned_data['correct_answers']
+#             for answer_text in answers:
+#                 answer = models.Answer.objects.create(question=question, text=answer_text)
+#                 if answer_text in correct_answers:
+#                     answer.is_correct = True
+#                     answer.save()
+#             return redirect('qcm_detail', qcm_id=qcm_id)
+#     else:
+#         questionform = QuestionForm()
     
-    context = {
-        'questionform': form,
-        'qcm_id': qcm_id
-    }
+#     context = {
+#         'questionform': form,
+#         'qcm_id': qcm_id
+#     }
 
-    return render( request, 'HTML/classroom/qcm.html',context) 
+#     return render( request, 'HTML/classroom/qcm.html',context) 
 
+#
+#
+def addquestiontoqcm(request):
+    qcm_id = int(request.POST.get('qcm_id'))
+    if (request.user.is_authenticated ) and (request.user.utilisateur.role is 1 ) and ( request.method == 'POST' ):
+        qcm = models.QCM.objects.filter(id=qcm_id).first()
+        question_text = request.POST.get('Question')
+        question = models.Question.objects.create(qcm=qcm, text=question_text)
+        answers = request.POST.getlist('answers[]')
+        correct_answers = request.POST.getlist('correct_answers[]')
+        
+        for index, answer_text in enumerate(answers, start=1):
+            if answer_text.strip():  # Check if answer_text is not empty or contains only whitespace
+                answer = models.Answer.objects.create(question=question, text=answer_text)
+                if str(index) in correct_answers:
+                    answer.is_correct = True
+                answer.save()
+        
+        return redirect('qcm', qcmID=qcm_id)
+    return redirect('Classroom')
+    
 #
 #
 def qcm_view(request,qcmID):
@@ -402,12 +423,12 @@ def qcm_view(request,qcmID):
                         'classroomDetails': classroom,
                         'questionForm':QuestionForm(),
                         'allQuestions':models.Question.objects.filter(qcm=qcm),# to be updated , to only show questions of this qcm
+                        'qcm_id':qcmID,
                         }  
 
             return render( request, 'HTML/classroom/qcm.html',context) 
         
     return redirect('Classroom')
- 
 #
 #
 def create_Classroom_post(request, uid):
