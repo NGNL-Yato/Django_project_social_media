@@ -233,11 +233,14 @@
          
           
        <div class="liste" style="margin-top: -50px;">  
+
         <ul class="main">
+         {% for task in classroom_tasks %}
+
          
    <!--  -->
       <li class="date">
-        <h3>jan 24</h3>
+        <h3>{{task.created_at}}</h3>
       </li>
 
       <li class="events">
@@ -245,43 +248,24 @@
          <!--  -->
           <li>
             <a href="#">
-              <span class="event-time">2:00 - </span>
-              <span class="event-name">Projet c++</span>
+              <span class="event-time">{{task.due_date}}- </span>
+              <span class="event-name">{{task.title}}</span>
               <br />
-              <span class="event-location">course c++</span>
+              <span class="event-location">{{ classroomDetails.ClassRoomtitle }}</span>
             </a>
           </li>
        <!--  -->
-          <li>
-            <a href="#">
-              <span class="event-time">14:00 - </span>
-              <span class="event-name">devoir td 1</span>
-              <br />
-              <span class="event-location">course python</span>
-            </a>
-          </li>
+          
           <!--  -->
         </ul>
     
       </li>
+      {% endfor %}
+
     
-      <li class="date">
-        <h3> Fev 15</h3>
-      </li>
-      <li class="events cf">
-        <ul class="events-detail">
-          <li>
-            <a href="#">
-              <span class="event-time">20:00 - </span>
-              <span class="event-name"> Td 3</span>
-              <br />
-              <span class="event-location">Course java</span>
-            </a>
-          </li>
-        </ul>
-        </li>
+      
     </ul>
-    </div>
+   </div>
     </div>
       </div>
     </section>

@@ -390,7 +390,7 @@ def course_view(request, uid):
                 # 'alltodos':
                 # 'todoform'
                 'Taskform':TaskForm(),
-                #'tasks': Task.objects.filter(classroom=classroom).order_by('-created_at'),
+                'classroom_tasks': Task.objects.filter(classroom=classroom).order_by('-created_at'),
                 }  
             return render(request, 'HTML/classroom/course.html', context)
     
