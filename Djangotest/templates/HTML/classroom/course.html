@@ -1,6 +1,5 @@
 {% load static %}
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,14 +11,10 @@
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
    
-
-   
-
    <!-- custom css file link  -->
    <link rel="stylesheet" href="/static/CSS/classroom/home.css">
    <link rel="stylesheet" href="/static/CSS/classroom/course.css">
      <link rel="stylesheet" href="/static/CSS/classroom/Todo.css">
-
 
 </head>
 <body>
@@ -41,7 +36,6 @@
                <div id="user-btn" class="fas fa-plus"></div>
                {% endif %}
 
-
               <div id="toggle-btn" class="fas fa-sun"></div>
            </div>
            {% if userdata.utilisateur.role is 1 %}   
@@ -53,7 +47,6 @@
             <a  id="create_Task_btn" class="join_btn" style="background-color: rgb(238, 97, 174); border-radius: 5px;padding: 10px;font-size: 12px;color: #eeeeee;font-weight: 500;">Create</a>
          </div>
 
-    
             <br><br>
     
             <div style="background-color: rgb(238, 97, 174);height: 3px; width: 100%;"></div>
@@ -66,8 +59,6 @@
             </div>
             {% endif %}
             
-
-    
           </div>
         </section>
      
@@ -100,10 +91,11 @@
       </nav>
    
    </div>
+   {% if userdata.utilisateur.role is 1 %}
    {% include 'HTML/classroom/create_task.html' %}
 
    {% include 'HTML/classroom/creat_qcm.html' %}
-
+{% endif %}
    <section class="home-grid">
       <div class="box-container">
 
@@ -112,8 +104,8 @@
          <ul class="tab-name">
             <li value="1"><a class="general">General</a></li>
             <li value="2"><a class="todo">To do</a></li>
-            <li value="3"><a class="participants">All participants</a></li>
-            <li value="4"><a class="qcms">All QCMs</a></li>
+            <li value="3"><a class="qcms">All QCMs</a></li>
+            <li value="4"><a class="participants">All participants</a></li>
 
          </ul>
       </div>
@@ -157,7 +149,7 @@
 
                <div id="paddingdiv"></div>
 
-            <div><!-- start  -->
+      <div><!-- start  -->
                   <!-- classroom posts -->
                   <div id="generatedPosts" style="height: auto;background-color: transparent;color: black;">
                      <div class="prof-post" style="height: 80px;background-color: transparent;">
@@ -202,9 +194,9 @@
                
                   </div>
 <!--  classroom todos -->
-<div id="alltodos" style="display: none;background-color: transparent;height: auto;"> 
+<div id="alltodos" style="margin-top: -100px;display: none;background-color: transparent;height: auto;"> 
    <section> 
-      <div class="head">
+      <div class="head" style="width: 100%">
         <div class="box-container">
       
         <div class="title">
@@ -214,34 +206,10 @@
       </div>
       
 
-          <!-- <div class="filter">
-            <select>
-              <option value="All Courses">
-                 All Courses
-              </option>
-              <option value="Course 1">
-                Course 1
-              </option>
-              <option value="Course 2">
-                Course 2
-              </option>
-            </select>
-    
-            <div class="box box1">
-              <input type="range" value="1" min="1" max="3" id="range">
-            <ul class="tab-name">
-              <li value="1"><a href="alltasks.html" class="alltasks">All tasks</a> </li>
-              <li value="2"><a href="missing.html" class="missing"> Missing</a></li>
-              <li value="3"><a href="completed.html" class="completed"> Completed </a>  
-              </li>
-              </ul>
-              </div>
-          </div> -->
-         
-          
-       <div class="liste" style="margin-top: -50px;">  
+       <div class="liste" style="margin-top: -50px;display: flex;">  
+<div style="display: flex;justify-content: center;" >
 
-        <ul class="main">
+        <ul class="main" >
          {% for task in classroom_tasks %}
 
          
@@ -255,7 +223,7 @@
          <!--  -->
           <li>
             <a href="#">
-              <span class="event-time">{{task.due_date}}- </span>
+              <span class="event-time">{{task.due_date}} - </span>
               <span class="event-name">{{task.title}}</span>
               <br />
               <span class="event-location">{{ classroomDetails.ClassRoomtitle }}</span>
@@ -267,16 +235,54 @@
         </ul>
     
       </li>
+
       {% endfor %}
 
     
       
-    </ul>
+   </ul>
+</div>
    </div>
     </div>
       </div>
     </section>
 </div>
+
+<!-- classroom qcms -->
+<div id="allqcms" style="display: none;background-color: transparent;height: auto;"> 
+   <div style="display: flex;justify-content: center;">
+   <div style="width: 70%;">
+   {% for classroomQCm in classroomQCMs %}
+      <div style="display: flex;align-items: center;justify-content: space-between;padding: 10px;">
+      <!-- <img src="/media/{{participant.Participant.profile_picture}}"  style="border-radius: 50%;height: 80px;width: 80px;"> -->
+      <div style="display: inline-block;width: 70%;">
+         <h3 style="font-size: 20px;color: #eb437e;">{{classroomQCm.QCMtitle}}</h3><span style="color: #949494;">{{ classroomQCm.QCMdelai}}</span>
+         <br><br>
+         <h5 style="width: 90%;font-size: 14px;color: rgb(113, 113, 113);">{{classroomQCm.QCMdescription}}</h5>
+      </div>
+
+         {% if userdata.id is classroomDetails.Admin_Professor.utilisateur.user.id %}
+         <div style="width: 25%;display: block;">
+
+            <button onclick="editQCM('{{classroomQCm.id}}')" style="padding-inline: 20px;padding-block: 10px;background-color: rgb(78, 78, 78);color: white;font-size: 16px;">Edit</button>
+            <!-- <div style="max-width: 15px;"></div> -->
+            <button onclick="deleteQCM('{{classroomQCm.id}}')" style="padding-inline: 20px;padding-block: 10px;background-color: red;color: white;font-size: 16px;">Delete</button>
+         </div>
+
+      {% elif userdata.utilisateur.role is 2 %}
+      <button onclick="startqcm('{{classroomQCm.id}}')" style="padding-inline: 20px;padding-block: 10px;background-color: #eb437e;color: white;font-size: 16px;">Demarer</button>
+      {% else %}
+      <div style="width: 50px;"></div>
+      {% endif %}
+   </div><br>
+      <div style="height: 3px;background-color: #eb437e;"></div>
+   
+   {% endfor %}         
+   
+   </div>
+   </div>
+   </div>
+
 <!-- classroom participants -->
 
 <div id="allparticipants" style="display: none;background-color: transparent;height: auto;"> 
@@ -302,13 +308,17 @@
 </div>
 </div>
 
-            </div><!-- end -->
+      </div><!-- end -->
             
-         </div>
-         
+         </div>    
       </section>
       
    <script>
+      function editQCM(QCMid) {
+      window.location.href = '/classroom/qcm/'+QCMid
+         
+      }
+
       function kickthisparticipant(id) {
       window.location.href = '/kickParticipant/'+id
          
@@ -321,7 +331,9 @@
             case '1':
 
                 post = document.getElementById('createClassroompost')
-                post.style.display = "";
+                if (post != null ){
+                   post.style.display = "";
+                }
                 
                 generatedPosts = document.getElementById('generatedPosts')
                 generatedPosts.style.display = "";
@@ -333,18 +345,28 @@
 
                 allparticipants =document.getElementById('allparticipants')
                 allparticipants.style.display = "none";
+
+                allqcms =document.getElementById('allqcms')
+               allqcms.style.display = "none";
+
+
                 break;
 
 
             case '2':
                 post = document.getElementById('createClassroompost')
+                if (post != null ){
                 post.style.display = "none";
-
+                }
                 generatedPosts = document.getElementById('generatedPosts')
                 generatedPosts.style.display = "none";
 
                 allparticipants =document.getElementById('allparticipants')
                 allparticipants.style.display = "none";
+
+                allqcms =document.getElementById('allqcms')
+               allqcms.style.display = "none";
+
 
                 document.getElementById('paddingdiv').style.height = '100px'
 
@@ -356,8 +378,34 @@
 
             case '3':
                 post = document.getElementById('createClassroompost')
+                if (post != null ){
                 post.style.display = "none";
+                }
+                generatedPosts = document.getElementById('generatedPosts')
+                generatedPosts.style.display = "none";
 
+                alltodos =  document.getElementById('alltodos')
+                alltodos.style.display = "none";
+
+                allparticipants =document.getElementById('allparticipants')
+                allparticipants.style.display = "none";
+                
+                document.getElementById('paddingdiv').style.height = '100px'
+
+                allqcms =document.getElementById('allqcms')
+                allqcms.style.display = "";
+
+                break;
+                
+            case '4':
+               allqcms =document.getElementById('allqcms')
+               allqcms.style.display = "none";
+
+
+                post = document.getElementById('createClassroompost')
+                if (post != null ){
+                post.style.display = "none";
+                }
                 generatedPosts = document.getElementById('generatedPosts')
                 generatedPosts.style.display = "none";
 
@@ -376,7 +424,6 @@
         }
       }
 
-
       function deleteclassroomPost(id){
       window.location.href = '/deleteClassroomPost/'+id
       }
@@ -388,7 +435,10 @@
      function clicktodownlaodfile(filepath){
       window.location.href = '/media/'+filepath
      }
+
    </script>
+
    <script src ="/static/Javascript/classroom/classroom.js"></script>
+
    </body>
    </html>
