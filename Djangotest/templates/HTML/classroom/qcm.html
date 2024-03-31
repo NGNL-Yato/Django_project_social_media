@@ -51,19 +51,25 @@
       </div>
    
       <div class="profile">
-         <img src="images/pic-1.jpg" class="image" alt="">
-         <h3 class="name"> aya khalifi</h3>
-         <p class="role">student</p>
+        <img src="/media/{{userdata.utilisateur.profile_picture}}" class="image" alt="">
+        <h3 class="name"> {{userdata.first_name}} {{userdata.last_name }}</h3>
+     {% if userdata.utilisateur.role is 2 %}   
+        <p class="role">student</p>
+      {% elif  userdata.utilisateur.role is 1 %}
+      <p class="role">Professeur</p>
+      {% else %}
+      <p class="role">Entreprise</p>
+      {% endif %}
       </div>
    
       <nav class="navbar">
-         <a href="home"><i class="fas fa-home"></i><span>home</span></a>
+         <a href="{% url 'Classroom' %}"><i class="fas fa-home"></i><span>home</span></a>
          <!-- <a href="#"><i class="fas fa-graduation-cap"></i><span>courses</span></a> -->
          <!-- <a href="#"><i class="fas fa-box-archive"></i><span>archived courses</span></a> -->
          {% if userdata.utilisateur.role is 2 %}   
          <a href="{% url 'Todo' %}"><i class="fas fa-check"></i><span>To Do</span></a>
      {% endif %}
-         <a href="settings.html"><i class="fas fa-gear"></i><span>Settings</span></a>
+         <a href="{% url 'settings' %}"><i class="fas fa-gear"></i><span>Settings</span></a>
    
       </nav>
    
@@ -83,25 +89,25 @@
 
                   <div>
                     <label style="margin-block: 10px;font-size: 18px;">Question*</label>
-                    <input style="margin-block: 10px;background-color: #eee ;height: 30px;width: 100%;" type="text" name="qst" id="">
+                    <input style="margin-block: 10px;background-color: #eee ;height: 37px;font-size: 19px;width: 100%;" type="text" name="Question" required >
 
                     <label style="margin-block: 10px;font-size: 18px;">answer 1* </label>
-                    <input style="margin-block: 10px;background-color: #eee ;height: 30px;width: 100%;" type="text" name="answers[]" id="">
+                    <input style="margin-block: 10px;background-color: #eee ;height: 37px;font-size: 19px;width: 100%;" type="text" name="answers[]" required>
 
                     <label style="margin-block: 10px;font-size: 18px;">answer 2*</label>
-                    <input style="margin-block: 10px;background-color: #eee ;height: 30px;width: 100%;" type="text" name="answers[]" id="">
+                    <input style="margin-block: 10px;background-color: #eee ;height: 37px;font-size: 19px;width: 100%;" type="text" name="answers[]" required>
 
                     <label style="margin-block: 10px;font-size: 18px;">answer 3</label>
-                    <input style="margin-block: 10px;background-color: #eee ;height: 30px;width: 100%;" type="text" name="answers[]" id="">
+                    <input style="margin-block: 10px;background-color: #eee ;height: 37px;font-size: 19px;width: 100%;" type="text" name="answers[]" >
 
                     <label style="margin-block: 10px;font-size: 18px;">answer 4</label>
-                    <input style="margin-block: 10px;background-color: #eee ;height: 30px;width: 100%;" type="text" name="answers[]" id="">
+                    <input style="margin-block: 10px;background-color: #eee ;height: 37px;font-size: 19px;width: 100%;" type="text" name="answers[]" >
             
-                    <label style="margin-block: 10px;font-size: 18px;">Correct answer(s)*</label>
-                    <input type="checkbox" name="correct_answers[]" value="1"> 1
-                    <input type="checkbox" name="correct_answers[]" value="2"> 2
-                    <input type="checkbox" name="correct_answers[]" value="3"> 3
-                    <input type="checkbox" name="correct_answers[]" value="4"> 4
+                    <label style="margin-block: 10px;margin-inline-end: 20px;font-size: 18px;">Correct answer(s)*</label>
+                    <input style="margin-inline: 10px;height: 15px;width: 15px;" type="checkbox" name="correct_answers[]" value="1"> <span style="font-size:15px" >1</span>
+                    <input style="margin-inline: 10px;height: 15px;width: 15px;" type="checkbox" name="correct_answers[]" value="2"> <span style="font-size:15px" >2</span>
+                    <input style="margin-inline: 10px;height: 15px;width: 15px;" type="checkbox" name="correct_answers[]" value="3"> <span style="font-size:15px" >3</span>
+                    <input style="margin-inline: 10px;height: 15px;width: 15px;" type="checkbox" name="correct_answers[]" value="4"> <span style="font-size:15px" >4</span>
 
                 </div>
                 <input type="hidden" name="qcm_id" value="{{ qcm_id }}">
@@ -125,21 +131,19 @@
                 <table>
                   <tbody>
                     <tr>
-                      <td>
+                      <td style="margin: 10px;" >
                   <input type="checkbox" id="qcm-1" name="qcm" value="choice 1"><label for="qcm-1">choice 1</label>
                       </td>
-                      <td>
+                      <td  style="margin: 10px;"  >
                   <input type="checkbox" id="qcm-2" name="qcm" value="choice 2"><label for="qcm-2">choice 2</label>
                       </td>
-                      <td>
+                      <td  style="margin: 10px;"  >
                   <input type="checkbox" id="qcm-3" name="qcm" value="choice 3"><label for="qcm-3">choice 3</label>
                       </td>
-                      <td>
+                      <td  style="margin: 10px;"  >
                   <input type="checkbox" id="qcm-4" name="qcm" value="choice 4"><label for="qcm-4">choice 4</label>
                       </td>
-                      <td>
-                  <input type="checkbox" id="qcm-5" name="qcm" value="choice 5"><label for="qcm-5"> choice 5</label>
-                      </td>
+                     
                     </tr>
                   </tbody>
                 </table>

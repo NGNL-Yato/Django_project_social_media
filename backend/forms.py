@@ -181,12 +181,12 @@ class QcmForm(forms.ModelForm):
 
 class QuestionForm(forms.ModelForm):
     class Meta:
-        model: Question
+        model= Question
         exclude = ['qcm']
 
 class AnswerForm(forms.ModelForm):
     class Meta:
-        model: Answer
+        model= Answer
         exclude = ['question']
 
 

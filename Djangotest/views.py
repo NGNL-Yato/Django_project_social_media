@@ -345,6 +345,21 @@ def group_events(request, group_name):
     context = {'group': group, 'is_member': is_member, 'is_admin': is_admin, 'user': request.user, 'visiteur': isguest}
     return render(request, 'HTML/home/group_events.html', context)
 
+
+#
+#
+def createQCM(request,uid):
+    if request.user.is_authenticated and request.method == 'POST':
+        classroom = models.ClassRoom.objects.get(UniqueinvitationCode=uid)
+        if classroom is not None:
+            qcmform = QcmForm(request.POST)
+            if qcmform.is_valid():
+                qcm = qcmform.save(commit=False)
+                qcm.QCMClassroom = classroom
+                qcm.save()
+
+    return redirect('Course', uid=uid)
+
 #
 #
 def add_questions(request, qcm_id):
@@ -369,41 +384,32 @@ def add_questions(request, qcm_id):
         'questionform': form,
         'qcm_id': qcm_id
     }
-    return render(request, 'add_questions.html', context)
+
+    return render( request, 'HTML/classroom/qcm.html',context) 
 
 #
 #
-def createQCM(request,uid):
-    if request.user.is_authenticated and request.method == 'POST':
-        classroom = models.ClassRoom.objects.get(UniqueinvitationCode=uid)
-        # print(classroom)
-        if classroom is not None:
-            qcmform = QcmForm(request.POST)
-            # print(Taskform.is_valid())
-            if qcmform.is_valid():
-                qcm = qcmform.save(commit=False)
-                qcm.QCMClassroom = classroom
-                qcm.save()
-
-    return redirect('Course', uid=uid)
-
-#
-#
-def qcm_view(request):
+def qcm_view(request,qcmID):
     if request.user.is_authenticated:
-        
-        if ClassRoom.objects.filter(UniqueinvitationCode=qid).exists():
-            classroom = ClassRoom.objects.get(UniqueinvitationCode=qid)
+        qcm = models.QCM.objects.filter(id=qcmID).first()
+        uid = qcm.QCMClassroom.UniqueinvitationCode
+
+        if ClassRoom.objects.filter(UniqueinvitationCode=uid).exists():
+            classroom = ClassRoom.objects.get(UniqueinvitationCode=uid)
         
             context = {
                         'userdata':request.user,
                         'classroomDetails': classroom,
+                        'questionForm':QuestionForm(),
+                        'allQuestions':models.Question.objects.filter(qcm=qcm),# to be updated , to only show questions of this qcm
                         }  
 
             return render( request, 'HTML/classroom/qcm.html',context) 
         
-    return render( request, 'HTML/classroom/qcm.html')
+    return redirect('Classroom')
  
+#
+#
 def create_Classroom_post(request, uid):
     if request.user.is_authenticated and request.method == 'POST':
         classroom = models.ClassRoom.objects.get(UniqueinvitationCode=uid)
@@ -419,13 +425,14 @@ def create_Classroom_post(request, uid):
 
     return redirect('Course', uid=uid)
 
+#
+#
 def kickparticipant(request, id):
     if request.user.is_authenticated:
         m = models.classroomparticipants.objects.filter(id=id).first()
         if m is not None:
             uid = m.Classroom.UniqueinvitationCode
             m.delete()
-            return redirect('Course',uid=uid)
         
     return redirect('Classroom')
 
@@ -470,10 +477,11 @@ def delete_Classroom(request, uid):
 def delete_ClassroomPost(request, id):
     post = models.PostClassroom.objects.filter(id=id).first()
     if post is not None:
-            uid = post.classroom.UniqueinvitationCode
-
-            post.delete()
-            return redirect('Course',uid=uid)
+        uid = post.classroom.UniqueinvitationCode
+        post.delete()
+    
+    return redirect('Course',uid=uid)
+    
 #
 def create_Task(request, uid):
     if request.user.is_authenticated and request.method == 'POST':
