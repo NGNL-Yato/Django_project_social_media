@@ -1,6 +1,6 @@
 from django.shortcuts import render , redirect
-from backend.models import User,utilisateur,Post,Like, Group, UserGroup,PostClassroom,ClassRoom
-from backend.forms import PostForm, GroupForm, EventForm , ClassRoomForm,PostClassroomForm
+from backend.models import User,utilisateur,Post,Like, Group, UserGroup,PostClassroom,ClassRoom,Task
+from backend.forms import PostForm, GroupForm, EventForm , ClassRoomForm,PostClassroomForm,TaskForm
 from django.core.mail import send_mail
 from django.conf import settings
 from backend import models
@@ -403,6 +403,8 @@ def course_view(request, uid):
                 'classroomparticipants':classroom.participants.all(),
                 # 'alltodos':
                 # 'todoform'
+                'Taskform':TaskForm(),
+                'classroom_tasks': Task.objects.filter(classroom=classroom).order_by('-created_at'),
                 }  
             return render(request, 'HTML/classroom/course.html', context)
     
@@ -427,3 +429,19 @@ def delete_ClassroomPost(request, id):
 
             post.delete()
             return redirect('Course',uid=uid)
+#
+def create_Task(request, uid):
+    if request.user.is_authenticated and request.method == 'POST':
+        classroom = models.ClassRoom.objects.get(UniqueinvitationCode=uid)
+        print(classroom)
+        if classroom is not None:
+            Taskform = TaskForm(request.POST,request.FILES)
+            print(Taskform.is_valid())
+            if Taskform.is_valid():
+                task = Taskform.save(commit=False)
+                task.classroom = classroom
+                task.creator = models.Professor.objects.filter(utilisateur=request.user.utilisateur).first()
+                task.save()
+
+    return redirect('Course', uid=uid)
+#

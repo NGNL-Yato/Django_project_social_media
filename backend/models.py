@@ -314,6 +314,10 @@ class Task(models.Model):
     description = models.TextField()
     due_date = models.DateTimeField()
     creator = models.ForeignKey(Professor, on_delete=models.CASCADE)
+    fileTask = models.FileField(upload_to='task_files/', blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)  
+
 
     def __str__(self):
         return self.title
