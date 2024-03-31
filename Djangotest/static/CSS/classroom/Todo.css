@@ -43,7 +43,7 @@
  }
  
  .date {
-   width: 17%;
+   width: 25%;
    padding: 10% 0% 0% 0;
    float: left;
  }
@@ -55,7 +55,7 @@
  
  .events {
    float: left;
-   width: 80%;
+   width: 65%;
    border-left: 1px solid #e7157a;
    margin-top: 10%;
    padding-top: 3%;

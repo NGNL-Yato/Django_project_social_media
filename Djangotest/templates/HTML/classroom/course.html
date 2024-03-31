@@ -1,6 +1,5 @@
 {% load static %}
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,14 +11,10 @@
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
    
-
-   
-
    <!-- custom css file link  -->
    <link rel="stylesheet" href="/static/CSS/classroom/home.css">
    <link rel="stylesheet" href="/static/CSS/classroom/course.css">
      <link rel="stylesheet" href="/static/CSS/classroom/Todo.css">
-
 
 </head>
 <body>
@@ -41,7 +36,6 @@
                <div id="user-btn" class="fas fa-plus"></div>
                {% endif %}
 
-
               <div id="toggle-btn" class="fas fa-sun"></div>
            </div>
            {% if userdata.utilisateur.role is 1 %}   
@@ -53,7 +47,6 @@
             <a  id="create_Task_btn" class="join_btn" style="background-color: rgb(238, 97, 174); border-radius: 5px;padding: 10px;font-size: 12px;color: #eeeeee;font-weight: 500;">Create</a>
          </div>
 
-    
             <br><br>
     
             <div style="background-color: rgb(238, 97, 174);height: 3px; width: 100%;"></div>
@@ -66,8 +59,6 @@
             </div>
             {% endif %}
             
-
-    
           </div>
         </section>
      
@@ -319,8 +310,7 @@
 
       </div><!-- end -->
             
-         </div>
-         
+         </div>    
       </section>
       
    <script>
@@ -434,7 +424,6 @@
         }
       }
 
-
       function deleteclassroomPost(id){
       window.location.href = '/deleteClassroomPost/'+id
       }
@@ -446,7 +435,10 @@
      function clicktodownlaodfile(filepath){
       window.location.href = '/media/'+filepath
      }
+
    </script>
+
    <script src ="/static/Javascript/classroom/classroom.js"></script>
+
    </body>
    </html>
