@@ -36,10 +36,37 @@
            <div class="icons">
               <div id="menu-btn" class="fas fa-bars"></div>
               <div id="search-btn" class="fas fa-search"></div>
-              <!-- <div id="user-btn" class="fas fa-plus"></div> -->
+              {% if userdata.utilisateur.role is 1 %}   
+
+               <div id="user-btn" class="fas fa-plus"></div>
+               {% endif %}
+
+
               <div id="toggle-btn" class="fas fa-sun"></div>
            </div>
-     
+           {% if userdata.utilisateur.role is 1 %}   
+
+           <div class="profile" style="background-color: #eeeeee ;">
+      
+            <h3 class="name">Create Task</h3><br>
+            <a  id="create_Task_btn" class="join_btn" style="background-color: rgb(238, 97, 174); border-radius: 5px;padding: 10px;font-size: 12px;color: #eeeeee;font-weight: 500;">Create</a>
+
+    
+            <br><br>
+    
+            <div style="background-color: rgb(238, 97, 174);height: 3px; width: 100%;"></div>
+            <br>
+    
+            <div style="display: flex;justify-content: space-around;align-items: center;">
+    
+                <h3 class="name">Create  QCM</h3><br>
+                <a  id="create_qcm_btn" class="join_btn" style="background-color: rgb(238, 97, 174); border-radius: 5px;padding: 10px;font-size: 12px;color: #eeeeee;font-weight: 500;">Create</a>
+            </div>
+            {% endif %}
+            
+
+    
+          </div>
         </section>
      
      </header>  
@@ -71,7 +98,7 @@
       </nav>
    
    </div>
-
+   {% include 'HTML/classroom/create_task.html'%}
    <section class="home-grid">
       <div class="box-container">
 
@@ -176,7 +203,9 @@
         <div class="title">
           <i class="fas fa-check" style="margin: 1.5%;"></i>
           <h2>To do</h2>
-          </div>
+          
+      </div>
+      
 
           <!-- <div class="filter">
             <select>

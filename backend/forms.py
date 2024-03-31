@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django import forms
-from .models import utilisateur ,Etudiant,Professor , Skills , Languages ,Enterprise ,Experience, Event , Certification, Education ,Research, Group, ClassRoom,PostClassroom
+from .models import utilisateur ,Etudiant,Professor , Skills , Languages ,Enterprise ,Experience, Event , Certification, Education ,Research, Group, ClassRoom,PostClassroom,Task
 from .models import Post
 
 
@@ -175,4 +175,20 @@ class PostClassroomForm(forms.ModelForm):
         widgets={
             'contentPost':forms.TextInput(attrs={'style':"background: transparent;height: 95%;margin-left: 25px;width: 95%;","placeholder":'Post Contenue'}),
              'filePost':forms.FileInput(attrs={'style':'display:none'}),
+        }
+
+#
+class TaskForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        exclude=['creator','classroom']
+        fields = '__all__'
+        widgets={
+            'title':forms.TextInput(attrs={'style':'max-width: 100%;width: 100%;padding: 10px;background-color: #eeeeee;'}),
+            'description':forms.Textarea(attrs={'style':'max-width: 100%;width: 100%;padding: 10px;background-color: #eeeeee;'}),
+
+            'due_date': forms.DateTimeInput(attrs={'type': 'datetime-local', 'style':'width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; background-color: #eeeeee;color:gray'}),
+
+            'fileTask':forms.FileInput(attrs={'style':'display:none'})
+
         }
