@@ -197,23 +197,6 @@ class Enterprise(models.Model):
     def __str__(self):
         return 'Entreprise :'+self.utilisateur.user.first_name +' '+self.utilisateur.user.last_name
 
-#
-#
-class Event(models.Model):
-    utilisateur = models.ForeignKey(utilisateur, on_delete=models.CASCADE)
-    #
-    background_image = models.ImageField(upload_to='event_images/', blank=True)
-    head_title = models.CharField(max_length=100)
-    event_time = models.DateTimeField()
-    description = models.TextField(blank=True, null=True)
-    file = models.FileField(upload_to='event_files/', blank=True)
-    #
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)  
-
-    def __str__(self):
-        return 'Event:'+self.head_title
- 
 #    
 # 
 class follow(models.Model):
@@ -245,7 +228,111 @@ class Group(models.Model):
             UserGroup.objects.create(user=self.user, group=self, is_admin=True, invitation_on=True)
     def is_admin(self, user):
         return self.usergroup_set.filter(user=user, is_admin=True).exists()
+
+#
+#
+class Event(models.Model):
+    utilisateur = models.ForeignKey(utilisateur, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE,blank=True,null=True)
+    #
+    backgroundimage = models.ImageField(upload_to='event_images/')
+    head_title = models.CharField(max_length=100)
+    event_time = models.DateField()
+    description = models.TextField(blank=True, null=True)
+    file = models.FileField(upload_to='event_files/', blank=True)
+    #
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)  
+
+    def __str__(self):
+        return 'Event:'+self.head_title
+ 
+#
+# a classroom is made by one professsor , but other proffessors can be invited to join too 
+#
+class ClassRoom(models.Model):
+    Admin_Professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
+    #
+    ClassRoomtitle = models.CharField(max_length=100)
+    UniqueinvitationCode = models.CharField(max_length=20,unique=True)
+    ClassRoomimage = models.FileField(upload_to='classroom_course_images/')
+    description = models.TextField(blank=True, null=True)
+    #
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)  
+
+#
+# a pivot table between utilisateurs and classroom , (many to many)
+#
+class classroomparticipants(models.Model):
+    Classroom = models.ForeignKey(ClassRoom, related_name='participants',on_delete=models.CASCADE)
+    Participant = models.ForeignKey(utilisateur ,related_name='participating_classrooms' ,on_delete=models.CASCADE)
+
+#
+#  qcm belongs to a class room , classroom can have many qcms (one to many)
+#
+class QCM(models.Model):
+    QCMClassroom = models.ForeignKey(ClassRoom, default=None ,on_delete=models.CASCADE)
+    QCMtitle = models.CharField(max_length=100)
+    QCMdelai =  models.DateTimeField()
+    QCMdescription = models.TextField(blank=True, null=True)
+
+
+#
+#  a qcm contain many questions (one to many)
+#
+class Question(models.Model):
+    qcm = models.ForeignKey(QCM, on_delete=models.CASCADE)
+    text = models.CharField(max_length=255)
+
+#
+# one question can have many answers (one to many)
+#
+class Answer(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    text = models.CharField(max_length=255)
+    is_correct = models.BooleanField(default=False)
+
+#
+# pivot table between students and questions  (many to many)
+#
+class Studentquestion(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+
+#
+# pivot table between students and responce (refer to the answer student selected)  (many to many)
+#
+class Studentselectedreponse(models.Model):
+    studentquestion = models.ForeignKey(Studentquestion, on_delete=models.CASCADE)
+    selectedanswer = models.ForeignKey(Answer, on_delete=models.CASCADE)
+
+
+class Task(models.Model):
+    classroom = models.ForeignKey(ClassRoom, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    due_date = models.DateTimeField()
+    creator = models.ForeignKey(Professor, on_delete=models.CASCADE)
+    fileTask = models.FileField(upload_to='task_files/', blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)  
+
+
+    def __str__(self):
+        return self.title
+
 #  
+class PostClassroom(models.Model):
+    classroom = models.ForeignKey(ClassRoom, on_delete=models.CASCADE)
+    contentPost = models.TextField()
+    author = models.ForeignKey(Professor, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    filePost = models.FileField(upload_to='postClassroom_files/', blank=True)
+
+
+    def __str__(self):
+        return self.title
 #
 class UserGroup(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -281,3 +368,33 @@ class Post(models.Model):
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
+#
+#
+class Conversation(models.Model):
+    title = models.CharField(max_length=200, null=True, blank=True)
+    Conversation_picture = models.ImageField(default='profile_pictures/img_banniere.png',upload_to='profile_pictures/', blank=True)
+    description = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    def is_group_conversation(self):
+        return self.participant_set.filter(group_id__isnull=False).exists()
+
+    def is_friend_conversation(self):
+        return self.participant_set.count() == 2 and not self.is_group_conversation()
+#
+#
+class Participant(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE)
+    group_id = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True)
+#
+#
+class Message(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE)
+    conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+#
+#
+class MessageFile(models.Model):
+    message = models.ForeignKey(Message, related_name='files', on_delete=models.CASCADE)
+    file = models.FileField(upload_to='messages_files/', null=True, blank=True)

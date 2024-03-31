@@ -14,23 +14,30 @@
         </div>
         
         {% if not visiteur %}
-        <div class="iconBox1">
-            <i class="fa-solid fa-house"></i>
-            <i class="fa-solid fa-user-group"></i>
-        </div>
-        <div class="iconBox2">
-            {% if isHomePage %}
-            <i class="fa-solid fa-circle-plus" id="circleButton"></i>
-            {% endif %}
-            <i class="fa-solid fa-bell"></i>
-
-            <div class="dropdown" id="circleMenu">
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li class = "group_buttons"><i class="fa-solid fa-users-line"> Create Group </i></li>
-                    <li class = "event_buttons"><i class="fa-regular fa-calendar-days"> Create Event</i></li>
-                </ul>
+        <div style= "display: flex; justify-content: space-evenly;">
+            <div class="iconBox1">
+                <a href= "{% url 'home' %}"><i class="fa-solid fa-house"></i></a>
+                <a href= "{% url 'chat' %}"><i class="fa-solid fa-user-group"></i></a>
             </div>
-        </div>      
+            <div class="iconBox2">
+                {% if isHomePage %}
+                <i class="fa-solid fa-circle-plus" id="circleButton"></i>
+                {% endif %}
+                <div class="dropdown" id="circleMenu">
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li class = "group_buttons"><i class="fa-solid fa-users-line"> Create Group </i></li>
+                        <li onclick="" class = "event_buttons"> <i  class="fa-regular fa-calendar-days"> Create Event</i> </li>
+                    </ul>
+                </div>
+                <i class="fa-solid fa-bell" id ="NotificationButton"></i>
+                <div class="dropdown" id="NotificationsMenu">
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <p class="mini-headign">Notifications</p>
+                        <li class = "Invitations_group"></li>
+                    </ul>
+                </div>
+            </div>
+        </div> 
         {% endif %}
         <div class="iconBox3-container">
             {% if not visiteur %}
@@ -54,7 +61,7 @@
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="/settings"><i class="fa-solid fa-gear"> Settings</i></a></li>
             <li style ="color: var(--black);">Apply Dark Theme<label class="darkTheme"><span></span></label></li>
-            <li style = "font-family: "";font-weight: 900;"><a type="submit" class="dropdown-item" href="/logout/"><i class="fa-solid fa-arrow-right-from-bracket"> Logout</i></a></li>
+            <li style = "font-weight: 900;"><a type="submit" class="dropdown-item" href="/logout/"><i class="fa-solid fa-arrow-right-from-bracket"> Logout</i></a></li>
         </ul>
     </div>
     {% endif %}

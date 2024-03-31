@@ -55,7 +55,27 @@ urlpatterns = [
     #
     path('classroom/home',views.homeClass_view,name='Classroom'),
     #
+    path('classroom/Join/<str:uid>',views.classroomJoin,name='classroomJoin'),
+    #
     path('classroom/Todo',views.todo_view,name='Todo'),
+    #
+    path('classroom/course/<str:uid>',views.course_view,name='Course'),
+    #
+    path('create_QCM/<str:uid>/',views.createQCM , name="creatQCM"),
+    #
+    path('classroom/qcm/',views.qcm_view,name='qcm'),
+    #
+    path('create_Classroom/',views.create_Classroom,name='createClassroom'),
+    #
+    path('create_Classroom_post/<str:uid>/', views.create_Classroom_post, name='createClassroomPost'),    
+    #
+    path('create_Task/<str:uid>/', views.create_Task, name='createTask'),    
+
+    path('deleteClassroom/<str:uid>',views.delete_Classroom,name='deleteClassroom'),
+    #
+    path('deleteClassroomPost/<int:id>',views.delete_ClassroomPost,name='deleteClassroomPost'),
+    #
+    path('kickParticipant/<int:id>',views.kickparticipant , name='kickparticipant'),
     #
     path('about/',views.index_view,name='about'),
     #
@@ -93,8 +113,6 @@ urlpatterns = [
     #
     path('contact/',views.contact_view,name="contact"),
     #
-    path('classroom/course',views.course_view,name='Course'),
-    #
     path('delete_post/<int:post_id>/', backendviews.delete_post, name='delete_post'),
     #
     path('like_post/<int:post_id>/', backendviews.like_post, name='like_post'),
@@ -107,13 +125,45 @@ urlpatterns = [
     #
     path('groups/<str:group_name>/events', views.group_events, name='group_events'),
     #
-    path('classroom/qcm',views.qcm_view,name='qcm'),
-    #
     path('search_people/', backendviews.search_people, name='search_people'),  # new URL pattern
     #
-    path('event/',views.add_event,name='add_event'),
+    path('event/<int:id>',views.view_event,name='view_event'),
+    #
+    path('create_event/',views.create_event,name='create_event'),
+    #
+    path('deleteEvent/<int:id>',views.deleteEvent,name='deleteEvent'),
+    #
+    path('events/',views.all_events,name='all_events'),
     #
     path('invite_user/', backendviews.invite_user, name='invite_user'),
+    #
+    path('get_pending_invitations/', backendviews.get_pending_invitations, name='get_pending_invitations'),
+    #
+    path('accept_invitation/', backendviews.accept_invitation, name='accept_invitation'),
+    #
+    path('reject_invitation/', backendviews.reject_invitation, name='reject_invitation'),
+    #
+    path('join_group/', backendviews.join_group, name='join_group'),
+    #
+    path('leave_group/', backendviews.leave_group, name='leave_group'),
+    #
+    path('group/<str:group_name>/settings/', backendviews.group_settings, name='group_settings'),
+    #
+    path('toggle_admin/', backendviews.toggle_admin, name='toggle_admin'),
+    #
+    path('kick_user/', backendviews.kick_user, name='kick_user'),
+    #
+    path('cancel_invitation/', backendviews.cancel_invitation, name='cancel_invitation'),
+    #
+    path('chat/', views.chat, name='chat'),
+    #
+    path('get_friends/', backendviews.get_friends, name='get_friends'),
+    #
+    path('send_message/', backendviews.send_message, name='send_message'),
+    #
+    path('get_or_create_conversation/', backendviews.get_or_create_conversation, name='get_or_create_conversation'),
+
+
     
 ]
 

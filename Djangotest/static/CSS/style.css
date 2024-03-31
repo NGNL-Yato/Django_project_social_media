@@ -129,7 +129,7 @@ header{
     padding: 0 25px;
     position: relative;
 }
-#circleMenu {
+#circleMenu, #NotificationsMenu {
     position: absolute;  /* Set position: absolute on the dropdown */
     top: 100%;  /* Position the dropdown just below the parent */
     left: 0;  /* Align the dropdown to the left edge of the parent */
@@ -179,7 +179,7 @@ header{
     border-radius: 50px;
 }
 .iconBox3 label img{
-    width: 100%;
+    height: 100%;
 }
 .iconBox3 .fa-caret-down{
     position: absolute;
@@ -653,6 +653,9 @@ header{
     padding: 0;
     transition: transform 0.3s ease;
 }
+.invitation-button:active {
+    transform: scale(0.9);
+}
 .delete_button:active {
     transform: scale(0.9);
 }
@@ -881,14 +884,14 @@ header{
     display: block;
     width: 7px;
     height: 7px;
-    background: #12da01;
+    /* background: #12da01; */
     position: absolute;
     border-radius: 50px;
     top: 4px;
     left: -12px;
 }
 .messenger ul li:nth-child(2) span::before{
-    background: #ff9600;
+    /* background: #ff9600; */
 }
 .messenger ul li i{
     color: #6524c4;
@@ -1111,7 +1114,7 @@ header{
 }
 
 .modal-content, .modal-content1 {
-    background-color: #fefefe;
+    background-color: var(--white);
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
@@ -1135,6 +1138,14 @@ header{
 
 #id_group_name,
 #id_description {
+    padding: 20px 20px 20px 60px;
+    width: 100%;
+    background: var(--foreground);
+    border: none;
+    height: 100px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px 0 var(--shadow);
+    color: var(--black);
     margin: 10px 10px 10px 0px;
 }
 .group-name {

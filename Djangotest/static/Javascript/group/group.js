@@ -26,7 +26,7 @@ function Mousehover(target) {
 function exit(target) {
     let button = target;
     button.children[0].style.color = "#8c79a9";
-    button.style.backgroundColor = "#fff";
+    button.style.backgroundColor = "var(--white)";
 }
 // When the user clicks on "Invite people", open the modal
 document.getElementById('invite_button').addEventListener('click', function() {
@@ -44,4 +44,8 @@ window.addEventListener('mousedown', function(event) {
 // When the user clicks on the "x" button, close the modal
 document.querySelector('.close').addEventListener('click', function() {
     document.querySelector('#home_settings').style.display = 'none';
+});
+//When user click on the settings buttons
+document.querySelector('#settings_bt').addEventListener('click', function() {
+    window.location.href = this.getAttribute('href');
 });

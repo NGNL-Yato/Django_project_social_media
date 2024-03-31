@@ -73,14 +73,14 @@ for (let i = 0; i < (cards.length - 1); i++) {
 }
 function hovered(target) {
    let currentdiv = target;
-   console.log("wa miiiiiiiiii");
+   // console.log("wa miiiiiiiiii");
    Array.from(currentdiv.children).forEach(child => {
       child.setAttribute("style", "width: 130%;");
    });
 }
 function unHovered(target) {
    let currentdiv = target;
-   console.log("wa miiiiiiiiii");
+   // console.log("wa miiiiiiiiii");
    Array.from(currentdiv.children).forEach(child => {
       child.setAttribute("style",stylingcards);
    });

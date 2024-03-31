@@ -10,9 +10,6 @@
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
    
-
-   
-
    <!-- custom css file link  -->
    <link rel="stylesheet" href="/static/CSS/classroom/home.css">
    <link rel="stylesheet" href="/static/CSS/classroom/qcm.css">
@@ -61,9 +58,11 @@
    
       <nav class="navbar">
          <a href="home"><i class="fas fa-home"></i><span>home</span></a>
-         <a href="#"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
-         <a href="#"><i class="fas fa-box-archive"></i><span>archived courses</span></a>
-         <a href="Todo"><i class="fas fa-check"></i><span>To Do</span></a>
+         <!-- <a href="#"><i class="fas fa-graduation-cap"></i><span>courses</span></a> -->
+         <!-- <a href="#"><i class="fas fa-box-archive"></i><span>archived courses</span></a> -->
+         {% if userdata.utilisateur.role is 2 %}   
+         <a href="{% url 'Todo' %}"><i class="fas fa-check"></i><span>To Do</span></a>
+     {% endif %}
          <a href="settings.html"><i class="fas fa-gear"></i><span>Settings</span></a>
    
       </nav>
@@ -74,128 +73,54 @@
     <div class="box-container">
         <div id="container">
             <div id="header">
-              <div id="header-content">
-                QCM  Course Name<br />
-               </div>
+              <div id="header-content">QCM  Course Name <br/></div>
             </div>
             <div id="content">
-              
-              
-              
-              <div class="question">
-                <div class="title">
-                  <div class="chip">1</div> Question 1 
+
+              <div style="width: 100%;height: auto;">
+                <form action="#" method="post">
+                  {% csrf_token %}
+
+                  <div>
+                    <label style="margin-block: 10px;font-size: 18px;">Question*</label>
+                    <input style="margin-block: 10px;background-color: #eee ;height: 30px;width: 100%;" type="text" name="qst" id="">
+
+                    <label style="margin-block: 10px;font-size: 18px;">answer 1* </label>
+                    <input style="margin-block: 10px;background-color: #eee ;height: 30px;width: 100%;" type="text" name="answers[]" id="">
+
+                    <label style="margin-block: 10px;font-size: 18px;">answer 2*</label>
+                    <input style="margin-block: 10px;background-color: #eee ;height: 30px;width: 100%;" type="text" name="answers[]" id="">
+
+                    <label style="margin-block: 10px;font-size: 18px;">answer 3</label>
+                    <input style="margin-block: 10px;background-color: #eee ;height: 30px;width: 100%;" type="text" name="answers[]" id="">
+
+                    <label style="margin-block: 10px;font-size: 18px;">answer 4</label>
+                    <input style="margin-block: 10px;background-color: #eee ;height: 30px;width: 100%;" type="text" name="answers[]" id="">
+            
+                    <label style="margin-block: 10px;font-size: 18px;">Correct answer(s)*</label>
+                    <input type="checkbox" name="correct_answers[]" value="1"> 1
+                    <input type="checkbox" name="correct_answers[]" value="2"> 2
+                    <input type="checkbox" name="correct_answers[]" value="3"> 3
+                    <input type="checkbox" name="correct_answers[]" value="4"> 4
+
                 </div>
-              </div>
-              <div class="nps-container">
-                <div class="nps">
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td>
-                  <input type="radio" class="nps-radio" id="nps-0" name="nps" value="0"><label for="nps-0">0</label>
-                        </td>
-                        <td>
-                  <input type="radio" class="nps-radio" id="nps-1" name="nps" value="1"><label for="nps-1">1</label>
-                        </td>
-                        <td>
-                  <input type="radio" class="nps-radio" id="nps-2" name="nps" value="2"><label for="nps-2">2</label>
-                        </td>
-                        <td>
-                  <input type="radio" class="nps-radio" id="nps-3" name="nps" value="3"><label for="nps-3">3</label>
-                        </td>
-                        <td>
-                  <input type="radio" class="nps-radio" id="nps-4" name="nps" value="4"><label for="nps-4">4</label>
-                        </td>
-                        <td>
-                  <input type="radio" class="nps-radio" id="nps-5" name="nps" value="5"><label for="nps-5">5</label>
-                        </td>
-                        <td>
-                  <input type="radio" class="nps-radio" id="nps-6" name="nps" value="6"><label for="nps-6">6</label>
-                        </td>
-                        <td>
-                  <input type="radio" class="nps-radio" id="nps-7" name="nps" value="7"><label for="nps-7">7</label>
-                        </td>
-                        <td>
-                  <input type="radio" class="nps-radio" id="nps-8" name="nps" value="8"><label for="nps-8">8</label>
-                        </td>
-                        <td>
-                  <input type="radio" class="nps-radio" id="nps-9" name="nps" value="9"><label for="nps-9">9</label>
-                        </td>
-                        <td>
-                  <input type="radio" class="nps-radio" id="nps-10" name="nps" value="10"><label for="nps-10">10</label>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <input type="hidden" name="qcm_id" value="{{ qcm_id }}">
+
+                <div style="margin-top: 25px;">
+                    <button>Add Question</button>
                 </div>
-                
-                <table style="width: 100%; margin-top: 5px;">
-                  <tr>
-                    <td style="width: 50%; text-align: left;">
-                      <div>0 = Pas du tout</div>
-                      <svg style="height:50px; position: relative; left: -9px;" viewBox="0 0 24 24">
-                              <path fill="#F44336" d="M20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12M22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12M15.5,8C16.3,8 17,8.7 17,9.5C17,10.3 16.3,11 15.5,11C14.7,11 14,10.3 14,9.5C14,8.7 14.7,8 15.5,8M10,9.5C10,10.3 9.3,11 8.5,11C7.7,11 7,10.3 7,9.5C7,8.7 7.7,8 8.5,8C9.3,8 10,8.7 10,9.5M12,14C13.75,14 15.29,14.72 16.19,15.81L14.77,17.23C14.32,16.5 13.25,16 12,16C10.75,16 9.68,16.5 9.23,17.23L7.81,15.81C8.71,14.72 10.25,14 12,14Z" />
-                          </svg>
-                    </td>
-                    <td style="width: 50%; text-align: right;">
-                      <div>10 = Tout à fait</div>
-                      <svg style="height:50px; position: relative; right: -9px;" viewBox="0 0 24 24">
-                              <path fill="#4CAF50" d="M20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12M22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12M10,9.5C10,10.3 9.3,11 8.5,11C7.7,11 7,10.3 7,9.5C7,8.7 7.7,8 8.5,8C9.3,8 10,8.7 10,9.5M17,9.5C17,10.3 16.3,11 15.5,11C14.7,11 14,10.3 14,9.5C14,8.7 14.7,8 15.5,8C16.3,8 17,8.7 17,9.5M12,17.23C10.25,17.23 8.71,16.5 7.81,15.42L9.23,14C9.68,14.72 10.75,15.23 12,15.23C13.25,15.23 14.32,14.72 14.77,14L16.19,15.42C15.29,16.5 13.75,17.23 12,17.23Z" />
-                          </svg>
-                    </td>
-                  </tr>
-                </table>
-               
-              
-              
-              
-              
-              
-              
-          
-              <div class="question">
-                <div class="title">
-                  <div class="chip">2</div> Question2 
-                </div>
+
+              </form>
+
               </div>
-              <div id="open-question">
-                <textarea rows="3"></textarea>
-              </div>
-              
-              
-              
-              
-              
-              <div class="question">
-                <div class="title">
-                  <div class="chip">3</div> Question3 
-                </div>
-              </div>
-              <div class="closed-question-container" >
-                <table>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <input type="radio" id="closed-1" name="closed" value="Oui"><label for="closed-1">Oui</label>
-                      </td>
-                      <td>
-                        <input type="radio" id="closed-2" name="closed" value="Non"><label for="closed-2">Non</label>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              
-              
-              
-              
-              
+
+              <!--  -->
               <div class="question">
                 <div class="title">
                   <div class="chip">4</div> Question 4
                 </div>
               </div>
+
               <div class="qcm-container" >
                 <table>
                   <tbody>
@@ -220,40 +145,13 @@
                 </table>
               </div>
               
-              
-              
-              
-              <div class="question">
-                <div class="title">
-                  <div class="chip">5</div> Question 5
-                </div>
-              </div>
-              <div id="qStar">
-                <fieldset class="star-fieldset">
-                  <span class="star-cb-group">
-                    <input type="hidden" id="qStar-star-value" value="" />
-                    <input type="radio" id="qStar-rating-5" name="qStar-rating" value="5" /><label for="qStar-rating-5">5</label>
-                    <input type="radio" id="qStar-rating-4" name="qStar-rating" value="4" /><label for="qStar-rating-4">4</label>
-                    <input type="radio" id="qStar-rating-3" name="qStar-rating" value="3" /><label for="qStar-rating-3">3</label>
-                    <input type="radio" id="qStar-rating-2" name="qStar-rating" value="2" /><label for="qStar-rating-2">2</label>
-                    <input type="radio" id="qStar-rating-1" name="qStar-rating" value="1" /><label for="qStar-rating-1">1</label>
-                    <input type="radio" id="qStar-rating-0" class="star-cb-clear" name="qStar-rating" value="" /><label for="qStar-rating-0">0</label>
-                  </span>
-                </fieldset>
-                <div class="star-legende">
-                  <rich:message for="qStar-star-value"/>
-                </div>
-              </div>
-          
-              
-              
-              
-              
+
+              <!-- submit  answers -->
               <div id="validation">
-                <button type="button">
-                  Je valide !
-                </button>
+                <button type="button">Suivant</button>
               </div>
+              <!--  -->
+
             </div>
           </div>
           </div>

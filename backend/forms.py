@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django import forms
-from .models import utilisateur ,Etudiant,Professor , Skills , Languages ,Enterprise ,Experience, Event , Certification, Education ,Research, Group
+from .models import utilisateur ,Etudiant,Professor , Skills , Languages ,Enterprise ,Experience, Event , Certification, Education ,Research, Group, ClassRoom,PostClassroom,Task , QCM, Question,Answer
 from .models import Post
 
 
@@ -26,7 +26,7 @@ class CreationdUser(UserCreationForm):
 class UtilisateurForm(ModelForm):
     class Meta:
         model = utilisateur
-        exclude = ['user','role']  # Exclude the 'user' field from the form
+        exclude = ['user','role']  
         fields = '__all__'
 
 
@@ -128,8 +128,16 @@ class ExperienceForm(ModelForm):
 class EventForm(ModelForm):
     class Meta:
         model = Event
+        exclude = ['utilisateur','group']
         fields = '__all__'
+        widgets={
+            'event_time':forms.DateInput(format="%Y-%m-%d", attrs={"type": "date",'style':'height:60px;'}),
+            'head_title':forms.TextInput(attrs={'placeholder':'Event Title','style':'height:60px;'}),
+            'description':forms.Textarea(attrs={'placeholder':'Event Description','style':'width:100%;','class':'your-css-class'}),
+            'backgroundimage':forms.FileInput(attrs={'class':'your-css-class','style':'display:none;'}),
+            'file':forms.FileInput(attrs={'class':'id_file2','style':'display:none;'}),
 
+            }
 
 class PostForm(forms.ModelForm):
     class Meta:
@@ -146,3 +154,64 @@ class GroupForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = ['group_name', 'description', 'target', 'profile_banner']
+
+
+class ClassRoomForm(forms.ModelForm):
+     class Meta:
+        model = ClassRoom
+        exclude = ['Admin_Professor','UniqueinvitationCode']
+        fields = '__all__'
+        widgets ={
+            'description':forms.Textarea(attrs={'style':'max-width: 100%;width: 100%;padding: 10px;background-color: #eeeeee;'}),
+            'ClassRoomtitle': forms.TextInput(attrs={'style':'max-width: 100%;width: 100%;padding: 10px;background-color: #eeeeee;'}),
+            'ClassRoomimage':forms.FileInput(attrs={'style':'display:none;'}),
+        }
+
+
+class QcmForm(forms.ModelForm):
+    class Meta:
+        model = QCM
+        exclude = ['QCMClassroom']
+        fields = '__all__'
+        widgets = {
+            'QCMdelai':forms.DateTimeInput(attrs={'type': 'datetime-local', 'style':'width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; background-color: #eeeeee;color:gray'}),
+            'QCMtitle':forms.TextInput(attrs={'style':'max-width: 100%;width: 100%;padding: 10px;background-color: #eeeeee;'}),
+            'QCMdescription':forms.Textarea(attrs={'style':'max-width: 100%;width: 100%;padding: 10px;background-color: #eeeeee;'}),
+        }
+
+class QuestionForm(forms.ModelForm):
+    class Meta:
+        model: Question
+        exclude = ['qcm']
+
+class AnswerForm(forms.ModelForm):
+    class Meta:
+        model: Answer
+        exclude = ['question']
+
+
+class PostClassroomForm(forms.ModelForm):
+    class Meta:
+        model = PostClassroom
+        exclude=['author','classroom']
+        fields = '__all__'
+        widgets={
+            'contentPost':forms.TextInput(attrs={'style':"background: transparent;height: 95%;margin-left: 25px;width: 95%;","placeholder":'Post Contenue'}),
+             'filePost':forms.FileInput(attrs={'style':'display:none'}),
+        }
+
+#
+class TaskForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        exclude=['creator','classroom']
+        fields = '__all__'
+        widgets={
+            'title':forms.TextInput(attrs={'style':'max-width: 100%;width: 100%;padding: 10px;background-color: #eeeeee;'}),
+            'description':forms.Textarea(attrs={'style':'max-width: 100%;width: 100%;padding: 10px;background-color: #eeeeee;'}),
+
+            'due_date': forms.DateTimeInput(attrs={'type': 'datetime-local', 'style':'width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; background-color: #eeeeee;color:gray'}),
+
+            'fileTask':forms.FileInput(attrs={'style':'display:none'})
+
+        }

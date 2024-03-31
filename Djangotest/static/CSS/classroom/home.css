@@ -21,18 +21,18 @@ body {
    color: #fff;
 }
 .round-image {
-  border-radius: 50%;
-  overflow: hidden;
-  margin-top:20px ;
-  margin-bottom: 40px;
-  width: 50%;
-  margin-left: 35px;
-  height: 80%;
-  justify-content: center;
-  align-items: center;
+  /* border-radius: 50%; */
+  /* overflow: hidden; */
+  /* margin-top:20px ; */
+  /* margin-bottom: 40px; */
+  /* margin-left: 35px; */
+  /* width: 50%; */
+  /* height: 80%; */
+  /* justify-content: center; */
+  /* align-items: center; */
 }
 .card:last-child .round-image {
-   width: 65%;
+   /* width: 65%; */
    
 }
 
@@ -98,8 +98,8 @@ body {
 
 .card .author {
    margin-top: 3rem;
-   display: grid;
-   grid-template-columns: 75px 1fr;
+   /* display: grid; */
+   /* grid-template-columns: 75px 1fr; */
 }
 
 .author .info .caption {

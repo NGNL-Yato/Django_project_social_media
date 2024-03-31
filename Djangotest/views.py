@@ -1,10 +1,12 @@
 from django.shortcuts import render , redirect
-from backend.models import User,utilisateur,Post,Like, Group, UserGroup
-from backend.forms import PostForm, GroupForm
+from backend.models import User,utilisateur,Post,Like, Group, UserGroup,PostClassroom,ClassRoom,Task
+from backend.forms import PostForm, GroupForm, EventForm , ClassRoomForm,PostClassroomForm,TaskForm , QcmForm ,QuestionForm, AnswerForm
 from django.core.mail import send_mail
 from django.conf import settings
 from backend import models
 from django.db.models import QuerySet
+import random
+import string
 
 def home_view(request):
     all_users_names = []
@@ -90,7 +92,8 @@ def home_view(request):
                 'posts':posts,
                 'posts_visitor':posts_visitor,
                 'groups':groups,
-                'isHomePage':True
+                'isHomePage':True,
+                'eventform': EventForm()
                }
     
     return render(request, 'HTML/home/home.html', context)
@@ -156,13 +159,54 @@ def view_profile(request,first_name, last_name):
 def welcome_view(request):
     context = {}  # You can pass context data to the template if needed
     return render(request,'HTML/welcome/welcome.html',context)
+
+# 
 def homeClass_view(request):
-    context = {}  # You can pass context data to the template if needed
-    return render(request,'HTML/classroom/home.html',context)
+    if request.user.is_authenticated:
+        #
+        mycourses = []
+        allcources = []
+        courceswhereiparticipate = models.classroomparticipants.objects.filter(Participant=request.user.utilisateur)
+
+        if request.user.utilisateur.role == 1:
+            prof = models.Professor.objects.filter(utilisateur=request.user.utilisateur).first()
+            mycourses =models.ClassRoom.objects.filter(Admin_Professor=prof )
+        #
+        for classr in courceswhereiparticipate:
+            allcources.append(classr.Classroom)
+        #
+        for cours in mycourses:
+            allcources.append(cours)
+        #
+        context = {
+            'userdata':request.user,
+            'classrooms':allcources,
+            'ClassRoomform':ClassRoomForm()
+            }  
+        return render(request,'HTML/classroom/home.html',context)
+    else:
+        return redirect('login')
 
 def todo_view(request):
     context = {}  # You can pass context data to the template if needed
     return render(request,'HTML/classroom/Todo.html',context)
+
+def classroomJoin(request,uid):
+    if request.user.is_authenticated:
+        classroom = models.ClassRoom.objects.filter(UniqueinvitationCode=uid).first()
+        prof = models.Professor.objects.filter(utilisateur=request.user.utilisateur).first()
+        # here making sure that if you are a prof and trying to join a cours , you shall not join your own cours
+        if prof is not None:
+            if (classroom is not None ) and (classroom.Admin_Professor.utilisateur.id is not prof.utilisateur.id):
+                if not models.classroomparticipants.objects.filter(Classroom=classroom , Participant = request.user.utilisateur).exists():
+                    p = models.classroomparticipants.objects.create(Classroom=classroom , Participant=request.user.utilisateur )
+                    p.save()
+        else:# else you can join any cours 
+            if classroom is not None and ( not models.classroomparticipants.objects.filter(Classroom=classroom , Participant=request.user.utilisateur).exists() ):
+                p = models.classroomparticipants.objects.create(Classroom=classroom , Participant=request.user.utilisateur )
+                p.save()
+            
+    return redirect('Classroom')
 
 
 def chat_app_view(request):
@@ -172,19 +216,96 @@ def chat_app_view(request):
 def contact_view(request):
     return render(request, 'HTML/userProfile/contactInfo.html')
 
-
-def course_view(request):
-    return render( request, 'HTML/classroom/course.html')  
-
  
 def post_view(request):
     context = {}  
     return render(request,'HTML/userProfile/post.html', context)
 
 
-def add_event(request):
-    context={}
-    return render(request,'HTML/Events/event.html')
+ 
+# def post_view(request):
+#     context = {}  
+#     return render(request,'HTML/userProfile/post.html', context)
+
+
+def generate_random_code(length=8):
+    characters = string.ascii_letters + string.digits  # includes both uppercase and lowercase letters and digits
+    return ''.join(random.choice(characters) for _ in range(length))
+
+
+#
+def create_Classroom(request):
+    if request.user.is_authenticated and request.method == 'POST':
+        form = ClassRoomForm(request.POST,request.FILES)
+        if form.is_valid():
+            
+            unique_code = generate_random_code()
+            while models.ClassRoom.objects.filter(UniqueinvitationCode=unique_code).exists():
+                unique_code = generate_random_code() 
+
+            f = form.save(commit=False)
+            f.Admin_Professor = models.Professor.objects.filter(utilisateur=request.user.utilisateur).first()
+            f.UniqueinvitationCode = unique_code
+            f.save()
+
+    return redirect('Classroom')
+
+#
+def create_event(request):
+    if request.user.is_authenticated and request.method == 'POST':
+        form = EventForm(request.POST,request.FILES)
+        print(request.POST)
+        if form.is_valid():
+            f = form.save(commit=False)
+            f.utilisateur = models.utilisateur.objects.get(user_id=request.user.id)
+            f.save()
+
+    return redirect('all_events')
+
+
+def view_event(request,id):   
+    if request.user.is_authenticated:
+        visiteur =False
+    else:
+        visiteur = True
+    context={
+        'eventContent':models.Event.objects.filter(id=id).first(),
+        'user':request.user,
+        'visiteur':visiteur,
+    }
+    return render(request,'HTML/Events/event.html',context)
+
+# delete event
+def deleteEvent(request, id):
+    ev = models.Event.objects.filter(id=id).first()
+    if ev is not None:
+        ev.delete()
+        return redirect('all_events')
+
+    return redirect('home')
+
+
+def all_events(request):
+    
+    if request.user.is_authenticated:
+        isGuest = False
+        user = request.user
+        user_first_name = user.first_name
+        user_pdp = user.utilisateur.profile_picture
+    else:
+        isGuest = True
+        user_first_name = "visiteur"
+        user_pdp = 'Images/us2.png'
+
+    context = {'visiteur':isGuest,
+               'user_first_name':user_first_name,
+               'user_pdp':user_pdp,
+                'isHomePage':False,
+                'isEventsPage':True,
+                'all_events':models.Event.objects.all(),
+               }
+
+    return render(request,'HTML/home/home.html',context)
 
 
 def group_about(request, group_name):
@@ -192,8 +313,9 @@ def group_about(request, group_name):
     isguest = not request.user.is_authenticated
     is_member = group.is_member(request.user)
     is_admin = group.is_admin(request.user)
+    target = group.target
     members_count = UserGroup.objects.filter(group=group).count()
-    context = {'group': group, 'members_count': members_count, 'is_member': is_member, 'is_admin': is_admin, 'user': request.user, 'visiteur': isguest}
+    context = {'group': group, 'members_count': members_count, 'is_member': is_member, 'is_admin': is_admin, 'user': request.user, 'visiteur': isguest, 'target': target}
     return render(request, 'HTML/home/group-about.html', context)
 
 def group_posts(request, group_name):
@@ -223,5 +345,148 @@ def group_events(request, group_name):
     context = {'group': group, 'is_member': is_member, 'is_admin': is_admin, 'user': request.user, 'visiteur': isguest}
     return render(request, 'HTML/home/group_events.html', context)
 
+#
+#
+def add_questions(request, qcm_id):
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            qcm = models.QCM.objects.get(id=qcm_id)
+            question_text = form.cleaned_data['qst']
+            question = models.Question.objects.create(qcm=qcm, text=question_text)
+            answers = form.cleaned_data['answers']
+            correct_answers = form.cleaned_data['correct_answers']
+            for answer_text in answers:
+                answer = models.Answer.objects.create(question=question, text=answer_text)
+                if answer_text in correct_answers:
+                    answer.is_correct = True
+                    answer.save()
+            return redirect('qcm_detail', qcm_id=qcm_id)
+    else:
+        questionform = QuestionForm()
+    
+    context = {
+        'questionform': form,
+        'qcm_id': qcm_id
+    }
+    return render(request, 'add_questions.html', context)
+
+#
+#
+def createQCM(request,uid):
+    if request.user.is_authenticated and request.method == 'POST':
+        classroom = models.ClassRoom.objects.get(UniqueinvitationCode=uid)
+        # print(classroom)
+        if classroom is not None:
+            qcmform = QcmForm(request.POST)
+            # print(Taskform.is_valid())
+            if qcmform.is_valid():
+                qcm = qcmform.save(commit=False)
+                qcm.QCMClassroom = classroom
+                qcm.save()
+
+    return redirect('Course', uid=uid)
+
+#
+#
 def qcm_view(request):
-    return render( request, 'HTML/classroom/qcm.html') 
+    if request.user.is_authenticated:
+        
+        if ClassRoom.objects.filter(UniqueinvitationCode=qid).exists():
+            classroom = ClassRoom.objects.get(UniqueinvitationCode=qid)
+        
+            context = {
+                        'userdata':request.user,
+                        'classroomDetails': classroom,
+                        }  
+
+            return render( request, 'HTML/classroom/qcm.html',context) 
+        
+    return render( request, 'HTML/classroom/qcm.html')
+ 
+def create_Classroom_post(request, uid):
+    if request.user.is_authenticated and request.method == 'POST':
+        classroom = models.ClassRoom.objects.get(UniqueinvitationCode=uid)
+        print(classroom)
+        if classroom is not None:
+            form = PostClassroomForm(request.POST,request.FILES)
+            print(form.is_valid())
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.classroom = classroom
+                post.author = models.Professor.objects.filter(utilisateur=request.user.utilisateur).first()
+                post.save()
+
+    return redirect('Course', uid=uid)
+
+def kickparticipant(request, id):
+    if request.user.is_authenticated:
+        m = models.classroomparticipants.objects.filter(id=id).first()
+        if m is not None:
+            uid = m.Classroom.UniqueinvitationCode
+            m.delete()
+            return redirect('Course',uid=uid)
+        
+    return redirect('Classroom')
+
+
+def course_view(request, uid):
+    if request.user.is_authenticated:
+        
+        if ClassRoom.objects.filter(UniqueinvitationCode=uid).exists():
+            classroom = ClassRoom.objects.get(UniqueinvitationCode=uid)
+        
+            context = {
+                'userdata':request.user,
+                'classroomDetails': classroom,
+                #
+                'form':PostClassroomForm(),
+                'classroom_posts':models.PostClassroom.objects.filter(classroom=classroom).order_by('-created_at'),
+                #
+                'classroomparticipants':classroom.participants.all(),
+                #
+                'Qcmform': QcmForm(),
+                'classroomQCMs': models.QCM.objects.filter(QCMClassroom=classroom).order_by('-QCMdelai'),
+                #
+                'Taskform':TaskForm(),
+                'classroom_tasks': Task.objects.filter(classroom=classroom).order_by('-created_at'),
+                }  
+            return render(request, 'HTML/classroom/course.html', context)
+    
+    return redirect('Classroom')
+
+
+def chat(request):
+    context = {}  
+    return render(request,'HTML/Messaging/messages-page.html', context)
+
+def delete_Classroom(request, uid):
+    classroom = models.ClassRoom.objects.filter(UniqueinvitationCode=uid).first()
+    if classroom is not None:
+        classroom.delete()
+        return redirect('Classroom')
+
+#
+def delete_ClassroomPost(request, id):
+    post = models.PostClassroom.objects.filter(id=id).first()
+    if post is not None:
+            uid = post.classroom.UniqueinvitationCode
+
+            post.delete()
+            return redirect('Course',uid=uid)
+#
+def create_Task(request, uid):
+    if request.user.is_authenticated and request.method == 'POST':
+        classroom = models.ClassRoom.objects.get(UniqueinvitationCode=uid)
+        # print(classroom)
+        if classroom is not None:
+            Taskform = TaskForm(request.POST,request.FILES)
+            # print(Taskform.is_valid())
+            if Taskform.is_valid():
+                task = Taskform.save(commit=False)
+                task.classroom = classroom
+                task.creator = models.Professor.objects.filter(utilisateur=request.user.utilisateur).first()
+                task.save()
+
+    return redirect('Course', uid=uid)
+#
