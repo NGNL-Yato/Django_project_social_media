@@ -84,7 +84,7 @@
             <div id="content">
 
               <div style="width: 100%;height: auto;">
-                <form action="#" method="post">
+                <form action="{% url 'addquestion' %}" method="post">
                   {% csrf_token %}
 
                   <div>
@@ -113,48 +113,48 @@
                 <input type="hidden" name="qcm_id" value="{{ qcm_id }}">
 
                 <div style="margin-top: 25px;">
-                    <button>Add Question</button>
+                    <button type="submit">Add Question</button>
                 </div>
 
               </form>
 
               </div>
 
+              
               <!--  -->
+              
+              {% for qst in allQuestions %}
+              <div>
               <div class="question">
                 <div class="title">
-                  <div class="chip">4</div> Question 4
+                  <div class="chip">{{ forloop.counter }}</div> {{qst.text}}
                 </div>
+                <a onclick="deletequestion('qstid')" style="float: right;font-size: 15px;padding:5px;margin-top: -25px;background-color: #f684b1;color: white;">Delete</a>
               </div>
 
               <div class="qcm-container" >
                 <table>
                   <tbody>
                     <tr>
+                      {% for answer in qst.answers.all %}
                       <td style="margin: 10px;" >
-                  <input type="checkbox" id="qcm-1" name="qcm" value="choice 1"><label for="qcm-1">choice 1</label>
+                        <input type="checkbox" id="{{answer.id}}" name="answers[]" value="{{answer.text}}"><label for="qcm-1">{{answer.text}}</label>
                       </td>
-                      <td  style="margin: 10px;"  >
-                  <input type="checkbox" id="qcm-2" name="qcm" value="choice 2"><label for="qcm-2">choice 2</label>
-                      </td>
-                      <td  style="margin: 10px;"  >
-                  <input type="checkbox" id="qcm-3" name="qcm" value="choice 3"><label for="qcm-3">choice 3</label>
-                      </td>
-                      <td  style="margin: 10px;"  >
-                  <input type="checkbox" id="qcm-4" name="qcm" value="choice 4"><label for="qcm-4">choice 4</label>
-                      </td>
-                     
+                     {% endfor %}
                     </tr>
                   </tbody>
                 </table>
               </div>
-              
+            </div>
+            {% endfor %}
+            <!--  -->
 
+              {% if userdata.utilisateur.role is 2%}
               <!-- submit  answers -->
               <div id="validation">
                 <button type="button">Suivant</button>
               </div>
-              <!--  -->
+              <!--  -->{% endif %}
 
             </div>
           </div>

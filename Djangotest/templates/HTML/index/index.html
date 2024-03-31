@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>ROSA- Restaurant</title>
+    <title>CAMPUS GLOBALE</title>
     <meta
       name="description"
       content="ROSA is an enchanting Parallax Restaurant WordPress Theme that allows you to tell your story in an enjoyable way, perfect for restaurants or coffee shops."
@@ -56,14 +56,6 @@
     </div>
     <!--End loader-->
 
-    <!--Start Dots-->
-    <div class="dots">
-      <div class="active one" data-x="header"></div>
-      <div class="two" data-x=".recipes"></div>
-      <div class="three" data-x=".fixed-image"></div>
-    </div>
-    <!--End Dots-->
-
     <!--Start Header-->
     <header>
       <nav>
@@ -85,14 +77,12 @@
             <li class="active">
               <a href="/home">Home<span class="underline"></span></a>
             </li>
+
             <li>
-              <a href="#">Social Media<span class="underline"></span></a>
+              <a href="/panel">Panel<span class="underline"></span></a>
             </li>
             <li>
-              <a href="/panel">admin<span class="underline"></span></a>
-            </li>
-            <li>
-              <a href="#">Classsroom<span class="underline"></span></a>
+              <a href="/login">Login<span class="underline"></span></a>
             </li>
           </ul>
         </div>
@@ -105,8 +95,8 @@
           <i class="fas fa-asterisk"></i>
           <span class="right"></span>
         </div>
-        <span>Ready To Be Opened</span>
-        <div class="button"><button>Explore</button></div>
+        <span>faculty trainings</span>
+        <div class="button"><button id="exploreButton">Explore</button></div>
       </div>
 
       <svg
@@ -196,20 +186,16 @@
         <h3>Global</h3>
         <div><i class="fas fa-asterisk"></i></div>
         <p>
-         
-Effective communication lies at the heart of our platform, fostering seamless interaction both among individuals and within groups of members. From one-on-one exchanges to vibrant group discussions, our platform facilitates open dialogue, encouraging users to share ideas, seek feedback, and collaborate on projects.
+          Effective communication lies at the heart of our platform, fostering
+          seamless interaction both among individuals and within groups of
+          members. From one-on-one exchanges to vibrant group discussions, our
+          platform facilitates open dialogue, encouraging users to share ideas,
+          seek feedback, and collaborate on projects.
         </p>
       </div>
     </div>
     <!--End Menu-->
 
-    <!--Start fixed-image-->
-    <div class="fixed-image">
-      <div class="text">
-        <h2>The Perfect</h2>
-        <h3>Blend</h3>
-      </div>
-    </div>
     <!--End fixed-image-->
 
     <!--start About Us-->
@@ -219,15 +205,14 @@ Effective communication lies at the heart of our platform, fostering seamless in
         <h3>platform</h3>
         <div><i class="fas fa-asterisk"></i></div>
         <p>
-            The objective of this educational platform is to create a dynamic and interactive online environment that facilitates learning and collaboration among teachers, students, and professionals.
+          The objective of this educational platform is to create a dynamic and
+          interactive online environment that facilitates learning and
+          collaboration among teachers, students, and professionals.
         </p>
       </div>
       <div class="image-container">
-        <div class="image image1">
-          <img src="/static/Assets/Images/index_image.jpg" alt="Food Photo" />
-        </div>
         <div class="image image2">
-          <img src="/static/Assets/Images/index_image.jpg" alt="Food Photo" />
+          <img src="/static/Assets/Images/boookss.jpg" alt="Food Photo" />
         </div>
       </div>
     </div>
@@ -236,10 +221,11 @@ Effective communication lies at the heart of our platform, fostering seamless in
     <!--Start Footer-->
     <footer>
       <div class="text">
-        <h2>ABOUT CAMPUS</h2>
+        <h2>Building Our Future Together: Uniting for Success</h2>
         <div><i class="fas fa-asterisk"></i></div>
         <p>
-            "Learning is a treasure that follows its owner everywhere." - Chinese Proverb
+          "Learning is a treasure that follows its owner everywhere." - Chinese
+          Proverb
         </p>
       </div>
       <div class="contact-container">
@@ -273,6 +259,13 @@ Effective communication lies at the heart of our platform, fostering seamless in
           time: 1000,
         });
       };
+
+      document
+        .getElementById("exploreButton")
+        .addEventListener("click", function () {
+          window.location.href =
+            "https://fstt.ac.ma/Portail2023/cycle-licence/";
+        });
     </script>
   </body>
 </html>
