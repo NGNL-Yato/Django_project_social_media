@@ -141,6 +141,8 @@ def login_view(request):
 # seeing my profile
 def profile(request):
     context = {
+            'random_group':choice(Group.objects.annotate(member_count=Count('user')).order_by('-member_count')),
+            'latest_event':Event.objects.order_by('-created_at').first(),
             'userdata':request.user,
             'user_pdp':request.user.utilisateur.profile_picture,
             'utilisateurdata':request.user.utilisateur,
@@ -252,6 +254,8 @@ def post_view(request,first_name, last_name):
     
     user = User.objects.get(first_name=first_name, last_name=last_name)
     posts = Post.objects.filter(user=user)
+    latest_event = Event.objects.order_by('-created_at').first()
+    random_group=choice(Group.objects.annotate(member_count=Count('user')).order_by('-member_count'))
 
     if user is not None:    
         u = utilisateur.objects.get(user_id = user.id)
@@ -271,6 +275,8 @@ def post_view(request,first_name, last_name):
                         'Reaserches':models.Research.objects.filter(utilisateur=u),
                         'myprofile':False,
                         'postview':True,
+                        'latest_event': latest_event,
+                        'random_group':random_group,
                }  
     else: 
         context = {     'error': 'User not found',
@@ -287,7 +293,9 @@ def post_view(request,first_name, last_name):
                         'Reaserches':models.Research.objects.filter(utilisateur=u),
                         'myprofile':False,
                         'postview':True,
-               }  
+                        'latest_event': latest_event,
+                        'random_group':random_group,
+               }    
         
     return render(request,'HTML/userProfile/post.html', context)
 
@@ -386,28 +394,28 @@ def group_about(request, group_name):
     isguest = not request.user.is_authenticated
     target = group.target
     latest_event = Event.objects.order_by('-created_at').first()
-    latest_event = Event.objects.order_by('-created_at').first()
-    all_users_names = []
-    user = request.user
-    friends = set()
-    for f in user.utilisateur.following.all():
-        if f.followed.followers.filter(follower=user.utilisateur).exists():
-            friends.add(f.followed)
-    friends = {friend for friend in friends if friend.following.filter(followed=user.utilisateur).exists()}
+    if not isguest:
+        all_users_names = []
+        user = request.user
+        friends = set()
+        for f in user.utilisateur.following.all():
+            if f.followed.followers.filter(follower=user.utilisateur).exists():
+                friends.add(f.followed)
+        friends = {friend for friend in friends if friend.following.filter(followed=user.utilisateur).exists()}
 
-    for friend in friends:
-        if len(all_users_names) >= 6:
-            break
-        full_name = f"{friend.user.first_name} {friend.user.last_name}"
-        online = friend.online_status
-        pdp = friend.profile_picture
+        for friend in friends:
+            if len(all_users_names) >= 6:
+                break
+            full_name = f"{friend.user.first_name} {friend.user.last_name}"
+            online = friend.online_status
+            pdp = friend.profile_picture
 
-        obj = {
-            'full_name': full_name,
-            "online": 'online' if online else 'offline',
-            'profile_picture': pdp
-        }
-        all_users_names.append(obj)
+            obj = {
+                'full_name': full_name,
+                "online": 'online' if online else 'offline',
+                'profile_picture': pdp
+            }
+            all_users_names.append(obj)
     members_count = UserGroup.objects.filter(group=group,invitation_on=True).count()
     if not isguest:
         is_member = group.is_member(request.user)
@@ -427,25 +435,26 @@ def group_posts(request, group_name):
     latest_event = Event.objects.order_by('-created_at').first()
     all_users_names = []
     user = request.user
-    friends = set()
-    for f in user.utilisateur.following.all():
-        if f.followed.followers.filter(follower=user.utilisateur).exists():
-            friends.add(f.followed)
-    friends = {friend for friend in friends if friend.following.filter(followed=user.utilisateur).exists()}
+    if not isguest:
+        friends = set()
+        for f in user.utilisateur.following.all():
+            if f.followed.followers.filter(follower=user.utilisateur).exists():
+                friends.add(f.followed)
+        friends = {friend for friend in friends if friend.following.filter(followed=user.utilisateur).exists()}
 
-    for friend in friends:
-        if len(all_users_names) >= 6:
-            break
-        full_name = f"{friend.user.first_name} {friend.user.last_name}"
-        online = friend.online_status
-        pdp = friend.profile_picture
+        for friend in friends:
+            if len(all_users_names) >= 6:
+                break
+            full_name = f"{friend.user.first_name} {friend.user.last_name}"
+            online = friend.online_status
+            pdp = friend.profile_picture
 
-        obj = {
-            'full_name': full_name,
-            "online": 'online' if online else 'offline',
-            'profile_picture': pdp
-        }
-        all_users_names.append(obj)
+            obj = {
+                'full_name': full_name,
+                "online": 'online' if online else 'offline',
+                'profile_picture': pdp
+            }
+            all_users_names.append(obj)
     if not isguest : 
         is_member = group.is_member(request.user)
         is_admin = group.is_admin(request.user)
@@ -475,27 +484,28 @@ def group_events(request, group_name):
     is_member = group.is_member(request.user)
     is_admin = group.is_admin(request.user)
     latest_event = Event.objects.order_by('-created_at').first()
-    all_users_names = []
-    user = request.user
-    friends = set()
-    for f in user.utilisateur.following.all():
-        if f.followed.followers.filter(follower=user.utilisateur).exists():
-            friends.add(f.followed)
-    friends = {friend for friend in friends if friend.following.filter(followed=user.utilisateur).exists()}
+    if not isguest:
+        all_users_names = []
+        user = request.user
+        friends = set()
+        for f in user.utilisateur.following.all():
+            if f.followed.followers.filter(follower=user.utilisateur).exists():
+                friends.add(f.followed)
+        friends = {friend for friend in friends if friend.following.filter(followed=user.utilisateur).exists()}
 
-    for friend in friends:
-        if len(all_users_names) >= 6:
-            break
-        full_name = f"{friend.user.first_name} {friend.user.last_name}"
-        online = friend.online_status
-        pdp = friend.profile_picture
+        for friend in friends:
+            if len(all_users_names) >= 6:
+                break
+            full_name = f"{friend.user.first_name} {friend.user.last_name}"
+            online = friend.online_status
+            pdp = friend.profile_picture
 
-        obj = {
-            'full_name': full_name,
-            "online": 'online' if online else 'offline',
-            'profile_picture': pdp
-        }
-        all_users_names.append(obj)
+            obj = {
+                'full_name': full_name,
+                "online": 'online' if online else 'offline',
+                'profile_picture': pdp
+            }
+            all_users_names.append(obj)
     context = {'group': group, 'is_member': is_member, 'is_admin': is_admin, 'user': request.user, 'visiteur': isguest, 'latest_event': latest_event, 'usersobj': all_users_names}
     return render(request, 'HTML/home/group_events.html', context)
 #
@@ -718,10 +728,11 @@ def course_view(request, uid):
     
     return redirect('Classroom')
     
-
-
+#
 def chat(request):
-    context = {}  
+    latest_event = Event.objects.order_by('-created_at').first()
+    random_group = choice(Group.objects.annotate(member_count=Count('user')).order_by('-member_count'))
+    context = {'latest_event': latest_event, 'random_group': random_group}  
     return render(request,'HTML/Messaging/messages-page.html', context)
 
 def delete_Classroom(request, uid):

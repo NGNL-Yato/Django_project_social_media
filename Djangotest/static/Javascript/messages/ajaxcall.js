@@ -136,11 +136,14 @@ $('.input-group-text-bt2').on('click', function() {
                 success: function(data) {
                     $('#messagearea').val('');
                     $('#fileInput').val('');
-                    displayMessage(message, 'sender', userPicture, friendPicture, new Date().toLocaleTimeString(), data.file_urls[i]);
+                    // If you want to access the first file URL
+                    var firstFileUrl = data.file_urls[0];
+                    displayMessage(message, 'sender', userPicture, friendPicture, new Date().toLocaleTimeString(), firstFileUrl);
                     console.log(fileInput.files[0])
                     console.log('Message sent');
                 }
             });
+        
         }
     });
 });
@@ -178,29 +181,18 @@ function displayMessage(message, sender, userPicture, friendPicture, timestamp, 
 
     msgContainer.append(msgTime);
 
-        if (fileUrl) {
-            var fileImg = $('<img>').attr('src', fileUrl).css({
-                width: '100px',
-                height: '100px'
-            });
-            msgContainer.prepend(fileImg); // Prepend the image to the msgContainer
-            msgContainer.prepend($('<br>')); // Prepend a line break after the image
-        }
-
-        msgContainer.text(message);
-        msgContainer.append(msgTime);
-
-        if (fileUrl !== null && fileUrl !== undefined && fileUrl !== "") {
-            console.log("FileUrl :"+fileUrl)
-            var fileImg = $('<img>').attr('src', fileUrl).css({
-                width: '100px',
-                height: '100px'
-            });
-            if (fileImg[0].naturalWidth !== 0) { // Check if the image has loaded successfully
-                msgContainer.prepend(fileImg);
-                msgContainer.append($('<br>'));
-            }
-        }
+    if (fileUrl) {
+        console.log("FileUrl :" + fileUrl)
+        var fileImg = $('<img>').attr('src', fileUrl).css({
+            width: '100px',
+            height: '100px'
+        });
+        fileImg.on('load', function() {
+            // The image has loaded successfully
+            msgContainer.prepend(fileImg);
+            msgContainer.append($('<br>'));
+        });
+    }
     if (sender === 'receiver') {
         messageContainer.append(imgCont);
         messageContainer.append(msgContainer);
@@ -210,6 +202,7 @@ function displayMessage(message, sender, userPicture, friendPicture, timestamp, 
     }
 
     $('.message_box').append(messageContainer);
+    $('.message_box').scrollTop($('.message_box')[0].scrollHeight);
 }
 $('#fileInput').on('change', function() {
     var previewContainer = $('#previewContainer');

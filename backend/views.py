@@ -746,14 +746,14 @@ def get_or_create_conversation(request):
     if request.method == 'POST':
         identifier = request.POST.get('username')
         user = request.user
-
-        # Check if identifier is a group name
+        friend = None  # Define friend here
         try:
             group = Group.objects.get(group_name=identifier)
-            conversation = Conversation.objects.filter(group=group).first()
-            if not conversation:
-                conversation = Conversation.objects.create(group=group)
-                Participant.objects.create(user=user, conversation=conversation)
+            print(group)
+            participant = Participant.objects.filter(user=user, group_id=group).first()
+            print(participant)
+            conversation = participant.conversation
+            print(conversation)
         except Group.DoesNotExist:
             # If identifier is not a group name, handle it as a friend's username
             try:
