@@ -630,16 +630,18 @@ def taskDetails(request,id):
 #
 def create_TaskResponse(request, id):
     if request.user.is_authenticated and request.method == 'POST':
-        task = get_object_or_404(Task, id=id)
-        if task is not None:
-            taskResponseform = TaskResponseForm(request.POST,request.FILES)
+        task = models.Task.objects.get(id=id)
+    
+
+        if task:
+            print(task)
+            taskResponseform = TaskResponseForm(request.POST, request.FILES)
             if taskResponseform.is_valid():
                 taskResponse = taskResponseform.save(commit=False)
                 taskResponse.task = task
-                taskResponse.student = models.Etudiant.objects.filter(utilisateur=request.user.utilisateur).first()
+                taskResponse.student = Etudiant.objects.filter(utilisateur=request.user.utilisateur).first()
                 taskResponse.save()
-
-                return redirect('Course',id=id)
+                return redirect('Course', id=id)
 #     
 def deleteTask(request, id):
     task = models.Task.objects.filter(id=id).first()
