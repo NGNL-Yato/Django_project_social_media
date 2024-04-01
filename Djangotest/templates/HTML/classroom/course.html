@@ -222,7 +222,7 @@
         <ul class="events-detail">
          <!--  -->
           <li>
-            <a href="#">
+            <a   id="task_{{ task.id }}" onclick="ShowDetails('{{task.id}}')">
               <span class="event-time">{{task.due_date}} - </span>
               <span class="event-name">{{task.title}}</span>
               <br />
@@ -448,6 +448,10 @@
      function clicktodownlaodfile(filepath){
       window.location.href = '/media/'+filepath
      }
+     function ShowDetails(id) {
+      window.location.href = '/classroom/taskDetails/'+id
+         
+      }
 
    </script>
 
