@@ -565,22 +565,35 @@ def course_view(request, uid):
         
         if ClassRoom.objects.filter(UniqueinvitationCode=uid).exists():
             classroom = ClassRoom.objects.get(UniqueinvitationCode=uid)
-        
+            classroomqcms = models.QCM.objects.filter(QCMClassroom=classroom).order_by('-QCMdelai')
+            classroomtasks = Task.objects.filter(classroom=classroom).order_by('-created_at')
+            classroomposts = models.PostClassroom.objects.filter(classroom=classroom).order_by('-created_at')
+            me = models.utilisateur.objects.filter(id=request.user.utilisateur.id).first()
+            meqcm = models.studentQcmfinished.objects.filter(student=me)
+
+            finishedqcmsbyme = []
+            for finishedqcmbyme in meqcm:
+               finishedqcmsbyme.append(finishedqcmbyme.qcm.id)
+
+            print(finishedqcmsbyme)
+
             context = {
                 'userdata':request.user,
                 'classroomDetails': classroom,
                 #
                 'form':PostClassroomForm(),
-                'classroom_posts':models.PostClassroom.objects.filter(classroom=classroom).order_by('-created_at'),
+                'classroom_posts':classroomposts,
                 #
                 'classroomparticipants':classroom.participants.all(),
+                'finishedqcmsbyme':finishedqcmsbyme,
                 #
                 'Qcmform': QcmForm(),
-                'classroomQCMs': models.QCM.objects.filter(QCMClassroom=classroom).order_by('-QCMdelai'),
+                'classroomQCMs':classroomqcms,
                 #
                 'Taskform':TaskForm(),
-                'classroom_tasks': Task.objects.filter(classroom=classroom).order_by('-created_at'),
+                'classroom_tasks':classroomtasks,
                 }  
+            
             return render(request, 'HTML/classroom/course.html', context)
     
     return redirect('Classroom')
@@ -700,18 +713,18 @@ def QCMReponces(request , qcmid , studentid ):
             classroom = ClassRoom.objects.get(UniqueinvitationCode=uid)
         
         # if prof show all questions
-        if request.user.utilisateur.role == 1:
-            context = {
-                        'userdata':request.user,
-                        'etudiantdata': utilisateur.objects.filter(id=studentid).first(),
-                        'reponcesetudiant':get_student_answers(studentid,qcmid),
-                        'classroomDetails': classroom,
-                        'questionForm':QuestionForm(),
-                        'allQuestions':models.Question.objects.filter(qcm=qcm),
-                        'qcm_id':qcmid,
-                        'qcm':qcm,
-                        }  
-            return render( request, 'HTML/classroom/reponcesetudiantsqcm.html',context) 
+        # if request.user.utilisateur.role == 1:
+        context = {
+                    'userdata':request.user,
+                    'etudiantdata': utilisateur.objects.filter(id=studentid).first(),
+                    'reponcesetudiant':get_student_answers(studentid,qcmid),
+                    'classroomDetails': classroom,
+                    'questionForm':QuestionForm(),
+                    'allQuestions':models.Question.objects.filter(qcm=qcm),
+                    'qcm_id':qcmid,
+                    'qcm':qcm,
+                    }  
+        return render( request, 'HTML/classroom/reponcesetudiantsqcm.html',context) 
 
     return redirect('Classroom')
 #
