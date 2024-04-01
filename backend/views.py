@@ -9,7 +9,7 @@ from .Post import delete_post
 from .Like import like_post
 from django.http import JsonResponse
 from django.core import serializers
-from .models import User, UserGroup, Group, follow, Conversation, Participant, Message, MessageFile
+from .models import User, UserGroup, Group, follow, Conversation, Participant, Message, MessageFile,Post
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
@@ -89,6 +89,7 @@ def follow_user(request, first_name, last_name):
 
 def deleteResearches(request,id):
     # deleteResearches
+
     Researche = models.Research.objects.filter(id=id).first()
     if Researche is not None:
         Researche.delete()
@@ -465,6 +466,31 @@ def educationsSettings(request):
         'educations':models.Education.objects.all(),
         'Educationform':EducationForm(),
     }
+    return render(request, 'HTML/userProfile/settings.html', context)
+
+#my groups 
+def groupsSettings(request):
+    if request.user.is_authenticated:
+        groups = Group.objects.filter(user=request.user)    
+        context ={'groups':groups}
+    return render(request, 'HTML/userProfile/settings.html', context)
+
+#delete groups
+def deleteGroup(request, id):
+    if request.user.is_authenticated:
+        group = Group.objects.filter(id=id).first()
+        if group:
+            print("deleting ...")
+            UserGroup.objects.filter(group=group).delete()
+            Participant.objects.filter(group_id=group).delete()
+            group.delete()
+    return redirect('settings')
+
+#mes posts
+def postsSettings(request):
+    if request.user.is_authenticated:
+        posts = Post.objects.filter(user=request.user)  
+        context ={'posts':posts}
     return render(request, 'HTML/userProfile/settings.html', context)
 
 # my followers

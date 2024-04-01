@@ -105,7 +105,11 @@ urlpatterns = [
     #
     path('deleteEducation/<int:id>',backendviews.deleteEducation,name='deleteEducation'),
     #
-    # path('mes-groups/',backendviews.mesgroupes , name='mes-groups'),
+    path('mes-groups/',backendviews.groupsSettings , name='mes-groups'),
+    #
+    path('mes-posts/',backendviews.postsSettings , name='mes-posts'),
+    #
+    path('deleteGroup/<int:id>/', backendviews.deleteGroup, name='deleteGroup'),    
     #
     path('search/', backendviews.search, name='search'),
     #

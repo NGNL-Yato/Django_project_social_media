@@ -5,10 +5,11 @@
     <img src="{{ latest_event.backgroundimage.url }}" alt="event-img">
     <div class="event-date">
         <h3>{{ latest_event.event_time.day }} <b>{{ latest_event.event_time|date:"F" }}</b></h3>
-        <a href="{% url 'all_events' %}">
+        <a href="{% url 'view_event' id=latest_event.id %}">
         <h4>{{ latest_event.head_title }}
             <span>in person event</span></h4></a>
     </div>
+    <button class="see-more-btn" onclick='location.href="{% url 'all_events' %}"'>See more<i class="fa-regular fa-calendar"></i></button>
 </div>
 
 {% comment %} <hr> {% endcomment %}

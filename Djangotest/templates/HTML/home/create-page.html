@@ -50,7 +50,7 @@
         </li>
         <li>
             <b>{{ random_group.group_name }} <span>{{ random_group.member_count }} Members</span></b>
-            <button>Join Group</button>
+            <button onclick='location.href="{% url 'group_posts' group_name=random_group.group_name %}"'>Check group</button>
         </li>
     </ul>
 </div>

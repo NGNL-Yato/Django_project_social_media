@@ -333,13 +333,36 @@ def group_about(request, group_name):
     group = Group.objects.filter(group_name=group_name).first()
     isguest = not request.user.is_authenticated
     target = group.target
+    latest_event = Event.objects.order_by('-created_at').first()
+    latest_event = Event.objects.order_by('-created_at').first()
+    all_users_names = []
+    user = request.user
+    friends = set()
+    for f in user.utilisateur.following.all():
+        if f.followed.followers.filter(follower=user.utilisateur).exists():
+            friends.add(f.followed)
+    friends = {friend for friend in friends if friend.following.filter(followed=user.utilisateur).exists()}
+
+    for friend in friends:
+        if len(all_users_names) >= 6:
+            break
+        full_name = f"{friend.user.first_name} {friend.user.last_name}"
+        online = friend.online_status
+        pdp = friend.profile_picture
+
+        obj = {
+            'full_name': full_name,
+            "online": 'online' if online else 'offline',
+            'profile_picture': pdp
+        }
+        all_users_names.append(obj)
     members_count = UserGroup.objects.filter(group=group,invitation_on=True).count()
     if not isguest:
         is_member = group.is_member(request.user)
         is_admin = group.is_admin(request.user)
-        context = {'group': group, 'members_count': members_count, 'is_member': is_member, 'is_admin': is_admin, 'user': request.user, 'visiteur': isguest, 'target': target}
+        context = {'group': group, 'members_count': members_count, 'is_member': is_member, 'is_admin': is_admin, 'user': request.user, 'visiteur': isguest, 'target': target, 'latest_event': latest_event, 'usersobj': all_users_names}
     else :
-        context = {'group': group, 'members_count': members_count, 'visiteur': isguest, 'target': target}
+        context = {'group': group, 'members_count': members_count, 'visiteur': isguest, 'target': target, 'latest_event': latest_event}
     
     return render(request, 'HTML/home/group-about.html', context)
 #
@@ -349,6 +372,28 @@ def group_posts(request, group_name):
     group = Group.objects.filter(group_name=group_name).first()
     posts = Post.objects.filter(group=group).order_by('-created_at')
     target = group.target
+    latest_event = Event.objects.order_by('-created_at').first()
+    all_users_names = []
+    user = request.user
+    friends = set()
+    for f in user.utilisateur.following.all():
+        if f.followed.followers.filter(follower=user.utilisateur).exists():
+            friends.add(f.followed)
+    friends = {friend for friend in friends if friend.following.filter(followed=user.utilisateur).exists()}
+
+    for friend in friends:
+        if len(all_users_names) >= 6:
+            break
+        full_name = f"{friend.user.first_name} {friend.user.last_name}"
+        online = friend.online_status
+        pdp = friend.profile_picture
+
+        obj = {
+            'full_name': full_name,
+            "online": 'online' if online else 'offline',
+            'profile_picture': pdp
+        }
+        all_users_names.append(obj)
     if not isguest : 
         is_member = group.is_member(request.user)
         is_admin = group.is_admin(request.user)
@@ -362,21 +407,44 @@ def group_posts(request, group_name):
                 return redirect('group_posts', group_name=group.group_name)
         else:
             post_form = PostForm()
-        context = {'group': group, 'is_member': is_member, 'post_form': post_form, 'posts': posts, 'is_admin': is_admin, 'user': request.user, 'visiteur': isguest, 'target': target}
+        context = {'group': group, 'is_member': is_member, 'post_form': post_form, 'posts': posts, 'is_admin': is_admin, 'user': request.user, 'visiteur': isguest, 'target': target, 'latest_event': latest_event, 'usersobj': all_users_names}
         print(context)
     elif group.target == 'public':
-        context = {'group': group, 'posts': posts, 'user': request.user, 'visiteur': isguest, 'target': target}
+        context = {'group': group, 'posts': posts, 'user': request.user, 'visiteur': isguest, 'target': target, 'latest_event': latest_event}
     else:
         return redirect('home')
     
     return render(request, 'HTML/home/groupe_page.html', context)
 
 def group_events(request, group_name):
+    latest_event = Event.objects.order_by('-created_at').first()
     group = Group.objects.filter(group_name=group_name).first()
     isguest = not request.user.is_authenticated
     is_member = group.is_member(request.user)
     is_admin = group.is_admin(request.user)
-    context = {'group': group, 'is_member': is_member, 'is_admin': is_admin, 'user': request.user, 'visiteur': isguest}
+    latest_event = Event.objects.order_by('-created_at').first()
+    all_users_names = []
+    user = request.user
+    friends = set()
+    for f in user.utilisateur.following.all():
+        if f.followed.followers.filter(follower=user.utilisateur).exists():
+            friends.add(f.followed)
+    friends = {friend for friend in friends if friend.following.filter(followed=user.utilisateur).exists()}
+
+    for friend in friends:
+        if len(all_users_names) >= 6:
+            break
+        full_name = f"{friend.user.first_name} {friend.user.last_name}"
+        online = friend.online_status
+        pdp = friend.profile_picture
+
+        obj = {
+            'full_name': full_name,
+            "online": 'online' if online else 'offline',
+            'profile_picture': pdp
+        }
+        all_users_names.append(obj)
+    context = {'group': group, 'is_member': is_member, 'is_admin': is_admin, 'user': request.user, 'visiteur': isguest, 'latest_event': latest_event, 'usersobj': all_users_names}
     return render(request, 'HTML/home/group_events.html', context)
 #
 def createQCM(request,uid):

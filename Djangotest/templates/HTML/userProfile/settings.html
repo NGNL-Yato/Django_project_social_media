@@ -352,11 +352,83 @@
           </div>
 
           {% endif %}
-
 <!--  -->
 
 <!--  -->
+{% if groups %}
+<div class="main" >
+  <div class="main-content">
+    <div class="main-container account-settings">
+      <div class="settings-form account">
 
+        <h2>My Groups</h2>
+        <hr>
+        {% for group in groups %}
+        <div style="width: 50%;margin: 20px;">
+          <div style="display: flex;justify-content:space-around;">
+              <img src="/media/{{group.profile_banner}}" style="justify-self: end;height: 100px;" alt="" srcset="">
+              <h4 style="margin: 5px;font-size: 21px;font-weight:400;">{{group.group_name}}</h4>
+              <a style="background-color: white;color:red;outline-color: red;padding: 10px;" href="{% url 'deleteGroup' id=group.id  %}"> remove </a>            
+            </div>
+          </div>
+          {% endfor %}
+
+
+      </div>
+    </div>
+  </div>
+</div>
+{% if groups == "" %}
+  <h4> No group available </h4>
+{% endif %}
+{% endif %}
+<!--  -->
+
+<!--  -->
+{% if posts %}
+  <div class="main-content">
+    <div class="main-container account-settings">
+      <div class="settings-form account">
+        <h2>My Posts</h2>
+        <hr>
+        <table style="border: 1px solid black; border-collapse: collapse;">
+          <thead>
+            <tr>
+              <th style="border: 1px solid black;">Content</th>
+              <th style="border: 1px solid black;">File</th>
+              <th style="border: 1px solid black;">Created At</th>
+              <th style="border: 1px solid black;">Group</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for post in posts %}
+            <tr>
+              <td style="border: 1px solid black; padding:8px;">{{post.contenue}}</td>
+              <td style="border: 1px solid black;display: flex;justify-content: center; padding:8px;">
+                {% comment %} {% if post.file.url.endswith('.pdf') %}
+                  <!-- Display something else for PDFs -->
+                {% else %} {% endcomment %}
+                  <img src="/media/{{post.file}}" style="height: 100px;" alt="" srcset="">
+                {% comment %} {% endif %} {% endcomment %}
+              </td>
+              <td style="border: 1px solid black;padding:8px;">{{post.created_at}}</td>
+              <td style="border: 1px solid black;padding:8px;">
+                {% if post.group and post.group.group_name %}
+                <img src="/media/{{post.group.profile_banner}}" style="height: 50px;" alt="" srcset=""><a href = "{% url 'group_posts' group_name=post.group.group_name %}">{{ post.group.group_name }}</td>
+                {% else %}
+                  <p>General</p>
+                {% endif %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endif %}
+<!--  -->
+
+<!--  -->
 {% if educationssetings %}
  <div class="main">
              <div class="main-content">
