@@ -249,10 +249,10 @@ $('#searchInput').on('input', function() {
             userResultsContainer.empty();
             groupResultsContainer.empty();
             data.forEach(function(item) {
-                if(item.type === 'user') {
-                    userResultsContainer.append('<a>' + item.first_name + ' ' + item.last_name + '</p>');
-                } else if (item.type === 'group') {
-                    groupResultsContainer.append('<p>' + item.group_name +'</p>');
+                if(item.type === 'user' && item.url) {
+                    userResultsContainer.append('<p><a href="' + item.url + '">' + item.first_name + ' ' + item.last_name + '</a></p>');
+                } else if (item.type === 'group' && item.url) {
+                    groupResultsContainer.append('<p><a href="' + item.url + '">' + item.group_name +'</a></p>');
                 }
             });
         }

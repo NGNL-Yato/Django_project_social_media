@@ -98,6 +98,7 @@ $(document).on('click', '.user_friend_displayed', function() {
             data.messages.forEach(function(messageData) {
                 displayMessage(messageData);
             });
+            $("#startChattingMessage").hide();
         }
     });
 });

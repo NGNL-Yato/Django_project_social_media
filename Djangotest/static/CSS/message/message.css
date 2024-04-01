@@ -507,3 +507,37 @@
     width: 100px; /* adjust as needed */
     height: 100px; /* adjust as needed */
 }
+/* Style the buttons */
+.toggle_button {
+    border: none;  /* Remove border */
+    cursor: pointer;  /* Change cursor to pointer when hovering */
+    display: inline-block;  /* Display buttons inline */
+    padding: 10px 20px;  /* Add some padding */
+    transition: background-color 0.3s ease;  /* Add transition for hover effect */
+}
+
+/* Add hover effect */
+.toggle_button:hover {
+    background-color: var(--gray);  /* Change background color when hovering */
+}
+
+/* Add an icon to the buttons */
+.toggle_button::before {
+    content: "\f00d";  /* This is the Unicode for the close icon in Font Awesome */
+    font-family: FontAwesome;  /* Use Font Awesome */
+    margin-right: 10px;  /* Add some space between the icon and the text */
+}
+
+/* Merge the buttons like a scrollbar */
+.toggle_buttons {
+    display: flex;  /* Use flexbox */
+    overflow-x: auto;  /* Add scrollbar if necessary */
+    gap: 10px;  /* Add some space between the buttons */
+    display: flex;  /* Use flexbox */
+    justify-content: center;  /* Center the buttons horizontally */
+    align-items: center;  
+    margin : 9px 0px;
+}
+.toggle_button:active {
+    background-color: var(--shadow);  /* Change background color when hovering */
+}
