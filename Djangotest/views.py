@@ -410,8 +410,12 @@ def addquestiontoqcm(request):
     
 #
 #
-def qcmetudiant(QCMID):
-   pass 
+def deleteQCM(request,QCMID):
+    if request.user.is_authenticated:
+        m = models.QCM.objects.filter(id=QCMID).first()
+        if m is not None:
+            m.delete()        
+    return redirect('Classroom') 
 
 #
 #
@@ -437,6 +441,12 @@ def qcm_view(request,qcmID):
 
         # if student show one question at a time
         elif request.user.utilisateur.role == 2:
+            stdent = models.utilisateur.objects.filter(id=request.user.utilisateur.id).first()
+            ha = models.studentQcmfinished.objects.filter(student=stdent,qcm=qcm).first()
+            # if that student already passed that qcm , he wont need to pass it again 
+            if ha:
+                return redirect('Classroom')
+
             qr = models.Question.objects.filter(qcm=qcm).order_by('id')
             querysetsize = qr.count()
             curr = request.POST.get('currentIndex')
@@ -449,7 +459,7 @@ def qcm_view(request,qcmID):
                 #
                 question_id =request.POST.get('qstID')
                 studentAnswers = request.POST.getlist('answers[]')
-                stdent = models.utilisateur.objects.filter(id=request.user.utilisateur.id).first()
+                # stdent = models.utilisateur.objects.filter(id=request.user.utilisateur.id).first()
                 question = models.Question.objects.filter(id=question_id).first()
 
                 stdqst = models.Studentquestion.objects.create(student=stdent ,question=question )
@@ -461,6 +471,9 @@ def qcm_view(request,qcmID):
                 # then i check if there is a next question to show
                 # if not this will redirect to Classroom
                 if nextqstindex > querysetsize:
+                # but i have to save him as completed the qcm , to prevent him to re-pass
+                    models.studentQcmfinished.objects.create(student=stdent ,qcm=qcm)
+                    # go back to classroom 
                     return redirect('Classroom')
                 
                 # if there is a next qst , show him next qst

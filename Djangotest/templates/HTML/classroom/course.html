@@ -259,15 +259,18 @@
          <h3 style="font-size: 20px;color: #eb437e;">{{classroomQCm.QCMtitle}}</h3><span style="color: #949494;">{{ classroomQCm.QCMdelai}}</span>
          <br><br>
          <h5 style="width: 90%;font-size: 14px;color: rgb(113, 113, 113);">{{classroomQCm.QCMdescription}}</h5>
+         <br><br>
+         <a onclick="StudentsAnswers('{{classroomQCm.id}}')" style="cursor: pointer;font-size: 15px;font-weight: 100;color: rgb(0, 0, 0);">Voir Reponces d'etudiants</a>
+
       </div>
 
       
       {% if userdata.id is classroomDetails.Admin_Professor.utilisateur.user.id or userdata.utilisateur.role is 1 %}
       <div style="width: 25%;display: block;">
-         
-         <button onclick="editQCM('{{classroomQCm.id}}')" style="padding-inline: 20px;padding-block: 10px;background-color: rgb(78, 78, 78);color: white;font-size: 16px;">Edit</button>
+         <!--  -->
+         <button onclick="editQCM('{{classroomQCm.id}}')" style="padding-inline: 30px;padding-block: 10px;background-color: rgb(78, 78, 78);color: white;font-size: 16px;">Edit</button>
          <!-- <div style="max-width: 15px;"></div> -->
-         <button onclick="deleteQCM('{{classroomQCm.id}}')" style="padding-inline: 20px;padding-block: 10px;background-color: red;color: white;font-size: 16px;">Delete</button>
+         <button onclick="deleteQCM('{{classroomQCm.id}}')" style="padding-inline: 25px;padding-block: 10px;background-color: red;color: white;font-size: 16px;">Delete</button>
          </div>
 
       {% elif userdata.utilisateur.role is 2 %}
@@ -315,6 +318,11 @@
       </section>
       
    <script>
+      function deleteQCM(QCMid){
+      window.location.href = '/deleteQCM/'+QCMid
+         
+      }
+
       function startqcm(QCMid){
       window.location.href = '/classroom/qcm/'+QCMid
 
