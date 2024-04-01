@@ -417,6 +417,52 @@ def deleteQCM(request,QCMID):
             m.delete()        
     return redirect('Classroom') 
 
+def get_student_answers(student_id, qcm_id):
+    student = utilisateur.objects.get(id=student_id)
+    qcm = models.QCM.objects.get(id=qcm_id)
+    howmanyanswers = models.Answer.objects.count()
+    # Get all questions belonging to the specified QCM
+    questions = qcm.question_set.all()
+
+    student_answers = []
+    for question in questions:
+        # Check if the student has answered this question
+        student_question = models.Studentquestion.objects.filter(student=student, question=question).first()
+        if student_question:
+            # Retrieve the selected answer for this question
+            selected_answer = models.Studentselectedreponse.objects.filter(studentquestion=student_question).first()
+            
+            if selected_answer:
+                student_answers.append(selected_answer.selectedanswer.id)
+            # print(student_answers)
+    return student_answers
+
+
+def QCMReponces(request , qcmid , studentid ):
+    if request.user.is_authenticated:
+        qcm = models.QCM.objects.filter(id=qcmid).first()
+        questions = qcm.question_set.all()
+        uid = qcm.QCMClassroom.UniqueinvitationCode
+
+        if ClassRoom.objects.filter(UniqueinvitationCode=uid).exists():
+            classroom = ClassRoom.objects.get(UniqueinvitationCode=uid)
+        
+        # if prof show all questions
+        if request.user.utilisateur.role == 1:
+            context = {
+                        'userdata':request.user,
+                        'etudiantdata': utilisateur.objects.filter(id=studentid).first(),
+                        'reponcesetudiant':get_student_answers(studentid,qcmid),
+                        'classroomDetails': classroom,
+                        'questionForm':QuestionForm(),
+                        'allQuestions':models.Question.objects.filter(qcm=qcm),
+                        'qcm_id':qcmid,
+                        'qcm':qcm,
+                        }  
+            return render( request, 'HTML/classroom/reponcesetudiantsqcm.html',context) 
+
+    return redirect('Classroom') 
+
 #
 #
 def qcm_view(request,qcmID):
@@ -563,6 +609,24 @@ def course_view(request, uid):
                 }  
             return render(request, 'HTML/classroom/course.html', context)
     
+    return redirect('Classroom')
+
+def allresponces(request , QCMID):
+    if request.user.is_authenticated:
+        
+        if models.QCM.objects.filter(id=QCMID).exists() :
+            qcm = models.QCM.objects.get(id=QCMID)
+            if models.studentQcmfinished.objects.filter(qcm=qcm).exists():
+                studentsqcmfinished = models.studentQcmfinished.objects.filter(qcm=qcm)
+                x = []
+                for stdqcm in studentsqcmfinished:
+                    x.append(models.utilisateur.objects.filter(id=stdqcm.student.id).first() )
+                context = {
+                            'userdata':request.user,
+                            'qcm': qcm,
+                            'studentspassedtheqcm':x # utilisateur instance
+                          }
+            return render(request, 'HTML/classroom/etudiantsreponce.html', context)
     return redirect('Classroom')
 
 

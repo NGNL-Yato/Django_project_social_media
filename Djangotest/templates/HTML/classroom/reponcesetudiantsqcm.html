@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>course name</title>
+
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+   
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="/static/CSS/classroom/home.css">
+   <link rel="stylesheet" href="/static/CSS/classroom/qcm.css">
+
+
+</head>
+<body>
+    <header class="header">
+   
+        <section class="flex">
+     
+         <div class="logo">
+            <h2>
+                <em>Campus</em>
+                <span>Classroom</span>
+            </h2>
+        </div>
+           <div class="icons">
+              <div id="menu-btn" class="fas fa-bars"></div>
+              <div id="search-btn" class="fas fa-search"></div>
+              <div id="user-btn" class="fas fa-plus"></div>
+              <div id="toggle-btn" class="fas fa-sun"></div>
+           </div>
+     
+           <div class="profile" style="height:120px">
+             <h3 class="name">join course</h3>
+             <input type="text" name="code" placeholder="course code " style="padding-top:20px">
+             <a  href="#" class="join_btn" style="background-color: rgb(238, 97, 174); height:40px">Join</a>
+             </div>
+         
+     
+        </section>
+     
+     </header>  
+     <div class="side-bar">
+
+      <div id="close-btn">
+         <i class="fas fa-times"></i>
+      </div>
+   
+      <div class="profile">
+        <img src="/media/{{userdata.utilisateur.profile_picture}}" class="image" alt="">
+        <h3 class="name"> {{userdata.first_name}} {{userdata.last_name }}</h3>
+     {% if userdata.utilisateur.role is 2 %}   
+        <p class="role">student</p>
+      {% elif  userdata.utilisateur.role is 1 %}
+      <p class="role">Professeur</p>
+      {% else %}
+      <p class="role">Entreprise</p>
+      {% endif %}
+      </div>
+   
+      <nav class="navbar">
+         <a href="{% url 'Classroom' %}"><i class="fas fa-home"></i><span>home</span></a>
+         <!-- <a href="#"><i class="fas fa-graduation-cap"></i><span>courses</span></a> -->
+         <!-- <a href="#"><i class="fas fa-box-archive"></i><span>archived courses</span></a> -->
+         {% if userdata.utilisateur.role is 2 %}   
+         <a href="{% url 'Todo' %}"><i class="fas fa-check"></i><span>To Do</span></a>
+     {% endif %}
+         <a href="{% url 'settings' %}"><i class="fas fa-gear"></i><span>Settings</span></a>
+   
+      </nav>
+   
+   </div>
+  
+   <section class="home-grid">
+    <div class="box-container">
+        <div id="container">
+            <div id="header">
+              <div id="header-content">Class Room : {{classroomDetails.ClassRoomtitle}} <br />Qcm : {{qcm.QCMtitle}} <br/> <h5>Etudiant : {{etudiantdata.user.first_name}} {{etudiantdata.user.last_name}}</h5></div>
+              
+            </div>
+            <div id="content">
+              
+
+              {% for qst in allQuestions %}
+              <div>
+                <div class="question">
+                    <div class="title" style="display: flex;padding: 5px;">
+                    <div class="chip">{{ forloop.counter }}</div> 
+                    <h1 style="margin-left: 10px;" >{{qst.text}}</h1>
+                    </div>
+                </div>
+
+                <div class="qcm-container" style="display:grid;">
+                
+                        {% for answer in qst.answers.all %}
+                        
+                            <div style="display:  flex; justify-content: start;align-items: center;padding: 15px;">
+                                <input {% if answer.id in reponcesetudiant %} checked {% endif %} disabled style="width: 40px;height: 20px;" type="checkbox" id="{{answer.text}}" name="answers[]" value="{{answer.id}}" ><label style="font-size: 20px;" for="qcm-1">{{answer.text}}</label>
+                            </div>
+                        {% endfor %}
+                    
+                </div>
+            </div>
+            {% endfor %}
+            <!--  -->
+             
+              <div id="validation">
+                <button onclick="goClassroom()" type="button">Precedent</button>
+              </div>
+          
+
+            </div>
+          </div>
+          </div>
+                   
+         
+   
+   </section>
+   <script>
+   function goClassroom(){
+    window.location.href = '/classroom/home'
+   }
+
+   </script>
+   <script src ="/static/Javascript/classroom/classroom.js"></script>
+   <script src ="/static/Javascript/classroom/qcm.js"></script>
+
+   </body>
+   </html>

@@ -65,18 +65,18 @@ urlpatterns = [
     #
     path('classroom/qcm/<int:qcmID>',views.qcm_view,name='qcm'),
     #
-
+    path('QCMReponces/<int:qcmid>/<studentid>' , views.QCMReponces , name='QCMReponces'),
+    #
     path('classroom/taskDetails/<int:id>',views.taskDetails,name='taskDetails'),
     #
     path('create_TaskResponse/<int:id>/', views.create_TaskResponse, name='createTaskResponse'),    
-
     #
     path('deleteTask/<int:id>',views.deleteTask,name='deleteTask'),
-
-
+    #
     path('deleteQCM/<int:QCMID>',views.deleteQCM,name='deleteQCM'),
     #
-
+    path('voirreponcesQCM/<int:QCMID>',views.allresponces , name='voirreponcesQCM'),
+    #
     path('addquestion/',views.addquestiontoqcm,name='addquestion'),
     #
     path('create_Classroom/',views.create_Classroom,name='createClassroom'),
