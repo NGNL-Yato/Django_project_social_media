@@ -131,6 +131,25 @@ document.body.addEventListener('click', function(event) {
         NotificationsMenu.classList.remove('show');
     }
 })
+var groupLabels = document.querySelectorAll('.group-label');
+var seeMoreButton = document.querySelector('.see-more-btn');
+var currentGroupIndex = 0;
+
+function showMoreGroups() {
+    for (var i = currentGroupIndex; i < currentGroupIndex + 3; i++) {
+        if (i >= groupLabels.length) {
+            seeMoreButton.style.display = 'none';  // Hide "See more" button if all groups are shown
+            break;
+        }
+        groupLabels[i].style.display = 'block';
+    }
+    currentGroupIndex = i;
+}
+
+seeMoreButton.addEventListener('click', showMoreGroups);
+
+// Show the first three groups initially
+showMoreGroups();
 circleButton.onclick = function() {
     var rect = circleButton.getBoundingClientRect();
     circleMenu.style.top = (circleButton.offsetTop + rect.height) + 'px';
@@ -157,23 +176,3 @@ window.addEventListener('click', function(event) {
         eventmodal.style.display = "none";
     }
 })
-
-var groupLabels = document.querySelectorAll('.group-label');
-var seeMoreButton = document.querySelector('.see-more-btn');
-var currentGroupIndex = 0;
-
-function showMoreGroups() {
-    for (var i = currentGroupIndex; i < currentGroupIndex + 3; i++) {
-        if (i >= groupLabels.length) {
-            seeMoreButton.style.display = 'none';  // Hide "See more" button if all groups are shown
-            break;
-        }
-        groupLabels[i].style.display = 'block';
-    }
-    currentGroupIndex = i;
-}
-
-seeMoreButton.addEventListener('click', showMoreGroups);
-
-// Show the first three groups initially
-showMoreGroups();

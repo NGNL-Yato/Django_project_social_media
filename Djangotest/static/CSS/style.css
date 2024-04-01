@@ -269,6 +269,7 @@ header{
     flex-direction: column;
     padding: 15px;
     margin-bottom: 20px;
+    height: fit-content;
 }
 
 .profile{

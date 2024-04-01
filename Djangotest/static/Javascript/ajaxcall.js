@@ -250,7 +250,7 @@ $('#searchInput').on('input', function() {
             groupResultsContainer.empty();
             data.forEach(function(item) {
                 if(item.type === 'user') {
-                    userResultsContainer.append('<p>' + item.first_name + ' ' + item.last_name + '</p>');
+                    userResultsContainer.append('<a>' + item.first_name + ' ' + item.last_name + '</p>');
                 } else if (item.type === 'group') {
                     groupResultsContainer.append('<p>' + item.group_name +'</p>');
                 }

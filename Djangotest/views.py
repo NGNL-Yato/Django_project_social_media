@@ -307,6 +307,7 @@ def all_events(request):
     
     if request.user.is_authenticated:
         isGuest = False
+        groups = Group.objects.filter(usergroup__user=request.user) 
         user = request.user
         user_first_name = user.first_name
         user_pdp = user.utilisateur.profile_picture
@@ -314,6 +315,7 @@ def all_events(request):
         isGuest = True
         user_first_name = "visiteur"
         user_pdp = 'Images/us2.png'
+        groups = None
 
     context = {'visiteur':isGuest,
                'user_first_name':user_first_name,
@@ -321,8 +323,9 @@ def all_events(request):
                 'isHomePage':False,
                 'isEventsPage':True,
                 'all_events':models.Event.objects.all(),
+                'groups':groups
                }
-
+    print(context)
     return render(request,'HTML/home/home.html',context)
 #
 #

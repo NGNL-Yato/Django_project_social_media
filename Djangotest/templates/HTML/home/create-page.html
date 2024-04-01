@@ -9,7 +9,7 @@
                     {% if group_form %}
 
             </div>
-            <form method="post" enctype="multipart/form-data">
+            <form id ="group_creation_page" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {% for field in group_form %}
                     {% if field.name == 'description' %}

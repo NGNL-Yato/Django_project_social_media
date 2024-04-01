@@ -778,8 +778,12 @@ def search(request):
     user_results = list(users.values('username', 'first_name', 'last_name'))
     for user in user_results:
         user['type'] = 'user'
+        if(len(user['first_name']) > 5):
+            break
     group_results = list(groups.values('group_name'))
     for group in group_results:
         group['type'] = 'group'
+        if(len(group['group_name']) > 5):
+            break
     results = user_results + group_results
     return JsonResponse(results, safe=False)
