@@ -243,25 +243,52 @@ def contact_view(request):
 
  
 def post_view(request,first_name, last_name):
+
+#     if user:
+# ~        posts = Post.objects.filter(user=user)
+#         context = {'posts': posts, 'user': user}
+#     else:
+#         context = {'error': 'User not found'}
     
     user = User.objects.get(first_name=first_name, last_name=last_name)
+    posts = Post.objects.filter(user=user)
+
     if user is not None:    
         u = utilisateur.objects.get(user_id = user.id)
         if u is not None:
-            context = {'userdata':user,
-                       'user_pdp': u.profile_picture,
+            context = { 'posts': posts,
+                        'user': user,
+                        'userdata':user,
+                        'user_pdp': u.profile_picture,
                         'first_name':first_name,
                         'last_name':last_name,
                         'utilisateurdata':u,
-            'skills':models.Skills.objects.filter(utilisateur=u),
-            'languages':models.Languages.objects.filter(utilisateur=u),
-            'certificates':models.Certification.objects.filter(utilisateur=u),
-            'Educations':models.Education.objects.filter(utilisateur=u),
-            'Experiences':models.Experience.objects.filter(utilisateur=u),
-            'Reaserches':models.Research.objects.filter(utilisateur=u),
+                        'skills':models.Skills.objects.filter(utilisateur=u),
+                        'languages':models.Languages.objects.filter(utilisateur=u),
+                        'certificates':models.Certification.objects.filter(utilisateur=u),
+                        'Educations':models.Education.objects.filter(utilisateur=u),
+                        'Experiences':models.Experience.objects.filter(utilisateur=u),
+                        'Reaserches':models.Research.objects.filter(utilisateur=u),
                         'myprofile':False,
                         'postview':True,
                }  
+    else: 
+        context = {     'error': 'User not found',
+                        'userdata':user,
+                        'user_pdp': u.profile_picture,
+                        'first_name':first_name,
+                        'last_name':last_name,
+                        'utilisateurdata':u,
+                        'skills':models.Skills.objects.filter(utilisateur=u),
+                        'languages':models.Languages.objects.filter(utilisateur=u),
+                        'certificates':models.Certification.objects.filter(utilisateur=u),
+                        'Educations':models.Education.objects.filter(utilisateur=u),
+                        'Experiences':models.Experience.objects.filter(utilisateur=u),
+                        'Reaserches':models.Research.objects.filter(utilisateur=u),
+                        'myprofile':False,
+                        'postview':True,
+               }  
+        
     return render(request,'HTML/userProfile/post.html', context)
 
 

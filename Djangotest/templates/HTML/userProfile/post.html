@@ -101,15 +101,13 @@
 
             <div class="profile-description">
 
-              <!-- home-posts.html ??  -->
-              {% include "HTML/home/home-posts.html" %}
+             
 
-              <div style="width: 100%;background-color: aqua;height: 200px;"></div><br>
-              <div style="width: 100%;background-color: aqua;height: 200px;"></div><br>
-              <div style="width: 100%;background-color: aqua;height: 200px;"></div><br>
-              <div style="width: 100%;background-color: aqua;height: 200px;"></div><br>
-              <div style="width: 100%;background-color: aqua;height: 200px;"></div><br>
-
+          {% for post in posts %}
+           <!-- home-posts.html ??  -->
+           {% include "HTML/home/home-posts.html" %}
+           
+          {% endfor %}
                 
 
             </div>
