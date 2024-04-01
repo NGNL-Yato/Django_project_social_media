@@ -1,0 +1,85 @@
+{% load static %}
+
+
+<div class="profile-container">
+    <img
+      src="/static/Assets/Images/cover.jpg"
+      alt="cover-pic"
+      width="100%"
+    />
+  </div>
+
+    <div class="profile-container-inner" style="background-color:var(--white)">
+      <div class="user-img">
+        <div id="upload-container">
+          <img src="/media/{{user_pdp}}" alt="user-1" class="profile-pic" id="profile-pic"/>
+            <!-- <label for="input-file" id="uploadbtn"> <i class="fas fa-camera"></i></label> -->
+        </div>
+       <input type="file" accept="image/jpeg , image/png ,image/jpg" id="input-file">
+       <div style="display: flex;">
+        <h1>
+          {{userdata.first_name}} {{userdata.last_name}}
+        </h1>
+
+        {% if utilisateurdata.role is 1 %}
+        <div style="display: flex;">
+          <i class="fa-solid fa-user-tie" style="margin-inline: 10px;"></i>
+          <h6 style="font-weight: 400;">Professeur</h6>
+        </div>
+        {% elif utilisateurdata.role is 2  %}
+        <div style="display: flex;">
+          <i class="fa-solid fa-user-graduate" style="margin-inline: 10px;"></i>
+          <h6 style="font-weight: 400;">Etudiant</h6>
+        </div>
+        {% elif utilisateurdata.role is 3  %}
+        <div style="display: flex;">
+          <i class="fa-solid fa-hotel" style="margin-inline: 10px;"></i>
+          <h6 style="font-weight: 400;">Entreprise</h6>
+        </div>
+        {% endif %}
+      </div>
+       
+    {% if utilisateurdata.BIO %}
+    <br>
+      <h3 style="font-weight: 400;">{{utilisateurdata.BIO}}</h3>
+    <br>
+    {% endif %}  
+        
+
+      <div class="profile-btn" style=" align-content: center;display: flex;">
+        {% if not myprofile %}
+        <a href="{% url 'follow' first_name=userdata.first_name last_name=userdata.last_name %}" class="primary-btn">
+          <img src="{%static 'Assets/Images/connect.png'%}" alt="connect"/>Follow</a>
+
+        <a href="{% url 'chat_app' %}">
+          {% comment %} <img src="{%static '/Assets/Images/chat.png'%}" alt="connect" /> Message </a> {% endcomment %}
+          {% endif %}
+
+          {% if utilisateurdata.CV %}
+         <a href="/media/{{utilisateurdata.CV}}" class="primary-btn">
+          <img src="{%static '/Assets/Images/network.png'%}" alt="connect" /> CV Public </a> 
+          {% endif %}
+        
+        
+{% if not postview %}
+        <a href="{% url 'post_view' first_name=userdata.first_name last_name=userdata.last_name %}">
+          <img src="{%static '/Assets/Images/sss.webp' %}" alt="connect" /> posts </a>
+{% else %}
+
+<a href="{% url 'hisprofile' first_name=userdata.first_name last_name=userdata.last_name %}">
+    <img src="{%static '/Assets/Images/sss.webp' %}" alt="connect" /> Profile </a>
+
+{% endif %}
+
+
+          <a style="cursor: pointer;"><div id ="contact_trigger">
+            <span class="services__button" id="services_button">
+              Contact Info <i class="bx bx-right-arrow services__icon"></i>
+            </span>
+          </div></a>
+
+      </div>
+     
+    </div>
+    
+  </div>

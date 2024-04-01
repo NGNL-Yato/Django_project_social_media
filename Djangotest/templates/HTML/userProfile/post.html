@@ -4,18 +4,161 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'CSS/style.css' %}" />
-    <title></title>
-  </head>
-  <body>
-    <header>{% include "HTML/home/header-homepage.html"%}</header>
-    <div class="profile-description" id="main" class="main">
-      <div class="profile-description">
-        {% include "HTML/home/home-posts.html" %}
+    <title>Campus Social Media</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
 
-        
-      </div>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'CSS/userProfile/userProfile.css' %}"/>
+    <link rel="stylesheet" href="{% static 'CSS/style.css' %}"/>
+   
+    <!--=============== BOXICONS ===============-->
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+
+    <!--=============== SWIPER CSS ===============-->
+    <link rel="stylesheet" href="{% static 'CSS/userProfile/swiper-bundle.min.css' %}">
+
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="{% static 'CSS/userProfile/styles.css' %}">
+
+
+    <title> Profile </title>
+  </head>
+
+  <body>
+    <div id = "profile_card">
+      <div id = "services_card">   
+        <section class="services_section">
+        <div class="services__container container grid">
+          
+          <div class="services__card" style="width: 100%;" >
+            <div class="services__modal" >
+              <div class="services__modal-content" >
+                <i class="bx bx-x services__modal-close"></i>
+                <div class="contact__container container grid" style="width: 100%;">
+                  <div class="contact__content" style="width: 100%;">
+                      <h2 class="contact__title contact__title-info">Talk to me</h2>
+  
+                      <div class="contact__info" style="width: 100%;">
+                        <br>
+                          <div class="contact__card" style="width: 100%;">
+                              <h3 class="contact__card-title"><i class='bx bx-mail-send contact__card-icon'></i> Email</h3>
+                              <span class="contact__card-data">{{utilisateurdata.public_email}}</span>
+                          </div>
+                          <br>
+  
+                          <div class="contact__card" style="width: 100%;">
+                              <h3 class="contact__card-title"><i class='bx bxl-whatsapp contact__card-icon'></i> Phone Number</h3>
+                              <span class="contact__card-data">{{utilisateurdata.public_phone_number}}</span>
+                          </div>
+                          <br>
+  
+                          <div class="contact__card" style="width: 100%;">
+                              <h3 class="contact__card-title"><i class='bx bxl-github contact__card-icon'></i> Github</h3>
+                              <span class="contact__card-data">{{ userdata.first_name }} {{ userdata.last_name }}</span>
+                          </div>
+  
+                          
+                  </div>
+      
+              </div>
+          
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </section> 
     </div>
+    </div>
+    <header>
+      {% include "HTML/home/header-homepage.html"%}
+    </header>
+    <main class='main-content' >
+      
+      <div class="profile-container">
+        <!-- profile main -->
+        <div class="container">
+          <div class="profile-main">
+
+         <!-- profile header -->
+            {% include 'HTML/userProfile/profileheader.html'%}
+          <!--  -->
+
+
+
+            <div class="profile-description">
+
+              <!-- home-posts.html ??  -->
+              {% include "HTML/home/home-posts.html" %}
+
+              <div style="width: 100%;background-color: aqua;height: 200px;"></div><br>
+              <div style="width: 100%;background-color: aqua;height: 200px;"></div><br>
+              <div style="width: 100%;background-color: aqua;height: 200px;"></div><br>
+              <div style="width: 100%;background-color: aqua;height: 200px;"></div><br>
+              <div style="width: 100%;background-color: aqua;height: 200px;"></div><br>
+
+                
+
+            </div>
+
+
+   
+          </div>
+        </div>
+       <!-- home right start here -->
+  
+    <!-- home right end -->
+      </div>
+  
+      </div>  <!--div chayta ??!!!!!!! -->
+
+      <div class=" home-right-profile" >
+        <div class="home-right-wrapper">
+  
+            <!-- messenger start -->
+            <div class="messenger">
+                {% include "HTML/home/messages.html" %}
+            </div>
+            <!-- messenger end -->
+  
+            <!-- event and friend start -->
+            <div class="event-friend">
+                {% include "HTML/home/event-template.html" %}
+            </div>
+            <!-- event and friend end -->
+  
+            <!-- groups start -->
+            <div class="groups">
+                {% include "HTML/home/create-page.html" %}
+            </div>
+            <!-- groups end -->
+  
+        </div>
+    </div>
+    </main>
+
+
+    <script src="{% static 'Javascript/homepage.js'%}"></script>
+    <script src="{% static 'Javascript/userProfile/userProfile.js' %}"></script>
+
+
+        <!--=============== MAIN JS ===============-->
+        <script src="{% static 'Javascript/userProfile/main.js' %}"></script>
+
+        <script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
+
   </body>
 </html>
