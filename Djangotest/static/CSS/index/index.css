@@ -9,6 +9,28 @@ STATSTICS
   background: linear-gradient(to right, #a077ff, #a077ff);
 }
 
+.logo h2 {
+  font-family: "Montserrat", sans-serif;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 1px;
+  position: relative;
+}
+.logo h2 em {
+  font-family: "Montserrat", sans-serif;
+  font-style: normal;
+  font-size: 20px;
+  color: #a077ff;
+  font-weight: 900;
+  position: relative;
+}
+.logo h2 span {
+  text-shadow: -1px 0 #a077ff, 0 1px #a077ff, 1px 0 #a077ff, 0 -1px #a077ff;
+}
 .count-title {
   font-size: 50px;
   font-weight: normal;
@@ -735,8 +757,9 @@ header {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  background: url("/static/Assets/Images/index_image_3.jpg") fixed center;
+  background: url("/static/Assets/Images/life.jpg") fixed center;
   padding: 20px 70px;
+  background-size: cover;
 }
 header nav {
   top: 0;
