@@ -391,7 +391,7 @@ def createQCM(request,uid):
 #
 def addquestiontoqcm(request):
     qcm_id = int(request.POST.get('qcm_id'))
-    if (request.user.is_authenticated ) and (request.user.utilisateur.role is 1 ) and ( request.method == 'POST' ):
+    if (request.user.is_authenticated ) and (request.user.utilisateur.role == 1 ) and ( request.method == 'POST' ):
         qcm = models.QCM.objects.filter(id=qcm_id).first()
         question_text = request.POST.get('Question')
         question = models.Question.objects.create(qcm=qcm, text=question_text)
@@ -410,6 +410,11 @@ def addquestiontoqcm(request):
     
 #
 #
+def qcmetudiant(QCMID):
+   pass 
+
+#
+#
 def qcm_view(request,qcmID):
     if request.user.is_authenticated:
         qcm = models.QCM.objects.filter(id=qcmID).first()
@@ -418,17 +423,81 @@ def qcm_view(request,qcmID):
         if ClassRoom.objects.filter(UniqueinvitationCode=uid).exists():
             classroom = ClassRoom.objects.get(UniqueinvitationCode=uid)
         
+        # if prof show all questions
+        if request.user.utilisateur.role == 1:
             context = {
                         'userdata':request.user,
                         'classroomDetails': classroom,
                         'questionForm':QuestionForm(),
-                        'allQuestions':models.Question.objects.filter(qcm=qcm),# to be updated , to only show questions of this qcm
+                        'allQuestions':models.Question.objects.filter(qcm=qcm),
                         'qcm_id':qcmID,
                         }  
+            return render( request, 'HTML/classroom/qcm.html',context) 
+            
+
+        # if student show one question at a time
+        elif request.user.utilisateur.role == 2:
+            qr = models.Question.objects.filter(qcm=qcm).order_by('id')
+            querysetsize = qr.count()
+            curr = request.POST.get('currentIndex')
+            
+            if curr is not None:
+                nextqstindex = int(curr)+1
+
+                #
+                # here save the posted answers 
+                #
+                question_id =request.POST.get('qstID')
+                studentAnswers = request.POST.getlist('answers[]')
+                stdent = models.utilisateur.objects.filter(id=request.user.utilisateur.id).first()
+                question = models.Question.objects.filter(id=question_id).first()
+
+                stdqst = models.Studentquestion.objects.create(student=stdent ,question=question )
+                for answer_id in studentAnswers:
+                    answer = models.Answer.objects.filter(id=answer_id).first()
+                    if answer:
+                        models.Studentselectedreponse.objects.create(studentquestion=stdqst ,selectedanswer=answer )
+
+                # then i check if there is a next question to show
+                # if not this will redirect to Classroom
+                if nextqstindex > querysetsize:
+                    return redirect('Classroom')
+                
+                # if there is a next qst , show him next qst
+                else : 
+                    x = [] 
+                    x.append(qr[nextqstindex-1])
+                    context = {
+                                'userdata':request.user,
+                                'classroomDetails': classroom,
+                                'allQuestions':x,
+                                'curr' : nextqstindex,
+                                'islastone': True if nextqstindex == qr.count() else False,
+                                'qcm_id':qcmID,
+                            }  
+                    return render( request, 'HTML/classroom/qcm.html',context) 
+                
+            # if could not  find the current qst index , mean this is the first time will take a look on the qcm , so show the frst qst        
+            else :
+                 if qr.count() == 0:
+                    return redirect('Classroom')
+                 
+                 startfromzero = 0
+                 x = [] 
+                 x.append(qr[startfromzero])
+                 context = {
+                                'userdata':request.user,
+                                'classroomDetails': classroom,
+                                'allQuestions':x,
+                                'curr' : 1,
+                                'islastone': True if 1 == qr.count() else False,
+                                'qcm_id':qcmID,
+                            }  
 
             return render( request, 'HTML/classroom/qcm.html',context) 
         
     return redirect('Classroom')
+
 #
 #
 def create_Classroom_post(request, uid):

@@ -297,8 +297,13 @@ class Answer(models.Model):
 # pivot table between students and questions  (many to many)
 #
 class Studentquestion(models.Model):
-    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    student = models.ForeignKey(utilisateur, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
+
+class studentQcmfinished(models.Model):
+    student = models.ForeignKey(utilisateur, on_delete=models.CASCADE)
+    qcm = models.ForeignKey(QCM, on_delete=models.CASCADE)
+    
 
 #
 # pivot table between students and responce (refer to the answer student selected)  (many to many)
