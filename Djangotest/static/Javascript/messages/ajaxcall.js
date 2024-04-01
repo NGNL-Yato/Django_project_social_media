@@ -75,14 +75,12 @@ $('.search_bar').on('keyup', function() {
         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
 });
+
 $(document).on('click', '.user_friend_displayed', function() {
-    // Remove the 'active' class from all 'li' elements
     $('li.active').removeClass('active');
-    // Add the 'active' class to the 'li' that contains the clicked 'div'
     $(this).closest('li').addClass('active');
     var username = $(this).find('.user_info span').attr('data_username');
     var profilePicture = $(this).find('.img_cont img').attr('src');
-    var friendPicture = $('#friend_picture').attr('src');
     $('.message_header .user_info span').text(username);
     $('.message_header .img_cont img').attr('src', profilePicture);
     $('.message_box').empty();
@@ -94,18 +92,11 @@ $(document).on('click', '.user_friend_displayed', function() {
             'username': username
         },
         success: function(data) {
-            console.log('Setting conversation ID: ' + data.conversation);
-            // Store the conversation ID in a hidden input field
             $('#conversation_id').val(data.conversation);
             var userPicture = data.user_picture;
             var friendPicture = data.friend_picture;
-            data.messages.forEach(function(message) { // Remove the index parameter
-                // Display the message
-                var content = message.content; // Get the message content from the server response
-                var sender = message.is_user_sender ? 'sender' : 'receiver'; // Determine the sender based on is_user_sender
-                var timestamp = message.timestamp; // Get the timestamp from the server response
-                console.log("Image :" + message.file_urls) // Access file_url from the message object
-                displayMessage(content, 'sender', userPicture, friendPicture, timestamp, message.file_url); // Use file_url from the message object
+            data.messages.forEach(function(messageData) {
+                displayMessage(messageData);
             });
         }
     });
@@ -136,9 +127,9 @@ $('.input-group-text-bt2').on('click', function() {
                 success: function(data) {
                     $('#messagearea').val('');
                     $('#fileInput').val('');
-                    // If you want to access the first file URL
-                    var firstFileUrl = data.file_urls[0];
-                    displayMessage(message, 'sender', userPicture, friendPicture, new Date().toLocaleTimeString(), firstFileUrl);
+                    // Check if file_urls is defined and has at least one element
+                    var firstFileUrl = data.file_urls && data.file_urls.length > 0 ? data.file_urls[0] : null;
+                    displayMessage(message, 'sender', userPicture, receiverPicture, new Date().toLocaleTimeString(), firstFileUrl);
                     console.log(fileInput.files[0])
                     console.log('Message sent');
                 }
@@ -148,62 +139,57 @@ $('.input-group-text-bt2').on('click', function() {
     });
 });
 
-function displayMessage(message, sender, userPicture, friendPicture, timestamp, fileUrl) {
-    console.log("Message :" + message)
+function displayMessage(messageData) {
     var messageContainer;
     var imgCont = $('<div>').addClass('img_cont_msg');
     var img;
-    var msgContainer = $('<div>').addClass(sender === 'receiver' ? 'msg_container' : 'msg_container_send');
-    var msgTime = $('<span>').addClass(sender === 'receiver' ? 'msg_time' : 'msg_time_send');
+    var msgContainer = $('<div>').addClass(messageData.is_user_sender ? 'msg_container_send' : 'msg_container');
+    var msgTime = $('<span>').addClass(messageData.is_user_sender ? 'msg_time_send' : 'msg_time');
 
-    if (sender === 'receiver') {
-        messageContainer = $('<div>').addClass('message_container_receiver');
-        img = $('<img>').attr('src', friendPicture).addClass('user_img_msg');
-    } else {
+    if (messageData.is_user_sender) {
         messageContainer = $('<div>').addClass('message_container_sender');
-        img = $('<img>').attr('src', userPicture).addClass('user_img_msg');
+        img = $('<img>').attr('src', messageData.sender_picture).addClass('user_img_msg');
+    } else {
+        messageContainer = $('<div>').addClass('message_container_receiver');
+        img = $('<img>').attr('src', messageData.sender_picture).addClass('user_img_msg');
     }
 
     imgCont.append(img);
-    msgContainer.text(message);
+    msgContainer.text(messageData.content);
 
-    var messageDate = new Date(timestamp);
+    var messageDate = new Date(messageData.timestamp);
     var currentDate = new Date();
 
-    // Check if the message date and the current date are the same
     if (messageDate.toDateString() === currentDate.toDateString()) {
-        // If the dates are the same, only display the time
         msgTime.text(messageDate.toLocaleTimeString());
     } else {
-        // If the dates are different, display the date
         msgTime.text(messageDate.toLocaleDateString());
     }
 
     msgContainer.append(msgTime);
 
-    if (fileUrl) {
-        console.log("FileUrl :" + fileUrl)
-        var fileImg = $('<img>').attr('src', fileUrl).css({
+    if (messageData.file_url.length > 0) {
+        var fileImg = $('<img>').attr('src', messageData.file_url[0]).css({
             width: '100px',
             height: '100px'
         });
         fileImg.on('load', function() {
-            // The image has loaded successfully
             msgContainer.prepend(fileImg);
             msgContainer.append($('<br>'));
         });
     }
-    if (sender === 'receiver') {
-        messageContainer.append(imgCont);
+    if (messageData.is_user_sender) {
         messageContainer.append(msgContainer);
+        messageContainer.append(imgCont);
     } else {
-        messageContainer.append(msgContainer);
         messageContainer.append(imgCont);
+        messageContainer.append(msgContainer);
     }
 
     $('.message_box').append(messageContainer);
     $('.message_box').scrollTop($('.message_box')[0].scrollHeight);
 }
+
 $('#fileInput').on('change', function() {
     var previewContainer = $('#previewContainer');
     previewContainer.empty();

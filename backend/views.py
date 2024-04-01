@@ -773,6 +773,7 @@ def get_or_create_conversation(request):
             file_urls = [message_file.file.url for message_file in message.files.all()]
             messages_data.append({
                 'sender': message.sender.username,
+                'sender_picture': message.sender.utilisateur.profile_picture.url,  # Add this line
                 'content': message.content,
                 'timestamp': message.timestamp.strftime('%Y-%m-%d %H:%M:%S'),
                 'is_user_sender': is_user_sender,
