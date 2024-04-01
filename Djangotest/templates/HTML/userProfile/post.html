@@ -2,24 +2,20 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'CSS/style.css' %}"/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'CSS/style.css' %}" />
     <title></title>
-</head>
-<body>
-    <header>
-        {% include "HTML/home/header-homepage.html"%}
-      </header>
-    <div class="profile-description"  id="main" class="main">
-        <div class="profile-description">
+  </head>
+  <body>
+    <header>{% include "HTML/home/header-homepage.html"%}</header>
+    <div class="profile-description" id="main" class="main">
+      <div class="profile-description">
+        {% include "HTML/home/home-posts.html" %}
 
-          {% include "HTML/home/home-extended.html" %}
-          <br>
-          {% include "HTML/home/home-posts.html" %}
-
-          </div>
-      </div>  
-</body>
+        
+      </div>
+    </div>
+  </body>
 </html>

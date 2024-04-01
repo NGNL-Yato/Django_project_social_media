@@ -13,6 +13,11 @@ def create_post(request, group_id=None):
             post.user = request.user
             post.group = group
             post.save()
+            
+            user_profile = user_profile.objects.get_or_create(user=request.user)
+            user_profile.posts.add(post)
+            
+            
             if group:
                 return redirect('group_posts', group_name=group.group_name)
             else:
