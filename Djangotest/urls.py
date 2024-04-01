@@ -133,7 +133,7 @@ urlpatterns = [
     #
     path('like_post/<int:post_id>/', backendviews.like_post, name='like_post'),
     #
-    path('post/',views.post_view, name='post_view'),
+    path('post/<str:first_name>-<str:last_name>/',views.post_view, name='post_view'),
     #
     path('groups/<str:group_name>/about', views.group_about, name='group_about'),
     #

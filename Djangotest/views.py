@@ -119,19 +119,23 @@ def home_view(request):
     return render(request, 'HTML/home/home.html', context)
 
 def index_view(request):
-    context = {}  # You can pass context data to the template if needed
+    context = {}  
+
     return render(request,'HTML/index/index.html',context)
 
 def admin_panel(request):
-    context = {}  # You can pass context data to the template if needed
+    context = {}  
+
     return render(request,'HTML/admin_panel/admin_panel.html', context)
 
 def group_view(request):
-    context = {}  # You can pass context data to the template if needed
+    context = {}  
+
     return render(request,'HTML/home/groupe_page.html', context)
 
 def login_view(request):
-    context = {}  # You can pass context data to the template if needed
+    context = {}  
+
     return render(request,'HTML/home/login.html', context)
 
 # seeing my profile
@@ -147,7 +151,8 @@ def profile(request):
             'Experiences':models.Experience.objects.filter(utilisateur=request.user.utilisateur),
             'Reaserches':models.Research.objects.filter(utilisateur=request.user.utilisateur),
             'myprofile':True,
-               }  # You can pass context data to the template if needed
+               }  
+
     return render(request,'HTML/userProfile/profile.html', context)
 
 # seeing others profiles
@@ -192,7 +197,8 @@ def classroomJoin(request,uid):
     return redirect('Classroom')  
 
 def welcome_view(request):
-    context = {}  # You can pass context data to the template if needed
+    context = {}  
+
     return render(request,'HTML/welcome/welcome.html',context)
 
 # 
@@ -223,7 +229,8 @@ def homeClass_view(request):
         return redirect('login')
 
 def todo_view(request):
-    context = {}  # You can pass context data to the template if needed
+    context = {}  
+
     return render(request,'HTML/classroom/Todo.html',context)
 
 
@@ -235,8 +242,26 @@ def contact_view(request):
     return render(request, 'HTML/userProfile/contactInfo.html')
 
  
-def post_view(request):
-    context = {}  
+def post_view(request,first_name, last_name):
+    
+    user = User.objects.get(first_name=first_name, last_name=last_name)
+    if user is not None:    
+        u = utilisateur.objects.get(user_id = user.id)
+        if u is not None:
+            context = {'userdata':user,
+                       'user_pdp': u.profile_picture,
+                        'first_name':first_name,
+                        'last_name':last_name,
+                        'utilisateurdata':u,
+            'skills':models.Skills.objects.filter(utilisateur=u),
+            'languages':models.Languages.objects.filter(utilisateur=u),
+            'certificates':models.Certification.objects.filter(utilisateur=u),
+            'Educations':models.Education.objects.filter(utilisateur=u),
+            'Experiences':models.Experience.objects.filter(utilisateur=u),
+            'Reaserches':models.Research.objects.filter(utilisateur=u),
+                        'myprofile':False,
+                        'postview':True,
+               }  
     return render(request,'HTML/userProfile/post.html', context)
 
 
