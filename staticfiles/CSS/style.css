@@ -83,6 +83,7 @@ header{
     width: 60px;
 }
 .website-name h2 {
+    cursor: pointer;
     font-family: 'Montserrat', sans-serif;
     margin-top: 30px;
     margin-bottom: 30px;
@@ -134,7 +135,46 @@ header{
     top: 100%;  /* Position the dropdown just below the parent */
     left: 0;  /* Align the dropdown to the left edge of the parent */
 }
-.searchBox input{
+.back_to_group i {
+    margin-right: 10px;
+    box-shadow: 0 2px 5px 0 var(--shadow);
+    border-radius: 8px;
+    text-align: center;
+    line-height: 25px;
+    transition: .4s;
+    height: 25px;
+    width: 25px;
+    color: #6632e0;
+    background-color: var(--white);
+}
+.back_to_group {
+    cursor: pointer;
+    border: none;
+    color: #6524c4;
+    margin-bottom: 15px;
+    font-weight: 600;
+    background-color: var(--background);
+}
+.search-input-bt {
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 0;
+    transition: transform 0.3s ease;
+    background-color: #6524c4;
+    box-shadow: 0 2px 5px 0 var(--shadow);
+    border-radius: 50px;
+    color: var(--white);
+    padding-inline : 15px;
+}
+.search-input-bt:active {
+    transform: scale(0.9);
+}
+.search-input-bt:hover {
+    background-color: #4d1a9c;
+}
+.searchBox input,
+.search-input{
     padding: 15px 45px 15px 15px;
     border-radius: 50px;
     width: 100%;
@@ -154,7 +194,16 @@ header{
 .searchBox i:hover{
     color: #6524c4;
 }
-
+#searchResults {
+    position: absolute;
+    top: 110px;
+    left: 330px;
+    background-color: var(--white);
+    width: 32%;
+    padding: 5px;
+    z-index: 1;
+    display: none;
+}
 .iconBox1 i,
 .iconBox2 i,
 .iconBox3 i{
@@ -884,14 +933,11 @@ header{
     display: block;
     width: 7px;
     height: 7px;
-    background: #12da01;
+    /* background: #12da01; */
     position: absolute;
     border-radius: 50px;
     top: 4px;
     left: -12px;
-}
-.messenger ul li:nth-child(2) span::before{
-    background: #ff9600;
 }
 .messenger ul li i{
     color: #6524c4;

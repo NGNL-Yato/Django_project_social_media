@@ -1,0 +1,113 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>course name</title>
+
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+   
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="/static/CSS/classroom/home.css">
+   <link rel="stylesheet" href="/static/CSS/classroom/course.css">
+     <link rel="stylesheet" href="/static/CSS/classroom/Todo.css">
+
+</head>
+<body>
+    <header class="header">
+   
+        <section class="flex">
+     
+         <div class="logo">
+            <h2>
+                <em>Campus</em>
+                <span>Classroom</span>
+            </h2>
+        </div>
+           <div class="icons">
+              <div id="menu-btn" class="fas fa-bars"></div>
+              <div id="search-btn" class="fas fa-search"></div>
+              <div id="toggle-btn" class="fas fa-sun"></div>
+           </div>
+          
+        </section>
+     
+     </header>  
+
+     <div class="side-bar">
+
+      <div id="close-btn">
+         <i class="fas fa-times"></i>
+      </div>
+   
+      <div class="profile">
+         <img src="/media/{{userdata.utilisateur.profile_picture}}" class="image" alt="">
+         <h3 class="name"> {{userdata.first_name}} {{userdata.last_name }}</h3>
+      {% if userdata.utilisateur.role is 2 %}   
+         <p class="role">student</p>
+       {% elif  userdata.utilisateur.role is 1 %}
+       <p class="role">Professeur</p>
+       {% else %}
+       <p class="role">Entreprise</p>
+       {% endif %}
+       </div>
+   
+      <nav class="navbar">
+         <a href="{% url 'Classroom' %}"><i class="fas fa-home"></i><span>home</span></a>
+        
+         
+         <a href="{% url 'settings' %}"><i class="fas fa-gear"></i><span>Settings</span></a>
+   
+      </nav>
+   
+   </div>
+  
+   <section class="home-grid">
+      <div class="box-container">
+               <div id="paddingdiv"></div>
+
+        <div><!-- start  -->
+ 
+<!-- classroom participants -->
+
+    <div id="allparticipants" style="background-color: transparent;height: auto;"> 
+        <div style="display: flex;justify-content: center;">
+            <div style="width: 80%;">
+
+                    {% for participant in studentspassedtheqcm %}
+                            <div style="display: flex;align-items: center;justify-content: space-between;padding: 10px;">
+
+                                <img src="/media/{{participant.profile_picture}}"  style="border-radius: 50%;height: 80px;width: 80px;">
+                                <h3 style="font-size: 20px;color: #eb437e;">{{participant.user.first_name}} {{participant.user.last_name}}</h3>
+                                <button onclick="VoirReponces('{{participant.id}}','{{qcm.id}}')" style="padding-inline: 20px;padding-block: 10px;background-color: #eb437e;color: white;font-size: 16px;">Voir Reponces</button>
+                            </div>
+                                <br>
+                            <div style="height: 3px;background-color: #eb437e;"></div>
+
+                    {% endfor %}                
+            </div>
+        </div>
+    </div>
+
+      </div><!-- end -->
+            
+         </div>    
+      </section>
+      
+   <script>
+    
+
+    function VoirReponces(studentid , qcmid) {
+        window.location.href = '/QCMReponces/'+qcmid+'/'+studentid
+    }
+
+   </script>
+
+   <script src ="/static/Javascript/classroom/classroom.js"></script>
+
+   </body>
+   </html>
