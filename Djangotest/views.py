@@ -1,6 +1,6 @@
-from django.shortcuts import render , redirect
-from backend.models import User,utilisateur,Post,Like, Group, UserGroup,PostClassroom,ClassRoom,Task
-from backend.forms import PostForm, GroupForm, EventForm , ClassRoomForm,PostClassroomForm,TaskForm , QcmForm ,QuestionForm, AnswerForm
+from django.shortcuts import render , redirect , get_object_or_404
+from backend.models import User,utilisateur,Post,Like, Group, UserGroup,PostClassroom,ClassRoom,Task,TaskResponse,Etudiant
+from backend.forms import PostForm, GroupForm, EventForm , ClassRoomForm,PostClassroomForm,TaskForm , QcmForm ,QuestionForm, AnswerForm,TaskResponseForm
 from django.core.mail import send_mail
 from django.conf import settings
 from backend import models
@@ -596,3 +596,43 @@ def create_Task(request, uid):
 
     return redirect('Course', uid=uid)
 #
+def taskDetails(request,id):
+    if request.user.is_authenticated:
+        
+        task = models.Task.objects.filter(id=id).first()
+        uid = task.classroom.UniqueinvitationCode
+        classroom = models.ClassRoom.objects.get(UniqueinvitationCode=uid)
+
+
+        if ClassRoom.objects.filter(UniqueinvitationCode=uid).exists():
+            classroom = ClassRoom.objects.get(UniqueinvitationCode=uid)
+            context = {
+                'userdata':request.user,
+                'taskResponseform':TaskResponseForm(),
+
+                'task': task,
+                'classroom': classroom
+             }
+            return render(request, 'HTML/classroom/taskDetails.html', context)
+#
+def create_TaskResponse(request, id):
+    if request.user.is_authenticated and request.method == 'POST':
+        task = get_object_or_404(Task, id=id)
+        if task is not None:
+            taskResponseform = TaskResponseForm(request.POST,request.FILES)
+            if taskResponseform.is_valid():
+                taskResponse = taskResponseform.save(commit=False)
+                taskResponse.task = task
+                taskResponse.student = models.Etudiant.objects.filter(utilisateur=request.user.utilisateur).first()
+                taskResponse.save()
+
+                return redirect('Course',id=id)
+#     
+def deleteTask(request, id):
+    task = models.Task.objects.filter(id=id).first()
+    if task is not None:
+        uid = task.classroom.UniqueinvitationCode
+        task.delete()
+    
+    return redirect('Course',uid=uid)
+    
