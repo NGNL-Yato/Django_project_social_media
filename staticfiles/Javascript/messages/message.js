@@ -11,3 +11,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+document.querySelector('textarea.form-control').addEventListener('keypress', function(e) {
+    if (e.which == 13 || e.keyCode == 13) {
+        e.preventDefault();
+        document.querySelector('.input-group-text-bt2').click();
+    }
+});

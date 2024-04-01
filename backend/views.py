@@ -509,11 +509,8 @@ def create_group(request):
         if form.is_valid():
             group = form.save(commit=False)
             group.user = request.user
-            try:
-                group.save()
-                return JsonResponse({'status': 'redirect', 'location': 'some-view'})
-            except ValueError:
-                return JsonResponse({'status': 'error', 'message': 'A group with this name already exists.'})
+            group.save()
+            return redirect('some-view')
     else:
         form = GroupForm()
 
@@ -538,6 +535,7 @@ def create_group(request):
 #         return render(request, 'HTML/userProfile/mes-posts.html', context)
     
 #     return redirect('home')
+
 
 def search_people(request):
     query = request.GET.get('query')
@@ -780,8 +778,12 @@ def search(request):
     user_results = list(users.values('username', 'first_name', 'last_name'))
     for user in user_results:
         user['type'] = 'user'
+        if(len(user['first_name']) > 5):
+            break
     group_results = list(groups.values('group_name'))
     for group in group_results:
         group['type'] = 'group'
+        if(len(group['group_name']) > 5):
+            break
     results = user_results + group_results
     return JsonResponse(results, safe=False)

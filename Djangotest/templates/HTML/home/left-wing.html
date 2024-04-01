@@ -9,6 +9,7 @@
 </div>
 
 {% if not visiteur %}
+{% if groups %}
 <div class="group">
     <h4 class="mini-heading">Groups</h4>
     <hr style="margin:10px;opacity: 0.2;">
@@ -23,14 +24,15 @@
     <button class="see-more-btn">See more <i class="fa-solid fa-angle-down"></i></button>
 </div>
 {% endif %}
+{% endif %}
 <div class="explore">
     <h4 class="mini-headign">Explore</h4>
     <a href="{% url 'all_users' %}"><i class="fa-solid fa-user"></i> Users</a>
     <a href="{% url 'all_groups' %}"><i class="fa-solid fa-user-group"></i> Groups</a>
     <a href="/events"><i class="fa-solid fa-clock"></i> Events</a>
-    {% if not visiteur %}
+    {% comment %} {% if not visiteur %}
     <a href="#"><i class="fa-solid fa-star"></i></i> Favorites</a>
     <a href="#"><i class="fa-solid fa-bookmark"></i></i> Saves</a>
-    {% endif %}
+    {% endif %} {% endcomment %}
     {% comment %} <button class="see-more-btn">See more <i class="fa-solid fa-angle-down"></i></button> {% endcomment %}
 </div>

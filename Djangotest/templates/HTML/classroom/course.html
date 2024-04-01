@@ -1,6 +1,5 @@
 {% load static %}
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,13 +11,10 @@
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
    
-
-   
-
    <!-- custom css file link  -->
    <link rel="stylesheet" href="/static/CSS/classroom/home.css">
    <link rel="stylesheet" href="/static/CSS/classroom/course.css">
-
+     <link rel="stylesheet" href="/static/CSS/classroom/Todo.css">
 
 </head>
 <body>
@@ -35,20 +31,39 @@
            <div class="icons">
               <div id="menu-btn" class="fas fa-bars"></div>
               <div id="search-btn" class="fas fa-search"></div>
-              <!-- <div id="user-btn" class="fas fa-plus"></div> -->
+              {% if userdata.utilisateur.role is 1 %}   
+
+               <div id="user-btn" class="fas fa-plus"></div>
+               {% endif %}
+
               <div id="toggle-btn" class="fas fa-sun"></div>
            </div>
-     
-           <!-- <div class="profile" style="height:120px">
-             <h3 class="name">Rejoindre un cours</h3>
-             <input type="text" name="code" placeholder="course code " style="padding-top:20px">
-             <a  href="#" class="join_btn" style="background-color: rgb(238, 97, 174); height:40px">Join</a>
-             </div> -->
-         
-     
+           {% if userdata.utilisateur.role is 1 %}   
+
+           <div class="profile" style="background-color: #eeeeee ;">
+            
+         <div style="display: flex;justify-content: space-around;align-items: center;">
+            <h3 class="name">Create Task</h3><br>
+            <a  id="create_Task_btn" class="join_btn" style="background-color: rgb(238, 97, 174); border-radius: 5px;padding: 10px;font-size: 12px;color: #eeeeee;font-weight: 500;">Create</a>
+         </div>
+
+            <br><br>
+    
+            <div style="background-color: rgb(238, 97, 174);height: 3px; width: 100%;"></div>
+            <br>
+    
+            <div style="display: flex;justify-content: space-around;align-items: center;">
+    
+                <h3 class="name">Create  QCM</h3><br>
+                <a  id="create_QCM_btn" class="join_btn" style="background-color: rgb(238, 97, 174); border-radius: 5px;padding: 10px;font-size: 12px;color: #eeeeee;font-weight: 500;">Create</a>
+            </div>
+            {% endif %}
+            
+          </div>
         </section>
      
      </header>  
+
      <div class="side-bar">
 
       <div id="close-btn">
@@ -69,26 +84,31 @@
    
       <nav class="navbar">
          <a href="{% url 'Classroom' %}"><i class="fas fa-home"></i><span>home</span></a>
-         <a href="#"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
-         <a href="#"><i class="fas fa-box-archive"></i><span>archived courses</span></a>
-         <a href="Todo"><i class="fas fa-check"></i><span>To Do</span></a>
+        
+         
          <a href="{% url 'settings' %}"><i class="fas fa-gear"></i><span>Settings</span></a>
    
       </nav>
    
    </div>
+   {% if userdata.utilisateur.role is 1 %}
+   {% include 'HTML/classroom/create_task.html' %}
+
+   {% include 'HTML/classroom/creat_qcm.html' %}
+{% endif %}
    <section class="home-grid">
       <div class="box-container">
 
-         <div class="box box1">
-            <input type="range" value="1" min="1" max="3" id="range">
-          <ul class="tab-name">
-            <li value="1"><a href="general.html" class="general">General</a> </li>
-            <li value="2"><a href="todo.html" class="todo">To do</a></li>
-            <li value="3"><a href="participants.html" class="participants">All participants </a>  
-            </li>
-            </ul>
-            </div>
+      <div class="box box1">
+            <input type="range" value="1" min="1" max="4" id="range" oninput="rangeValueChanged(this)" >
+         <ul class="tab-name">
+            <li value="1"><a class="general">General</a></li>
+            <li value="2"><a class="todo">To do</a></li>
+            <li value="3"><a class="qcms">All QCMs</a></li>
+            <li value="4"><a class="participants">All participants</a></li>
+
+         </ul>
+      </div>
 
 
             <div class="head" style="background-color:rgb(246, 132, 177);align-items: center;display: flex;margin-top:20px;justify-content: space-between;">
@@ -98,18 +118,25 @@
                </div>
 
                <div class="infos" style="width: 70%;margin: 2%;">
-                  <h3>{{classroomDetails.ClassRoomtitle}}</h3>
+                  <h3 style="color: white;">{{classroomDetails.ClassRoomtitle}}</h3>
 
-                  <h3  style="font-size:16px;margin-left:30px">{{classroomDetails.Admin_Professor.utilisateur.user.first_name}} {{classroomDetails.Admin_Professor.utilisateur.user.last_name}}</h3>
+                  <h3  style="color: white;font-size:16px;margin-left:30px">{{classroomDetails.Admin_Professor.utilisateur.user.first_name}} {{classroomDetails.Admin_Professor.utilisateur.user.last_name}}</h3>
                   <p style="font-size:12px;margin-left:30px;margin-top: 10px;"> {{classroomDetails.description}} </p>
+
+                  {% if classroomDetails.Admin_Professor.utilisateur.id is userdata.utilisateur.id %}
                   <h5 style="float: right;">Code d'invitaton: {{classroomDetails.UniqueinvitationCode}}</h5>
+                  {% endif %}
+
                </div>
                
             </div>
+            {% if classroomDetails.Admin_Professor.utilisateur.id is userdata.utilisateur.id %}
             <button onclick="deleteClassroom('{{classroomDetails.UniqueinvitationCode}}')" style="float: right;padding: 10px;background-color: #eb437e;color: white;font-weight: 300;font-size: 16px;margin-top: 15px;">Delete Classroom</button>
+            {% endif %}
+
 
                {% if userdata.utilisateur.role is 1 %}
-               <div style="margin-top: 80px;width: 100%;padding: 10px;background-color: rgb(255, 255, 255);"> 
+               <div id="createClassroompost" style="margin-top: 80px;width: 100%;padding: 10px;background-color: rgb(255, 255, 255);"> 
                      <!--  including post form  -->
                      <div style="height: auto; width: 100%;display: flex;justify-content: center;color: #eb437e;">
                      {% include 'HTML/classroom/create_classroom_post.html'%}
@@ -117,14 +144,14 @@
 
                </div>
                {% else %}
-               <div style="height: 90px;">
-
-               </div>
+               <div style="height: 90px;"></div>
                {% endif %}
 
-               <div>
-                  
-                  <div style="height: auto;background-color: transparent;color: black;">
+               <div id="paddingdiv"></div>
+
+      <div><!-- start  -->
+                  <!-- classroom posts -->
+                  <div id="generatedPosts" style="height: auto;background-color: transparent;color: black;">
                      <div class="prof-post" style="height: 80px;background-color: transparent;">
 
                         {% for post in classroom_posts %}
@@ -134,7 +161,7 @@
                            <div style="width: auto;display: flex;align-items: center;justify-content: start;margin-left: 2%;">
                               <img src="/media/{{ post.author.utilisateur.profile_picture}}" style="height: 60px;width: 60px;border-radius: 50%;padding: 10px;" alt="">
                               <div style="color: aliceblue;">
-                                 <h3  style="font-size:18px;margin-left:10px">{{ post.author.utilisateur.user.first_name}} {{ post.author.utilisateur.user.last_name}} </h3>
+                                 <h3  style="color: white;font-size:18px;margin-left:10px">{{ post.author.utilisateur.user.first_name}} {{ post.author.utilisateur.user.last_name}} </h3>
                               <h4 style="margin-top: 0px;margin-left: 20px;">{{ post.created_at }}</h4>
                         
                            </div> 
@@ -165,15 +192,269 @@
                         <div style="height: 80px;padding: 0;margin: 0;"></div>
                   </div>
                
-               </div>
+                  </div>
+<!--  classroom todos -->
+<div id="alltodos" style="margin-top: -100px;display: none;background-color: transparent;height: auto;"> 
+   <section> 
+      <div class="head" style="width: 100%">
+        <div class="box-container">
+      
+        <div class="title">
+          <i class="fas fa-check" style="margin: 1.5%;"></i>
+          <h2>To do</h2>
+          
+      </div>
+      
 
-            </div>
-            
-         </div>
+       <div class="liste" style="margin-top: -50px;display: flex;">  
+<div style="display: flex;justify-content: center;" >
+
+        <ul class="main" >
+         {% for task in classroom_tasks %}
+
          
+   <!--  -->
+      <li class="date">
+        <h3>{{task.created_at}}</h3>
+      </li>
+
+      <li class="events">
+        <ul class="events-detail">
+         <!--  -->
+          <li>
+            <a   id="task_{{ task.id }}" onclick="ShowDetails('{{task.id}}')">
+              <span class="event-time">{{task.due_date}} - </span>
+              <span class="event-name">{{task.title}}</span>
+              <br />
+              <span class="event-location">{{ classroomDetails.ClassRoomtitle }}</span>
+            </a>
+          </li>
+       <!--  -->
+          
+          <!--  -->
+        </ul>
+    
+      </li>
+
+      {% endfor %}
+
+    
+      
+   </ul>
+</div>
+   </div>
+    </div>
+      </div>
+    </section>
+</div>
+
+<!-- classroom qcms -->
+<div id="allqcms" style="display: none;background-color: transparent;height: auto;"> 
+   <div style="display: flex;justify-content: center;">
+   <div style="width: 70%;">
+   {% for classroomQCm in classroomQCMs %}
+      <div style="display: flex;align-items: center;justify-content: space-between;padding: 10px;">
+      <!-- <img src="/media/{{participant.Participant.profile_picture}}"  style="border-radius: 50%;height: 80px;width: 80px;"> -->
+      <div style="display: inline-block;width: 70%;">
+         <h3 style="font-size: 20px;color: #eb437e;">{{classroomQCm.QCMtitle}}</h3><span style="color: #949494;">{{ classroomQCm.QCMdelai}}</span>
+         <br><br>
+         <h5 style="width: 90%;font-size: 14px;color: rgb(113, 113, 113);">{{classroomQCm.QCMdescription}}</h5>
+        
+         {% if userdata.utilisateur.role is 1 %}
+         <br><br>
+         <a onclick="StudentsAnswers('{{classroomQCm.id}}')" style="cursor: pointer;font-size: 15px;font-weight: 100;color: rgb(0, 0, 0);">Voir Reponces d'etudiants</a>
+         {% elif userdata.utilisateur.role is 2 and classroomQCm.id in finishedqcmsbyme %}
+         <br><br>
+         <a onclick="VoirReponces('{{ userdata.utilisateur.id }}','{{classroomQCm.id}}')" style="cursor: pointer;font-size: 15px;font-weight: 100;color: rgb(0, 0, 0);">My Answers </a>
+      
+         {% endif %}
+
+
+      </div>
+
+      
+      {% if  userdata.id is classroomDetails.Admin_Professor.utilisateur.user.id   or  userdata.utilisateur.role is 1  %}
+      <div style="width: 25%;display: block;">
+         <!--  -->
+         <button onclick="editQCM('{{classroomQCm.id}}')" style="padding-inline: 30px;padding-block: 10px;background-color: rgb(78, 78, 78);color: white;font-size: 16px;">Edit</button>
+         <!-- <div style="max-width: 15px;"></div> -->
+         <button onclick="deleteQCM('{{classroomQCm.id}}')" style="padding-inline: 25px;padding-block: 10px;background-color: red;color: white;font-size: 16px;">Delete</button>
+         </div>
+
+      {% elif userdata.utilisateur.role is 2 and classroomQCm.id not in finishedqcmsbyme %}
+      <button onclick="startqcm('{{classroomQCm.id}}')" style="padding-inline: 20px;padding-block: 10px;background-color: #eb437e;color: white;font-size: 16px;">Start</button>
+      {% else %}
+      <div style="width: 50px;"></div>
+      {% endif %}
+
+   </div><br>
+      <div style="height: 3px;background-color: #eb437e;"></div>
+   
+   {% endfor %}         
+   
+   </div>
+   </div>
+   </div>
+
+<!-- classroom participants -->
+
+<div id="allparticipants" style="display: none;background-color: transparent;height: auto;"> 
+<div style="display: flex;justify-content: center;">
+<div style="width: 60%;">
+{% for participant in classroomparticipants %}
+   <div style="display: flex;align-items: center;justify-content: space-between;padding: 10px;">
+   <img src="/media/{{participant.Participant.profile_picture}}"  style="border-radius: 50%;height: 80px;width: 80px;">
+   <h3 style="font-size: 20px;color: #eb437e;">{{participant.Participant.user.first_name}} {{participant.Participant.user.last_name}}</h3>
+      {% if userdata.id is classroomDetails.Admin_Professor.utilisateur.user.id %}
+   <button onclick="kickthisparticipant('{{participant.id}}')" style="padding-inline: 20px;padding-block: 10px;background-color: red;color: white;font-size: 16px;">Kick</button>
+   {% elif userdata.id is participant.Participant.user.id %}
+   <button onclick="kickthisparticipant('{{participant.id}}')" style="padding-inline: 20px;padding-block: 10px;background-color: rgb(109, 109, 109);color: white;font-size: 16px;">Quiter</button>
+   {% else %}
+   <div style="width: 50px;"></div>
+   {% endif %}
+</div><br>
+   <div style="height: 3px;background-color: #eb437e;"></div>
+
+{% endfor %}         
+
+</div>
+</div>
+</div>
+
+      </div><!-- end -->
+            
+         </div>    
       </section>
       
    <script>
+
+function VoirReponces(studentid , qcmid) {
+        window.location.href = '/QCMReponces/'+qcmid+'/'+studentid
+    }
+
+      function StudentsAnswers(QCMid) {
+      window.location.href = '/voirreponcesQCM/'+QCMid
+
+      }
+      function deleteQCM(QCMid){
+      window.location.href = '/deleteQCM/'+QCMid
+         
+      }
+
+      function startqcm(QCMid){
+      window.location.href = '/classroom/qcm/'+QCMid
+
+      }
+      function editQCM(QCMid) {
+      window.location.href = '/classroom/qcm/'+QCMid
+         
+      }
+
+      function kickthisparticipant(id) {
+      window.location.href = '/kickParticipant/'+id
+         
+      }
+
+      function rangeValueChanged(input){
+         var value = input.value
+
+         switch (value) {
+            case '1':
+
+                post = document.getElementById('createClassroompost')
+                if (post != null ){
+                   post.style.display = "";
+                }
+                
+                generatedPosts = document.getElementById('generatedPosts')
+                generatedPosts.style.display = "";
+
+                document.getElementById('paddingdiv').style.height = '0px'
+
+                alltodos =  document.getElementById('alltodos')
+                alltodos.style.display = "none";
+
+                allparticipants =document.getElementById('allparticipants')
+                allparticipants.style.display = "none";
+
+                allqcms =document.getElementById('allqcms')
+               allqcms.style.display = "none";
+
+
+                break;
+
+
+            case '2':
+                post = document.getElementById('createClassroompost')
+                if (post != null ){
+                post.style.display = "none";
+                }
+                generatedPosts = document.getElementById('generatedPosts')
+                generatedPosts.style.display = "none";
+
+                allparticipants =document.getElementById('allparticipants')
+                allparticipants.style.display = "none";
+
+                allqcms =document.getElementById('allqcms')
+               allqcms.style.display = "none";
+
+
+                document.getElementById('paddingdiv').style.height = '100px'
+
+                alltodos =  document.getElementById('alltodos')
+                alltodos.style.display = "";
+
+               break;
+
+
+            case '3':
+                post = document.getElementById('createClassroompost')
+                if (post != null ){
+                post.style.display = "none";
+                }
+                generatedPosts = document.getElementById('generatedPosts')
+                generatedPosts.style.display = "none";
+
+                alltodos =  document.getElementById('alltodos')
+                alltodos.style.display = "none";
+
+                allparticipants =document.getElementById('allparticipants')
+                allparticipants.style.display = "none";
+                
+                document.getElementById('paddingdiv').style.height = '100px'
+
+                allqcms =document.getElementById('allqcms')
+                allqcms.style.display = "";
+
+                break;
+                
+            case '4':
+               allqcms =document.getElementById('allqcms')
+               allqcms.style.display = "none";
+
+
+                post = document.getElementById('createClassroompost')
+                if (post != null ){
+                post.style.display = "none";
+                }
+                generatedPosts = document.getElementById('generatedPosts')
+                generatedPosts.style.display = "none";
+
+                alltodos =  document.getElementById('alltodos')
+                alltodos.style.display = "none";
+
+                document.getElementById('paddingdiv').style.height = '100px'
+
+                allparticipants =document.getElementById('allparticipants')
+                allparticipants.style.display = "";
+
+                break;
+
+            default:
+                break;
+        }
+      }
+
       function deleteclassroomPost(id){
       window.location.href = '/deleteClassroomPost/'+id
       }
@@ -185,7 +466,14 @@
      function clicktodownlaodfile(filepath){
       window.location.href = '/media/'+filepath
      }
+     function ShowDetails(id) {
+      window.location.href = '/classroom/taskDetails/'+id
+         
+      }
+
    </script>
+
    <script src ="/static/Javascript/classroom/classroom.js"></script>
+
    </body>
    </html>
