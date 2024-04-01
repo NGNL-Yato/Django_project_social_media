@@ -3,6 +3,8 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.conf import settings
+from django.utils import timezone  
+
 
 class utilisateur(models.Model):
     user = models.OneToOneField(User,null=False,on_delete=models.CASCADE)
@@ -297,8 +299,13 @@ class Answer(models.Model):
 # pivot table between students and questions  (many to many)
 #
 class Studentquestion(models.Model):
-    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    student = models.ForeignKey(utilisateur, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
+
+class studentQcmfinished(models.Model):
+    student = models.ForeignKey(utilisateur, on_delete=models.CASCADE)
+    qcm = models.ForeignKey(QCM, on_delete=models.CASCADE)
+    
 
 #
 # pivot table between students and responce (refer to the answer student selected)  (many to many)
@@ -398,3 +405,13 @@ class Message(models.Model):
 class MessageFile(models.Model):
     message = models.ForeignKey(Message, related_name='files', on_delete=models.CASCADE)
     file = models.FileField(upload_to='messages_files/', null=True, blank=True)
+
+#
+class TaskResponse(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    student = models.ForeignKey(Etudiant, on_delete=models.CASCADE)  
+    file_Response = models.FileField(upload_to='task_responses/')
+    submission_time = models.DateTimeField(default=timezone.now)  
+    def clean(self):
+        if self.submission_time > self.task.deadline:
+            raise ValidationError("La réponse a été soumise après la date limite de la tâche.")

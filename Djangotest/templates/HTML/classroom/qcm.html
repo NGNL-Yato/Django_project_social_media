@@ -123,41 +123,64 @@
                 {% endif %}
               
               <!--  -->
-              
+              {% if  userdata.utilisateur.role is 2%} 
+              <form  action="{% url 'qcm' qcmID=qcm_id %}" method="post">
+                {% csrf_token %}
+              {% endif %}
+
               {% for qst in allQuestions %}
               <div>
               <div class="question">
-                <div class="title">
-                  <div class="chip">{{ forloop.counter }}</div> {{qst.text}}
+                <div class="title" style="display: flex;padding: 5px;">
+                  <div class="chip">
+                    {% if userdata.utilisateur.role is 1 %}
+                    {{ forloop.counter }}
+                    {% else %}
+                    {{ curr }}
+                    {% endif %}
+                  </div> 
+                  <h1 style="margin-left: 10px;" >{{qst.text}}</h1>
                 </div>
               {% if userdata.utilisateur.role is 1 %}
                 <a onclick="deletequestion('{{qst.id}}')" style="float: right;font-size: 15px;padding:5px;margin-top: -25px;background-color: #f684b1;color: white;">Delete</a>
               {% endif %}
               </div>
 
-              <div class="qcm-container" >
-                <table>
+              <div class="qcm-container" style="display:grid;">
+                <!-- <table>
                   <tbody>
-                    <tr>
+                    <tr> -->
                       {% for answer in qst.answers.all %}
-                      <td style="margin: 10px;" >
-                        <input type="checkbox" id="{{answer.id}}" name="answers[]" value="{{answer.text}}"><label for="qcm-1">{{answer.text}}</label>
-                      </td>
+                      <!-- <td style="margin: 10px;" > -->
+                        <div style="display:  flex; justify-content: start;align-items: center;padding: 15px;">
+                          <input style="width: 40px;height: 20px;" type="checkbox" id="{{answer.text}}" name="answers[]" value="{{answer.id}}" ><label style="font-size: 20px;" for="qcm-1">{{answer.text}}</label>
+                        </div>
+                      <!-- </td> -->
                      {% endfor %}
-                    </tr>
+                    <!-- </tr>
                   </tbody>
-                </table>
+                </table> -->
               </div>
             </div>
+            <input type="text" style="display: none;" name="qstID" value="{{qst.id}}">
             {% endfor %}
             <!--  -->
 
               {% if userdata.utilisateur.role is 2%}
+              <input type="text" value="{{curr}}" name="currentIndex" style="display:none;">
               <!-- submit  answers -->
               <div id="validation">
-                <button type="button">Suivant</button>
+                <button type="submit">
+                  {% if islastone %}
+                  Terminer
+                  {% else %}
+                  Suivant
+                  {% endif %}
+                </button>
               </div>
+            </form>
               <!--  -->{% endif %}
+
 
             </div>
           </div>

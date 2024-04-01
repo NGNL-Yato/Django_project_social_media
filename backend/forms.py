@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django import forms
-from .models import utilisateur ,Etudiant,Professor , Skills , Languages ,Enterprise ,Experience, Event , Certification, Education ,Research, Group, ClassRoom,PostClassroom,Task , QCM, Question,Answer
+from .models import utilisateur ,Etudiant,Professor , Skills , Languages ,Enterprise ,Experience, Event , Certification, Education ,Research, Group, ClassRoom,PostClassroom,Task , QCM, Question,Answer,TaskResponse
 from .models import Post
 
 
@@ -213,5 +213,16 @@ class TaskForm(forms.ModelForm):
             'due_date': forms.DateTimeInput(attrs={'type': 'datetime-local', 'style':'width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; background-color: #eeeeee;color:gray'}),
 
             'fileTask':forms.FileInput(attrs={'style':'display:none'})
+
+        }
+#
+class TaskResponseForm(forms.ModelForm):
+    class Meta:
+        model = TaskResponse
+        exclude=['task','student','submission_time']
+        fields = '__all__'
+        widgets={
+            
+            'file_Response':forms.FileInput(attrs={'style':'display:none'})
 
         }
