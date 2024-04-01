@@ -44,7 +44,7 @@
                     {% if is_member %}
                         {% include "HTML/home/home-extended.html" %}
                     {% endif %}
-                    {% if target is "Public" or is_member %}
+                    {% if target == "public" or is_member %}
                         {% include "HTML/home/home-posts.html" %}
                     {% endif %}
                 </div> 

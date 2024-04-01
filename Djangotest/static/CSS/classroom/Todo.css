@@ -1,6 +1,6 @@
 .head {
-    /* background-color: #f0f0f0; Couleur de fond */
-    padding: 5px; /* Espacement intérieur */
+    background-color: #f0f0f0; /* Couleur de fond */
+    padding: 20px; /* Espacement intérieur */
     border-radius: 5px; /* Bord arrondi */
     margin-bottom: 20px; /* Marge inférieure */
     
@@ -17,7 +17,7 @@
    
   } 
   
- 
+
   .head .title h2{
     font-weight:bold;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -32,7 +32,7 @@
  
  ul.main {
    list-style: none;
-   width: 90%;
+   max-width: 75%;
    margin: 20px auto;
  
  }
@@ -43,8 +43,8 @@
  }
  
  .date {
-   width: 25%;
-   padding: 10% 0% 0% 0;
+   width: 17%;
+   padding: 15% 1% 10% 0;
    float: left;
  }
  
@@ -55,23 +55,20 @@
  
  .events {
    float: left;
-   width: 65%;
+   width: 80%;
    border-left: 1px solid #e7157a;
    margin-top: 10%;
    padding-top: 3%;
  }
  
  .events-detail {
-   width: 700px;
-   display: flex;
-   justify-content: center;
+   max-width: 550px;
  }
  
  .events-detail li {
    padding: 10px;
    border-bottom: 1px dashed #fc86d1;
    line-height: 25px;
-   width: 100% !important;
    transition: ease 0.4s all;
  }
  
@@ -144,7 +141,7 @@
   :root {
     --offset: 2px;
     --range-min: 1;
-    --range-max: 4;
+    --range-max: 3;
     --range: var(--range-min);
     --slider-thumb-size: 32px;
     --track-height: 36px;
@@ -210,7 +207,7 @@
   
   input[type="range"] {
     --tab-track-width: calc((100% - var(--offset) * 2));
-    --tab-size: calc(var(--tab-track-width) / 4);
+    --tab-size: calc(var(--tab-track-width) / 3);
     --progress: (var(--range) - var(--range-min)) /
       (var(--range-max) - var(--range-min));
     --progress-length: calc(

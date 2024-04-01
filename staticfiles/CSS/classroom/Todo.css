@@ -6,7 +6,7 @@
     
   }
   .head .title {
-    margin: -100px; /* Supprime les marges par défaut */
+    margin: 0; /* Supprime les marges par défaut */
     font-size: 30px; /* Taille de la police */
     color: #eb437e; /* Couleur du texte */
     /*background-image: linear-gradient(10deg, #ffa9ce, #eb437e); /* Dégradé linéaire */

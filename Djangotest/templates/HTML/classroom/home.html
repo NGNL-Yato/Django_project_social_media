@@ -37,10 +37,10 @@
 
       <div class="profile" style="background-color: #eeeeee ;">
       
-        <h3 class="name"> Join Classroom</h3><br>
+        <h3 class="name">Rejoindre un cours</h3><br>
         <div style="display: flex;align-items: center;justify-content: space-around;margin-top: 5px;">
-                <input type="text" name="code" id="codetojoinClassroom" placeholder="course code " style="height: 40px;">
-            <a onclick="clicktojoinaclassroom()" class="join_btn" style="background-color: rgb(238, 97, 174);border-radius: 5px;padding-inline: 18px;padding-block: 10px;font-size: 12px;color: #eeeeee;font-weight: 500;">Join</a>
+                <input type="text" name="code" placeholder="course code " style="height: 40px;">
+            <a  class="join_btn" style="background-color: rgb(238, 97, 174);border-radius: 5px;padding-inline: 18px;padding-block: 10px;font-size: 12px;color: #eeeeee;font-weight: 500;">Join</a>
         </div>
 
         <br><br>
@@ -51,7 +51,7 @@
 
         <div style="display: flex;justify-content: space-around;align-items: center;">
 
-            <h3 class="name">Create Classroom</h3><br>
+            <h3 class="name">Cree un cours</h3><br>
             <a  id="create_classroom_btn" class="join_btn" style="background-color: rgb(238, 97, 174); border-radius: 5px;padding: 10px;font-size: 12px;color: #eeeeee;font-weight: 500;">Create</a>
         </div>
         {% endif %}
@@ -83,12 +83,9 @@
 
    <nav class="navbar">
       <a href="home"><i class="fas fa-home"></i><span>home</span></a>
-      <!-- <a href="#"><i class="fas fa-graduation-cap"></i><span>courses</span></a> -->
-      <!-- <a href="#"><i class="fas fa-box-archive"></i><span>archived courses</span></a> -->
-        {% if userdata.utilisateur.role is 2 %}   
-            <a href="{% url 'Todo' %}"><i class="fas fa-check"></i><span>To Do</span></a>
-        {% endif %}
-
+      <a href="#"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
+      <a href="#"><i class="fas fa-box-archive"></i><span>archived courses</span></a>
+      <a href="Todo"><i class="fas fa-check"></i><span>To Do</span></a>
       <a href="{% url 'settings' %}"><i class="fas fa-gear"></i><span>Settings</span></a>
    </nav>
 </div>
@@ -106,7 +103,7 @@
        <!--  -->
        {% for class in classrooms %}
 <div class="card" style="max-height: 320px;" onclick="visitclassroom('{{class.UniqueinvitationCode}}')">
-   <header class="article-header" >
+   <header class="article-header" style="">
        <div>
            <div class="category-title">
                
@@ -149,12 +146,6 @@
 <script src="/static/Javascript/classroom/classroom.js"></script>
 
 <script>
-    function clicktojoinaclassroom(){
-       code = document.getElementById('codetojoinClassroom').value
-       window.location.href = '/classroom/Join/'+code
-       
-    }
-
     function visitclassroom(uid){
         window.location.href = '/classroom/course/'+uid
     }

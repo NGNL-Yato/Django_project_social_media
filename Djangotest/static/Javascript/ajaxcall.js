@@ -231,3 +231,42 @@ $(document).ready(function() {
         });
     });
 });
+var typingTimer; // Timer identifier
+var doneTypingInterval = 2000; // Time in ms (2 seconds)
+
+$('#searchInput').on('input', function() {
+    clearTimeout(typingTimer);
+    $('#searchResults').css('display', 'block');
+    $.ajax({
+        url: '/search/', 
+        data: {
+          'search_text': $('#searchInput').val()
+        },
+        dataType: 'json',
+        success: function (data) {
+            var userResultsContainer = $('#userResults');
+            var groupResultsContainer = $('#groupResults');
+            userResultsContainer.empty();
+            groupResultsContainer.empty();
+            data.forEach(function(item) {
+                if(item.type === 'user') {
+                    userResultsContainer.append('<p>' + item.first_name + ' ' + item.last_name + '</p>');
+                } else if (item.type === 'group') {
+                    groupResultsContainer.append('<p>' + item.group_name +'</p>');
+                }
+            });
+        }
+    });
+    typingTimer = setTimeout(doneTyping, doneTypingInterval);
+});
+
+function doneTyping () {
+    $('#searchResults').css('display', 'none');
+}
+$(document).on('click', function(event) {
+    if (!$(event.target).closest('#searchInput').length && !$(event.target).closest('#searchResults').length) {
+        setTimeout(function() {
+            $('#searchResults').css('display', 'none');
+        }, 100);
+    }
+});

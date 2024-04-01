@@ -1,6 +1,5 @@
 {% load static %}
 
-
 <div id="myModal" class="modal createPost">
     <div class="modal-content">
         <span class="close">&times;</span>
@@ -45,13 +44,12 @@
         <li class ="group_buttons">
             <i class="fa-solid fa-circle-plus"></i>
             <h4>Create Groups</h4>
-            <i class="fa-solid fa-magnifying-glass"></i>
         </li>
         <li>
-            <img src="{%static 'Assets/Images/group.jpg' %}" alt="groups">
+            <img src="{{ random_group.profile_banner.url }}" alt="groups">
         </li>
         <li>
-            <b>simple group or page name <span>200k Members</span></b>
+            <b>{{ random_group.group_name }} <span>{{ random_group.member_count }} Members</span></b>
             <button>Join Group</button>
         </li>
     </ul>

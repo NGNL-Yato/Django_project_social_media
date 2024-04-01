@@ -1,22 +1,19 @@
 {% load static %}
 
 <div class="event">
-    <h3 class="heading">Upcoming Events <span>see all</span></h3>
-    <img src="{%static 'Assets/Images/machineLearning.jpg' %}" alt="event-img">
+    <h3 class="heading">Upcoming Events</h3>
+    <img src="{{ latest_event.backgroundimage.url }}" alt="event-img">
     <div class="event-date">
-        <h3>21 <b>july</b></h3>
+        <h3>{{ latest_event.event_time.day }} <b>{{ latest_event.event_time|date:"F" }}</b></h3>
         <a href="{% url 'all_events' %}">
-        <h4>Machine Learning in Drug Discovery Certificate  Training
+        <h4>{{ latest_event.head_title }}
             <span>in person event</span></h4></a>
     </div>
-    {% if not visiteur %}
-    <button><i class="fa-regular fa-star"></i> interested</button>
-    {% endif %}
 </div>
 
-<hr>
+{% comment %} <hr> {% endcomment %}
 
-{% if not visiteur %}
+{% comment %} {% if not visiteur %}
 
 <div class="friend">
     <h3 class="heading">Friend Requests <span>see all</span></h3>
@@ -29,4 +26,4 @@
         </li>
     </ul>
 </div>
-{% endif %}
+{% endif %} {% endcomment %}

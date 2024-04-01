@@ -8,11 +8,19 @@
             </div>
         </div>
         <div class="searchBox">
-            <input type="search">
+            <input type="search" id="searchInput">
             <i class="fas fa-search"></i>
-            
         </div>
-        
+        <div id="searchResults" >
+            <h4>Users</h4>
+            <hr>
+            <div id="userResults">
+            </div>
+            <h4>Groups</h4>
+            <hr>
+            <div id="groupResults">
+            </div>
+        </div>
         {% if not visiteur %}
         <div style= "display: flex; justify-content: space-evenly;">
             <div class="iconBox1">

@@ -1,0 +1,85 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{%static 'Assets/Images/favicon.ico' %}" type="image/x-icon">
+    <title>Django socialmedia</title>
+    <!-- style css link -->
+    <link rel="stylesheet" href="{% static 'CSS/style.css' %}">    
+    <!-- font link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .text-limit {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+    </style>
+</head>
+<body>
+        
+    <!-- header section start -->
+        <header>
+            {% include "HTML/home/header-homepage.html"%}
+        </header>
+    <!-- header section end -->
+
+    <!-- home section start -->
+    <div class="home">
+        <div class="container">
+            <div class="home-weapper">
+
+                <!-- home left start here -->
+                <div style = "display:flex;">
+                    {% include "HTML/components/search-left.html" %}
+                </div>
+                <!-- home left end here -->
+
+                <!-- home center start here -->
+                <div class="home-center">
+                    <div class="home-center-wrapper">
+                        <div style="width: 100%;">
+                            <div class="header-container" style="height: auto; background-color: rgb(252, 252, 252);">
+                                <h3 class="mini-headign">All Groups</h3>
+                                <!--  -->
+                                {% for group in groups %}
+                                    <div class="" style="padding-top: 15px;margin: 10px;display: flex;height: auto;">
+                                        <!--  -->
+                                        <div class="post-images" >
+                                            <img src="/media/{{group.profile_banner}}" style="height: 80px;width: 150px;">
+                                        </div>
+                                        <!--  -->
+                                        <div style="margin-left: 30px;width: 62%">
+                                            <h4 class="mini-headign">{{group.group_name}}</h4>
+                                            <!--  -->
+                                            <p class="text-limit" style ="color: var(--black);">{{group.description}}</p>
+                                            <!--  -->
+                                        </div>   
+                                        <div style="width:20%;display: flex;justify-content: center;align-items: center;">
+                                            <a style="height: auto;padding: 8px;background-color: rgb(239, 239, 239);color: rgb(44, 44, 44);" href="{% url 'group_posts' group.group_name %}">See more</a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                <!--  -->
+                            </div>
+                        </div>                    
+                    </div> <!-- home center wrapper end -->
+
+                </div> 
+                <!-- home center end -->
+            </div>
+        </div>
+    </div>
+    <!-- home section end -->
+
+    <!--Scripts link-->
+    <script src="{% static 'Javascript/homepage.js' %}" ></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="{% static 'Javascript/ajaxcall.js' %}" ></script>
+</body>
+</html>

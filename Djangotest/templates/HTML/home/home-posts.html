@@ -3,16 +3,16 @@
 {% load like_helpers %}
 
 <div class="fb-post1-header">
-    <ul>
+    {% comment %} <ul>
         <li class="active">popular</li>
         <li>recent</li>
         <li>most view</li>
-    </ul>
+    </ul> {% endcomment %}
 </div>
 {% for post in posts %}
 <div class="fb-post1">
     <div class="fb-post1-container">
-        {% if post.user_id == user.id %}
+        {% if post.user_id == user.id or is_admin %}
         <div class="delete_post">
             <form method="POST" action="{% url 'delete_post' post.id %}">
                 {% csrf_token %}
@@ -78,7 +78,7 @@
                         <span>{{ post.likes.count }} likes</span> {% endcomment %}
                     </li>
                     <li><i class="fa-regular fa-comment-dots"></i> <span>{{ post.comments.count }} comments</span></li>
-                    <li><i class="fa-solid fa-share-from-square"></i> <span>254 share</span></li>
+                    {% comment %} <li><i class="fa-solid fa-share-from-square"></i> <span>254 share</span></li> {% endcomment %}
                 </ul>
             </div>
         </div>

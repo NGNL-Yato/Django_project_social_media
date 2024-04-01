@@ -3,8 +3,6 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.conf import settings
-from django.utils import timezone  
-
 
 class utilisateur(models.Model):
     user = models.OneToOneField(User,null=False,on_delete=models.CASCADE)
@@ -223,14 +221,31 @@ class Group(models.Model):
     def is_member(self, user):
         return self.usergroup_set.filter(user=user).exists()
     def save(self, *args, **kwargs):
-        # Check if this is a new instance
         is_new = self.pk is None
+        if is_new and Group.group_exists(self.group_name):
+            raise ValueError("A group with this name already exists.")
         super().save(*args, **kwargs)
         if is_new:
             UserGroup.objects.create(user=self.user, group=self, is_admin=True, invitation_on=True)
+            conversation = Conversation.objects.create(
+                title=self.group_name,
+                Conversation_picture=self.profile_banner,
+                description=self.description,
+                created_at=self.created_at
+            )
+            for user in self.usergroup_set.all():
+                Participant.objects.create(
+                    user=user.user,
+                    conversation=conversation,
+                    group_id=self
+                )
+
     def is_admin(self, user):
         return self.usergroup_set.filter(user=user, is_admin=True).exists()
 
+    @classmethod
+    def group_exists(cls, group_name):
+        return cls.objects.filter(group_name=group_name).exists()
 #
 #
 class Event(models.Model):
@@ -267,17 +282,17 @@ class ClassRoom(models.Model):
 # a pivot table between utilisateurs and classroom , (many to many)
 #
 class classroomparticipants(models.Model):
-    Classroom = models.ForeignKey(ClassRoom, related_name='participants',on_delete=models.CASCADE)
-    Participant = models.ForeignKey(utilisateur ,related_name='participating_classrooms' ,on_delete=models.CASCADE)
+    Classroom = models.ForeignKey(ClassRoom, on_delete=models.CASCADE)
+    Participant = models.ForeignKey(utilisateur , on_delete=models.CASCADE)
 
 #
 #  qcm belongs to a class room , classroom can have many qcms (one to many)
 #
 class QCM(models.Model):
-    QCMClassroom = models.ForeignKey(ClassRoom, default=None ,on_delete=models.CASCADE)
-    QCMtitle = models.CharField(max_length=100)
-    QCMdelai =  models.DateTimeField()
-    QCMdescription = models.TextField(blank=True, null=True)
+    Classroom = models.ForeignKey(ClassRoom, default=None ,on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    delai =  models.DateTimeField()
+    description = models.TextField(blank=True, null=True)
 
 
 #
@@ -291,7 +306,7 @@ class Question(models.Model):
 # one question can have many answers (one to many)
 #
 class Answer(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
     text = models.CharField(max_length=255)
     is_correct = models.BooleanField(default=False)
 
@@ -299,13 +314,8 @@ class Answer(models.Model):
 # pivot table between students and questions  (many to many)
 #
 class Studentquestion(models.Model):
-    student = models.ForeignKey(utilisateur, on_delete=models.CASCADE)
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-
-class studentQcmfinished(models.Model):
-    student = models.ForeignKey(utilisateur, on_delete=models.CASCADE)
-    qcm = models.ForeignKey(QCM, on_delete=models.CASCADE)
-    
 
 #
 # pivot table between students and responce (refer to the answer student selected)  (many to many)
@@ -321,10 +331,6 @@ class Task(models.Model):
     description = models.TextField()
     due_date = models.DateTimeField()
     creator = models.ForeignKey(Professor, on_delete=models.CASCADE)
-    fileTask = models.FileField(upload_to='task_files/', blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)  
-
 
     def __str__(self):
         return self.title
@@ -405,13 +411,3 @@ class Message(models.Model):
 class MessageFile(models.Model):
     message = models.ForeignKey(Message, related_name='files', on_delete=models.CASCADE)
     file = models.FileField(upload_to='messages_files/', null=True, blank=True)
-
-#
-class TaskResponse(models.Model):
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
-    student = models.ForeignKey(Etudiant, on_delete=models.CASCADE)  
-    file_Response = models.FileField(upload_to='task_responses/')
-    submission_time = models.DateTimeField(default=timezone.now)  
-    def clean(self):
-        if self.submission_time > self.task.deadline:
-            raise ValidationError("La réponse a été soumise après la date limite de la tâche.")

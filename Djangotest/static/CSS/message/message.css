@@ -141,6 +141,10 @@
 	width: 100% !important;
 	padding: 5px 10px;
 	margin-bottom: 15px !important;
+    cursor: pointer;
+}
+.contacts_display li:hover {
+    background-color: var(--shadow);
 }
 
 .active {
@@ -450,4 +454,56 @@
 #checkbox:checked + .toggle {
     transition-duration: .5s;
     transform: rotate(180deg);
+}
+.input-group-append {
+    position: relative;
+}
+
+#overlayContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.overlay {
+    position: relative;
+}
+
+.overlay img {
+    width: 100px; /* adjust as needed */
+    height: 100px; /* adjust as needed */
+}
+
+.close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: transparent;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+.relative-container {
+    position: relative;
+}
+
+#previewContainer {
+    display: none;
+    position: absolute;
+    top: -118px;
+    left: 10px;
+    z-index: 1;
+    border: 1px solid var(--border);
+    background-color: var(--white);
+    padding: 4px;
+    border-radius: 10px;
+}
+#previewContainer div {
+    margin: 5px;
+}
+
+#previewContainer img {
+    width: 100px; /* adjust as needed */
+    height: 100px; /* adjust as needed */
 }

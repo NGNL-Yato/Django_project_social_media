@@ -33,7 +33,7 @@ urlpatterns = [
     #
     path('panel/', views.admin_panel, name='admin_panel'),
     #
-    path('groups/', views.group_view, name='groups'),
+    # path('groups/', views.group_view, name='groups'),
     #
     path('login/', backendviews.login_in, name='login'),
     #
@@ -55,44 +55,20 @@ urlpatterns = [
     #
     path('classroom/home',views.homeClass_view,name='Classroom'),
     #
-    path('classroom/Join/<str:uid>',views.classroomJoin,name='classroomJoin'),
-    #
     path('classroom/Todo',views.todo_view,name='Todo'),
     #
     path('classroom/course/<str:uid>',views.course_view,name='Course'),
     #
-    path('create_QCM/<str:uid>/',views.createQCM , name="creatQCM"),
-    #
-    path('classroom/qcm/<int:qcmID>',views.qcm_view,name='qcm'),
-    #
-
-    path('classroom/taskDetails/<int:id>',views.taskDetails,name='taskDetails'),
-    #
-    path('create_TaskResponse/<int:id>/', views.create_TaskResponse, name='createTaskResponse'),    
-
-    #
-    path('deleteTask/<int:id>',views.deleteTask,name='deleteTask'),
-
-
-    path('deleteQCM/<int:QCMID>',views.deleteQCM,name='deleteQCM'),
-    #
-
-    path('addquestion/',views.addquestiontoqcm,name='addquestion'),
+    path('classroom/qcm',views.qcm_view,name='qcm'),
     #
     path('create_Classroom/',views.create_Classroom,name='createClassroom'),
     #
     path('create_Classroom_post/<str:uid>/', views.create_Classroom_post, name='createClassroomPost'),    
     #
-    path('create_Task/<str:uid>/', views.create_Task, name='createTask'),    
-    #
-    path('deletequestion/<int:qstid>/',views.deletequestion , name="deletequestion"),
-    #
     path('deleteClassroom/<str:uid>',views.delete_Classroom,name='deleteClassroom'),
     #
     path('deleteClassroomPost/<int:id>',views.delete_ClassroomPost,name='deleteClassroomPost'),
-    #
-    path('kickParticipant/<int:id>',views.kickparticipant , name='kickparticipant'),
-    #
+
     path('about/',views.index_view,name='about'),
     #
     path('chatApp/', views.chat_app_view, name='chat_app'),
@@ -107,7 +83,7 @@ urlpatterns = [
     #
     path('deleteEducation/<int:id>',backendviews.deleteEducation,name='deleteEducation'),
     #
-    # path('mes-groups/',backendviews.mesgroupes , name='mes-groups'),
+    path('search/', backendviews.search, name='search'),
     #
     path('certificates-settings/',backendviews.certificatesSettings , name='certificates-settings'),
     #
@@ -178,8 +154,10 @@ urlpatterns = [
     path('send_message/', backendviews.send_message, name='send_message'),
     #
     path('get_or_create_conversation/', backendviews.get_or_create_conversation, name='get_or_create_conversation'),
-
-
+    #
+    path('all_groups/', views.all_groups, name='all_groups'),
+    #
+    path('all_users/', views.all_utilisateurs, name='all_users'),
     
 ]
 

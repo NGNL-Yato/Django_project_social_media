@@ -2,9 +2,7 @@
 
 <div class="messenger-search">
     <i class="fa-solid fa-user-group"></i>
-    <h4>Messenger</h4>
-    <input type="search" placeholder="Search">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <h4>Friends</h4>
 </div>
 
 <ul>
@@ -16,10 +14,8 @@
             <span style="color: rgb(0, 202, 135);">{{obj.online}}</span>
             {% else %}
             <span style="color: rgb(198, 0, 0);">{{obj.online}}</span>
-
             {%endif%}
         </b>
-        <i class="fa-brands fa-facebook-messenger"></i>
     </li>
 {% endfor %}
 </ul>
