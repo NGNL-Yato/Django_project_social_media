@@ -96,21 +96,18 @@
                 alt="cover-pic"
                 width="100%"
               />
-              <div class="profile-container-inner" style="width: 90%;">
+            </div>
+              <div class="profile-container-inner" style="background-color:var(--white)">
                 <div class="user-img">
-            <div id="upload-container">
-              <img src="/media/{{user_pdp}}" alt="user-1" class="profile-pic" id="profile-pic"/>
-              
-              <!-- <label for="input-file" id="uploadbtn"> <i class="fas fa-camera"></i></label> -->
-           </div>
-
+                  <div id="upload-container">
+                    <img src="/media/{{user_pdp}}" alt="user-1" class="profile-pic" id="profile-pic"/>
+                      <!-- <label for="input-file" id="uploadbtn"> <i class="fas fa-camera"></i></label> -->
+                  </div>
                  <input type="file" accept="image/jpeg , image/png ,image/jpg" id="input-file">
-
                  <div style="display: flex;">
-
-                 <h1>
-                  {{userdata.first_name}} {{userdata.last_name}}
-                </h1>
+                  <h1>
+                    {{userdata.first_name}} {{userdata.last_name}}
+                  </h1>
 
                   {% if utilisateurdata.role is 1 %}
                   <div style="display: flex;">
@@ -130,11 +127,11 @@
                   {% endif %}
                 </div>
                  
-{% if utilisateurdata.BIO %}
+              {% if utilisateurdata.BIO %}
               <br>
                 <h3 style="font-weight: 400;">{{utilisateurdata.BIO}}</h3>
-               <br>
-               {% endif %}
+              <br>
+              {% endif %}  
               <!-- </p> my adress <p> -->
                   <!-- <div id ="contact_trigger">
                     <span class="services__button" id="services_button">
@@ -142,7 +139,7 @@
                     </span>
                   </div> -->
                   
-            </div>
+           
                             
 
                 <div class="profile-btn" style=" align-content: center;display: flex;">
@@ -151,7 +148,7 @@
                     <img src="{%static 'Assets/Images/connect.png'%}" alt="connect"/>Follow</a>
 
                   <a href="{% url 'chat_app' %}">
-                    <img src="{%static '/Assets/Images/chat.png'%}" alt="connect" /> Message </a>
+                    {% comment %} <img src="{%static '/Assets/Images/chat.png'%}" alt="connect" /> Message </a> {% endcomment %}
                     {% endif %}
 
                     {% if utilisateurdata.CV %}
@@ -186,6 +183,7 @@
                   {{utilisateurdata.AboutME}}
               </p>
             </div>
+            
 {% endif %}  
 
 <!-- 

@@ -150,6 +150,7 @@ TARGET_CHOICES = [
 ]
 
 class GroupForm(forms.ModelForm):
+    description = forms.CharField(required=False)
     target = forms.ChoiceField(choices=TARGET_CHOICES, widget=forms.Select(attrs={'class': 'your-css-class'}))
     class Meta:
         model = Group

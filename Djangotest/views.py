@@ -1,10 +1,16 @@
 from django.shortcuts import render , redirect
-from backend.models import User,utilisateur,Post,Like, Group, UserGroup,PostClassroom,ClassRoom
+from backend.models import User,utilisateur,Post,Like, Group, UserGroup,PostClassroom,ClassRoom, follow, Event, Skills, Languages, Certification, Education, Experience, Research
 from backend.forms import PostForm, GroupForm, EventForm , ClassRoomForm,PostClassroomForm
 from django.core.mail import send_mail
 from django.conf import settings
 from backend import models
 from django.db.models import QuerySet
+from django.http import JsonResponse
+from django.urls import reverse
+from django.db.models import Count
+from random import choice
+from django.db.models import Q
+
 import random
 import string
 
@@ -14,22 +20,23 @@ def home_view(request):
     group_form = None
     posts_visitor = Post.objects.all()
     posts = []
+    latest_event = Event.objects.order_by('-created_at').first()
+    random_group = choice(Group.objects.annotate(member_count=Count('user')).order_by('-member_count'))
 
     if request.user.is_authenticated:
         all_my_followings = request.user.utilisateur.following.all()
         following_users = [f.followed.user for f in all_my_followings]
         following_posts = Post.objects.filter(user__in=following_users)
-
         user_groups = UserGroup.objects.filter(user=request.user).values_list('group', flat=True)
         group_posts = Post.objects.filter(group__in=user_groups)
-
         user_posts = Post.objects.filter(user=request.user)
-
-        # Combine the querysets and order
         posts = following_posts.union(group_posts, user_posts).order_by('-created_at')
-
-    groups = Group.objects.all()
-
+        groups = Group.objects.filter(usergroup__user=request.user)
+    else:
+        groups = None
+        group_posts = Post.objects.filter(group__target='public')
+        user_posts = Post.objects.filter(group=None)
+        posts = group_posts.union(user_posts).order_by('-created_at')
     if request.user.is_authenticated and request.user.is_superuser :
         return redirect('admin_panel')
 
@@ -46,8 +53,16 @@ def home_view(request):
             elif group_form.is_valid():
                 group = group_form.save(commit=False)
                 group.user = request.user
-                group.save()
-                return redirect('groups')
+                try:
+                    group.save()
+                    return JsonResponse({'status': 'redirect', 'location': reverse('group_posts', kwargs={'group_name': group.group_name})})                
+                except ValueError:
+                    return JsonResponse({'status': 'error', 'message': 'A group with this name already exists.'})
+            else:
+                print("Error found!")
+                for field, errors in group_form.errors.items():
+                    for error in errors:
+                        print(f"{field}: {error}")        
         else:
             post_form = PostForm()
             group_form = GroupForm()
@@ -58,22 +73,25 @@ def home_view(request):
         user_first_name = user.first_name
         user_pdp = user.utilisateur.profile_picture
 
-        all_users = utilisateur.objects.all()
-        for util in all_users:
-            if request.user == util.user:
-                pass
-            else:
-                full_name = f"{util.user.first_name} {util.user.last_name}"
-                online = util.online_status
-                pdp = util.profile_picture
-                
-                obj = {
-                    'full_name':full_name,
-                    "online":'online' if online else 'offline',
-                    'profile_picture': pdp
-                }
-                # print(obj)
-                all_users_names.append(obj)
+        friends = set()
+        for f in user.utilisateur.following.all():
+            if f.followed.followers.filter(follower=user.utilisateur).exists():
+                friends.add(f.followed)
+        friends = {friend for friend in friends if friend.following.filter(followed=user.utilisateur).exists()}
+
+        for friend in friends:
+            if len(all_users_names) >= 6:
+                break
+            full_name = f"{friend.user.first_name} {friend.user.last_name}"
+            online = friend.online_status
+            pdp = friend.profile_picture
+
+            obj = {
+                'full_name': full_name,
+                "online": 'online' if online else 'offline',
+                'profile_picture': pdp
+            }
+            all_users_names.append(obj)
 
     else:
         isguest = True
@@ -93,7 +111,9 @@ def home_view(request):
                 'posts_visitor':posts_visitor,
                 'groups':groups,
                 'isHomePage':True,
-                'eventform': EventForm()
+                'eventform': EventForm(),
+                'latest_event': latest_event,
+                'random_group': random_group,
                }
     
     return render(request, 'HTML/home/home.html', context)
@@ -282,7 +302,7 @@ def group_about(request, group_name):
     is_member = group.is_member(request.user)
     is_admin = group.is_admin(request.user)
     target = group.target
-    members_count = UserGroup.objects.filter(group=group).count()
+    members_count = UserGroup.objects.filter(group=group,invitation_on=True).count()
     context = {'group': group, 'members_count': members_count, 'is_member': is_member, 'is_admin': is_admin, 'user': request.user, 'visiteur': isguest, 'target': target}
     return render(request, 'HTML/home/group-about.html', context)
 
@@ -292,6 +312,7 @@ def group_posts(request, group_name):
     posts = Post.objects.filter(group=group).order_by('-created_at')
     is_member = group.is_member(request.user)
     is_admin = group.is_admin(request.user)
+    target = group.target
     if request.method == 'POST':
         post_form = PostForm(request.POST, request.FILES)
         if post_form.is_valid():
@@ -302,7 +323,7 @@ def group_posts(request, group_name):
             return redirect('group_posts', group_name=group.group_name)
     else:
         post_form = PostForm()
-    context = {'group': group, 'is_member': is_member, 'post_form': post_form, 'posts': posts, 'is_admin': is_admin, 'user': request.user, 'visiteur': isguest}
+    context = {'group': group, 'is_member': is_member, 'post_form': post_form, 'posts': posts, 'is_admin': is_admin, 'user': request.user, 'visiteur': isguest, 'target': target}
     return render(request, 'HTML/home/groupe_page.html', context)
 
 def group_events(request, group_name):
@@ -365,3 +386,59 @@ def delete_ClassroomPost(request, id):
 
             post.delete()
             return redirect('Course',uid=uid)
+#
+def all_groups(request):
+    query = request.GET.get('q')
+    if query:
+        groups = models.Group.objects.filter(target='public', group_name__icontains=query)
+    else:
+        groups = models.Group.objects.filter(target='public')
+    context = {'groups': groups}
+    return render(request, 'HTML/components/groups.html', context)
+
+from django.db.models import Q
+
+def all_utilisateurs(request):
+    query = request.GET.get('q')
+    skills_query = request.GET.get('skills')
+    experiences_query = request.GET.get('experiences')
+    languages_query = request.GET.get('languages')
+    certifications_query = request.GET.get('certifications')
+    educations_query = request.GET.get('educations')
+    researches_query = request.GET.get('researches')
+
+    users = models.User.objects.filter(is_superuser=False)
+    if query or skills_query or experiences_query or languages_query or certifications_query or educations_query or researches_query:
+        if query:
+            users = users.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
+        if skills_query:
+            users = users.filter(utilisateur__skills__SkillName__icontains=skills_query)
+        if experiences_query:
+            users = users.filter(Q(utilisateur__experience__titre__icontains=experiences_query) | Q(utilisateur__experience__entreprise__icontains=experiences_query))
+        if languages_query:
+            users = users.filter(utilisateur__languages__Language__icontains=languages_query)
+        if certifications_query:
+            users = users.filter(utilisateur__certification__Nom_Certificat__icontains=certifications_query)
+        if educations_query:
+            users = users.filter(Q(utilisateur__education__UniversityName__icontains=educations_query) | Q(utilisateur__education__FiledOfStudy__icontains=educations_query))
+        if researches_query:
+            users = users.filter(utilisateur__research__recherche_referrence__icontains=researches_query)
+
+        skills = Skills.objects.filter(SkillName__icontains=skills_query) if skills_query else Skills.objects.none()
+        experiences = Experience.objects.filter(Q(titre__icontains=experiences_query) | Q(entreprise__icontains=experiences_query)) if experiences_query else Experience.objects.none()
+        languages = Languages.objects.filter(Language__icontains=languages_query) if languages_query else Languages.objects.none()
+        certifications = Certification.objects.filter(Nom_Certificat__icontains=certifications_query) if certifications_query else Certification.objects.none()
+        educations = Education.objects.filter(Q(UniversityName__icontains=educations_query) | Q(FiledOfStudy__icontains=educations_query)) if educations_query else Education.objects.none()
+        researches = Research.objects.filter(recherche_referrence__icontains=researches_query) if researches_query else Research.objects.none()
+
+        etudiants = [user.utilisateur for user in users if hasattr(user, 'utilisateur') and hasattr(user.utilisateur, 'etudiant')]
+        professors = list(set([user.utilisateur for user in users if hasattr(user, 'utilisateur') and hasattr(user.utilisateur, 'professor')]))
+        enterprises = [user.utilisateur for user in users if hasattr(user, 'utilisateur') and hasattr(user.utilisateur, 'enterprise')]
+
+        context = {'etudiants': etudiants, 'professors': professors, 'enterprises': enterprises, 'skills': skills, 'experiences': experiences, 'languages': languages, 'certifications': certifications, 'educations': educations, 'researches': researches}
+    
+    else:
+        users = models.User.objects.filter(is_superuser=False)[:20]
+        context = {'users': users}
+
+    return render(request, 'HTML/components/users.html', context)

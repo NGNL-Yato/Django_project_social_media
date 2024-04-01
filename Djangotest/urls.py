@@ -33,7 +33,7 @@ urlpatterns = [
     #
     path('panel/', views.admin_panel, name='admin_panel'),
     #
-    path('groups/', views.group_view, name='groups'),
+    # path('groups/', views.group_view, name='groups'),
     #
     path('login/', backendviews.login_in, name='login'),
     #
@@ -83,7 +83,7 @@ urlpatterns = [
     #
     path('deleteEducation/<int:id>',backendviews.deleteEducation,name='deleteEducation'),
     #
-    # path('mes-groups/',backendviews.mesgroupes , name='mes-groups'),
+    path('search/', backendviews.search, name='search'),
     #
     path('certificates-settings/',backendviews.certificatesSettings , name='certificates-settings'),
     #
@@ -154,8 +154,10 @@ urlpatterns = [
     path('send_message/', backendviews.send_message, name='send_message'),
     #
     path('get_or_create_conversation/', backendviews.get_or_create_conversation, name='get_or_create_conversation'),
-
-
+    #
+    path('all_groups/', views.all_groups, name='all_groups'),
+    #
+    path('all_users/', views.all_utilisateurs, name='all_users'),
     
 ]
 

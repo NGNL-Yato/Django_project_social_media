@@ -1,0 +1,39 @@
+{% load static %}
+
+<div style="display: flex; flex-direction: column;">
+    <h3>Search by :</h3>
+    <hr style="margin:10px;">
+    {% if groups %}
+    <a href="{% url 'all_groups' %}" style="margin-bottom: 10px;">
+    {% else %}
+    <a href="{% url 'all_users' %}" style="margin-bottom: 10px;">
+    {% endif %}
+        <button class="back_to_group">
+            <i class="fa-solid fa-repeat"></i>{% if groups %}Reset group search{% else %}Reset user search{% endif %}
+        </button>
+    </a>
+    {% csrf_token %}
+    {% if groups %}
+    <form method="GET" action="{% url 'all_groups' %}" style="display: flex; flex-direction: column;">
+    {% else %}
+    <form method="GET" action="{% url 'all_users' %}" style="display: flex; flex-direction: column;">
+    {% endif %}
+        <label><h4 style="margin:7px;">{% if groups %} Group name : {% else %} User name : {% endif %}</h4></label>
+        <input type="text" name="q" placeholder="{% if groups %}Search groups...{% else %}Search users...{% endif %}" style="margin-bottom: 10px;" class="search-input">
+        {% if not groups %}
+        <label><h4 style="margin:7px;">Skills:</h4></label>
+        <input type="text" name="skills" placeholder="Search skills..." style="margin-bottom: 10px;" class="search-input">
+        <label><h4 style="margin:7px;">Experiences:</h4></label>
+        <input type="text" name="experiences" placeholder="Search experiences..." style="margin-bottom: 10px;" class="search-input">
+        <label><h4 style="margin:7px;">Languages:</h4></label>
+        <input type="text" name="languages" placeholder="Search languages..." style="margin-bottom: 10px;" class="search-input">
+        <label><h4 style="margin:7px;">Certifications:</h4></label>
+        <input type="text" name="certifications" placeholder="Search certifications..." style="margin-bottom: 10px;" class="search-input">
+        <label><h4 style="margin:7px;">Educations:</h4></label>
+        <input type="text" name="educations" placeholder="Search educations..." style="margin-bottom: 10px;" class="search-input">
+        <label><h4 style="margin:7px;">Researches:</h4></label>
+        <input type="text" name="researches" placeholder="Search researches..." style="margin-bottom: 10px;" class="search-input">
+        {% endif %}
+        <input type="submit" value="Search" class="search-input-bt">
+    </form>
+</div>

@@ -9,7 +9,7 @@ from .Post import delete_post
 from .Like import like_post
 from django.http import JsonResponse
 from django.core import serializers
-from .models import User, UserGroup, Group, follow, Conversation, Participant, Message
+from .models import User, UserGroup, Group, follow, Conversation, Participant, Message, MessageFile
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
@@ -509,8 +509,11 @@ def create_group(request):
         if form.is_valid():
             group = form.save(commit=False)
             group.user = request.user
-            group.save()
-            return redirect('some-view')
+            try:
+                group.save()
+                return JsonResponse({'status': 'redirect', 'location': 'some-view'})
+            except ValueError:
+                return JsonResponse({'status': 'error', 'message': 'A group with this name already exists.'})
     else:
         form = GroupForm()
 
@@ -570,47 +573,73 @@ def get_pending_invitations(request):
 def accept_invitation(request):
     group_name = request.POST.get('group_name')
     print(f"Accepted invitation for group: {group_name}")
-    UserGroup.objects.filter(user=request.user, group__group_name=group_name).update(invitation_on=True)
-    return JsonResponse({'message': 'Invitation accepted.'})
+    user_group = UserGroup.objects.filter(user=request.user, group__group_name=group_name).first()
+    if user_group:
+        user_group.invitation_on = True
+        user_group.save()
+        conversation = Conversation.objects.filter(title=group_name).first()
+        if conversation:
+            Participant.objects.create(user=request.user, conversation=conversation, group_id=user_group.group)
+        return JsonResponse({'message': 'Invitation accepted.'})
+    else:
+        return JsonResponse({'message': 'Group not found.'})
 
 @require_POST
 @login_required
 def reject_invitation(request):
     group_name = request.POST.get('group_name')
     print(f"Rejected invitation for group: {group_name}")
-    UserGroup.objects.filter(user=request.user, group__group_name=group_name).delete()
-    return JsonResponse({'message': 'Invitation rejected.'})
+    user_group = UserGroup.objects.filter(user=request.user, group__group_name=group_name).first()
+    if user_group:
+        conversation = Conversation.objects.filter(title=group_name).first()
+        if conversation:
+            Participant.objects.filter(user=request.user, conversation=conversation, group_id=user_group.group).delete()
+        user_group.delete()
+        return JsonResponse({'message': 'Invitation rejected.'})
+    else:
+        return JsonResponse({'message': 'Group not found.'})
 
 @require_POST
 @login_required
 def join_group(request):
     group_name = request.POST.get('group_name')
-    UserGroup.objects.create(user=request.user, group=Group.objects.get(group_name=group_name), invitation_on = True)
+    group = Group.objects.get(group_name=group_name)
+    UserGroup.objects.create(user=request.user, group=group, invitation_on=True)
+    conversation = Conversation.objects.filter(title=group_name).first()
+    if conversation:
+        Participant.objects.create(user=request.user, conversation=conversation, group_id=group)
     return JsonResponse({'message': 'Group joined.'})
 
 @require_POST
 @login_required
 def leave_group(request):
     group_name = request.POST.get('group_name')
-    UserGroup.objects.filter(user=request.user, group__group_name=group_name).delete()
-    return JsonResponse({'message': 'Group left.'})
+    user_group = UserGroup.objects.filter(user=request.user, group__group_name=group_name).first()
+    if user_group:
+        conversation = Conversation.objects.filter(title=group_name).first()
+        if conversation:
+            Participant.objects.filter(user=request.user, conversation=conversation, group_id=user_group.group).delete()
+        user_group.delete()
+        return JsonResponse({'message': 'Group left.'})
+    else:
+        return JsonResponse({'message': 'Group not found.'})
 
 @login_required   
 def group_settings(request, group_name):
-    group = Group.objects.get(group_name=group_name)
+    group = Group.objects.filter(group_name=group_name).first()
     admins = UserGroup.objects.filter(group=group, is_admin=True)
+    All_admins_id =[]
+    for admin in admins :
+        All_admins_id.append(admin.user.id)
     search = request.GET.get('search', '')
     users_list = group.usergroup_set.exclude(user=group.user).filter(Q(user__first_name__icontains=search) | Q(user__last_name__icontains=search), invitation_on=True)
     paginator = Paginator(users_list, 7)
     page_number = request.GET.get('page')
     users = paginator.get_page(page_number)
-
-    # Handle invitation search
     invitation_search = request.GET.get('invitation_search', '')
     invitation_users_list = group.usergroup_set.filter(Q(user__first_name__icontains=invitation_search) | Q(user__last_name__icontains=invitation_search), invitation_on=False)
     invitation_users = Paginator(invitation_users_list, 7).get_page(request.GET.get('invitation_page'))
-
-    if (request.user not in admins) and (request.user != group.user):
+    if (request.user.id not in All_admins_id) and (request.user != group.user):
         return redirect('group_posts', group_name=group_name)
     if request.method == 'POST':
         group_name = request.POST.get('group_name')
@@ -691,33 +720,42 @@ def get_friends(request):
 def get_or_create_conversation(request):
     print(request.POST)
     if request.method == 'POST':
-        friend_username = request.POST.get('username')
+        identifier = request.POST.get('username')
         user = request.user
-        friend = get_user_model().objects.get(username=friend_username)
-        # Try to get the conversation between the user and the friend
-        conversation = Conversation.objects.filter(participant__user=user).filter(participant__user=friend).first()
 
-        # If the conversation doesn't exist, create a new one
-        if not conversation:
-            conversation = Conversation.objects.create()
-            Participant.objects.create(user=user, conversation=conversation)
-            Participant.objects.create(user=friend, conversation=conversation)
+        # Check if identifier is a group name
+        try:
+            group = Group.objects.get(group_name=identifier)
+            conversation = Conversation.objects.filter(group=group).first()
+            if not conversation:
+                conversation = Conversation.objects.create(group=group)
+                Participant.objects.create(user=user, conversation=conversation)
+        except Group.DoesNotExist:
+            # If identifier is not a group name, handle it as a friend's username
+            try:
+                friend = get_user_model().objects.get(username=identifier)
+                conversation = Conversation.objects.filter(participant__user=user).filter(participant__user=friend).first()
+                if not conversation:
+                    conversation = Conversation.objects.create()
+                    Participant.objects.create(user=user, conversation=conversation)
+                    Participant.objects.create(user=friend, conversation=conversation)
+            except get_user_model().DoesNotExist:
+                return JsonResponse({'error': 'User not found'}, status=404)
 
-          # Get the messages of the conversation
         messages = Message.objects.filter(conversation=conversation).order_by('timestamp')
-
-        # Serialize the messages
         messages_data = []
         for message in messages:
             is_user_sender = message.sender.username == request.user.username
+            file_urls = [message_file.file.url for message_file in message.files.all()]
             messages_data.append({
                 'sender': message.sender.username,
                 'content': message.content,
                 'timestamp': message.timestamp.strftime('%Y-%m-%d %H:%M:%S'),
-                'is_user_sender': is_user_sender
+                'is_user_sender': is_user_sender,
+                'file_url': file_urls
             })
         user_picture = user.utilisateur.profile_picture.url
-        friend_picture = friend.utilisateur.profile_picture.url
+        friend_picture = friend.utilisateur.profile_picture.url if friend else None
         print(conversation.id)
         print(messages_data)
         return JsonResponse({'conversation': conversation.id, 'messages': messages_data,'user_picture':user_picture,'friend_picture':friend_picture})
@@ -727,7 +765,23 @@ def send_message(request):
     if request.method == 'POST':
         message_content = request.POST.get('message')
         conversation_id = request.POST.get('conversation')
+        file = request.FILES.get('file')
         user = request.user
         conversation = Conversation.objects.get(id=conversation_id)
-        Message.objects.create(sender=user, conversation=conversation, content=message_content)
+        message = Message.objects.create(sender=user, conversation=conversation, content=message_content)
+        if file:
+            MessageFile.objects.create(message=message, file=file)
         return JsonResponse({'message': 'Message sent successfully'})
+    
+def search(request):
+    search_text = request.GET.get('search_text', '')
+    users = get_user_model().objects.filter(Q(first_name__icontains=search_text) | Q(last_name__icontains=search_text))
+    groups = Group.objects.filter(Q(group_name__icontains=search_text) & Q(target='public'))
+    user_results = list(users.values('username', 'first_name', 'last_name'))
+    for user in user_results:
+        user['type'] = 'user'
+    group_results = list(groups.values('group_name'))
+    for group in group_results:
+        group['type'] = 'group'
+    results = user_results + group_results
+    return JsonResponse(results, safe=False)

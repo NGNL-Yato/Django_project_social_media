@@ -25,7 +25,9 @@
                 <button href="" class="btn btn-primary leave-group" data-group-name="{{ group.group_name }}">Leave Group</button>            
             {% endif %}
         {% else %}
+            {% if group.target is "public" %}
                 <button href="" class="btn btn-primary join-group" data-group-name="{{ group.group_name }}">Join Group</button>
+            {% endif %}
         {% endif %}
     </div>
     <div class="group-buttons">

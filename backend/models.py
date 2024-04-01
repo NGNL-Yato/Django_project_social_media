@@ -221,14 +221,31 @@ class Group(models.Model):
     def is_member(self, user):
         return self.usergroup_set.filter(user=user).exists()
     def save(self, *args, **kwargs):
-        # Check if this is a new instance
         is_new = self.pk is None
+        if is_new and Group.group_exists(self.group_name):
+            raise ValueError("A group with this name already exists.")
         super().save(*args, **kwargs)
         if is_new:
             UserGroup.objects.create(user=self.user, group=self, is_admin=True, invitation_on=True)
+            conversation = Conversation.objects.create(
+                title=self.group_name,
+                Conversation_picture=self.profile_banner,
+                description=self.description,
+                created_at=self.created_at
+            )
+            for user in self.usergroup_set.all():
+                Participant.objects.create(
+                    user=user.user,
+                    conversation=conversation,
+                    group_id=self
+                )
+
     def is_admin(self, user):
         return self.usergroup_set.filter(user=user, is_admin=True).exists()
 
+    @classmethod
+    def group_exists(cls, group_name):
+        return cls.objects.filter(group_name=group_name).exists()
 #
 #
 class Event(models.Model):
