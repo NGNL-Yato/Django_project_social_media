@@ -442,7 +442,7 @@ def qcm_view(request,qcmID):
         # if student show one question at a time
         elif request.user.utilisateur.role == 2:
             stdent = models.utilisateur.objects.filter(id=request.user.utilisateur.id).first()
-            ha = models.studentQcmfinished.objects.filter(student=stdent).first()
+            ha = models.studentQcmfinished.objects.filter(student=stdent,qcm=qcm).first()
             # if that student already passed that qcm , he wont need to pass it again 
             if ha:
                 return redirect('Classroom')
