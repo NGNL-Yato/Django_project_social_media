@@ -98,6 +98,9 @@
     list-style-type: none;
     padding: 0;
 }
+.comment_toggle_usage {
+    cursor: pointer;
+}
 .comment-section {
     max-height: 400px; /* Adjust this value as needed */
     overflow-y: auto;

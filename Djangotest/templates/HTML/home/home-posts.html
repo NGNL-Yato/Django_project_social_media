@@ -97,7 +97,7 @@
                         <img src="{% static 'Assets/Images/like.png' %}" alt="like">
                         <span>{{ post.likes.count }} likes</span> {% endcomment %}
                     </li>
-                    <li onclick="toggleCommentForm({{ post.id }})"><i class="fa-regular fa-comment-dots"></i> <span id="commentButton">{{ post.comments.count }} comments</span></li>                    
+                    <li class="comment_toggle_usage" onclick="toggleCommentForm({{ post.id }})"><i class="fa-regular fa-comment-dots"></i> <span id="commentButton">{{ post.comments.count }} comments</span></li>                    
                     {% comment %} <li><i class="fa-solid fa-share-from-square"></i> <span>254 share</span></li> {% endcomment %}
                     
                 </ul>
