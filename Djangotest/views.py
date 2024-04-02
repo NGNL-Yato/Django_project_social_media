@@ -170,22 +170,52 @@ def view_profile(request,first_name, last_name):
     if user is not None:    
         u = utilisateur.objects.get(user_id = user.id)
         if u is not None:
-            context = {'userdata':user,
-                       'user_pdp': u.profile_picture,
-                        'first_name':first_name,
-                        'last_name':last_name,
-                        'utilisateurdata':u,
-                        'skills':models.Skills.objects.filter(utilisateur=u),
-                        'languages':models.Languages.objects.filter(utilisateur=u),
-                        'certificates':models.Certification.objects.filter(utilisateur=u),
-                        'Educations':models.Education.objects.filter(utilisateur=u),
-                        'Experiences':models.Experience.objects.filter(utilisateur=u),
-                        'Reaserches':models.Research.objects.filter(utilisateur=u),
-                        'myprofile':False,
-                        'latest_event': latest_event,
-                        'random_group': random_group,
 
-               }  
+            if request.user.is_authenticated:
+                isguest = False   
+                context = {
+                            'visiteur':isguest,
+                            'userdata':user,
+                            'user_pdp': u.profile_picture,
+                            'first_name':first_name,
+                            'last_name':last_name,
+                            'utilisateurdata':u,
+                            'skills':models.Skills.objects.filter(utilisateur=u),
+                            'languages':models.Languages.objects.filter(utilisateur=u),
+                            'certificates':models.Certification.objects.filter(utilisateur=u),
+                            'Educations':models.Education.objects.filter(utilisateur=u),
+                            'Experiences':models.Experience.objects.filter(utilisateur=u),
+                            'Reaserches':models.Research.objects.filter(utilisateur=u),
+                            'myprofile':False,
+                            'latest_event': latest_event,
+                            'random_group': random_group,
+                            }  
+            else:
+                isguest = True
+                user_email = "Guest@g.uae.ac.ma"       
+                user_first_name = "visiteur"
+                user_pdp = 'Images/us2.png'
+                allUsers = ''  
+                context = { 
+                            'visiteur':isguest,
+                            'user_email':user_email,
+                            'user_first_name':user_first_name,
+                            'userdata':user,
+                            'user_pdp': u.profile_picture,
+                            'first_name':first_name,
+                            'last_name':last_name,
+                            'utilisateurdata':u,
+                            'skills':models.Skills.objects.filter(utilisateur=u),
+                            'languages':models.Languages.objects.filter(utilisateur=u),
+                            'certificates':models.Certification.objects.filter(utilisateur=u),
+                            'Educations':models.Education.objects.filter(utilisateur=u),
+                            'Experiences':models.Experience.objects.filter(utilisateur=u),
+                            'Reaserches':models.Research.objects.filter(utilisateur=u),
+                            'myprofile':False,
+                            'latest_event': latest_event,
+                            'random_group': random_group,
+                            } 
+
             return render(request, 'HTML/userProfile/profile.html', context)
         
     return redirect('home')

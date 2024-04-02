@@ -88,7 +88,7 @@
     </header>
     <main class='main-content' >
       
-      <div class="profile-container">
+      <div class="profile-container" >
         <!-- profile main -->
         <div class="container">
           <div class="profile-main">
@@ -240,15 +240,18 @@
     <!-- home right end -->
       </div>
   
-      </div>  <!--div chayta ??!!!!!!! -->
+      <!-- </div> -->
+        <!--div chayta ??!!!!!!! -->
 
       <div class=" home-right-profile" >
         <div class="home-right-wrapper">
   
             <!-- messenger start -->
+            {% if not visiteur %}
             <div class="messenger">
                 {% include "HTML/home/messages.html" %}
             </div>
+            {% endif %}
             <!-- messenger end -->
   
             <!-- event and friend start -->
