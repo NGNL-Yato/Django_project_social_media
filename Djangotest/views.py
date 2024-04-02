@@ -141,7 +141,34 @@ def login_view(request):
 # seeing my profile
 def profile(request):
     if request.user.is_authenticated:
-        context = {
+
+        all_users_names = []
+        uss = request.user.id
+        theloggeduser = models.User.objects.filter(id=uss).first()
+
+        friends = set()
+        for f in theloggeduser.utilisateur.following.all():
+            if f.followed.followers.filter(follower=theloggeduser.utilisateur).exists():
+                friends.add(f.followed)
+        friends = {friend for friend in friends if friend.following.filter(followed=theloggeduser.utilisateur).exists()}
+
+        for friend in friends:
+            if len(all_users_names) >= 6:
+                break
+            full_name = f"{friend.user.first_name} {friend.user.last_name}"
+            online = friend.online_status
+            pdp = friend.profile_picture
+
+            obj = {
+                'full_name': full_name,
+                "online": 'online' if online else 'offline',
+                'profile_picture': pdp
+            }
+            all_users_names.append(obj)
+
+        isguest = False   
+
+        context = {'usersobj':all_users_names,
                 'random_group':choice(Group.objects.annotate(member_count=Count('user')).order_by('-member_count')),
                 'latest_event':Event.objects.order_by('-created_at').first(),
                 'userdata':request.user,
