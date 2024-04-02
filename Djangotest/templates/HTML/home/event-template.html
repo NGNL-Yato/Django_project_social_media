@@ -9,7 +9,7 @@
         <h4>{{ latest_event.head_title }}
             <span>in person event</span></h4></a>
     </div>
-    <button class="see-more-btn" onclick='location.href="{% url 'all_events' %}"'>See more<i class="fa-regular fa-calendar"></i></button>
+    <button class="see-more-btn" onclick="location.href=`{% url 'all_events' %}` "  >See more<i class="fa-regular fa-calendar"></i></button>
 </div>
 
 {% comment %} <hr> {% endcomment %}

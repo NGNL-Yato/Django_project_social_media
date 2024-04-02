@@ -1,0 +1,51 @@
+{% load static %}
+
+<div style="width: 100%;">
+    
+    <div style="width: 100%;display: flex;justify-content: end;">
+        <button id="creat_group_event_btn" style="padding: 5px;color: white;background-color: #4d1a9c;border-radius: 10px;" >Create Group Event</button>
+    </div>
+
+    <!-- include here event form modal -->
+{% include "HTML/Events/group_event_modal.html"%}
+
+<!--  -->
+
+<br>
+<div style="width: 100%;">
+            <!--  -->
+
+            <div style="width: 100%;">
+                <div class="header-container" style="height: auto; background-color: rgb(252, 252, 252);">
+                    <h3 class="mini-headign">All Events</h3>
+                    <!--  -->
+                    {% for event in allgroupevents %}
+                        <div class="" style="padding-top: 15px;margin: 10px;display: flex;height: auto;">
+                            <!--  -->
+                            <div class="post-images" >
+                                <img src="/media/{{event.backgroundimage}}" style="height: 80px;width: 150px;">
+                            </div>
+                            <!--  -->
+                        <div style="margin-left: 30px;width: 62%">
+                            <a href=""><h4 class="mini-headign">{{event.head_title}}</h4></a>
+                            <!--  -->
+                            <p class="text-limit" style ="color: var(--black);">{{event.description}}</p>
+                            <!--  -->
+                        </div>   
+                            <div style="width:20%;display: flex;justify-content: center;align-items: center;">
+                                <a style="height: auto;padding: 8px;background-color: rgb(239, 239, 239);color: rgb(44, 44, 44);" href="{% url 'view_event' id=event.id %}">See Details</a>
+                                {% if user.id is event.utilisateur.user.id %}
+                                <a style="height: auto;margin: 5px;padding: 8px;background-color: rgb(221, 24, 24);color: rgb(231, 229, 229);" href="{% url 'deleteEvent' id=event.id %}">Delete</a>
+                        {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <!--  -->
+                </div>
+            </div>
+
+            <!--  -->
+    </div>
+<div style="height: 50px;"></div>
+</div>
+  

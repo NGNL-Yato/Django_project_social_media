@@ -523,10 +523,22 @@ def create_event(request):
     if request.user.is_authenticated and request.method == 'POST':
         form = EventForm(request.POST,request.FILES)
         print(request.POST)
-        if form.is_valid():
-            f = form.save(commit=False)
-            f.utilisateur = models.utilisateur.objects.get(user_id=request.user.id)
-            f.save()
+        
+        grpid = request.POST.get('grpid')
+        grp = Group.objects.filter(id=grpid).first()
+        if grp is not None:
+            if form.is_valid():
+                f = form.save(commit=False)
+                f.utilisateur = models.utilisateur.objects.get(user_id=request.user.id)
+                f.group = grp
+                f.save()
+            return redirect('group_events',group_name=grp.group_name)
+        
+        else:
+            if form.is_valid():
+                f = form.save(commit=False)
+                f.utilisateur = models.utilisateur.objects.get(user_id=request.user.id)
+                f.save()
 
     return redirect('all_events')
 
@@ -696,7 +708,20 @@ def group_events(request, group_name):
                 'profile_picture': pdp
             }
             all_users_names.append(obj)
-    context = {'group': group, 'is_member': is_member, 'is_admin': is_admin, 'user': request.user, 'visiteur': isguest, 'latest_event': latest_event, 'usersobj': all_users_names}
+        
+    allgroupevents = models.Event.objects.filter(group=group).order_by('-created_at')
+
+    context = {
+                'groupeventform':EventForm(initial={'group': group.id}),
+                'allgroupevents':allgroupevents,
+                'group': group,
+                'is_member': is_member,
+                'is_admin': is_admin,
+                'user': request.user,
+                'visiteur': isguest,
+                'latest_event': latest_event,
+                'usersobj': all_users_names
+                }
     return render(request, 'HTML/home/group_events.html', context)
 #
 def createQCM(request,uid):

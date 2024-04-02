@@ -1,0 +1,116 @@
+{% load static %}
+
+<style>
+    .Modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 9999; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.Taskcontent {
+  background-color: #fefefe;
+  margin: 8% auto; /* 15% from the top and centered */
+  padding: 10px;
+  border: 3px solid #4d1a9c;
+  width: 50%; /* Could be more or less, depending on screen size */
+  border-radius: 30px;
+  color: #4d1a9c;
+}
+</style>
+
+<div id="createeventgroupmodal" class="Modal" style="display: none;">
+    <div class="Taskcontent" >
+        
+        <div>
+
+        <!-- <span class="close">&times;</span> -->
+        <div class="group_creation post-text" >
+            <div class="group_creation_title mini-headign">
+                <h1>Create New Group Event</h1>
+                    <br><br>
+            </div>
+            <form action="/create_event/" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+               <!-- {{ Taskform.as_p }} -->
+                
+                <!-- <br><hr><hr> -->
+                
+                <h3>Event Title</h3>
+                {{groupeventform.head_title}}
+                <!--<input type="text" style="max-width: 100%;width: 100%;padding: 10px;background-color: #eeeeee;"  placeholder="" > -->
+                <br><br>
+
+                <h3>event Description</h3>
+                {{groupeventform.description}}
+
+                <br>Event Banner<br>
+                <div class="post-buttons">
+                    <button type="button" class="upload-file-bt" onclick="document.getElementById('id_backgroundimage').click()">
+                        Add Event Banner
+                        <i class="fa-solid fa-file-import"></i>
+                    </button>
+                </div> 
+                {{groupeventform.backgroundimage}}
+
+                <!--<textarea type="textarea" style="max-width: 100%;width: 100%;padding: 10px;background-color: #eeeeee;" placeholder="" ></textarea> -->
+                <br><br>
+
+                <h3>Event Time</h3>
+                {{groupeventform.event_time}}
+
+                <!--<input type="date" id="due_date" name="due_date" class="form-control" style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9; box-sizing: border-box;">-->
+                <br>Event Poster<br>
+                <div class="post-buttons">
+                    <button type="button" class="upload-file-bt" onclick="document.getElementsByClassName('id_file2')[0].click()">
+                        Add Event Poster
+                        <i class="fa-solid fa-file-import"></i>
+                    </button>
+                </div> 
+                {{groupeventform.file}}
+                
+                <br><br>
+                <div style="display: flex;justify-content: space-between;width: 100%;">
+                    <input type="text" style="display: none;" name="grpid" value="{{group.id}}">
+                <div class="post-buttons">
+                            <!-- <button type="button" class="upload-file-bt">
+                            </button> -->
+                        <button type="submit" style="padding: 15px;background-color: #4d1a9c;color: #eeeeee;">Create Event</button>
+                </div>  
+                
+            </div>
+                
+            </form>
+
+        </div>
+
+        </div>
+    </div>
+    
+</div>
+<script>
+
+createeventgroupmodal = document.getElementById('createeventgroupmodal')
+Eventbtn = document.getElementById('creat_group_event_btn')
+
+Eventbtn.onclick = function() {
+        console.log('clicked')
+        createeventgroupmodal.style.display = "block";
+    }
+
+    
+
+    window.addEventListener('click', function(event) {    
+    if (event.target == createeventgroupmodal  ) {
+        createeventgroupmodal.style.display = "none";
+    }
+})
+
+</script>
