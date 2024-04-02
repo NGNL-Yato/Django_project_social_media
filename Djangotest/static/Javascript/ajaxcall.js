@@ -272,12 +272,12 @@ $(document).on('click', function(event) {
         }, 100);
     }
 });
-document.querySelectorAll('.form').forEach(form => {
+document.querySelectorAll('.comment-form').forEach(form => {
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         let postId = this.getAttribute('data-post-id');
         let text = this.querySelector('input[name="text"]').value;
-        console.log(postId, text)
+        console.log('Submitting form:', postId, text);
         
         let formData = new FormData();
         formData.append('post_id', postId);
@@ -288,36 +288,66 @@ document.querySelectorAll('.form').forEach(form => {
             body: formData
         }).then(response => response.json())
         .then(data => {
-            console.log(data.message);
-            // After a comment is posted, fetch and display the comments
+            console.log('Form submission response:', data);
             fetchComments(postId);
         });
     });
 });
-let commentButton = document.querySelector('#commentButton');  
-commentButton.addEventListener('click', function() {
-    let postId = this.getAttribute('data-post-id'); 
-    console.log('postId:', postId);  // Log the postId
-    if (postId) {  // Only call fetchComments if postId is not null
-        fetchComments(postId);
-    } else {
-        console.log('postId is null');
-    }
-});
 function fetchComments(postId) {
+    console.log('Fetching comments for post:', postId);
     fetch(`/get_comments/${postId}/`)
     .then(response => response.json())
     .then(comments => {
+        console.log('Fetched comments:', comments);
         let list = document.querySelector(`#list${postId}`);
-        list.innerHTML = '';  // Clear the list
+        list.innerHTML = '';
         comments.forEach(comment => {
-            // Append each comment to the list
+            console.log('Rendering comment:', comment);
             let listItem = document.createElement('li');
+            listItem.className = 'comment-item';
+
+            let imgDiv = document.createElement('div');
+            imgDiv.className = 'comment-img-div';
+
             let img = document.createElement('img');
-            img.src = '/media/' + comment.user__utilisateur__profile_picture;  // Prepend '/media/' to the image source URL
-            listItem.appendChild(img);
-            listItem.appendChild(document.createTextNode(`${comment.user__first_name} ${comment.user__last_name}: ${comment.text}`));
+            img.src = '/media/' + comment.user__utilisateur__profile_picture;
+            img.className = 'comment-img';
+            imgDiv.appendChild(img);
+
+            let infoDiv = document.createElement('div');
+            infoDiv.className = 'comment-info';
+
+            let username = document.createElement('div');
+            username.textContent = `${comment.user__first_name} ${comment.user__last_name}`;
+            infoDiv.appendChild(username);
+
+            let createdAt = document.createElement('small');
+            createdAt.textContent = formatDate(comment.created_at);
+            infoDiv.appendChild(createdAt);
+
+            let headerDiv = document.createElement('div');
+            headerDiv.className = 'comment-header';
+            headerDiv.appendChild(imgDiv);
+            headerDiv.appendChild(infoDiv);
+
+            listItem.appendChild(headerDiv);
+
+            let text = document.createElement('p');
+            text.textContent = comment.text;
+            listItem.appendChild(text);
+
             list.appendChild(listItem);
         });
     });
+}
+function formatDate(dateString) {
+    let date = new Date(dateString);
+    let now = new Date();
+    if (date.toDateString() === now.toDateString()) {
+        // Same day, return date with hours
+        return date.toLocaleTimeString();
+    } else {
+        // Different day, return date only
+        return date.toLocaleDateString();
+    }
 }

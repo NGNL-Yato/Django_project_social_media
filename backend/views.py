@@ -834,6 +834,7 @@ def add_comment(request):
     post_id = request.POST.get('post_id')
     print(post_id)
     text = request.POST.get('text')
+    print(text)
     post = Post.objects.get(id=post_id)
     Comment.objects.create(post=post, user=request.user, text=text)
     return JsonResponse({'message': 'Comment added.'})
@@ -841,5 +842,5 @@ def add_comment(request):
 @require_GET
 def get_comments(request, post_id):
     post = Post.objects.get(id=post_id)
-    comments = post.comment_set.all().values('id', 'text', 'user__username', 'user__utilisateur__profile_picture', 'user__first_name', 'user__last_name', 'created_at')
+    comments = post.comment_set.all().order_by('-created_at').values('id', 'text', 'user__username', 'user__utilisateur__profile_picture', 'user__first_name', 'user__last_name', 'created_at')
     return JsonResponse(list(comments), safe=False)
