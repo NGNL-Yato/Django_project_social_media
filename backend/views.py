@@ -9,15 +9,17 @@ from .Post import delete_post
 from .Like import like_post
 from django.http import JsonResponse
 from django.core import serializers
-from .models import User, UserGroup, Group, follow, Conversation, Participant, Message, MessageFile,Post
+from .models import User, UserGroup, Group, follow, Conversation, Participant, Message, MessageFile,Post,Event,Comment
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST,require_GET
 from django.core.paginator import Paginator
 from django.urls import reverse
+from random import choice
+from django.db.models import Count
 
 
 
@@ -472,7 +474,7 @@ def educationsSettings(request):
 #my groups 
 def groupsSettings(request):
     if request.user.is_authenticated:
-        groups = Group.objects.filter(user=request.user)    
+        groups = Group.objects.filter(user=request.user)   
         context ={'groups':groups}
     return render(request, 'HTML/userProfile/settings.html', context)
 
@@ -563,22 +565,23 @@ def create_group(request):
     
 #     return redirect('home')
 
+from urllib.parse import unquote
 
 def search_people(request):
     query = request.GET.get('query')
-    people = User.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
-    person = UserGroup.objects.filter(Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query))
+    group_name = unquote(request.GET.get('group_name'))
+    print(f"Query: {query}, Group Name: {group_name}")
+    group = Group.objects.get(group_name=group_name)
+    group_members = UserGroup.objects.filter(group=group).values_list('user_id', flat=True)
+    people = User.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query)).exclude(id__in=group_members)
     data = [{'first_name': person.first_name, 'last_name': person.last_name, 'username': person.username} for person in people]
     return JsonResponse(data, safe=False)
 
 @csrf_exempt
 def invite_user(request):
     username = request.POST.get('username')
-    group_name = request.POST.get('group_name')
-
-    # Print the username and group_name
+    group_name = unquote(request.POST.get('group_name'))
     print(f"Username: {username}, Group Name: {group_name}")
-
     try:
         user = get_user_model().objects.get(username=username)
         group = Group.objects.get(group_name=group_name)  # Use group_name instead of name
@@ -680,7 +683,11 @@ def group_settings(request, group_name):
         if profile_banner:
             group.profile_banner = profile_banner
         group.save()
-    return render(request, 'HTML/home/group_settings.html', {'group': group, 'users': users, 'invitation_users': invitation_users})
+    latest_event = Event.objects.order_by('-created_at').first()
+    random_group = choice(Group.objects.annotate(member_count=Count('user')).order_by('-member_count')) 
+    print(latest_event)
+    print(latest_event.id)
+    return render(request, 'HTML/home/group_settings.html', {'group': group, 'users': users, 'invitation_users': invitation_users,'latest_event': latest_event, 'random_group': random_group})
 
 @require_POST
 @login_required
@@ -820,3 +827,19 @@ def search(request):
     print (results)
     
     return JsonResponse(results, safe=False)
+
+@csrf_exempt
+@require_POST
+def add_comment(request):
+    post_id = request.POST.get('post_id')
+    print(post_id)
+    text = request.POST.get('text')
+    post = Post.objects.get(id=post_id)
+    Comment.objects.create(post=post, user=request.user, text=text)
+    return JsonResponse({'message': 'Comment added.'})
+
+@require_GET
+def get_comments(request, post_id):
+    post = Post.objects.get(id=post_id)
+    comments = post.comment_set.all().values('id', 'text', 'user__username', 'user__utilisateur__profile_picture', 'user__first_name', 'user__last_name', 'created_at')
+    return JsonResponse(list(comments), safe=False)

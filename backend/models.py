@@ -406,6 +406,12 @@ class Conversation(models.Model):
         return self.participant_set.count() == 2 and not self.is_group_conversation()
 #
 #
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+#
 class Participant(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE)

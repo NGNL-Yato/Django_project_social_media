@@ -188,7 +188,11 @@ urlpatterns = [
     path('all_groups/', views.all_groups, name='all_groups'),
     #
     path('all_users/', views.all_utilisateurs, name='all_users'),
-    
+    #
+    path('add_comment/', backendviews.add_comment, name='add_comment'),
+    #
+    path('get_comments/<int:post_id>/', backendviews.get_comments, name='get_comments'),
+    #
 ]
 
 

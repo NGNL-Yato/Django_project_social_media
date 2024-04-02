@@ -10,6 +10,7 @@ from django.urls import reverse
 from django.db.models import Count
 from random import choice
 from django.db.models import Q
+from django.core.exceptions import ObjectDoesNotExist
 
 import random
 import string
@@ -55,7 +56,12 @@ def home_view(request):
                 group.user = request.user
                 try:
                     group.save()
-                    return JsonResponse({'status': 'redirect', 'location': reverse('group_posts', kwargs={'group_name': group.group_name})})                
+                    try:
+                        # Check if the group exists before reversing the URL
+                        Group.objects.get(group_name=group.group_name)
+                        return JsonResponse({'status': 'redirect', 'location': reverse('group_posts', kwargs={'group_name': group.group_name})})                
+                    except ObjectDoesNotExist:
+                        return JsonResponse({'status': 'error', 'message': 'The group does not exist.'})
                 except ValueError:
                     return JsonResponse({'status': 'error', 'message': 'A group with this name already exists.'})
             else:

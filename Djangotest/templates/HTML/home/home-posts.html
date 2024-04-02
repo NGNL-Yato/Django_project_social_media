@@ -10,6 +10,27 @@
     </ul> {% endcomment %}
 </div>
 {% for post in posts %}
+<!-- Backdrop -->
+<div id="backdrop{{ post.id }}" class="backdrop" style="display: none;" onclick="toggleCommentForm({{ post.id }})"></div>
+
+<!-- Popup -->
+<div id="popup{{ post.id }}" class="popup" style="display: none;">
+    <!-- Section -->
+    <div id="section{{ post.id }}">
+        <!-- Form Container -->
+        <div id="formContainer{{ post.id }}">
+            <form class="form" data-post-id="{{ post.id }}">
+                <input type="text" name="text">
+                <button type="submit">Add</button>
+            </form>
+        </div>
+
+        <!-- List -->
+        <div id="list{{ post.id }}">
+            <!-- Items will be inserted here -->
+        </div>
+    </div>
+</div>
 <div class="fb-post1">
     <div class="fb-post1-container">
         {% if post.user_id == user.id or is_admin %}
@@ -77,11 +98,26 @@
                         <img src="{% static 'Assets/Images/like.png' %}" alt="like">
                         <span>{{ post.likes.count }} likes</span> {% endcomment %}
                     </li>
-                    <li><i class="fa-regular fa-comment-dots"></i> <span>{{ post.comments.count }} comments</span></li>
+                    <li onclick="toggleCommentForm({{ post.id }})"><i class="fa-regular fa-comment-dots"></i> <span id="commentButton">{{ post.comments.count }} comments</span></li>                    
                     {% comment %} <li><i class="fa-solid fa-share-from-square"></i> <span>254 share</span></li> {% endcomment %}
+                    
                 </ul>
             </div>
         </div>
     </div>
 </div>
+<script>
+    function toggleCommentForm(postId) {
+        console.log('postId:', postId);  // Log the postId
+        var modal = document.getElementById('popup' + postId);
+        var backdrop = document.getElementById('backdrop' + postId);
+        if (modal.style.display === 'none') {
+            modal.style.display = 'block';
+            backdrop.style.display = 'block';
+        } else {
+            modal.style.display = 'none';
+            backdrop.style.display = 'none';
+        }
+    }
+</script>
 {% endfor %}
