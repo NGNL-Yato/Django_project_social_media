@@ -1,14 +1,14 @@
 {% load static %}
 
 <div style="width: 100%;">
-    
+   {% if is_admin %} 
     <div style="width: 100%;display: flex;justify-content: end;">
         <button id="creat_group_event_btn" style="padding: 5px;color: white;background-color: #4d1a9c;border-radius: 10px;" >Create Group Event</button>
     </div>
 
     <!-- include here event form modal -->
 {% include "HTML/Events/group_event_modal.html"%}
-
+{% endif %}
 <!--  -->
 
 <br>
