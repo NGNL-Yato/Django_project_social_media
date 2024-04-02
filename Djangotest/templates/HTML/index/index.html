@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>CAMPUS GLOBALE</title>
+    <title>CAMPUS GLOBAL</title>
     <meta
       name="description"
       content="ROSA is an enchanting Parallax Restaurant WordPress Theme that allows you to tell your story in an enjoyable way, perfect for restaurants or coffee shops."
@@ -21,7 +21,8 @@
     <!--Fonts-->
     <!-- <link href="https://fonts.googleapis.com/css?family=Cabin|Herr+Von+Muellerhoff|Source+Sans+Pro" rel="stylesheet"> -->
     <!--Fonts-->
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.7/countUp.min.js"></script>
     <!--FontAwesome-->
     <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous"> -->
     <!--FontAwesome-->
@@ -33,6 +34,22 @@
     />
     <link rel="stylesheet" href="{% static 'CSS/index/index.css' %}" />
     <!-- <link rel="stylesheet" href="css/main.min.css"> -->
+    <style>
+      .statname{
+	font-size: 2rem;
+	font-weight: 700;
+color: white;
+      }
+      
+      .statistic {
+color:#1d031d;
+
+	display: block;
+	padding: 2rem;
+	font-size: 6rem;
+	font-weight: 700;
+}
+    </style>
   </head>
 
   <body class="stop-scroll">
@@ -78,7 +95,7 @@
             </li>
 
             <li>
-              <a href="/panel">Panel<span class="underline"></span></a>
+              <a href="{% url 'Classroom'%}">ClassRoom<span class="underline"></span></a>
             </li>
             <li>
               <a href="/login">Login<span class="underline"></span></a>
@@ -88,7 +105,7 @@
       </nav>
       <div class="text">
         <h2>Welcome</h2>
-        <h1>THE CAMPUS</h1>
+        <h1>THE CAMPUS GLOBAL</h1>
         <div class="arrow">
           <span class="left"></span>
           <i class="fas fa-asterisk"></i>
@@ -98,7 +115,7 @@
         <div class="button"><button id="exploreButton">Explore</button></div>
       </div>
 
-      <svg
+      <!-- <svg
         class="svg-down"
         width="192"
         height="61"
@@ -114,21 +131,31 @@
           fill="currentColor"
           d="M80.3,61.5c0,0,22.1-2.7,43.1-5.4s41-5.4,36.6-5.4c-21.7,0-34.1-12.7-44.9-25.4S95.3,0,80.3,0c-15,0-24.1,12.7-34.9,25.4S22.3,50.8,0.6,50.8c-4.3,0-6.5,0,3.5,1.3S36.2,56.1,80.3,61.5z"
         ></path>
-      </svg>
+      </svg> -->
 
-      <div class="arrow-down"></div>
+      <!-- <div class="arrow-down"></div> -->
     </header>
+    <div style="color: white;padding-block: 100px;background-color: #a077ff;width: 100%;display: flex;justify-content: center;align-items: center;">
+      <p class="statname">Students</p>
+      <p class="statistic">2000</p>
+
+      <p class="statname" >Teachers</p>
+      <p class="statistic">1000</p>
+
+      <p class="statname">Entreprises</p>
+      <p class="statistic">344</p>
+    </div>
+  
     <!--End Header-->
 
     <!--start About Us-->
     <div class="about-us">
       <div class="text">
         <h2>Discover</h2>
-        <h3>Our Website</h3>
+        <h3>Campus GLOBAL</h3>
         <div><i class="fas fa-asterisk"></i></div>
         <p>
-          Our platform serves as a dynamic hub for communication, learning, and
-          the exchange of knowledge.
+          In today's digital age, "The Campus" revolutionizes the educational landscape as a comprehensive online platform tailored for students, teachers, and enterprises. Functioning akin to LinkedIn, it offers a diverse array of features including virtual classrooms, social networking capabilities, messaging tools, and integrated video classes. This convergence of functionalities transcends traditional learning boundaries, empowering users to engage in dynamic educational experiences irrespective of geographical constraints.
         </p>
       </div>
       <div class="image-container">
@@ -185,18 +212,23 @@
         <h3>Global</h3>
         <div><i class="fas fa-asterisk"></i></div>
         <p>
-          Effective communication lies at the heart of our platform, fostering
-          seamless interaction both among individuals and within groups of
-          members. From one-on-one exchanges to vibrant group discussions, our
-          platform facilitates open dialogue, encouraging users to share ideas,
-          seek feedback, and collaborate on projects.
+          "The Campus" serves as a pivotal bridge between academia and industry, facilitating seamless interactions between students and enterprises. Through its innovative platform, companies can identify and engage with talented individuals, offering internships, mentorship programs, and recruitment opportunities. Simultaneously, students gain valuable insights into real-world scenarios, augmenting their academic learning with practical experiences and industry exposure.
         </p>
       </div>
     </div>
     <!--End Menu-->
 
     <!--End fixed-image-->
+    <div style="color: white;padding-block: 100px;background-color: #a077ff;width: 100%;display: flex;justify-content: center;align-items: center;">
+      <p class="statname">Events</p>
+      <p class="statistic">2200</p>
 
+      <p class="statname">Groups</p>
+      <p class="statistic">1700</p>
+
+      <p class="statname">Classrooms</p>
+      <p class="statistic">900</p>
+    </div>
     <!--start About Us-->
     <div class="reservation">
       <div class="text">
@@ -204,9 +236,7 @@
         <h3>platform</h3>
         <div><i class="fas fa-asterisk"></i></div>
         <p>
-          The objective of this educational platform is to create a dynamic and
-          interactive online environment that facilitates learning and
-          collaboration among teachers, students, and professionals.
+          "The Campus" represents a paradigm shift in education, harnessing the power of innovation to redefine the learning experience. By seamlessly integrating virtual classrooms, social networking features, messaging tools, and video classes, it offers a holistic educational platform tailored to the needs of students, teachers, and enterprises. This innovative approach transcends traditional educational models, empowering users to engage in dynamic and interactive learning experiences that foster creativity, critical thinking, and collaboration. With "The Campus," education becomes more than just a classroom experience—it becomes a journey of exploration, discovery, and lifelong learning.
         </p>
       </div>
       <div class="image-container">
@@ -219,45 +249,55 @@
 
     <!--Start Footer-->
     <footer>
-      <div class="text">
+      <div class="text" >
         <h2>Building Our Future Together: Uniting for Success</h2>
         <div><i class="fas fa-asterisk"></i></div>
         <p>
-          "Learning is a treasure that follows its owner everywhere." - Chinese
-          Proverb
+          "Learning is a treasure that follows its owner everywhere." <br>
+          - Chinese Proverb
         </p>
       </div>
-      <div class="contact-container">
-        <!-- <div class="social-media">
-            <h3>Follow Along</h3>
-            <div class="links">
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-facebook-square"></i></a>
-                <a href="#"><i class="fab fa-pinterest"></i></a>
-                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-            </div>
-        </div> -->
-        <div class="newsletter">
-          <h3>NewsLetter</h3>
-          <form method="post">
-            <input type="email" name="email" placeholder="Type Your Email" />
-            <i class="fas fa-envelope"></i>
-          </form>
-        </div>
-      </div>
+     
     </footer>
     <!--End Footer-->
 
     <!-- Add your site or application content here -->
     <script src="{% static 'Javascript/index/index.js'%}"></script>
+    <script>
+      window.onload = function() {
+        var statistics = document.querySelectorAll(".statistic");
+        var options = {
+          useEasing: true,
+          useGrouping: true,
+          separator: ",",
+          decimal: "."
+        };
+  
+        statistics.forEach(function(statistic) {
+          var value = parseFloat(statistic.textContent.replace(/,/g, ''));
+          animateValue(statistic, 0, value, 10000);
+        });
+  
+        function animateValue(element, start, end, duration) {
+          var range = end - start;
+          var current = start;
+          var increment = end > start ? 1 : -1;
+          var stepTime = Math.abs(Math.floor(duration / range));
+          var timer = setInterval(function() {
+            current += increment;
+            element.textContent = current.toLocaleString();
+            if (current == end) {
+              clearInterval(timer);
+            }
+          }, stepTime);
+        }
+      };
+    </script>
+
 
     <script>
-      document.onload = function () {
-        document.getElementsByClassName(".count-number").counterUp({
-          delay: 10,
-          time: 1000,
-        });
-      };
+
+
 
       document
         .getElementById("exploreButton")

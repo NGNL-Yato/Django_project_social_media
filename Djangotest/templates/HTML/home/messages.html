@@ -1,5 +1,4 @@
 {% load static %}
-{% if not visitor %}
 <div class="messenger-search">
     <i class="fa-solid fa-user-group"></i>
     <h4>Friends</h4>
@@ -7,7 +6,7 @@
 
 <ul>
     {% for obj in usersobj %}
-    <li>
+    <li onclick="voirproifle('{{obj.full_name}}')">
         <img src="/media/{{obj.profile_picture}}" alt="user">
         <b>{{obj.full_name}} 
             {% if obj.online == 'online' %}
@@ -19,4 +18,9 @@
     </li>
 {% endfor %}
 </ul>
-{% endif %}
+<script>
+    function voirproifle(fullname){
+        f= fullname.replace(/ /g, "-");
+        window.location.href = '/profile/'+f
+}
+</script>

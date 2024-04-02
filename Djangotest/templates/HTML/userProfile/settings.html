@@ -4,10 +4,43 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="shortcut icon" href="{%static 'Assets/Images/Logo_Ws.png' %}" type="image/x-icon">
     <meta charset="utf-8">
     <title>Settings</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
     <link rel="stylesheet" href="{% static 'CSS/userProfile/settings.css'%}">
+<style>
+  /* .website-name h2 span {
+    
+  } */
+  
+  .website-name h2 {
+    cursor: pointer;
+    /* font-family: 'Montserrat', sans-serif; */
+    margin-top: 15px;
+    /* margin-bottom: 30px; */
+    font-size: 25px;
+    text-transform: uppercase;
+    font-weight: 900;
+    color: #5720d8;
+    letter-spacing: 1px;
+    position: relative;
+    font-family: 'Poppins', sans-serif;
+}
+
+  .website-name h2 span {
+  
+    text-shadow: -1px 0 #6632e0, 0 1px #6632e0, 1px 0 #6632e0, 0 -1px #6632e0;
+    /* font-family: 'Montserrat', sans-serif; */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-size: 25px;
+    /* color: #6632e0; */
+    color: #fff;
+    font-weight: 900;
+    position: relative;
+}
+</style>
   </head>
   <body>
 
@@ -18,7 +51,12 @@
         <div class="header-section">
           <div class="header-content">
             <div class="header-container logo">
-              <img src="{%static 'Assets/Images/Logo_Ws.png' %}" class="platform-logo">
+              <!-- <img src="{%static 'Assets/Images/Logo_Ws.png' %}" class="platform-logo"> -->
+              <div class="logoBox">
+                <div class="website-name" style="display: flex;" data-url="{% url 'home' %}">
+                    <h2><em>Campus</em> <span>Media</span></h2>
+                </div>
+            </div>
             </div>
             <div class="header-container header-nav">
               <!-- <a href="#"></a> -->

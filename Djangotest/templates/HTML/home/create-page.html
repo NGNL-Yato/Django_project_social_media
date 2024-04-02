@@ -50,7 +50,12 @@
         </li>
         <li>
             <b>{{ random_group.group_name }} <span>{{ random_group.member_count }} Members</span></b>
-            <button onclick='location.href="{% url 'group_posts' group_name=random_group.group_name %}"'>Check group</button>
+            <button onclick="checkgroups()">Check group</button>
         </li>
     </ul>
 </div>
+<script>
+  function checkgroups(){
+    window.location.href="{% url 'group_posts' group_name=random_group.group_name %}"
+    }
+</script>

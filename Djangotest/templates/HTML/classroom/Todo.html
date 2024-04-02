@@ -5,7 +5,8 @@
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>profile</title>
+    <link rel="shortcut icon" href="{%static 'Assets/Images/Logo_Ws.png' %}" type="image/x-icon">
+    <title>profile</title>
 
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
@@ -58,7 +59,7 @@
         <!-- <a href="#"><i class="fas fa-box-archive"></i><span>archived courses</span></a> -->
 
         {% if userdata.utilisateur.role is 2 %}   
-        <a href="{% url 'Todo' %}"><i class="fas fa-check"></i><span>To Do</span></a>
+        <!-- <a href="{% url 'Todo' %}"><i class="fas fa-check"></i><span>To Do</span></a> -->
     {% endif %}
         <a href="settings.html"><i class="fas fa-gear"></i><span>Settings</span></a>
   

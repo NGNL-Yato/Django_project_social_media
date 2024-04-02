@@ -9,6 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="shortcut icon" href="{%static 'Assets/Images/Logo_Ws.png' %}" type="image/x-icon">
 
     <title>Welcome</title>
     
@@ -50,7 +51,7 @@
       <div class="row">
         <div class="col-lg-4 col-12">
           <div class="features-post">
-            <div class="features-content" style="background-color:#00ced1; transition: background-color 0.3s, box-shadow 0.3s;" onmouseover="this.style.backgroundColor='#159496'; this.style.boxShadow='0 0 20px #159496';" onmouseout="this.style.backgroundColor='#00ced1'; this.style.boxShadow='none';">
+            <div class="features-content" onclick="redirect(1)" style="background-color:#00ced1; transition: background-color 0.3s, box-shadow 0.3s;" onmouseover="this.style.backgroundColor='#159496'; this.style.boxShadow='0 0 20px #159496';" onmouseout="this.style.backgroundColor='#00ced1'; this.style.boxShadow='none';">
         
                 <div class="content-show">
                 <h4><i class="fa fa-home" aria-hidden="true"></i>
@@ -68,7 +69,7 @@
         </div>
         <div class="col-lg-4 col-12">
           <div class="features-post second-features">
-            <div class="features-content">
+            <div class="features-content" onclick="redirect(2)">
               <div class="content-show">
                 <h4><i class="fa fa-graduation-cap"></i>Campus Classrrom</h4>
               </div>
@@ -82,7 +83,7 @@
         </div>
         <div class="col-lg-4 col-12">
           <div class="features-post third-features">
-            <div class="features-content" style="background-color: #A077FF; transition: background-color 0.3s, box-shadow 0.3s;" onmouseover="this.style.backgroundColor='blueviolet'; this.style.boxShadow='0 0 20px blueviolet';" onmouseout="this.style.backgroundColor='#A077FF'; this.style.boxShadow='none';">
+            <div class="features-content" onclick="redirect(3)" style="background-color: #A077FF; transition: background-color 0.3s, box-shadow 0.3s;" onmouseover="this.style.backgroundColor='blueviolet'; this.style.boxShadow='0 0 20px blueviolet';" onmouseout="this.style.backgroundColor='#A077FF'; this.style.boxShadow='none';">
         
           
                <div class="content-show">
@@ -111,6 +112,19 @@
     <script src="/static/Javascript/welcome/js/slick-slider.js"></script>
     <script src="/static/Javascript/welcome/js/custom.js"></script>
     <script>
+
+      function redirect(params) {
+          if (params == 1){
+            window.location.href = '/about/'
+          }else if(params == 2){
+            window.location.href = '/classroom/home'
+
+          }else if (params == 3){
+            window.location.href = '/home'
+
+          }
+      }
+
         //according to loftblog tut
         $('.nav li:first').addClass('active');
 
