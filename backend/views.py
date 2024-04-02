@@ -39,6 +39,34 @@ def remove_follower(request, first_name, last_name):
     # Redirect to the profile page of the follower
     return redirect('myfollowers')
 
+#
+#
+def unfollow_user_profile(request, first_name, last_name):
+    if not request.user.is_authenticated:
+        return redirect('home')
+    #
+    user_to_unfollow = models.User.objects.filter(first_name=first_name, last_name=last_name).first()
+    
+    if user_to_unfollow is None:
+        return redirect('home')  
+
+    user_to_unfollow = user_to_unfollow.utilisateur    
+    current_user = request.user.utilisateur
+    
+    # Check if the authenticated user is trying to unfollow themselves
+    if current_user == user_to_unfollow:
+        return redirect('home')  
+
+    
+    # Check if the follow relationship exists
+    follow_instance = models.follow.objects.filter(follower=current_user, followed=user_to_unfollow).first()
+    
+    if follow_instance is None:
+        return redirect('home')  
+    
+    follow_instance.delete()
+
+    return redirect('hisprofile',first_name=first_name, last_name=last_name)
 
 # unfollow_user
 def unfollow_user(request, first_name, last_name):

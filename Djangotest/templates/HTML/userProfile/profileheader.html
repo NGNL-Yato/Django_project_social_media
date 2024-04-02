@@ -47,7 +47,9 @@
         
 
       <div class="profile-btn" style=" align-content: center;display: flex;">
-        {% if not myprofile %}
+
+
+        {% if not myprofile and not ifollowhim and not hefollowsme %}
         <a href="{% url 'follow' first_name=userdata.first_name last_name=userdata.last_name %}" class="primary-btn">
           <img src="{%static 'Assets/Images/connect.png'%}" alt="connect"/>Follow</a>
 
@@ -55,6 +57,13 @@
                 <a href="{% url 'chat_app' %}">
                 <img src="{%static '/Assets/Images/chat.png'%}" alt="connect" /> Message </a> 
                 {% endcomment %}
+
+                  {% elif not myprofile and hefollowsme and not ifollowhim %}
+                  <a href="{% url 'follow' first_name=userdata.first_name last_name=userdata.last_name %}" class="primary-btn">
+                    <img src="{%static 'Assets/Images/connect.png'%}" alt="connect"/>Follow Back</a>
+                  {% elif not myprofile and ifollowhim  %}
+                  <a href="{% url 'unfollowprofile' first_name=userdata.first_name last_name=userdata.last_name %}" class="primary-btn">
+                    <img src="{%static 'Assets/Images/connect.png'%}" alt="connect"/>UnFollow</a>
           {% endif %}
 
           {% if utilisateurdata.CV %}

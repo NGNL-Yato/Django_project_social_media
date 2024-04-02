@@ -11,6 +11,9 @@ from django.db.models import Count
 from random import choice
 from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist
+from datetime import datetime
+from django.utils import timezone
+
 
 import random
 import string
@@ -200,6 +203,8 @@ def view_profile(request,first_name, last_name):
     random_group = choice(Group.objects.annotate(member_count=Count('user')).order_by('-member_count'))
     latest_event = Event.objects.order_by('-created_at').first()
     user = User.objects.get(first_name=first_name, last_name=last_name)
+    ifollowhim = False
+    hefollowsme = False
 
 
 
@@ -212,8 +217,14 @@ def view_profile(request,first_name, last_name):
                 uss = request.user.id
                 theloggeduser = models.User.objects.filter(id=uss).first()
 
+                if theloggeduser.utilisateur.following.filter(followed=user.utilisateur).exists():
+                    ifollowhim = True
+                if user.utilisateur.following.filter(followed=theloggeduser.utilisateur).exists():
+                    hefollowsme = True
+
                 friends = set()
                 for f in theloggeduser.utilisateur.following.all():
+
                     if f.followed.followers.filter(follower=theloggeduser.utilisateur).exists():
                         friends.add(f.followed)
                 friends = {friend for friend in friends if friend.following.filter(followed=theloggeduser.utilisateur).exists()}
@@ -233,7 +244,8 @@ def view_profile(request,first_name, last_name):
                     all_users_names.append(obj)
 
                 isguest = False   
-                context = {
+                context = {'ifollowhim':ifollowhim,
+                           'hefollowsme':hefollowsme,
                             'visiteur':isguest,
                             'userdata':user,
                             'user_pdp': u.profile_picture,
@@ -1167,19 +1179,31 @@ def taskDetails(request,id):
         
         task = models.Task.objects.filter(id=id).first()
         uid = task.classroom.UniqueinvitationCode
-        classroom = models.ClassRoom.objects.get(UniqueinvitationCode=uid)
+        classroom = models.ClassRoom.objects.filter(UniqueinvitationCode=uid).first()
+        std = models.Etudiant.objects.filter(utilisateur=request.user.utilisateur).first()
 
+        now = timezone.now()
+        delaiDepasse = True if task.due_date < now else False
 
+        dejapostule = models.TaskResponse.objects.filter(student=std, task=task).exists()
+
+        touteslesetudiantquedejapostule = models.TaskResponse.objects.filter(task=task)
+        
         if ClassRoom.objects.filter(UniqueinvitationCode=uid).exists():
             classroom = ClassRoom.objects.get(UniqueinvitationCode=uid)
             context = {
                 'userdata':request.user,
                 'taskResponseform':TaskResponseForm(),
-
+                'delaiDepasse': delaiDepasse,
                 'task': task,
+                'touteslesetudiantquedejapostule':touteslesetudiantquedejapostule,
+                'dejapostule':dejapostule,
                 'classroom': classroom
              }
+            
             return render(request, 'HTML/classroom/taskDetails.html', context)
+    else :
+        return redirect('Classroom')
 #
 def create_Task(request, uid):
     if request.user.is_authenticated and request.method == 'POST':
@@ -1198,18 +1222,25 @@ def create_Task(request, uid):
 #
 def create_TaskResponse(request, id):
     if request.user.is_authenticated and request.method == 'POST':
-        task = models.Task.objects.get(id=id)
-    
+        task = models.Task.objects.filter(id=id).first()
 
         if task:
-            print(task)
+            # print(task)
             taskResponseform = TaskResponseForm(request.POST, request.FILES)
             if taskResponseform.is_valid():
                 taskResponse = taskResponseform.save(commit=False)
-                taskResponse.task = task
+                taskResponse.task = task #####
                 taskResponse.student = Etudiant.objects.filter(utilisateur=request.user.utilisateur).first()
                 taskResponse.save()
-                return redirect('Course', id=id)
+            
+        return redirect('Course', uid=task.classroom.UniqueinvitationCode)
+    else:
+        return redirect('Classroom')
+    
+# def VoirTaskReponces(request, taskid):
+#     if request.user.is_authenticated:
+        
+#         return render(request,'HTML/classroom/')
 #        
 def deleteTask(request, id):
     task = models.Task.objects.filter(id=id).first()

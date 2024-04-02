@@ -435,6 +435,4 @@ class TaskResponse(models.Model):
     student = models.ForeignKey(Etudiant, on_delete=models.CASCADE)  
     file_Response = models.FileField(upload_to='task_responses/')
     submission_time = models.DateTimeField(default=timezone.now)  
-    def clean(self):
-        if self.submission_time > self.task.deadline:
-            raise ValidationError("La réponse a été soumise après la date limite de la tâche.")
+    
