@@ -36,16 +36,19 @@
     <p>No conversation to display</p>
     {% else %} {% endcomment %}
     <div class="chat-messages" id="conversation_id">
-        <div class="card">
+        <div id="startChattingMessage" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+            <p>Choose a room to start chatting</p>
+        </div>
+        <div class="card" >
             <div class="message_top_info">
                 <div class="message_header">
                     <div id="Conversation_front_img" class="img_cont">
-                        <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="user_img">
+                        <img src="" class="user_img">
                         <span class="online_icon"></span>
                     </div>
                     <div class="user_info">
-                        <span>Khalid Charif</span>
-                        <p>Online</p>
+                        <span></span>
+                        <p></p>
                     </div>
                 </div>
                 <div class="more_options">
@@ -66,7 +69,7 @@
                 </div>
             </div>
             <div class="message_box">
-                <div class="message_container_receiver">
+                {% comment %} <div class="message_container_receiver">
                     <div class="img_cont_msg">
                         <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="user_img_msg">
                     </div>
@@ -83,7 +86,7 @@
                     <div class="img_cont_msg">
                         <img src="https://avatars.hsoubcdn.com/ed57f9e6329993084a436b89498b6088?s=256" class="user_img_msg">
                     </div>
-                </div>
+                </div> {% endcomment %}
             </div>
             {% comment %} <div id="overlayContainer"></div> {% endcomment %}
             <div class="relative-container">

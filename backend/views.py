@@ -17,6 +17,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.core.paginator import Paginator
+from django.urls import reverse
 
 
 
@@ -773,6 +774,7 @@ def get_or_create_conversation(request):
             file_urls = [message_file.file.url for message_file in message.files.all()]
             messages_data.append({
                 'sender': message.sender.username,
+                'sender_picture': message.sender.utilisateur.profile_picture.url,  # Add this line
                 'content': message.content,
                 'timestamp': message.timestamp.strftime('%Y-%m-%d %H:%M:%S'),
                 'is_user_sender': is_user_sender,
@@ -796,20 +798,25 @@ def send_message(request):
         if file:
             MessageFile.objects.create(message=message, file=file)
         return JsonResponse({'message': 'Message sent successfully'})
-    
+
+
 def search(request):
     search_text = request.GET.get('search_text', '')
-    users = get_user_model().objects.filter(Q(first_name__icontains=search_text) | Q(last_name__icontains=search_text))
+    users = get_user_model().objects.filter(Q(first_name__icontains=search_text) | Q(last_name__icontains=search_text),is_superuser=False)
     groups = Group.objects.filter(Q(group_name__icontains=search_text) & Q(target='public'))
     user_results = list(users.values('username', 'first_name', 'last_name'))
     for user in user_results:
         user['type'] = 'user'
+        user['url'] = reverse('hisprofile', kwargs={'first_name': user['first_name'], 'last_name': user['last_name']})
         if(len(user['first_name']) > 5):
             break
     group_results = list(groups.values('group_name'))
     for group in group_results:
         group['type'] = 'group'
+        group['url'] = reverse('group_posts', kwargs={'group_name': group['group_name']})
         if(len(group['group_name']) > 5):
             break
     results = user_results + group_results
+    print (results)
+    
     return JsonResponse(results, safe=False)
