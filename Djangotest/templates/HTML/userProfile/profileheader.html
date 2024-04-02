@@ -51,8 +51,10 @@
         <a href="{% url 'follow' first_name=userdata.first_name last_name=userdata.last_name %}" class="primary-btn">
           <img src="{%static 'Assets/Images/connect.png'%}" alt="connect"/>Follow</a>
 
-        <a href="{% url 'chat_app' %}">
-          {% comment %} <img src="{%static '/Assets/Images/chat.png'%}" alt="connect" /> Message </a> {% endcomment %}
+                {% comment %}
+                <a href="{% url 'chat_app' %}">
+                <img src="{%static '/Assets/Images/chat.png'%}" alt="connect" /> Message </a> 
+                {% endcomment %}
           {% endif %}
 
           {% if utilisateurdata.CV %}
