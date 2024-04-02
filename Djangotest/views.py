@@ -140,26 +140,32 @@ def login_view(request):
 
 # seeing my profile
 def profile(request):
-    context = {
-            'random_group':choice(Group.objects.annotate(member_count=Count('user')).order_by('-member_count')),
-            'latest_event':Event.objects.order_by('-created_at').first(),
-            'userdata':request.user,
-            'user_pdp':request.user.utilisateur.profile_picture,
-            'utilisateurdata':request.user.utilisateur,
-            'skills':models.Skills.objects.filter(utilisateur=request.user.utilisateur),
-            'languages':models.Languages.objects.filter(utilisateur=request.user.utilisateur),
-            'certificates':models.Certification.objects.filter(utilisateur=request.user.utilisateur),
-            'Educations':models.Education.objects.filter(utilisateur=request.user.utilisateur),
-            'Experiences':models.Experience.objects.filter(utilisateur=request.user.utilisateur),
-            'Reaserches':models.Research.objects.filter(utilisateur=request.user.utilisateur),
-            'myprofile':True,
-               }  
+    if request.user.is_authenticated:
+        context = {
+                'random_group':choice(Group.objects.annotate(member_count=Count('user')).order_by('-member_count')),
+                'latest_event':Event.objects.order_by('-created_at').first(),
+                'userdata':request.user,
+                'user_pdp':request.user.utilisateur.profile_picture,
+                'utilisateurdata':request.user.utilisateur,
+                'skills':models.Skills.objects.filter(utilisateur=request.user.utilisateur),
+                'languages':models.Languages.objects.filter(utilisateur=request.user.utilisateur),
+                'certificates':models.Certification.objects.filter(utilisateur=request.user.utilisateur),
+                'Educations':models.Education.objects.filter(utilisateur=request.user.utilisateur),
+                'Experiences':models.Experience.objects.filter(utilisateur=request.user.utilisateur),
+                'Reaserches':models.Research.objects.filter(utilisateur=request.user.utilisateur),
+                'myprofile':True,
+                }  
+   
 
-    return render(request,'HTML/userProfile/profile.html', context)
+        return render(request,'HTML/userProfile/profile.html', context)
+    else:
+        return redirect('home')
+
 
 # seeing others profiles
 def view_profile(request,first_name, last_name):
-    
+    random_group = choice(Group.objects.annotate(member_count=Count('user')).order_by('-member_count'))
+    latest_event = Event.objects.order_by('-created_at').first()
     user = User.objects.get(first_name=first_name, last_name=last_name)
     if user is not None:    
         u = utilisateur.objects.get(user_id = user.id)
@@ -169,13 +175,16 @@ def view_profile(request,first_name, last_name):
                         'first_name':first_name,
                         'last_name':last_name,
                         'utilisateurdata':u,
-            'skills':models.Skills.objects.filter(utilisateur=u),
-            'languages':models.Languages.objects.filter(utilisateur=u),
-            'certificates':models.Certification.objects.filter(utilisateur=u),
-            'Educations':models.Education.objects.filter(utilisateur=u),
-            'Experiences':models.Experience.objects.filter(utilisateur=u),
-            'Reaserches':models.Research.objects.filter(utilisateur=u),
+                        'skills':models.Skills.objects.filter(utilisateur=u),
+                        'languages':models.Languages.objects.filter(utilisateur=u),
+                        'certificates':models.Certification.objects.filter(utilisateur=u),
+                        'Educations':models.Education.objects.filter(utilisateur=u),
+                        'Experiences':models.Experience.objects.filter(utilisateur=u),
+                        'Reaserches':models.Research.objects.filter(utilisateur=u),
                         'myprofile':False,
+                        'latest_event': latest_event,
+                        'random_group': random_group,
+
                }  
             return render(request, 'HTML/userProfile/profile.html', context)
         
@@ -197,7 +206,20 @@ def classroomJoin(request,uid):
                 p.save()
             
     return redirect('Classroom')  
+#
+#
+def videcall(request):
+    if request.user.is_authenticated:
+        context = {
+            'username':request.user.username,
+        }  
+        return render(request,'HTML/classroom/videoConferance.html',context)
+    else:
+        return redirect('Classroom')  
 
+        
+#
+#
 def welcome_view(request):
     context = {}  
 
@@ -251,51 +273,90 @@ def post_view(request,first_name, last_name):
 #         context = {'posts': posts, 'user': user}
 #     else:
 #         context = {'error': 'User not found'}
+    existuser = User.objects.filter(first_name=first_name, last_name=last_name).exists()
     
-    user = User.objects.get(first_name=first_name, last_name=last_name)
-    posts = Post.objects.filter(user=user)
-    latest_event = Event.objects.order_by('-created_at').first()
-    random_group=choice(Group.objects.annotate(member_count=Count('user')).order_by('-member_count'))
+    if existuser:
+        user = User.objects.get(first_name=first_name, last_name=last_name)
+        posts = Post.objects.filter(user=user)
+        latest_event = Event.objects.order_by('-created_at').first()
+        random_group=choice(Group.objects.annotate(member_count=Count('user')).order_by('-member_count'))
 
-    if user is not None:    
-        u = utilisateur.objects.get(user_id = user.id)
-        if u is not None:
-            context = { 'posts': posts,
-                        'user': user,
-                        'userdata':user,
-                        'user_pdp': u.profile_picture,
-                        'first_name':first_name,
-                        'last_name':last_name,
-                        'utilisateurdata':u,
-                        'skills':models.Skills.objects.filter(utilisateur=u),
-                        'languages':models.Languages.objects.filter(utilisateur=u),
-                        'certificates':models.Certification.objects.filter(utilisateur=u),
-                        'Educations':models.Education.objects.filter(utilisateur=u),
-                        'Experiences':models.Experience.objects.filter(utilisateur=u),
-                        'Reaserches':models.Research.objects.filter(utilisateur=u),
-                        'myprofile':False,
-                        'postview':True,
-                        'latest_event': latest_event,
-                        'random_group':random_group,
-               }  
+        if user is not None:    
+            u = utilisateur.objects.get(user_id = user.id)
+            if u is not None:
+                if request.user.is_authenticated:
+                    isguest = False
+                    # user = request.user
+                    user_email = user.email        
+                    user_first_name = user.first_name
+                    # user_pdp = user.utilisateur.profile_picture
+
+                    context = { 'posts': posts,
+                                'user': request.user,
+                                'userdata':user,
+                                'user_pdp': u.profile_picture,
+                                'first_name':first_name,
+                                'last_name':last_name,
+                                'utilisateurdata':u,
+                                'skills':models.Skills.objects.filter(utilisateur=u),
+                                'languages':models.Languages.objects.filter(utilisateur=u),
+                                'certificates':models.Certification.objects.filter(utilisateur=u),
+                                'Educations':models.Education.objects.filter(utilisateur=u),
+                                'Experiences':models.Experience.objects.filter(utilisateur=u),
+                                'Reaserches':models.Research.objects.filter(utilisateur=u),
+                                'myprofile':True,
+                                'postview':True,
+                                'latest_event': latest_event,
+                                'random_group':random_group,
+                    }  
+                else:
+                    isguest = True
+                    user_email = "Guest@g.uae.ac.ma"       
+                    user_first_name = "visiteur"
+                    user_pdp = 'Images/us2.png'
+                    allUsers = ''  
+                    context = { 
+                                'visiteur':isguest,
+                                'user_email':user_email,
+                                'user_first_name':user_first_name,
+                                # 'user_pdp':user_pdp,
+                                'posts': posts,
+                                'user': user,
+                                'userdata':user,
+                                'user_pdp': u.profile_picture,
+                                'first_name':first_name,
+                                'last_name':last_name,
+                                'utilisateurdata':u,
+                                'skills':models.Skills.objects.filter(utilisateur=u),
+                                'languages':models.Languages.objects.filter(utilisateur=u),
+                                'certificates':models.Certification.objects.filter(utilisateur=u),
+                                'Educations':models.Education.objects.filter(utilisateur=u),
+                                'Experiences':models.Experience.objects.filter(utilisateur=u),
+                                'Reaserches':models.Research.objects.filter(utilisateur=u),
+                                'myprofile':True,
+                                'postview':True,
+                                'latest_event': latest_event,
+                                'random_group':random_group,
+                    }  
     else: 
-        context = {     'error': 'User not found',
-                        'userdata':user,
-                        'user_pdp': u.profile_picture,
-                        'first_name':first_name,
-                        'last_name':last_name,
-                        'utilisateurdata':u,
-                        'skills':models.Skills.objects.filter(utilisateur=u),
-                        'languages':models.Languages.objects.filter(utilisateur=u),
-                        'certificates':models.Certification.objects.filter(utilisateur=u),
-                        'Educations':models.Education.objects.filter(utilisateur=u),
-                        'Experiences':models.Experience.objects.filter(utilisateur=u),
-                        'Reaserches':models.Research.objects.filter(utilisateur=u),
-                        'myprofile':False,
-                        'postview':True,
-                        'latest_event': latest_event,
-                        'random_group':random_group,
-               }    
+        return redirect('home')
+        # context = {     'error': 'User not found',
+        #                 'userdata':user,
+        #                 'user_pdp': u.profile_picture,
+        #                 'first_name':first_name,
+        #                 'last_name':last_name,
+        #                 'utilisateurdata':u,
+        #                 'skills':models.Skills.objects.filter(utilisateur=u),
+        #                 'languages':models.Languages.objects.filter(utilisateur=u),
+        #                 'certificates':models.Certification.objects.filter(utilisateur=u),
+        #                 'Educations':models.Education.objects.filter(utilisateur=u),
+        #                 'Experiences':models.Experience.objects.filter(utilisateur=u),
+        #                 'Reaserches':models.Research.objects.filter(utilisateur=u),
+        #                 'myprofile':False,
+        #                 'postview':True,
+        #                 'latest_event': latest_event,
+        #                 'random_group':random_group,
+        #        }    
         
     return render(request,'HTML/userProfile/post.html', context)
 
@@ -764,7 +825,39 @@ def all_groups(request):
         groups = models.Group.objects.filter(target='public', group_name__icontains=query)
     else:
         groups = models.Group.objects.filter(target='public')
-    context = {'groups': groups}
+
+    # context = {}
+
+    if request.user.is_authenticated:
+            isguest = False
+            user = request.user
+            user_email = user.email        
+            user_first_name = user.first_name
+            user_pdp = user.utilisateur.profile_picture
+            
+
+            context = {
+                        'groups': groups,
+                        'visiteur':isguest,
+                        'user_email':user_email,
+                        'user_first_name':user_first_name,
+                        'user_pdp':user_pdp,
+                    }
+
+    else:
+            isguest = True
+            user_email = "Guest@g.uae.ac.ma"       
+            user_first_name = "visiteur"
+            user_pdp = 'Images/us2.png'
+            allUsers = ''    
+            context = {
+                        'groups': groups,
+                        'visiteur':isguest,
+                        'user_email':user_email,
+                        'user_first_name':user_first_name,
+                        'user_pdp':user_pdp,
+                    }
+
     return render(request, 'HTML/components/groups.html', context)
 
 from django.db.models import Q
@@ -806,13 +899,88 @@ def all_utilisateurs(request):
         professors = list(set([user.utilisateur for user in users if hasattr(user, 'utilisateur') and hasattr(user.utilisateur, 'professor')]))
         enterprises = [user.utilisateur for user in users if hasattr(user, 'utilisateur') and hasattr(user.utilisateur, 'enterprise')]
 
-        context = {'etudiants': etudiants, 'professors': professors, 'enterprises': enterprises, 'skills': skills, 'experiences': experiences, 'languages': languages, 'certifications': certifications, 'educations': educations, 'researches': researches}
+        if request.user.is_authenticated:
+            isguest = False
+            user = request.user
+            user_email = user.email        
+            user_first_name = user.first_name
+            user_pdp = user.utilisateur.profile_picture
+            context = {
+                        'etudiants': etudiants,
+                        'professors': professors,
+                        'enterprises': enterprises,
+                        'skills': skills,
+                        'experiences': experiences,
+                        'languages': languages,
+                        'certifications': certifications,
+                        'educations': educations,
+                        'researches': researches,
+                        'visiteur':isguest,
+                        'user_email':user_email,
+                        'user_first_name':user_first_name,
+                        'user_pdp':user_pdp,
+                        # 'usersobj':all_users_names,
+                        }
+            
+        else:
+            isguest = True
+            user_email = "Guest@g.uae.ac.ma"       
+            user_first_name = "visiteur"
+            user_pdp = 'Images/us2.png'
+            allUsers = ''   
+            context = {
+                        'etudiants': etudiants,
+                        'professors': professors,
+                        'enterprises': enterprises,
+                        'skills': skills,
+                        'experiences': experiences,
+                        'languages': languages,
+                        'certifications': certifications,
+                        'educations': educations,
+                        'researches': researches,
+                        'visiteur':isguest,
+                        'user_email':user_email,
+                        'user_first_name':user_first_name,
+                        'user_pdp':user_pdp,
+                        # 'usersobj':all_users_names,
+                        }
     
     else:
         users = models.User.objects.filter(is_superuser=False)[:20]
-        context = {'users': users}
+        if request.user.is_authenticated:
+            isguest = False
+            user = request.user
+            user_email = user.email        
+            user_first_name = user.first_name
+            user_pdp = user.utilisateur.profile_picture
+            
+
+            context = {
+                        'users': users,
+                        'visiteur':isguest,
+                        'user_email':user_email,
+                        'user_first_name':user_first_name,
+                        'user_pdp':user_pdp,
+                    }
+
+        else:
+            isguest = True
+            user_email = "Guest@g.uae.ac.ma"       
+            user_first_name = "visiteur"
+            user_pdp = 'Images/us2.png'
+            allUsers = ''    
+            context = {
+                        'users': users,
+                        'visiteur':isguest,
+                        'user_email':user_email,
+                        'user_first_name':user_first_name,
+                        'user_pdp':user_pdp,
+                    }
 
     return render(request, 'HTML/components/users.html', context)
+
+
+
 
 def get_student_answers(student_id, qcm_id):
     student = utilisateur.objects.get(id=student_id)
