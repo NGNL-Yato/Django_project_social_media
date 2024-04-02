@@ -33,11 +33,13 @@ $(document).ready(function() {
 });
 $('#search-input').on('input', function() {
     var query = $(this).val();
+    var groupName = window.location.pathname.split('/')[2];
     if (query.length > 0) {  // Only make the AJAX call if the input field is not empty
         $.ajax({
             url: '/search_people/',
             data: {
-                'query': query
+                'query': query,
+                'group_name': groupName
             },
             success: function(data) {
                 console.log(data);
@@ -270,3 +272,52 @@ $(document).on('click', function(event) {
         }, 100);
     }
 });
+document.querySelectorAll('.form').forEach(form => {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        let postId = this.getAttribute('data-post-id');
+        let text = this.querySelector('input[name="text"]').value;
+        console.log(postId, text)
+        
+        let formData = new FormData();
+        formData.append('post_id', postId);
+        formData.append('text', text);
+
+        fetch('/add_comment/', {
+            method: 'POST',
+            body: formData
+        }).then(response => response.json())
+        .then(data => {
+            console.log(data.message);
+            // After a comment is posted, fetch and display the comments
+            fetchComments(postId);
+        });
+    });
+});
+let commentButton = document.querySelector('#commentButton');  
+commentButton.addEventListener('click', function() {
+    let postId = this.getAttribute('data-post-id'); 
+    console.log('postId:', postId);  // Log the postId
+    if (postId) {  // Only call fetchComments if postId is not null
+        fetchComments(postId);
+    } else {
+        console.log('postId is null');
+    }
+});
+function fetchComments(postId) {
+    fetch(`/get_comments/${postId}/`)
+    .then(response => response.json())
+    .then(comments => {
+        let list = document.querySelector(`#list${postId}`);
+        list.innerHTML = '';  // Clear the list
+        comments.forEach(comment => {
+            // Append each comment to the list
+            let listItem = document.createElement('li');
+            let img = document.createElement('img');
+            img.src = '/media/' + comment.user__utilisateur__profile_picture;  // Prepend '/media/' to the image source URL
+            listItem.appendChild(img);
+            listItem.appendChild(document.createTextNode(`${comment.user__first_name} ${comment.user__last_name}: ${comment.text}`));
+            list.appendChild(listItem);
+        });
+    });
+}

@@ -80,8 +80,9 @@ $(document).on('click', '.user_friend_displayed', function() {
     $('li.active').removeClass('active');
     $(this).closest('li').addClass('active');
     var username = $(this).find('.user_info span').attr('data_username');
+    var usernamedisplayed = $(this).find('.user_info span').text();
     var profilePicture = $(this).find('.img_cont img').attr('src');
-    $('.message_header .user_info span').text(username);
+    $('.message_header .user_info span').text(usernamedisplayed);
     $('.message_header .img_cont img').attr('src', profilePicture);
     $('.message_box').empty();
     $('.chat-messages').show();
