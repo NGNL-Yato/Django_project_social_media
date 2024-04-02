@@ -120,19 +120,41 @@
    <section class="home-grid">
     <div class="box-container">
         <div id="container"  >
-            <div id="header">
-                <div id="header-content" style="color:white">{{classroom.title}} <br/></div>
-              </div>
-              <div id="content">
-                <div class="task-details">
-                    <h2 class="task-title">{{ task.title }}</h2>
-                    <p class="task-due-date">Due Date: {{ task.due_date }}</p>
-                    <p class="task-due-date">{{task.creator}}</p>
-                    <br><br>
-                    <div style="background-color: rgb(234, 223, 229);height: 2px; width: 60%;margin-left:180px;"></div>
+            <div id="content">
+                <div class="task-details" style="display:grid;">
+                    <!-- <div id="">
+                        <div id="" style="font-size: 20px;color:white">{{classroom.title}} <br/></div>
+                      </div> -->
 
-                    <p class="task-description">{{ task.description }}</p>
-                    {% if userdata.utilisateur.role is 2 %}
+                    <div  style="width: 100%;display: flex;justify-content: center;">
+                        <h2 class="task-title">{{ task.title }}</h2>
+                    </div>
+
+                    <!-- <div style="display: flex;justify-content: center;">
+                        <div style="background-color: rgb(234, 223, 229);height: 2px; width: 60%;">
+                        </div>
+                    </div> -->
+
+                    <div style="width: 100%;display: flex;justify-content: end;">
+                        <b style="font-size: 20px;" class="">{{task.creator}}</b>
+                    </div>
+                    <div style="width: 100%;display: flex;justify-content: end;">
+                        <p style="font-size: 20px;" class="">Due Date: {{ task.due_date }}</p>
+                    </div>
+                  
+                    <br><br>
+                  
+                    <div style="display: flex;justify-content: end;">
+                        <div style="background-color: rgb(234, 223, 229);height: 2px; width: 30%;">
+                        </div>
+                    </div>
+
+                    <div style="width: 100%; display: flex;justify-content: center;align-items: center;min-height: 100px;">
+                        <p style="font: 500;font-size: 25px;" class="">{{ task.description }}</p>
+                    </div>
+
+                    {% if not dejapostule %}
+                    {% if userdata.utilisateur.role is 2 and not delaiDepasse %}
                     <form action="/create_TaskResponse/{{ task.id}}/" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
            
@@ -152,31 +174,82 @@
                         </button>              
                           </div> 
                         </form>
-                        {% else %}
-                        <div class="post-buttons">
-                            <button type="button"  style="padding: 15px;background-color: transparent;color: #eeeeee;" onclick="">
+                        {% endif %}
+                        {% endif %}
 
+                        {% if delaiDepasse%}
+                        <div>
+                            <button disabled style="padding: 10px;font-size: 25px;" >Delai Depasse</button>
+                        </div>
+                        {% endif %}
+
+                        {% if dejapostule %}
+                        <div>
+                            <button disabled style="border-radius: 20px;padding: 10px;font-size: 25px;background-color: #8e8e8e;color: white;font-weight: 500;" >Devoir Remis</button>
+                        </div>
+                        {% endif %}
+
+
+                        {% if userdata.utilisateur.role is 1 %}
+                        <div class="post-buttons">
+                            <button type="button"  style="padding: 15px;background-color: transparent;color: #eeeeee;" onclick="voirReponces()">
                             View Responses 
                                 <i class="far fa-eye"></i>
                                 </button>
-                             <button type="button" style="padding: 15px;background-color:transparent;color: #eeeeee; "onclick="deleteTask({{task.id}})"> 
+                             <button type="button" style="padding: 15px;background-color:transparent;color: #eeeeee; " onclick="deleteTask('{{task.id}}')"> 
                                 Delete Task
                                 <i class="fas fa-trash-alt"></i>
-
                              </button>
                 </div>
                         {% endif %}
                   
                 </div>
                
-</div>
 
-      </div>          
+            </div>
+            {% if userdata.utilisateur.role is 1 %}
+            <div style="display:flex;justify-content: center;">
+            <div id="kjsaksdjasd" style="margin-top: 30px;width: 60%;" >
+                
+                <!-- <div  style="display: flex;justify-content: center;"> -->
+                    {% for etudiantreponse in touteslesetudiantquedejapostule %}
+                    <div  style="width: 100%; display: flex;justify-content: space-around;">
+                        <div style="padding-block: 10px;">
+                            <img src="/media/{{etudiantreponse.student.utilisateur.profile_picture }}" style="height: 60px;width: 60px;border-radius: 50%;" alt="">
+                        </div>
+                        <div style="height: 100%; display: flex;align-items: center;">
+                            <h1 style="font: 500;font-size:27px;">
+                                {{etudiantreponse.student.utilisateur.user.first_name }} {{ etudiantreponse.student.utilisateur.user.last_name}}
+                            </h1> 
+                        </div>
+                        <div style="height: 100%;display: flex;align-items: center;">
+                            <a style="border-radius: 10px;padding: 8px;background-color: #dedede;font-size: 22px;font-weight: 300;" href="/media/{{etudiantreponse.file_Response}}">Reponse</a>
+                        </div>
+                        
+                    </div>
+                        {% endfor %}
+                        <!-- </div> -->
+            </div>
+        </div>
+
+                {% endif %}
+
+</div>          
 
 
  </div>
  </section>
 <script>
+    function voirReponces(){
+      x= document.getElementById('kjsaksdjasd')
+
+        if (x.style.display == 'none'){
+            x.style.display = ''
+        }else if (  x.style.display == ''){
+            x.style.display = 'none'
+        }
+
+    }
     function deleteTask(id){
         window.location.href='/deleteTask/'+id;
     }

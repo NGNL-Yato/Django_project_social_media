@@ -48,6 +48,8 @@ urlpatterns = [
     path('follow/<str:first_name>-<str:last_name>/', backendviews.follow_user, name='follow'),
     #
     path('unfollow/<str:first_name>-<str:last_name>/', backendviews.unfollow_user, name='unfollow'),
+    path('unfollowprofile/<str:first_name>-<str:last_name>/', backendviews.unfollow_user_profile, name='unfollowprofile'),
+
     #
     path('remove_follower/<str:first_name>-<str:last_name>/', backendviews.remove_follower, name='remove_follower'),
     #
@@ -70,6 +72,8 @@ urlpatterns = [
     path('classroom/taskDetails/<int:id>',views.taskDetails,name='taskDetails'),
     #
     path('create_TaskResponse/<int:id>/', views.create_TaskResponse, name='createTaskResponse'),    
+    #
+    # path('VoirTaskReponces/<int:id>/',views.VoirTaskReponces,name='VoirTaskReponces'),
     #
     path('deleteTask/<int:id>',views.deleteTask,name='deleteTask'),
     #
