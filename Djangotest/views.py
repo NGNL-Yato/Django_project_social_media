@@ -167,11 +167,38 @@ def view_profile(request,first_name, last_name):
     random_group = choice(Group.objects.annotate(member_count=Count('user')).order_by('-member_count'))
     latest_event = Event.objects.order_by('-created_at').first()
     user = User.objects.get(first_name=first_name, last_name=last_name)
+
+
+
     if user is not None:    
         u = utilisateur.objects.get(user_id = user.id)
         if u is not None:
 
             if request.user.is_authenticated:
+                all_users_names = []
+                uss = request.user.id
+                theloggeduser = models.User.objects.filter(id=uss).first()
+
+                friends = set()
+                for f in theloggeduser.utilisateur.following.all():
+                    if f.followed.followers.filter(follower=theloggeduser.utilisateur).exists():
+                        friends.add(f.followed)
+                friends = {friend for friend in friends if friend.following.filter(followed=theloggeduser.utilisateur).exists()}
+
+                for friend in friends:
+                    if len(all_users_names) >= 6:
+                        break
+                    full_name = f"{friend.user.first_name} {friend.user.last_name}"
+                    online = friend.online_status
+                    pdp = friend.profile_picture
+
+                    obj = {
+                        'full_name': full_name,
+                        "online": 'online' if online else 'offline',
+                        'profile_picture': pdp
+                    }
+                    all_users_names.append(obj)
+
                 isguest = False   
                 context = {
                             'visiteur':isguest,
@@ -180,6 +207,7 @@ def view_profile(request,first_name, last_name):
                             'first_name':first_name,
                             'last_name':last_name,
                             'utilisateurdata':u,
+                            'usersobj':all_users_names,
                             'skills':models.Skills.objects.filter(utilisateur=u),
                             'languages':models.Languages.objects.filter(utilisateur=u),
                             'certificates':models.Certification.objects.filter(utilisateur=u),
@@ -315,6 +343,31 @@ def post_view(request,first_name, last_name):
             u = utilisateur.objects.get(user_id = user.id)
             if u is not None:
                 if request.user.is_authenticated:
+
+                    all_users_names = []
+                    uss = request.user.id
+                    theloggeduser = models.User.objects.filter(id=uss).first()
+                    friends = set()
+                    for f in theloggeduser.utilisateur.following.all():
+                        if f.followed.followers.filter(follower=theloggeduser.utilisateur).exists():
+                            friends.add(f.followed)
+                    friends = {friend for friend in friends if friend.following.filter(followed=theloggeduser.utilisateur).exists()}
+
+                    for friend in friends:
+                        if len(all_users_names) >= 6:
+                            break
+                        full_name = f"{friend.user.first_name} {friend.user.last_name}"
+                        online = friend.online_status
+                        pdp = friend.profile_picture
+
+                        obj = {
+                            'full_name': full_name,
+                            "online": 'online' if online else 'offline',
+                            'profile_picture': pdp
+                        }
+                        all_users_names.append(obj)
+
+
                     isguest = False
                     # user = request.user
                     user_email = user.email        
@@ -324,6 +377,7 @@ def post_view(request,first_name, last_name):
                     context = { 'posts': posts,
                                 'user': request.user,
                                 'userdata':user,
+                                'usersobj':all_users_names,
                                 'user_pdp': u.profile_picture,
                                 'first_name':first_name,
                                 'last_name':last_name,

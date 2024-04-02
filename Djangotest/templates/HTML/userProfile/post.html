@@ -127,9 +127,13 @@
         <div class="home-right-wrapper">
   
             <!-- messenger start -->
+            {% if not visiteur %}
             <div class="messenger">
+
                 {% include "HTML/home/messages.html" %}
+
             </div>
+            {%endif%}
             <!-- messenger end -->
   
             <!-- event and friend start -->
