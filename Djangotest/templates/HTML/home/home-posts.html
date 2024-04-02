@@ -11,24 +11,23 @@
 </div>
 {% for post in posts %}
 <!-- Backdrop -->
-<div id="backdrop{{ post.id }}" class="backdrop" style="display: none;" onclick="toggleCommentForm({{ post.id }})"></div>
+<div id="backdrop{{ post.id }}" class="comment-backdrop" style="display: none;" onclick="toggleCommentForm({{ post.id }})"></div>
 
 <!-- Popup -->
-<div id="popup{{ post.id }}" class="popup" style="display: none;">
+<div id="popup{{ post.id }}" class="comment-popup" style="display: none;">
     <!-- Section -->
-    <div id="section{{ post.id }}">
-        <!-- Form Container -->
-        <div id="formContainer{{ post.id }}">
-            <form class="form" data-post-id="{{ post.id }}">
-                <input type="text" name="text">
-                <button type="submit">Add</button>
-            </form>
-        </div>
-
+    <div id="section{{ post.id }}" class="comment-section">
         <!-- List -->
-        <div id="list{{ post.id }}">
+        <ul id="list{{ post.id }}" class="comment-list">
             <!-- Items will be inserted here -->
-        </div>
+        </ul>
+    </div>
+    <!-- Form Container -->
+    <div id="formContainer{{ post.id }}">
+        <form class="comment-form" data-post-id="{{ post.id }}">
+            <input type="text" name="text">
+            <button type="submit"><i class="fa-sharp fa-solid fa-paper-plane">Comment</i></button>
+        </form>
     </div>
 </div>
 <div class="fb-post1">
@@ -98,7 +97,7 @@
                         <img src="{% static 'Assets/Images/like.png' %}" alt="like">
                         <span>{{ post.likes.count }} likes</span> {% endcomment %}
                     </li>
-                    <li onclick="toggleCommentForm({{ post.id }})"><i class="fa-regular fa-comment-dots"></i> <span id="commentButton">{{ post.comments.count }} comments</span></li>                    
+                    <li class="comment_toggle_usage" onclick="toggleCommentForm({{ post.id }})"><i class="fa-regular fa-comment-dots"></i> <span id="commentButton">{{ post.comments.count }} comments</span></li>                    
                     {% comment %} <li><i class="fa-solid fa-share-from-square"></i> <span>254 share</span></li> {% endcomment %}
                     
                 </ul>
@@ -108,7 +107,6 @@
 </div>
 <script>
     function toggleCommentForm(postId) {
-        console.log('postId:', postId);  // Log the postId
         var modal = document.getElementById('popup' + postId);
         var backdrop = document.getElementById('backdrop' + postId);
         if (modal.style.display === 'none') {
@@ -118,6 +116,7 @@
             modal.style.display = 'none';
             backdrop.style.display = 'none';
         }
+        fetchComments(postId);
     }
 </script>
 {% endfor %}
